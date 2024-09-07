@@ -17,12 +17,12 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="../../../public/css/reset.css" />
+    <link rel="stylesheet" href="../../../../public/css/reset.css" />
 
-    <link rel="stylesheet" href="../../../public/css/SeatSelection.css" />
+    <link rel="stylesheet" href="../../../../public/css/SeatSelection.css" />
     <title>Seat Selection</title>
 
-    <link rel="icon" type="image/x-icon" href="../../../public/images/icon.png">
+    <link rel="icon" type="image/x-icon" href="../../../../public/images/icon.png">
 </head>
 
 <body>
@@ -30,7 +30,7 @@
     <div class="outer-box">
         <div class="top-box">
             <div class="img-box">
-                <img draggable="false" src="../../../public/images/movie.webp" />
+                <img draggable="false" src="../../../../public/images/movie.webp" />
             </div>
             <div class="info-box">
                 <div class="movie-details">
@@ -78,7 +78,7 @@
 
             <div class="inmiddle">
 
-                <img src="../../../public/images/screen.png" draggable="false" />
+                <img src="../../../../public/images/screen.png" draggable="false" />
 
                 <div class="screen-tt">
                     Screen

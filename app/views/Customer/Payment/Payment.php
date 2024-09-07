@@ -18,10 +18,10 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="../../../public/css/Payment.css" rel="stylesheet" />
+    <link href="../../../../public/css/Payment.css" rel="stylesheet" />
 
     <title>Payment</title>
-    <link rel="icon" type="image/x-icon" href="../../../public/images/icon.png" />
+    <link rel="icon" type="image/x-icon" href="../../../../public/images/icon.png" />
 </head>
 
 <body>
@@ -29,7 +29,7 @@
         <!-- Payment side -->
         <div class="left-box">
             <div class="logo">
-                <img src="../../../public/images/alternativeIcon.png" draggable="false" style="border-radius: 5px;" width="300" ID="imgLogo" />
+                <img src="../../../../public/images/alternativeIcon.png" draggable="false" style="border-radius: 5px;" width="300" ID="imgLogo" />
             </div>
             <div class="cont">
 
@@ -42,7 +42,7 @@
                         <input type="radio" class="btn-check" name="pay-option" id="pay1" autocomplete="off">
                         <label data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Cash"
                             class="btn btn-outline-danger" for="pay1">
-                            <img src="../../../public/images/cash.png" draggable="false" />&nbsp;Cash
+                            <img src="../../../../public/images/cash.png" draggable="false" />&nbsp;Cash
                         </label>
                     </div>
 
@@ -50,7 +50,7 @@
                         <input type="radio" class="btn-check" name="pay-option" id="pay2" autocomplete="off">
                         <label data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Touch 'n Go e-Wallet"
                             class="btn btn-outline-danger" for="pay2">
-                            <img src="../../../public/images/tng.png" draggable="false"/>&nbsp;Touch 'n Go e-Wallet
+                            <img src="../../../../public/images/tng.png" draggable="false"/>&nbsp;Touch 'n Go e-Wallet
                         </label>
                     </div>
 

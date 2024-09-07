@@ -178,7 +178,7 @@
     </style>
 
     <title>Payment Successful</title>
-    <link rel="icon" type="image/x-icon" href="../../../public/images/icon.png" />
+    <link rel="icon" type="image/x-icon" href="../../../../public/images/icon.png" />
 </head>
 
 <body>
@@ -208,7 +208,7 @@
             </div>
             <div class="real-content" id="real">
                 <div class="checkmark" style="display: flex; flex-flow: row nowrap; justify-content: center;">
-                    <img style="width: 60%; margin-bottom: 8px;" src="../../../public/images/checkmark.png" />
+                    <img style="width: 60%; margin-bottom: 8px;" src="../../../../public/images/checkmark.png" />
                 </div>
                 <div class="mainmessage">
                     Thank you for booking!

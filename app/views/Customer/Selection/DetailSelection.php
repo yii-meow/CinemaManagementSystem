@@ -17,13 +17,13 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="../../../public/css/reset.css" />
+    <link rel="stylesheet" href="../../../../public/css/reset.css" />
 
-    <link rel="stylesheet" href="../../../public/css/Main.css" />
-    <link rel="stylesheet" href="../../../public/css/DetailSelection.css" />
+    <link rel="stylesheet" href="../../../../public/css/Main.css" />
+    <link rel="stylesheet" href="../../../../public/css/DetailSelection.css" />
     <title>Movie Detail Selection</title>
 
-    <link rel="icon" type="image/x-icon" href="../../../public/images/icon.png">
+    <link rel="icon" type="image/x-icon" href="../../../../public/images/icon.png">
 </head>
 
 
@@ -37,7 +37,7 @@
 
             <div style="margin-left: 20px;" class="business-icon">
                 <div style="color: white; height: inherit; text-align: center; font-weight: bold; font-size: 20px;">
-                    <img src="../../../public/images/alternativeIcon.png" draggable="false" width="200" height="55" />
+                    <img src="../../../../public/images/alternativeIcon.png" draggable="false" width="200" height="55" />
                 </div>
             </div>
 
@@ -97,9 +97,9 @@
                             style="padding:10px; width: 160px; font-size: 17px; display: flex; color: #f03351;">
                             <div
                                 style="margin-top: -3px; border-radius: 150px; width: 30px; height: 30px; overflow: hidden;">
-                                <img src="../../../public/images/defaultProfile.jpg" draggable="false"
-                                    style="background-color: white; border-radius: 100px; width: 30px; height: 30px;"
-                                    id="topImage" />
+                                <img src="../../../../public/images/defaultProfile.jpg" draggable="false"
+                                     style="background-color: white; border-radius: 100px; width: 30px; height: 30px;"
+                                     id="topImage" />
                             </div>
                             &nbsp;
                             User Profile
@@ -211,10 +211,10 @@
 
     <div class="outer-box">
         <button onclick="location.href='../Movie/MovieDetail.html'" style="margin: 20px 20px;" type="button"
-            class="btn btn-danger"><i class="fa-solid fa-angle-left"></i>&nbsp;Back</button>
+                class="btn btn-danger"><i class="fa-solid fa-angle-left"></i>&nbsp;Back</button>
         <div class="top-box">
             <div class="poster-box">
-                <img src="../../../public/images/movie.webp" style="width: 60%;" draggable="false" />
+                <img src="../../../../public/images/movie.webp" style="width: 60%;" draggable="false" />
             </div>
             <div class="detail-box">
                 <div class="movie-name">
@@ -515,7 +515,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="modal-image" style="text-align: center;">
-                        <img src="../../../public/images/movie.webp" style="width:30%;" draggable="false" />
+                        <img src="../../../../public/images/movie.webp" style="width:30%;" draggable="false" />
                         <div
                             style="color:white; font-size: 18px; font-weight: 600; margin-top: 15px; margin-bottom:8px;">
                             BOCCHI THE ROCK! Recap Part 1

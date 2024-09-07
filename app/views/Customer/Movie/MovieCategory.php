@@ -17,13 +17,13 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"></script>
-    <link rel="stylesheet" href="../../../public/css/reset.css" />
+    <link rel="stylesheet" href="../../../../public/css/reset.css" />
 
-    <link rel="stylesheet" href="../../../public/css/Main.css" />
-    <link rel="stylesheet" href="../../../public/css/MovieCategory.css" />
+    <link rel="stylesheet" href="../../../../public/css/Main.css" />
+    <link rel="stylesheet" href="../../../../public/css/MovieCategory.css" />
     <title>Categories</title>
 
-    <link rel="icon" type="image/x-icon" href="../../../public/images/icon.png">
+    <link rel="icon" type="image/x-icon" href="../../../../public/images/icon.png">
 </head>
 
 <body>
@@ -40,7 +40,7 @@
                     <div style="margin-left: 20px;" class="business-icon">
                         <div
                             style="color: white; height: inherit; text-align: center; font-weight: bold; font-size: 20px;">
-                            <img src="../../../public/images/alternativeIcon.png" draggable="false" width="200" height="55" />
+                            <img src="../../../../public/images/alternativeIcon.png" draggable="false" width="200" height="55" />
                         </div>
                     </div>
 
@@ -104,9 +104,9 @@
                                     style="padding:10px; width: 160px; font-size: 17px; display: flex; color: #f03351;">
                                     <div
                                         style="margin-top: -3px; border-radius: 150px; width: 30px; height: 30px; overflow: hidden;">
-                                        <img src="../../../public/images/defaultProfile.jpg" draggable="false"
-                                            style="background-color: white; border-radius: 100px; width: 30px; height: 30px;"
-                                            id="topImage" />
+                                        <img src="../../../../public/images/defaultProfile.jpg" draggable="false"
+                                             style="background-color: white; border-radius: 100px; width: 30px; height: 30px;"
+                                             id="topImage" />
                                     </div>
                                     &nbsp;
                                     User Profile
@@ -348,7 +348,7 @@
                                 <!--An Item-->
                                 <div class="item">
                                     <div class="item-image">
-                                        <img src="../../../public/images/movie.webp" class="imgFigure" />
+                                        <img src="../../../../public/images/movie.webp" class="imgFigure" />
                                     </div>
                                     <div class="detail-cont">
                                         <div
@@ -369,7 +369,7 @@
                                 <!--An Item-->
                                 <div class="item">
                                     <div class="item-image">
-                                        <img src="../../../public/images/movie.webp" class="imgFigure" />
+                                        <img src="../../../../public/images/movie.webp" class="imgFigure" />
                                     </div>
                                     <div class="detail-cont">
                                         <div
@@ -390,7 +390,7 @@
                                 <!--An Item-->
                                 <div class="item">
                                     <div class="item-image">
-                                        <img src="../../../public/images/movie.webp" class="imgFigure" />
+                                        <img src="../../../../public/images/movie.webp" class="imgFigure" />
                                     </div>
                                     <div class="detail-cont">
                                         <div
@@ -411,7 +411,7 @@
                                 <!--An Item-->
                                 <div class="item">
                                     <div class="item-image">
-                                        <img src="../../../public/images/movie.webp" class="imgFigure" />
+                                        <img src="../../../../public/images/movie.webp" class="imgFigure" />
                                     </div>
                                     <div class="detail-cont">
                                         <div
@@ -432,7 +432,7 @@
                                 <!--An Item-->
                                 <div class="item">
                                     <div class="item-image">
-                                        <img src="../../../public/images/movie.webp" class="imgFigure" />
+                                        <img src="../../../../public/images/movie.webp" class="imgFigure" />
                                     </div>
                                     <div class="detail-cont">
                                         <div
@@ -453,7 +453,7 @@
                                 <!--An Item-->
                                 <div class="item">
                                     <div class="item-image">
-                                        <img src="../../../public/images/movie.webp" class="imgFigure" />
+                                        <img src="../../../../public/images/movie.webp" class="imgFigure" />
                                     </div>
                                     <div class="detail-cont">
                                         <div
@@ -474,7 +474,7 @@
                                 <!--An Item-->
                                 <div class="item">
                                     <div class="item-image">
-                                        <img src="../../../public/images/movie.webp" class="imgFigure" />
+                                        <img src="../../../../public/images/movie.webp" class="imgFigure" />
                                     </div>
                                     <div class="detail-cont">
                                         <div
@@ -495,7 +495,7 @@
                                 <!--An Item-->
                                 <div class="item">
                                     <div class="item-image">
-                                        <img src="../../../public/images/movie.webp" class="imgFigure" />
+                                        <img src="../../../../public/images/movie.webp" class="imgFigure" />
                                     </div>
                                     <div class="detail-cont">
                                         <div
@@ -516,7 +516,7 @@
                                 <!--An Item-->
                                 <div class="item">
                                     <div class="item-image">
-                                        <img src="../../../public/images/movie.webp" class="imgFigure" />
+                                        <img src="../../../../public/images/movie.webp" class="imgFigure" />
                                     </div>
                                     <div class="detail-cont">
                                         <div
@@ -537,7 +537,7 @@
                                 <!--An Item-->
                                 <div class="item">
                                     <div class="item-image">
-                                        <img src="../../../public/images/movie.webp" class="imgFigure" />
+                                        <img src="../../../../public/images/movie.webp" class="imgFigure" />
                                     </div>
                                     <div class="detail-cont">
                                         <div

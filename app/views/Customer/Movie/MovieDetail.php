@@ -17,13 +17,13 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="../../../public/css/reset.css" />
+    <link rel="stylesheet" href="../../../../public/css/reset.css" />
 
-    <link rel="stylesheet" href="../../../public/css/Main.css" />
-    <link rel="stylesheet" href="../../../public/css/MovieSearch.css" />
-    <title>Search</title>
+    <link rel="stylesheet" href="../../../../public/css/Main.css" />
+    <link rel="stylesheet" href="../../../../public/css/MovieDetail.css" />
+    <title>Movie Detail</title>
 
-    <link rel="icon" type="image/x-icon" href="../../../public/images/icon.png">
+    <link rel="icon" type="image/x-icon" href="../../../../public/images/icon.png">
 </head>
 
 <body>
@@ -40,7 +40,7 @@
                     <div style="margin-left: 20px;" class="business-icon">
                         <div
                             style="color: white; height: inherit; text-align: center; font-weight: bold; font-size: 20px;">
-                            <img src="../../../public/images/alternativeIcon.png" draggable="false" width="200" height="55" />
+                            <img src="../../../../public/images/alternativeIcon.png" draggable="false" width="200" height="55" />
                         </div>
                     </div>
 
@@ -104,9 +104,9 @@
                                     style="padding:10px; width: 160px; font-size: 17px; display: flex; color: #f03351;">
                                     <div
                                         style="margin-top: -3px; border-radius: 150px; width: 30px; height: 30px; overflow: hidden;">
-                                        <img src="../../../public/images/defaultProfile.jpg" draggable="false"
-                                            style="background-color: white; border-radius: 100px; width: 30px; height: 30px;"
-                                            id="topImage" />
+                                        <img src="../../../../public/images/defaultProfile.jpg" draggable="false"
+                                             style="background-color: white; border-radius: 100px; width: 30px; height: 30px;"
+                                             id="topImage" />
                                     </div>
                                     &nbsp;
                                     User Profile
@@ -197,12 +197,12 @@
                     </ul>
                 </div>
                 <ul class="nav-item dropdown">
-                    <button class="btn dropbtn" type="button" aria-expanded="false">
+                    <button class="btn dropbtn" type="button">
                         <a href="" style="text-decoration: none;"> NOW SHOWING</a>
                     </button>
                 </ul>
                 <ul class="nav-item dropdown">
-                    <button class="btn dropbtn" type="button" aria-expanded="false">
+                    <button class="btn dropbtn" type="button" >
                         <a href="" style="text-decoration: none;"> COMING SOON</a>
                     </button>
                 </ul>
@@ -221,171 +221,206 @@
             </div>
 
 
-
-
-
             <!--Main Contents-->
 
-            <div class="out">
-                <div style="width: 100%; padding: 5px 0px 5px 60px;">
-                    <div class="content-header">
-                        SEARCH RESULTS
+            <div class="product-container">
+                <div class="left-box">
+                    <div class="top-container">
+                        <div class="product-header">
+                            <div class="left-info">
+                                <div class="header-title">
+                                    <p style="font-weight: bold; font-size: 25px; color: white" ID="pname">BOCCHI THE
+                                        ROCK! Recap Part 1</p>
+                                </div>
+                                <div class="series">
+                                    <span style="color: #f03351;">Duration : </span>
+                                    <span id="lblSeries" style="color: white;">2 Hours 2 Mins</span>
+                                </div>
+                            </div>
+                            <div class="status-icon" id="status">
+                                <span id="lblTopStatus" class="topStatus">Now Showing</span>
+                            </div>
+                        </div>
+                        <div class="middle">
+                            <div class="main-img">
+
+
+                                <div id="createView">
+
+                                </div>
+
+
+                                <!-- <img style="width: 50%; padding: 20px;" id="mainimg" src="../../../public/images/movie.webp" /> -->
+                            </div>
+                            <div class="select-img">
+                                <div class="img1" id="image">
+                                    <button id="im" onclick="changeImg()">
+                                        <img id="img" src="../../../../public/images/movie.webp" class="sideimg">
+                                    </button>
+                                </div>
+                                <div class="img2" id="video">
+                                    <button id="vi" onclick="changeVideo()">
+                                        <div style="position: relative;">
+                                            <img id="vid" style="filter: blur(3px);" src="../../../../public/images/movie.webp"
+                                                class="sideimg">
+                                            <!--hidden field to pass video link to js-->
+                                            <input type="hidden" id="hdnLink"
+                                                value="https://www.youtube.com/embed/MCNmJwk3OaA?si=4hl6Jf-YoP1i8OBp" />
+                                            <div style="color:#f03351; font-size: 60px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
+                                                class="fa-regular fa-circle-play"></div>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="count" style="margin-bottom: 15px;">
-                        5<span Style="font-weight: bold;" runat="server" ID="searchCount"></span>&nbsp;Item Found.
-                    </div>
-                </div>
-                <!--JS display none if has records-->
-                <div id="noRecords"
-                    style="display: none; border: 1px solid #f03351; padding: 20px; width: 92%; font-size: 23px; text-align: center; border-radius: 8px; color:#f03351;">
-                    <span id="noResult">No Result Found.</span>
-                </div>
-                <div class="contents" style="margin: 5px 50px 20px 50px;">
-                    <div class="item-container group">
+                    <div style="padding: 10px; border-top: 1px solid #f03351;">
+                        <table class="product-details">
 
-                        <!--An Item-->
-                        <div class="item">
-                            <div class="item-image">
-                                <img src="../../../public/images/movie.webp" class="imgFigure" />
-                            </div>
-                            <div class="detail-cont">
-                                <div
-                                    style="width: 100%; display: flex; margin-top: auto; margin-bottom: auto; justify-content: center;">
-                                    <p class="movieName" name="movieName">BOCCHI THE ROCK! Recap Part 1BOCCHI THE ROCK!
-                                        Recap Part 1
-                                    </p>
-                                </div>
-                                <div class="item-view">
-                                    <button onclick="location.href='MovieDetail.html'" class="btn destination"
-                                        id="destination">
-                                        <i class="fa-solid fa-circle-info"></i>&nbsp;View
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!--End of An Item-->
+                            <tr class="genre">
+                                <td class="title">Category :
+                                </td>
+                                <td class="answer p-cat">
+                                    <span>Animation</span>
+                                </td>
+                            </tr>
 
-                        <!--An Item-->
-                        <div class="item">
-                            <div class="item-image">
-                                <img src="../../../public/images/movie.webp" class="imgFigure" />
-                            </div>
-                            <div class="detail-cont">
-                                <div
-                                    style="width: 100%; display: flex; margin-top: auto; margin-bottom: auto; justify-content: center;">
-                                    <p class="movieName" name="movieName">BOCCHI
-                                    </p>
-                                </div>
-                                <div class="item-view">
-                                    <button onclick="location.href='MovieDetail.html'" class="btn destination"
-                                        id="destination">
-                                        <i class="fa-solid fa-circle-info"></i>&nbsp;View
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!--End of An Item-->
+                            <tr class="class">
+                                <td class="title">Classification :
+                                </td>
+                                <td class="answer p-class">
+                                    <span>P12</span>
+                                </td>
+                            </tr>
 
-                        <!--An Item-->
-                        <div class="item">
-                            <div class="item-image">
-                                <img src="../../../public/images/movie.webp" class="imgFigure" />
-                            </div>
-                            <div class="detail-cont">
-                                <div
-                                    style="width: 100%; display: flex; margin-top: auto; margin-bottom: auto; justify-content: center;">
-                                    <p class="movieName" name="movieName">BOCCHI THE ROCK! Recap Part 1
-                                    </p>
-                                </div>
-                                <div class="item-view">
-                                    <button onclick="location.href='MovieDetail.html'" class="btn destination"
-                                        id="destination">
-                                        <i class="fa-solid fa-circle-info"></i>&nbsp;View
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!--End of An Item-->
+                            <tr class="releasedate">
+                                <td class="title">Release Date :
+                                </td>
+                                <td class="answer p-releasedate">
+                                    <span>08 August 2024</span>
+                                </td>
+                            </tr>
 
-                        <!--An Item-->
-                        <div class="item">
-                            <div class="item-image">
-                                <img src="../../../public/images/movie.webp" class="imgFigure" />
-                            </div>
-                            <div class="detail-cont">
-                                <div
-                                    style="width: 100%; display: flex; margin-top: auto; margin-bottom: auto; justify-content: center;">
-                                    <p class="movieName" name="movieName">BOCCHI THE ROCK! Recap Part 1
-                                    </p>
-                                </div>
-                                <div class="item-view">
-                                    <button onclick="location.href='MovieDetail.html'" class="btn destination"
-                                        id="destination">
-                                        <i class="fa-solid fa-circle-info"></i>&nbsp;View
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!--End of An Item-->
+                            <tr class="language">
+                                <td class="title">Language :
+                                </td>
+                                <td class="answer p-language">
+                                    <span>JPN</span>
+                                </td>
+                            </tr>
 
-                        <!--An Item-->
-                        <div class="item">
-                            <div class="item-image">
-                                <img src="../../../public/images/movie.webp" class="imgFigure" />
-                            </div>
-                            <div class="detail-cont">
-                                <div
-                                    style="width: 100%; display: flex; margin-top: auto; margin-bottom: auto; justify-content: center;">
-                                    <p class="movieName" name="movieName">BOCCHI THE ROCK! Recap Part 1BOCCHI THE ROCK!
-                                        Recap Part 1BOCCHI THE ROCK! Recap Part 1
-                                    </p>
-                                </div>
-                                <div class="item-view">
-                                    <button onclick="location.href='MovieDetail.html'" class="btn destination"
-                                        id="destination">
-                                        <i class="fa-solid fa-circle-info"></i>&nbsp;View
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!--End of An Item-->
+                            <tr class="subtitles">
+                                <td class="title">Subtitles :
+                                </td>
+                                <td class="answer p-subtitle">
+                                    <span>ENG</span>
+                                </td>
+                            </tr>
+
+                            <tr class="director">
+                                <td class="title">Director :
+                                </td>
+                                <td class="answer p-director">
+                                    <span>Keiichiro Saito</span>
+                                </td>
+                            </tr>
+
+                            <tr class="cast">
+                                <td class="title">Casts :
+                                </td>
+                                <td class="answer p-cast">
+                                    <span>Yoshino Aoyama, Sayumi Suzushiro, Saku Mizuno, Ikumi Hasegawa</span>
+                                </td>
+                            </tr>
 
 
+                            <tr class="description">
+                                <td class="title">Description :
+                                </td>
+                                <td class="answer p-description">
+                                    <span>Hitori "Bocchi" Gotoh is an introverted girl. During her middle school years,
+                                        she started playing the guitar, wanting to join a band. But because she had no
+                                        friends, she ended up practicing guitar for six hours every day all by herself.
+                                        After becoming a skilled guitar player, she uploaded videos of herself playing
+                                        the guitar under the name "Guitar Hero" and fantasised about performing at her
+                                        school`s cultural festival concert. But not only could she not find any
+                                        bandmates, before she knew it, she was in high school and still wasn`t able to
+                                        make a single friend! One day, Nijika Ijichi, the drummer in Kessoku Band,
+                                        reached out to her. And because of that, her everyday life started to change
+                                        little by little.</span>
+                                </td>
+                            </tr>
+
+
+
+                        </table>
                     </div>
                 </div>
             </div>
-
 
             <!--Click this button back to top of the page-->
             <div class="toTop" id="toTop">
-                <asp:LinkButton OnClientClick="toTop() ;return false;" ID="top" runat="server">
-                    <i style="border-radius: 50px; background-color:#ff7e29; padding: 10px 12.5px 10px 12.5px; color:white; font-size: 20px;"
-                        class="fa-solid fa-arrow-up"></i>
-                </asp:LinkButton>
+                <button onclick="location.href='../Selection/DetailSelection.html'" id="top">
+                    <i class="fa-solid fa-cart-shopping"></i>&nbsp;Buy Now
+                </button>
             </div>
 
-            <script>
-                window.addEventListener("scroll", function () {
-                    let box = document.getElementById("toTop");
-                    var elementTarget = document.getElementById("dropdown");
-                    if (window.scrollY > (elementTarget.offsetTop + elementTarget.offsetHeight)) {
-                        box.style.display = "block";
-                    } else {
-                        box.style.display = "none";
-                    }
-                });
 
-                function toTop() {
-                    document.documentElement.scrollTop = 0;
+            <script type="text/javascript">
+
+                window.onload = () => {
+                    // Get Image Path to change
+                    var path = document.getElementById("img").src;
+                    document.getElementById("im").style.border = "5px solid #f03351";
+
+                    // Clear existing content
+                    document.getElementById('createView').innerHTML = '';
+
+                    // Create Image
+                    let img = document.createElement('img');
+                    img.src = path;
+                    document.getElementById('createView').appendChild(img);
                 }
+
+                function changeImg() {
+                    // Change border color
+                    document.getElementById("vi").style.border = "none";
+                    document.getElementById("im").style.border = "5px solid #f03351";
+
+                    // Get Image Path to change
+                    var path = document.getElementById("img").src;
+
+                    // Clear existing content
+                    document.getElementById('createView').innerHTML = '';
+
+                    // Create Image
+                    let img = document.createElement('img');
+                    img.src = path;
+                    document.getElementById('createView').appendChild(img);
+                }
+
+                function changeVideo() {
+                    // Change border color
+                    document.getElementById("im").style.border = "none";
+                    document.getElementById("vi").style.border = "5px solid #f03351";
+
+                    // Get Video Path to change
+                    var path = document.getElementById("hdnLink").value;
+
+                    // Clear existing content
+                    document.getElementById('createView').innerHTML = '';
+
+                    // Create iframe
+                    let iframe = document.createElement('iframe');
+                    iframe.setAttribute("allowfullscreen", "true");
+                    iframe.src = path;
+                    document.getElementById('createView').appendChild(iframe);
+                }
+
             </script>
 
 
-
             <!--End of Main Contents-->
-
-
-
 
 
             <!--Footer-->
