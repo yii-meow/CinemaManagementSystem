@@ -1,6 +1,5 @@
 <?php
 
-require_once '../core/Controller.php';
 class MovieDetail extends Controller
 {
 
@@ -20,8 +19,4 @@ class MovieDetail extends Controller
     }
 
 }
-
-$n = new MovieDetail();
-$n->index();
-
 ?>

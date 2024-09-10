@@ -1,12 +1,12 @@
 <?php
-
 class App
 {
-    protected $controller = 'home';
-    protected $method = 'index';
+    protected $controller = 'MovieDetail'; //Can temporary set it first
+    protected $method = 'index';    //Can temporary set it first
     protected $params = [];
 
-    public function __construct() {
+    public function __construct()
+    {
         // Parse url into readable string
         $url = $this->parseUrl();
 
@@ -14,10 +14,19 @@ class App
         if (file_exists('../app/controllers/' . $url[0] . '.php')) {
             $this->controller = $url[0];
             unset($url[0]);
+        } else {
+
+            // If controller (url[0]) doesn't exist it will use 'Error 404' automatically  => Uncomment and Comment according to different phase
+            //----------------------------------------------------------------------------
+            //In dev phase
+            //require_once '../app/controllers/' . $this->controller . '.php'; 
+
+
+            //In operating phase
+            $this->controller = "Error404";
+            require_once '../app/controllers/' . $this->controller . '.php';
         }
 
-        // If controller (url[0]) doesn't exist it will use 'home' automatically
-        require_once '../app/controllers/' . $this->controller . '.php';
 
         // Create a new instance of the controller
         $this->controller = new $this->controller;
@@ -38,10 +47,9 @@ class App
     }
 
     // Parse url  into useable array
-    private function parseUrl() {
+    private function parseUrl()
+    {
         if (isset($_GET['url']))
             return $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
     }
 }
-
-?>

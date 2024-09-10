@@ -1,6 +1,5 @@
 <?php
 
-require_once '../core/Database.php';
 class Movie
 {
     //Get movie by id
