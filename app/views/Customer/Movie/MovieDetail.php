@@ -105,8 +105,8 @@
                                     <div
                                         style="margin-top: -3px; border-radius: 150px; width: 30px; height: 30px; overflow: hidden;">
                                         <img src="../../../../public/images/defaultProfile.jpg" draggable="false"
-                                             style="background-color: white; border-radius: 100px; width: 30px; height: 30px;"
-                                             id="topImage" />
+                                            style="background-color: white; border-radius: 100px; width: 30px; height: 30px;"
+                                            id="topImage" />
                                     </div>
                                     &nbsp;
                                     User Profile
@@ -202,7 +202,7 @@
                     </button>
                 </ul>
                 <ul class="nav-item dropdown">
-                    <button class="btn dropbtn" type="button" >
+                    <button class="btn dropbtn" type="button">
                         <a href="" style="text-decoration: none;"> COMING SOON</a>
                     </button>
                 </ul>
@@ -222,204 +222,204 @@
 
 
             <!--Main Contents-->
-
-            <div class="product-container">
-                <div class="left-box">
-                    <div class="top-container">
-                        <div class="product-header">
-                            <div class="left-info">
-                                <div class="header-title">
-                                    <p style="font-weight: bold; font-size: 25px; color: white" ID="pname">BOCCHI THE
-                                        ROCK! Recap Part 1</p>
+            <?php foreach ($data['data'] as $movie): ?>
+                <div class="product-container">
+                    <div class="left-box">
+                        <div class="top-container">
+                            <div class="product-header">
+                                <div class="left-info">
+                                    <div class="header-title">
+                                        <p style="font-weight: bold; font-size: 25px; color: white" ID="pname"><?php echo $movie->title ?></p>
+                                    </div>
+                                    <div class="series">
+                                        <span style="color: #f03351;">Duration : </span>
+                                        <span id="lblSeries" style="color: white;"><?php
+                                                                                    $minutes = $movie->duration;
+                                                                                    $hour = intdiv($minutes, 60);
+                                                                                    $minute = $minutes % 60;
+                                                                                    echo $hour . " Hours " . $minute . " Mins"
+                                                                                    ?></span>
+                                    </div>
                                 </div>
-                                <div class="series">
-                                    <span style="color: #f03351;">Duration : </span>
-                                    <span id="lblSeries" style="color: white;">2 Hours 2 Mins</span>
+                                <div class="status-icon" id="status">
+                                    <span id="lblTopStatus" class="topStatus">
+                                        <?php
+                                        echo $movie->status;
+                                        ?>
+                                    </span>
                                 </div>
                             </div>
-                            <div class="status-icon" id="status">
-                                <span id="lblTopStatus" class="topStatus">Now Showing</span>
+                            <div class="middle">
+                                <div class="main-img">
+
+
+                                    <div id="createView">
+
+                                    </div>
+
+
+                                    <!-- <img style="width: 50%; padding: 20px;" id="mainimg" src="../../../public/images/movie.webp" /> -->
+                                </div>
+                                <div class="select-img">
+                                    <div class="img1" id="image">
+                                        <button id="im" onclick="changeImg()">
+                                            <img id="img" src="<?php echo $movie->photo ?>" class="sideimg">
+                                        </button>
+                                    </div>
+                                    <div class="img2" id="video">
+                                        <button id="vi" onclick="changeVideo()">
+                                            <div style="position: relative;">
+                                                <img id="vid" style="filter: blur(3px);" src="<?php echo $movie->photo ?>"
+                                                    class="sideimg">
+                                                <!--hidden field to pass video link to js-->
+                                                <input type="hidden" id="hdnLink"
+                                                    value="<?php echo $movie->trailerLink ?>" />
+                                                <div style="color:#f03351; font-size: 60px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
+                                                    class="fa-regular fa-circle-play"></div>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="middle">
-                            <div class="main-img">
+                        <div style="padding: 10px; border-top: 1px solid #f03351;">
+                            <table class="product-details">
+
+                                <tr class="genre">
+                                    <td class="title">Category :
+                                    </td>
+                                    <td class="answer p-cat">
+                                        <span><?php echo $movie->catagory ?></span>
+                                    </td>
+                                </tr>
+
+                                <tr class="class">
+                                    <td class="title">Classification :
+                                    </td>
+                                    <td class="answer p-class">
+                                        <span><?php echo $movie->classification ?></span>
+                                    </td>
+                                </tr>
+
+                                <tr class="releasedate">
+                                    <td class="title">Release Date :
+                                    </td>
+                                    <td class="answer p-releasedate">
+                                        <span><?php
+                                                $date = new DateTime($movie->releaseDate);
+                                                echo date_format($date, "d F Y");
+                                                ?></span>
+                                    </td>
+                                </tr>
+
+                                <tr class="language">
+                                    <td class="title">Language :
+                                    </td>
+                                    <td class="answer p-language">
+                                        <span><?php echo strtoupper($movie->language) ?></span>
+                                    </td>
+                                </tr>
+
+                                <tr class="subtitles">
+                                    <td class="title">Subtitles :
+                                    </td>
+                                    <td class="answer p-subtitle">
+                                        <span><?php echo $movie->subtitles ?></span>
+                                    </td>
+                                </tr>
+
+                                <tr class="director">
+                                    <td class="title">Director :
+                                    </td>
+                                    <td class="answer p-director">
+                                        <span><?php echo $movie->director ?></span>
+                                    </td>
+                                </tr>
+
+                                <tr class="cast">
+                                    <td class="title">Casts :
+                                    </td>
+                                    <td class="answer p-cast">
+                                        <span><?php echo $movie->casts ?></span>
+                                    </td>
+                                </tr>
 
 
-                                <div id="createView">
+                                <tr class="description">
+                                    <td class="title">Description :
+                                    </td>
+                                    <td class="answer p-description">
+                                        <span><?php echo $movie->description ?></span>
+                                    </td>
+                                </tr>
 
-                                </div>
 
 
-                                <!-- <img style="width: 50%; padding: 20px;" id="mainimg" src="../../../public/images/movie.webp" /> -->
-                            </div>
-                            <div class="select-img">
-                                <div class="img1" id="image">
-                                    <button id="im" onclick="changeImg()">
-                                        <img id="img" src="../../../../public/images/movie.webp" class="sideimg">
-                                    </button>
-                                </div>
-                                <div class="img2" id="video">
-                                    <button id="vi" onclick="changeVideo()">
-                                        <div style="position: relative;">
-                                            <img id="vid" style="filter: blur(3px);" src="../../../../public/images/movie.webp"
-                                                class="sideimg">
-                                            <!--hidden field to pass video link to js-->
-                                            <input type="hidden" id="hdnLink"
-                                                value="https://www.youtube.com/embed/MCNmJwk3OaA?si=4hl6Jf-YoP1i8OBp" />
-                                            <div style="color:#f03351; font-size: 60px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
-                                                class="fa-regular fa-circle-play"></div>
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
+                            </table>
                         </div>
-                    </div>
-                    <div style="padding: 10px; border-top: 1px solid #f03351;">
-                        <table class="product-details">
-
-                            <tr class="genre">
-                                <td class="title">Category :
-                                </td>
-                                <td class="answer p-cat">
-                                    <span>Animation</span>
-                                </td>
-                            </tr>
-
-                            <tr class="class">
-                                <td class="title">Classification :
-                                </td>
-                                <td class="answer p-class">
-                                    <span>P12</span>
-                                </td>
-                            </tr>
-
-                            <tr class="releasedate">
-                                <td class="title">Release Date :
-                                </td>
-                                <td class="answer p-releasedate">
-                                    <span>08 August 2024</span>
-                                </td>
-                            </tr>
-
-                            <tr class="language">
-                                <td class="title">Language :
-                                </td>
-                                <td class="answer p-language">
-                                    <span>JPN</span>
-                                </td>
-                            </tr>
-
-                            <tr class="subtitles">
-                                <td class="title">Subtitles :
-                                </td>
-                                <td class="answer p-subtitle">
-                                    <span>ENG</span>
-                                </td>
-                            </tr>
-
-                            <tr class="director">
-                                <td class="title">Director :
-                                </td>
-                                <td class="answer p-director">
-                                    <span>Keiichiro Saito</span>
-                                </td>
-                            </tr>
-
-                            <tr class="cast">
-                                <td class="title">Casts :
-                                </td>
-                                <td class="answer p-cast">
-                                    <span>Yoshino Aoyama, Sayumi Suzushiro, Saku Mizuno, Ikumi Hasegawa</span>
-                                </td>
-                            </tr>
-
-
-                            <tr class="description">
-                                <td class="title">Description :
-                                </td>
-                                <td class="answer p-description">
-                                    <span>Hitori "Bocchi" Gotoh is an introverted girl. During her middle school years,
-                                        she started playing the guitar, wanting to join a band. But because she had no
-                                        friends, she ended up practicing guitar for six hours every day all by herself.
-                                        After becoming a skilled guitar player, she uploaded videos of herself playing
-                                        the guitar under the name "Guitar Hero" and fantasised about performing at her
-                                        school`s cultural festival concert. But not only could she not find any
-                                        bandmates, before she knew it, she was in high school and still wasn`t able to
-                                        make a single friend! One day, Nijika Ijichi, the drummer in Kessoku Band,
-                                        reached out to her. And because of that, her everyday life started to change
-                                        little by little.</span>
-                                </td>
-                            </tr>
-
-
-
-                        </table>
                     </div>
                 </div>
-            </div>
 
-            <!--Click this button back to top of the page-->
-            <div class="toTop" id="toTop">
-                <button onclick="location.href='../Selection/DetailSelection.html'" id="top">
-                    <i class="fa-solid fa-cart-shopping"></i>&nbsp;Buy Now
-                </button>
-            </div>
-
-
-            <script type="text/javascript">
-
-                window.onload = () => {
-                    // Get Image Path to change
-                    var path = document.getElementById("img").src;
-                    document.getElementById("im").style.border = "5px solid #f03351";
-
-                    // Clear existing content
-                    document.getElementById('createView').innerHTML = '';
-
-                    // Create Image
-                    let img = document.createElement('img');
-                    img.src = path;
-                    document.getElementById('createView').appendChild(img);
-                }
-
-                function changeImg() {
-                    // Change border color
-                    document.getElementById("vi").style.border = "none";
-                    document.getElementById("im").style.border = "5px solid #f03351";
-
-                    // Get Image Path to change
-                    var path = document.getElementById("img").src;
-
-                    // Clear existing content
-                    document.getElementById('createView').innerHTML = '';
-
-                    // Create Image
-                    let img = document.createElement('img');
-                    img.src = path;
-                    document.getElementById('createView').appendChild(img);
-                }
-
-                function changeVideo() {
-                    // Change border color
-                    document.getElementById("im").style.border = "none";
-                    document.getElementById("vi").style.border = "5px solid #f03351";
-
-                    // Get Video Path to change
-                    var path = document.getElementById("hdnLink").value;
-
-                    // Clear existing content
-                    document.getElementById('createView').innerHTML = '';
-
-                    // Create iframe
-                    let iframe = document.createElement('iframe');
-                    iframe.setAttribute("allowfullscreen", "true");
-                    iframe.src = path;
-                    document.getElementById('createView').appendChild(iframe);
-                }
-
-            </script>
+                <!--Click this button back to top of the page-->
+                <div class="toTop" id="toTop">
+                    <button onclick="location.href='../Selection/DetailSelection.html'" id="top">
+                        <i class="fa-solid fa-cart-shopping"></i>&nbsp;Buy Now
+                    </button>
+                </div>
 
 
+                <script type="text/javascript">
+                    window.onload = () => {
+                        // Get Image Path to change
+                        var path = document.getElementById("img").src;
+                        document.getElementById("im").style.border = "5px solid #f03351";
+
+                        // Clear existing content
+                        document.getElementById('createView').innerHTML = '';
+
+                        // Create Image
+                        let img = document.createElement('img');
+                        img.src = path;
+                        document.getElementById('createView').appendChild(img);
+                    }
+
+                    function changeImg() {
+                        // Change border color
+                        document.getElementById("vi").style.border = "none";
+                        document.getElementById("im").style.border = "5px solid #f03351";
+
+                        // Get Image Path to change
+                        var path = document.getElementById("img").src;
+
+                        // Clear existing content
+                        document.getElementById('createView').innerHTML = '';
+
+                        // Create Image
+                        let img = document.createElement('img');
+                        img.src = path;
+                        document.getElementById('createView').appendChild(img);
+                    }
+
+                    function changeVideo() {
+                        // Change border color
+                        document.getElementById("im").style.border = "none";
+                        document.getElementById("vi").style.border = "5px solid #f03351";
+
+                        // Get Video Path to change
+                        var path = document.getElementById("hdnLink").value;
+
+                        // Clear existing content
+                        document.getElementById('createView').innerHTML = '';
+
+                        // Create iframe
+                        let iframe = document.createElement('iframe');
+                        iframe.setAttribute("allowfullscreen", "true");
+                        iframe.src = path;
+                        document.getElementById('createView').appendChild(iframe);
+                    }
+                </script>
+
+            <?php endforeach; ?>
             <!--End of Main Contents-->
 
 
