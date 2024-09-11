@@ -275,7 +275,8 @@
                             <button id="vi" onclick="changeVideo()">
                                 <div style="position: relative;">
                                     <img id="vid" style="filter: blur(3px);"
-                                         src="<?php if (isset($photo)) {
+                                         src="
+                                         <?php if (isset($photo)) {
                                              echo $photo;
                                          } ?>"
                                          class="sideimg">
