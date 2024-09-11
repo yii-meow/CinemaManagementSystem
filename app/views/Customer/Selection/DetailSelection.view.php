@@ -210,20 +210,22 @@
     </button>
     <div class="top-box">
         <div class="poster-box">
-            <img src="<?php if (isset($photo)) {
-                echo $photo;
+            <img src="
+            <?php if (isset($data)) {
+                echo $data['movies']['photo'];
             } ?>" style="width: 60%;" draggable="false"/>
         </div>
         <div class="detail-box">
             <div class="movie-name">
-                <?php if (isset($title)) {
-                    echo $title;
+                <?php if (isset($data)) {
+                    echo $data['movies']['title'];
                 } ?>
             </div>
             <div class="movie-duration">
                 <i class="fa-regular fa-clock"></i>&nbsp;
                 <?php
-                if (isset($duration)) {
+                if (isset($data)) {
+                    $duration = $data['movies']['duration'];
                     $hour = intdiv($duration, 60);
                     $minute = $duration % 60;
                     echo $hour . " Hours " . $minute . " Mins";
@@ -239,47 +241,48 @@
     <div class="middle-box" id="middle-box">
         <div class="select-date">
             <p class="date-title">Select Date</p>
+
             <div class="date-radio">
-                <input type="radio" class="btn-check" name="options" id="date1" autocomplete="off">
-                <label class="btn btn-outline-danger" for="date1">
-                    <p name="day">SUN</p>
-                    <p name="date">28</p>
-                    <p name="month">July</p>
-                </label>
 
-                <input type="radio" class="btn-check" name="options" id="date2" autocomplete="off">
-                <label class="btn btn-outline-danger" for="date2">
-                    <p name="day">MON</p>
-                    <p name="date">29</p>
-                    <p name="month">July</p>
-                </label>
+                <?php if (isset($data)): ?>
+                    <?php foreach ($data["schedules"] as $schedule): ?>
+                        <?php
+                        // Separate Date and Time
+                        $dateTime = explode(" ", $schedule->startingTime); // No need to store in an array
+                        $date = $dateTime[0];
+                        $time = $dateTime[1];
 
-                <input type="radio" class="btn-check" name="options" id="date3" autocomplete="off">
-                <label class="btn btn-outline-danger" for="date3">
-                    <p name="day">TUE</p>
-                    <p name="date">30</p>
-                    <p name="month">July</p>
-                </label>
+                        // Separate Year, Month, and Day
+                        $dateResult = explode("-", $date); // Use this to break down the date parts
+                        $year = $dateResult[0];
+                        $month = $dateResult[1];
+                        $day = $dateResult[2];
 
-                <input type="radio" class="btn-check" name="options" id="date4" autocomplete="off">
-                <label class="btn btn-outline-danger" for="date4">
-                    <p name="day">WED</p>
-                    <p name="date">31</p>
-                    <p name="month">July</p>
-                </label>
+                        // Calculate Day of the Week
+                        $dayOfWeek = date("D", strtotime($date)); // Format full day name (e.g., "Monday")
+                        $monthName = date("M", strtotime($date)); // Short month name (e.g., "Jan")
+                        ?>
 
-                <input type="radio" class="btn-check" name="options" id="date5" autocomplete="off">
-                <label class="btn btn-outline-danger" for="date5">
-                    <p name="day">THU</p>
-                    <p name="date">1</p>
-                    <p name="month">Aug</p>
-                </label>
+                        <input type="radio" class="btn-check" name="options" id="<?php echo $schedule->movieScheduleId ?>" autocomplete="off">
+                        <label class="btn btn-outline-danger" for="<?php echo $schedule->movieScheduleId ?>"">
+                            <p name="day"><?php echo $dayOfWeek; ?></p>
+                            <p name="date"><?php echo $day; ?></p>
+                            <p name="month"><?php echo $monthName; ?></p>
+                        </label>
+
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
             </div>
         </div>
         <div class="select-experience">
-            <!--Standard, Premium, Deluxe-->
             <p class="experience-title">Select Experience</p>
             <div class="exp-radio">
+                
+
+
+
+
                 <input type="radio" class="btn-check" name="options-exp" id="exp1" autocomplete="off">
                 <label data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Standard 2D Experience"
                        class="btn btn-outline-danger" for="exp1">
