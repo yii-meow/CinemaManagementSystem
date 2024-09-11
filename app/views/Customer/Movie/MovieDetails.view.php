@@ -14,13 +14,13 @@
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
           integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css" />
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css"/>
 
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css" />
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/MovieDetail.css" />
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css"/>
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/MovieDetail.css"/>
     <title>Movie Detail</title>
 
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
@@ -40,11 +40,9 @@
             <div style="margin-left: 20px;" class="business-icon">
                 <div
                         style="color: white; height: inherit; text-align: center; font-weight: bold; font-size: 20px;">
-                    <img src="<?= ROOT ?>/assets/images/alternativeIcon.png" draggable="false" width="200" height="55" />
+                    <img src="<?= ROOT ?>/assets/images/alternativeIcon.png" draggable="false" width="200" height="55"/>
                 </div>
             </div>
-
-
 
 
             <div class="search-ctn col-7" style="margin-top: auto; margin-bottom: auto;">
@@ -54,7 +52,7 @@
                         <input type="text" autocomplete="off"
                                style="outline:2px solid #f03351; color: #f03351; position: relative; border-bottom-right-radius: 0px; border-top-right-radius: 0px;"
                                id="txtSearch" class="form-control border border-1 search-bar"
-                               placeholder="Movie Title" />
+                               placeholder="Movie Title"/>
                     </div>
                     <div>
                         <button id="btnSch"
@@ -67,8 +65,6 @@
                 </div>
             </div>
         </div>
-
-
 
 
         <div class="right-header">
@@ -97,7 +93,6 @@
                 </div>
 
 
-
                 <div class="profile-container action" id="profile">
                     <div style="margin-top: auto; margin-bottom: auto;">
                         <button onclick="" class="btn header-font"
@@ -106,7 +101,7 @@
                                     style="margin-top: -3px; border-radius: 150px; width: 30px; height: 30px; overflow: hidden;">
                                 <img src="<?= ROOT ?>/assets/images/defaultProfile.jpg" draggable="false"
                                      style="background-color: white; border-radius: 100px; width: 30px; height: 30px;"
-                                     id="topImage" />
+                                     id="topImage"/>
                             </div>
                             &nbsp;
                             User Profile
@@ -137,7 +132,6 @@
 
         </div>
     </div>
-
 
 
     <!--Navigation Bar-->
@@ -222,23 +216,40 @@
 
 
     <!--Main Contents-->
-
     <div class="product-container">
         <div class="left-box">
             <div class="top-container">
                 <div class="product-header">
                     <div class="left-info">
                         <div class="header-title">
-                            <p style="font-weight: bold; font-size: 25px; color: white" ID="pname">BOCCHI THE
-                                ROCK! Recap Part 1</p>
+                            <p style="font-weight: bold; font-size: 25px; color: white"
+                               ID="pname">
+                                <?php
+                                if (isset($title)) {
+                                    echo $title;
+                                }
+                                ?></p>
                         </div>
                         <div class="series">
                             <span style="color: #f03351;">Duration : </span>
-                            <span id="lblSeries" style="color: white;">2 Hours 2 Mins</span>
+                            <span id="lblSeries" style="color: white;">
+                                <?php
+                                if (isset($duration)) {
+                                    $hour = intdiv($duration, 60);
+                                    $minute = $duration % 60;
+                                    echo $hour . " Hours " . $minute . " Mins";
+                                }
+                                ?></span>
                         </div>
                     </div>
                     <div class="status-icon" id="status">
-                        <span id="lblTopStatus" class="topStatus">Now Showing</span>
+                        <span id="lblTopStatus" class="topStatus">
+                            <?php
+                            if (isset($status)) {
+                                echo $status;
+                            }
+                            ?>
+                        </span>
                     </div>
                 </div>
                 <div class="middle">
@@ -255,17 +266,24 @@
                     <div class="select-img">
                         <div class="img1" id="image">
                             <button id="im" onclick="changeImg()">
-                                <img id="img" src="<?= ROOT ?>/assets/images/movie.webp" class="sideimg">
+                                <img id="img" src="<?php if (isset($photo)) {
+                                    echo $photo;
+                                } ?>" class="sideimg">
                             </button>
                         </div>
                         <div class="img2" id="video">
                             <button id="vi" onclick="changeVideo()">
                                 <div style="position: relative;">
-                                    <img id="vid" style="filter: blur(3px);" src="<?= ROOT ?>/assets/images/movie.webp"
+                                    <img id="vid" style="filter: blur(3px);"
+                                         src="<?php if (isset($photo)) {
+                                             echo $photo;
+                                         } ?>"
                                          class="sideimg">
                                     <!--hidden field to pass video link to js-->
                                     <input type="hidden" id="hdnLink"
-                                           value="https://www.youtube.com/embed/MCNmJwk3OaA?si=4hl6Jf-YoP1i8OBp" />
+                                           value="<?php if (isset($trailerLink)) {
+                                               echo $trailerLink;
+                                           } ?>"/>
                                     <div style="color:#f03351; font-size: 60px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
                                          class="fa-regular fa-circle-play"></div>
                                 </div>
@@ -281,7 +299,11 @@
                         <td class="title">Category :
                         </td>
                         <td class="answer p-cat">
-                            <span>Animation</span>
+                            <span>
+                                <?php if (isset($category)) {
+                                    echo $category;
+                                } ?>
+                            </span>
                         </td>
                     </tr>
 
@@ -289,7 +311,11 @@
                         <td class="title">Classification :
                         </td>
                         <td class="answer p-class">
-                            <span>P12</span>
+                            <span>
+                            <?php if (isset($classification)) {
+                                echo $classification;
+                            } ?>
+                            </span>
                         </td>
                     </tr>
 
@@ -297,7 +323,12 @@
                         <td class="title">Release Date :
                         </td>
                         <td class="answer p-releasedate">
-                            <span>08 August 2024</span>
+                            <span>
+                            <?php if (isset($releaseDate)) {
+                                $date = new DateTime($releaseDate);
+                                echo date_format($date, "d F Y");
+                            } ?>
+                            </span>
                         </td>
                     </tr>
 
@@ -305,7 +336,11 @@
                         <td class="title">Language :
                         </td>
                         <td class="answer p-language">
-                            <span>JPN</span>
+                            <span>
+                             <?php if (isset($language)) {
+                                 echo strtoupper($language);
+                             } ?>
+                            </span>
                         </td>
                     </tr>
 
@@ -313,7 +348,11 @@
                         <td class="title">Subtitles :
                         </td>
                         <td class="answer p-subtitle">
-                            <span>ENG</span>
+                            <span>
+                            <?php if (isset($subtitles)) {
+                                echo strtoupper($subtitles);
+                            } ?>
+                            </span>
                         </td>
                     </tr>
 
@@ -321,7 +360,11 @@
                         <td class="title">Director :
                         </td>
                         <td class="answer p-director">
-                            <span>Keiichiro Saito</span>
+                            <span>
+                                 <?php if (isset($director)) {
+                                     echo $director;
+                                 } ?>
+                            </span>
                         </td>
                     </tr>
 
@@ -329,7 +372,11 @@
                         <td class="title">Casts :
                         </td>
                         <td class="answer p-cast">
-                            <span>Yoshino Aoyama, Sayumi Suzushiro, Saku Mizuno, Ikumi Hasegawa</span>
+                            <span>
+                                  <?php if (isset($casts)) {
+                                      echo $casts;
+                                  } ?>
+                            </span>
                         </td>
                     </tr>
 
@@ -338,19 +385,13 @@
                         <td class="title">Description :
                         </td>
                         <td class="answer p-description">
-                                    <span>Hitori "Bocchi" Gotoh is an introverted girl. During her middle school years,
-                                        she started playing the guitar, wanting to join a band. But because she had no
-                                        friends, she ended up practicing guitar for six hours every day all by herself.
-                                        After becoming a skilled guitar player, she uploaded videos of herself playing
-                                        the guitar under the name "Guitar Hero" and fantasised about performing at her
-                                        school`s cultural festival concert. But not only could she not find any
-                                        bandmates, before she knew it, she was in high school and still wasn`t able to
-                                        make a single friend! One day, Nijika Ijichi, the drummer in Kessoku Band,
-                                        reached out to her. And because of that, her everyday life started to change
-                                        little by little.</span>
+                            <span>
+                                  <?php if (isset($description)) {
+                                      echo $description;
+                                  } ?>
+                            </span>
                         </td>
                     </tr>
-
 
 
                 </table>
@@ -360,11 +401,10 @@
 
     <!--Click this button back to top of the page-->
     <div class="toTop" id="toTop">
-        <button onclick="location.href='<?= ROOT ?>/Error404'" id="top">
+        <button onclick="location.href='<?= ROOT ?>/DetailSelection?mid=<?php if(isset($movieId)){echo $movieId;} ?>'" id="top">
             <i class="fa-solid fa-cart-shopping"></i>&nbsp;Buy Now
         </button>
     </div>
-
 
     <script type="text/javascript">
 
@@ -431,8 +471,6 @@
             </div>
         </div>
     </footer>
-
-
 
 
     <!--JavaScripts-->

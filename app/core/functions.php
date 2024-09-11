@@ -12,6 +12,7 @@ function esc($str)
 	return htmlspecialchars($str);
 }
 
+//This cannot be applied to redirect to the same Controller plz.
 function redirect($path)
 {
 	header("Location: " . ROOT."/".$path);
