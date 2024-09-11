@@ -1,12 +1,13 @@
 <?php
 
-class Movie
-{
-    //All access to database query put here
+class Movie {
+
+    use Database;
 
     //Query = Get movie by id
     public function getMovieByMovieID($sqlParameters){
-        $result = Database::query("SELECT * FROM Movie WHERE movieId = ?", [$sqlParameters]);
+        $query = "SELECT * FROM Movie WHERE movieId = :movieId";
+        $result = $this->query($query, $sqlParameters);
         return $result;
     }
 

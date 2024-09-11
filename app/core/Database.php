@@ -5,7 +5,7 @@ Trait Database
 
 	private function connect()
 	{
-		$string = "mysql:hostname=".DBHOST.";dbname=".DBNAME;
+        $string = "mysql:host=".DBHOST.";port=your_port_number;dbname=".DBNAME;
 		$con = new PDO($string,DBUSER,DBPASS);
 		return $con;
 	}
