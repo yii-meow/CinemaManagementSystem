@@ -1,0 +1,310 @@
+/*Main*/
+html,
+body {
+    min-height: 100vh;
+    max-width: 100%;
+    font-family: 'Poppins';
+    overflow-x: hidden;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    background-color: transparent;
+    color: #f03351;
+    border-color: #f03351;
+}
+
+/*Scrollbar*/
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #ffece3;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #f03351;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #fc5f5f;
+}
+
+.navbar-default {
+    border-color: black !important;
+}
+
+
+/*left box*/
+.all-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+.left-box {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 60%;
+    min-height: 100vh;
+    border-right: 1px solid #f03351;
+    padding: 20px 60px 20px 60px;
+    gap: 10px;
+    background-color: #141414;
+}
+
+.cont {
+    position: relative;
+    width: 100%;
+}
+
+.small-title {
+    position: absolute;
+    top: 3.5px;
+    height: 23px;
+    font-size: 16px;
+    background-color: #141414;
+    text-align: center;
+    margin: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0px 5px 0px 5px;
+    color: #f03351;
+    font-weight: bold;
+}
+
+.supported-methods {
+    margin-top: 15px;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    height: fit-content;
+    border: 1px solid #f03351;
+    border-radius: 5px;
+    padding: 20px;
+    gap: 15px;
+}
+
+
+.pay img {
+    width: 50px;
+    height: 50px;
+}
+
+.pay label {
+    font-weight: bold;
+}
+
+.method label {
+    width: 80px;
+    margin-top: 8px;
+    margin-bottom: 5px;
+}
+
+.title {
+    padding: 10px;
+    color: #f03351;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+label {
+    color: grey;
+}
+
+.box1,
+.box2,
+.state {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+}
+
+.name {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 10px;
+}
+
+.fname,
+.lname {
+    width: 50%;
+}
+
+.checkout {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: right;
+    gap: 7px;
+    font-size: 17px;
+    padding-top: auto !important;
+}
+
+.formdetail {
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
+.check-box {
+    padding: 10px 20px 20px 25px;
+}
+
+.form-check-input:checked {
+    background-color: #f03351;
+    border-color: #f03351;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(243, 3, 3, 0.25);
+}
+
+.check-box label {
+    color: white;
+    font-weight: 600;
+}
+
+#voucherbox { 
+    margin-top: -12px;
+}
+
+.payment-container {
+    height: 5px;
+    width: 100%;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.payment-container-show {
+    height: auto;
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.form-control {
+    background-color: transparent;
+    color: #f03351;
+    border-color: #f03351;
+}
+
+.form-floating label {
+    color: white;
+}
+
+.form-control:focus {
+    border-color: #f03351;
+    border-width: 3px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.045);
+    background-color: transparent;
+    color: #f03351;
+}
+
+
+/*right container*/
+.right-box {
+    background-color: #303030;
+    display: flex;
+    flex-flow: column nowrap;
+    width: 40%;
+    color: white;
+    padding: 45px;
+    min-height: 100vh;
+}
+
+
+hr { 
+    border: 1px dashed #f03351;
+}
+
+
+
+.payment {
+    width: 100%;
+}
+
+td {
+    font-size: 17px;
+    padding: 5px;
+    vertical-align: text-top;
+    text-align: justify;
+}
+
+.tt {
+    color: #f03351;
+    text-align: right;
+}
+
+.t2 {
+    width: 170px;
+}
+
+.all-total {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+
+
+/* Movie Detail Table */
+.title-d {
+    padding: 10px 20px 10px 10px !important;
+    color:#f03351 !important;
+    width: 170px !important;
+    text-align: right;
+}
+
+.products {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.pdtt { 
+    font-weight: bold;
+    font-size: 25px;
+    color: #f03351;
+    padding: 10px;
+}
+
+.text {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    padding: 15px;
+}
+
+@media (max-width: 950px) {
+    .all-container {
+        flex-flow: column nowrap;
+    }
+
+    .left-box {
+        width: 100%;
+        height: fit-content;
+    }
+
+    .right-box {
+        width: 100%;
+        min-height: fit-content !important;
+    }
+
+    .logo {
+        display: none;
+    }
+}

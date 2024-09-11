@@ -1,0 +1,160 @@
+.date-selector {
+    display: flex;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    gap: 1.2rem;
+    align-items: center;
+}
+
+.date-selector span {
+    font-size: 22px;
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+}
+
+.date-selector i {
+    margin-top: 12px;
+    font-size: 36px;
+    color: #f03351;
+    margin-right: 20px;
+}
+
+.date-button {
+    padding: 8px 0;
+    margin-right: 10px;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    line-height: 30px;
+    font-weight: 600;
+    width: 120px;
+    border: none;
+    font-size: 19px;
+}
+
+.main {
+    margin-top: 30px;
+    display: flex;
+    gap: 2rem;
+}
+
+.sidebar {
+    width: 250px;
+    padding: 20px;
+    color: white;
+}
+
+.sidebar h3 {
+    font-size: 21px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+}
+
+.sidebar li {
+    margin: 20px 10px;
+    font-size: 17px;
+    padding: 18px 20px;
+    border-radius: 10px;
+}
+
+.sidebar li.active {
+    background-color: rgb(46, 44, 44);
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.selected-cinema {
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+    display: inline-block;
+    width: 100%;
+    border-bottom: 2px solid #ffd700;
+    padding: 13px 6px;
+}
+
+.date-button.active {
+    border-bottom: 3px solid #f03351;
+}
+
+.movie-card {
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    background-color: rgb(216, 216, 216);
+}
+
+.movie-poster {
+    width: 200px;
+    height: 300px;
+    margin-right: 20px;
+}
+
+.movie-info {
+    padding: 12px 0;
+    flex: 1;
+}
+
+.movie-info h2 {
+    font-size: 22px;
+    letter-spacing: 3px;
+}
+
+.movie-info p {
+    margin-top: 22px;
+    font-size: 16px;
+    color: grey;
+}
+
+.movie-info h3 {
+    margin-top: 38px;
+    color: red;
+    font-weight: 1000;
+    letter-spacing: 2px;
+    font-size: 20px;
+    width: max-content;
+}
+
+.showtime-buttons {
+    margin-left: 10px;
+    margin-top: 20px;
+}
+
+.showtime-button {
+    padding: 6px 19px;
+    margin-right: 25px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: 400;
+}
+
+.showtime-button.selling {
+    background-color: #e6c92b;
+}
+
+.showtime-button.sold {
+    background-color: #f03351;
+}
+
+.seat-availability-info {
+    display: flex;
+    gap: 2rem;
+}
+
+.seat-availability-info i {
+    font-size: 22px;
+    margin-right: 5px;
+}
+
+.seat-availability-info .info {
+    font-size: 18px;
+}
