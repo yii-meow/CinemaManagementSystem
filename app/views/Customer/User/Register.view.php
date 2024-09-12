@@ -245,10 +245,17 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-lg-6 mx-auto" style="background-color: #ffffff;border-radius:10%;">
-                    <div class="login_form_inner">
+                <div class="col-lg-6 mx-auto" style="background-color: #ffffff;border-radius:10%;height: auto;">
+                    <div class="login_form_inner" style="width: auto;height: auto">
                         <h3>Register account</h3>
-                        <form class="row login_form" action="RegistrationCustomerController" method="post"
+                        <?php if (isset($data['success'])): ?>
+                            <div class="alert alert-success"><?= htmlspecialchars($data['success']) ?></div>
+                        <?php endif; ?>
+
+                        <?php if (isset($data['error'])): ?>
+                            <div class="alert alert-danger"><?= htmlspecialchars($data['error']) ?></div>
+                        <?php endif; ?>
+                        <form class="row login_form" action="Register" method="post"
                               id="contactForm">
                             <div class="col-md-12 form-group">
                                 <input type="text" class="form-control" id="name" name="name"
@@ -261,7 +268,7 @@
                                        onblur="this.placeholder = 'Email'">
                             </div>
                             <div class="col-md-12 form-group">
-                                <input type="tel" pattern="[0]{1}[1]{1}[0-9]{1}[0-9]{8,12}" class="form-control"
+                                <input type="tel" class="form-control"
                                        id="phoneNo" name="phoneNo" placeholder="Contact Number"
                                        onfocus="this.placeholder = ''"
                                        onblur="this.placeholder = 'Contact Number'">
@@ -290,12 +297,10 @@
                                 <label for="male">Male</label>
                             </div>
 
-                            <div class="col-md-12 form-group">
+                            <div class="col-md-12 form-group" style="margin-bottom: 20px">
                                 <button type="submit" value="submit" class="primary-btn">Register</button>
                                 <a href="Login">Go Back to Login</a>
                             </div>
-                            <br>
-                            <br>
                         </form>
                     </div>
                 </div>

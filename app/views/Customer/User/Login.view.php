@@ -247,7 +247,7 @@
                         <div class="hover">
                             <h4>Register As Member?</h4>
                             <p>Once you registered an account, only you can purchase</p>
-                            <a class="primary-btn" href="register.html">Create an Account</a>
+                            <a class="primary-btn" href="Register">Create an Account</a>
                         </div>
                     </div>
                 </div>
@@ -257,7 +257,13 @@
                         <br>
                         <br>
                         <h3>Log in to enter</h3>
-                        <form class="row login_form" action="" method="post" id="contactForm">
+                        <?php if (isset($data['error'])): ?>
+                            <div style="width: fit-content;margin: auto" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong> <?= htmlspecialchars($data['error']) ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php endif; ?>
+                        <form class="row login_form" action="Login" method="post" id="contactForm">
                             <div class="col-md-12 form-group">
                                 <input type="tel" class="form-control" id="phoneNo" name="phoneNo"
                                        placeholder="Mobile Number" onfocus="this.placeholder = ''"
@@ -272,7 +278,7 @@
 
                             <div class="col-md-12 form-group">
                                 <button type="submit" value="submit" class="primary-btn">Log In</button>
-                                <a href="forgetPassVerify.html">Forgot Password?</a>
+                                <a href="ForgetPassVerify">Forgot Password?</a>
                             </div>
                         </form>
                     </div>
