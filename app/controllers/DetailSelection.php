@@ -4,10 +4,13 @@ class DetailSelection
 {
     use Controller;
 
+
+    //Main Method
     public function index()
     {
         //Get query string value
         $movieId = $_GET['mid'];
+        $_SESSION['movieId'] = $movieId;
 
         //Get Movie Details
         $model = new Movie();
@@ -25,8 +28,8 @@ class DetailSelection
         }
 
 
+
         //Get Movie Schedule Date and Time
-        $hallIDs = [];
         $dataSchedule = [];
 
         $modelSchedule = new MovieSchedule();
@@ -34,42 +37,47 @@ class DetailSelection
         $resultSchedule = $modelSchedule->getMovieScheduleDate($arrSchedule);
 
         if ($resultSchedule) {
-            foreach($resultSchedule as $schedule) {
+            foreach ($resultSchedule as $schedule) {
                 $dataSchedule[] = $schedule;
-
-                $hallIDs[] = $schedule->cinemaHallId;
             }
         }
-
-        //Get Cinema Hall of the Movie
-        $dataHall = [];
-
-        $modelHall = new CinemaHall();
-        foreach ($hallIDs as $id) {
-            $arrHall["hallId"] = $id;
-            $resultHall = $modelHall->getCinemaHallOfMovie($arrHall);
-
-            if ($resultHall) {
-                foreach ($resultHall as $hall) {
-                    $dataHall[] = $hall;
-                }
-            }
-        }
-
-
 
         // Combines multiple $data from different queries
         $data = [
             'movies' => $dataMovieDetails,
             'schedules' => $dataSchedule,
-            'halls' => $dataHall,
         ];
-        show($data);
-
 
         //Please do use this only at the end of the operations
         $this->view('Customer/Selection/DetailSelection', $data);
     }
 
+
+
+    //Method 2
+    public function fetchHallExperienceOfTheMovieDate()
+    {
+        $dataHall = [];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Retrieve data from POST request
+            $selectedDate = $_POST['selectedDate'] ?? '';
+
+            $modelHall = new CinemaHall();
+            $arr = [
+                "movieId" => $_SESSION['movieId'],
+                "startingTime" => $selectedDate
+            ];
+            $result = $modelHall->getCinemaHallOfMovie($arr);
+
+            if ($result) {
+                // Respond with JSON
+                header('Content-Type: application/json');
+                echo json_encode(['data' => $result]);
+                exit;
+            }
+        }
+        // Handle other methods or render a view
+        $this->view('Customer/Selection/SeatSelection', $dataHall);
+    }
 
 }

@@ -242,70 +242,54 @@
         <div class="select-date">
             <p class="date-title">Select Date</p>
 
-            <div class="date-radio">
+            <form method="POST" id="form1">
+                <div class="date-radio">
 
-                <?php if (isset($data)): ?>
-                    <?php foreach ($data["schedules"] as $schedule): ?>
-                        <?php
-                        // Separate Date and Time
-                        $dateTime = explode(" ", $schedule->startingTime); // No need to store in an array
-                        $date = $dateTime[0];
-                        $time = $dateTime[1];
+                    <?php if (isset($data)): ?>
+                        <?php foreach ($data["schedules"] as $schedule): ?>
+                            <?php
+                            // Separate Date and Time
+                            $dateTime = explode(" ", $schedule->startingTime); // No need to store in an array
+                            $date = $dateTime[0];
+                            $time = $dateTime[1];
 
-                        // Separate Year, Month, and Day
-                        $dateResult = explode("-", $date); // Use this to break down the date parts
-                        $year = $dateResult[0];
-                        $month = $dateResult[1];
-                        $day = $dateResult[2];
+                            // Separate Year, Month, and Day
+                            $dateResult = explode("-", $date); // Use this to break down the date parts
+                            $year = $dateResult[0];
+                            $month = $dateResult[1];
+                            $day = $dateResult[2];
 
-                        // Calculate Day of the Week
-                        $dayOfWeek = date("D", strtotime($date)); // Format full day name (e.g., "Monday")
-                        $monthName = date("M", strtotime($date)); // Short month name (e.g., "Jan")
-                        ?>
+                            // Calculate Day of the Week
+                            $dayOfWeek = date("D", strtotime($date)); // Format full day name (e.g., "Monday")
+                            $monthName = date("M", strtotime($date)); // Short month name (e.g., "Jan")
+                            ?>
 
-                        <input type="radio" class="btn-check" name="options" id="<?php echo $schedule->movieScheduleId ?>" autocomplete="off">
-                        <label class="btn btn-outline-danger" for="<?php echo $schedule->movieScheduleId ?>"">
-                            <p name="day"><?php echo $dayOfWeek; ?></p>
-                            <p name="date"><?php echo $day; ?></p>
-                            <p name="month"><?php echo $monthName; ?></p>
-                        </label>
+                            <input type="radio" class="btn-check" name="selectedDate"
+                                   value="<?php echo htmlspecialchars($schedule->startingTime); ?>"
+                                   id="<?php echo $schedule->movieScheduleId ?>" autocomplete="off"
+                                   onchange="fetchHallTypes()">
+                            <label class="btn btn-outline-danger" for="<?php echo $schedule->movieScheduleId ?>">
+                                <p name="day"><?php echo $dayOfWeek; ?></p>
+                                <p name="date"><?php echo $day; ?></p>
+                                <p name="month"><?php echo $monthName; ?></p>
+                            </label>
 
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
 
-            </div>
+                </div>
+            </form>
         </div>
+
+
         <div class="select-experience">
             <p class="experience-title">Select Experience</p>
-            <div class="exp-radio">
-                
-
-
-
-
-                <input type="radio" class="btn-check" name="options-exp" id="exp1" autocomplete="off">
-                <label data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Standard 2D Experience"
-                       class="btn btn-outline-danger" for="exp1">
-                    <i class="fa-solid fa-film"></i>&nbsp;Standard 2D
-                </label>
-
-                <input type="radio" class="btn-check" name="options-exp" id="exp2" autocomplete="off">
-                <label data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Standard 3D Experience"
-                       class="btn btn-outline-danger" for="exp2">
-                    <i class="fa-solid fa-film"></i>&nbsp;Standard 3D
-                </label>
-
-                <input type="radio" class="btn-check" name="options-exp" id="exp3" autocomplete="off">
-                <label data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="IMAX 2D Experience"
-                       class="btn btn-outline-danger" for="exp3">
-                    <i class="fa-brands fa-web-awesome"></i>&nbsp;IMAX 2D
-                </label>
-                <input type="radio" class="btn-check" name="options-exp" id="exp4" autocomplete="off">
-                <label data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="IMAX 3D Experience"
-                       class="btn btn-outline-danger" for="exp4">
-                    <i class="fa-brands fa-web-awesome"></i>&nbsp;IMAX 3D
-                </label>
-            </div>
+            <form method="POST" id="form2">
+                <div class="exp-radio" id="form_output">
+                    <!--Result from AJAX-->
+                    <p id="pretext">Please select a date.</p>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -524,17 +508,20 @@
             </div>
             <div class="modal-body">
                 <div class="modal-image" style="text-align: center;">
-                    <img src="<?php if (isset($photo)) {echo $photo; } ?>" style="width:30%;" draggable="false"/>
+                    <img src="<?php if (isset($data)) {
+                        echo $data['movies']['photo'];
+                    } ?>" style="width:30%;" draggable="false"/>
                     <div
                             style="color:white; font-size: 18px; font-weight: 600; margin-top: 15px; margin-bottom:8px;">
-                        <?php if (isset($title)) {
-                            echo $title;
+                        <?php if (isset($data)) {
+                            echo $data['movies']['title'];
                         } ?>
                     </div>
                     <div style="color:#f03351">
                         <i class="fa-regular fa-clock"></i>
                         <?php
-                        if (isset($duration)) {
+                        if (isset($data)) {
+                            $duration = $data['movies']['duration'];
                             $hour = intdiv($duration, 60);
                             $minute = $duration % 60;
                             echo $hour . " Hours " . $minute . " Mins";
@@ -610,6 +597,104 @@
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 </script>
+
+<div style="color:white; font-weight: bold;" id="form_output"></div>
+
+<script>
+    function fetchHallTypes() {
+
+        var selectedDate = $("input[name='selectedDate']:checked").val(); // Get the value of the selected radio button
+
+        if (selectedDate) {
+            $('#form1').off('change').on('change', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "<?=ROOT?>/DetailSelection/fetchHallExperienceOfTheMovieDate",
+                    type: "POST",
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        // Get the returned result from the controller
+                        var data = response.data;
+
+                        // Construct the inner HTML for radio buttons and labels
+                        var innerHtml = '';
+
+                        // Check if data is an array and contains objects with 'hallType' property
+                        if (Array.isArray(data) && data.length > 0) {
+                            data.forEach(function (item, index) {
+                                var id = 'exp' + (index + 1); // Create unique IDs for radio buttons
+                                var hallType = item.hallType || 'Unknown'; // Use a default value if hallType is not provided
+
+                                val valueToPass = item.hallType + "|" + selectedDate;
+                                alert(valueToPass)
+
+                                innerHtml += '<input type="radio" onchange="fetchCinema()" class="btn-check" value="' + valueToPass + '" name="options-exp" id="' + id + '" autocomplete="off" >';
+                                innerHtml += '<label style="margin: 0 10px -10px 0;" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="' + hallType + '" class="btn btn-outline-danger" for="' + id + '">';
+                                innerHtml += '<i class="fa-solid fa-film"></i>&nbsp;' + hallType;
+                                innerHtml += '</label>';
+                            });
+                        } else {
+                            innerHtml += '<p>No experiences available.</p>';
+                        }
+
+                        // Inject the inner HTML into the existing container
+                        $(".exp-radio").html(innerHtml);
+                    },
+                    error: function (jXHR, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    }
+                });
+            });
+        }
+    }
+</script>
+
+<script>
+    function fetchCinema() {
+
+        var selectedHallExperience = $("input[name='options-exp']:checked").val(); // Get the value of the selected radio button
+
+        if (selectedHallExperience) {
+            $('#form2').off('change').on('change', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "<?=ROOT?>/DetailSelection/fetchCinemaAndTimeForTheMovieAndHallType",
+                    type: "POST",
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        // Get the returned result from the controller
+                        var data = response.data;
+
+                        // Construct the inner HTML for radio buttons and labels
+                        var innerHtml = '';
+
+                        // Check if data is an array and contains objects with 'hallType' property
+                        if (Array.isArray(data) && data.length > 0) {
+                            data.forEach(function (item, index) {
+                                var id = 'exp' + (index + 1); // Create unique IDs for radio buttons
+                                var hallType = item.hallType || 'Unknown'; // Use a default value if hallType is not provided
+
+                                innerHtml += '<input type="radio" onchange="fetchCinema()" class="btn-check" value="' + item.hallType + '" name="options-exp" id="' + id + '" autocomplete="off" >';
+                                innerHtml += '<label style="margin: 0 10px -10px 0;" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="' + hallType + '" class="btn btn-outline-danger" for="' + id + '">';
+                                innerHtml += '<i class="fa-solid fa-film"></i>&nbsp;' + hallType;
+                                innerHtml += '</label>';
+                            });
+                        } else {
+                            innerHtml += '<p>No experiences available.</p>';
+                        }
+
+                        // Inject the inner HTML into the existing container
+                        $(".exp-radio").html(innerHtml);
+                    },
+                    error: function (jXHR, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    }
+                });
+            });
+        }
+    }
+</script>
+
 </body>
 
 </html>
