@@ -7,7 +7,7 @@ class MovieDetails
     public function index()
     {
         //Gather SQL parameters
-        $movieID = 2; //test id
+        $movieID = 1; //test id
 
         // Initialize Model in order to use the model
         $model = new Movie();
