@@ -232,7 +232,7 @@
         <!-- Left Sidebar -->
         <div class="left-box">
             <div class="profile-card">
-                <div class="user-initial">K</div>
+                <img src="<?= ROOT ?>/assets/images/profile1.jpg" alt="Profile Picture" class="user-image">
                 <p class="user-name">Kyan</p>
                 <button class="edit-profile-btn" onclick="window.location.href='ProfileEdit'">Edit
                     Profile</button>
