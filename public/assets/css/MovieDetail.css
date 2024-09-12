@@ -157,6 +157,27 @@ tr {
     padding: 15px 25px 15px 25px;
 }
 
+.time-radio{
+    width: fit-content;
+}
+
+.accordion-body {
+    display: flex;
+    flex-flow: row wrap;
+    gap:10px;
+}
+
+.radio-wrapper {
+    max-width: fit-content;
+}
+
+
+.accordion-collapse {
+    display: flex;
+    flex-flow: row wrap;
+    gap:10px;
+}
+
 /*Mobile and Tablet*/
 @media (max-width: 869px) {
     .product-container {

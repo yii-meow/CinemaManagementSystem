@@ -3,12 +3,15 @@ class MovieSchedule
 {
     use Database;
     public function getMovieScheduleDate($movieID){
-        $query = "SELECT startingTime, MIN(movieScheduleId) AS movieScheduleId
+        $query = "SELECT DATE(startingTime) AS scheduleDate,
+                  startingTime,
+                   MIN(movieScheduleId) AS movieScheduleId
                     FROM MovieSchedule
                     WHERE movieId = :movieId
-                    AND startingTime >= NOW()
-                    GROUP BY startingTime
-                    ORDER BY startingTime;";
+                      AND startingTime >= NOW()
+                    GROUP BY scheduleDate
+                    ORDER BY scheduleDate";
+
         $result = $this->query($query, $movieID);
         return $result;
     }
