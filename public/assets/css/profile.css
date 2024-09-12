@@ -1,0 +1,531 @@
+/* General Styles */
+.outer-box {
+    min-height: 80vh;
+    padding: 20px 50px 40px 50px;
+    display: flex;
+    gap: 40px;
+}
+
+.main-title {
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    border-top: 3px solid #f03351;
+    padding: 20px 0px 20px 0px;
+}
+
+.boxes {
+    display: flex;
+    gap: 30px;
+}
+
+/* Left Sidebar */
+.left-box {
+    width: 20%;
+    background-color: #222;
+    padding: 20px;
+    min-height: 100vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Right Content */
+.right-box {
+    width: 60%;
+    background-color: #111;
+    padding: 30px;
+    min-height: 100vh;
+    color: white;
+}
+
+/* Reward Centre Title */
+.right-box h2 {
+    border-bottom: 2px solid #f03351;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Reward List */
+.reward-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    gap: 20px;
+}
+
+/* Reward Item */
+.reward-item {
+    background-color: #222;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    border-left: 2px solid #f03351;
+    border-right: 2px solid #f03351;
+    gap: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.reward-item-info {
+    background-color: #222;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.reward-item img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.reward-details {
+    flex: 1;
+    padding: 15px;
+    text-align: left;
+}
+
+.reward-details h3 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.reward-details p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.btn-redeem {
+    background-color: #f03351;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-redeem:hover {
+    background-color: #d82a4b;
+}
+
+/* Filter Options */
+.filter-options {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    background-color: #222;
+    border: 1px solid #f03351;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background-color: #f03351;
+    color: white;
+}
+
+/* Redeemed Rewards List */
+.redeemed-reward-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    gap: 20px;
+}
+
+/* Used Label */
+.used-label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #f03351;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Redeemed Reward Item */
+.redeemed-reward-item {
+    position: relative;
+    /* Add this to position the "Used" label */
+    background-color: #222;
+    padding: 15px;
+    border-left: 2px solid #f03351;
+    border-right: 2px solid #f03351;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.reward-item:hover {
+    background-color: #9e3044;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Black with opacity */
+}
+
+.modal-content {
+    background-color: #222;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    color: white;
+    text-align: left;
+}
+
+.close-btn {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #f03351;
+}
+
+.redeemed-reward-item img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.redeemed-reward-details {
+    flex: 1;
+}
+
+.redeemed-reward-details h3 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.redeemed-reward-details p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.redeem-date {
+    font-size: 12px;
+    color: #999;
+}
+
+/* Filter Controls */
+.filter-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter-controls label {
+    color: white;
+}
+
+.filter-controls input,
+.filter-controls select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    background-color: #222;
+    color: white;
+}
+
+/* Favourite Movies List */
+.favourite-movies-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Favourite Movie Item */
+.favourite-movie-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #222;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+.movie-details {
+    flex-grow: 1;
+}
+
+.movie-details h3 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.movie-details p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+/* Delete Button */
+.delete-btn {
+    background-color: #f03351;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #d82a4b;
+}
+
+/* Favourite Movies List */
+.favourite-movies-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Favourite Movie Item */
+.favourite-movie-item {
+    display: flex;
+    align-items: center;
+    background-color: #222;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+.movie-checkbox {
+    margin-right: 15px;
+}
+
+.movie-details {
+    flex-grow: 1;
+}
+
+.movie-details h3 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.movie-details p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+/* Delete Selected Button */
+.delete-selected-btn {
+    background-color: #f03351;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+.delete-selected-btn:hover {
+    background-color: #d82a4b;
+}
+
+.profile-card {
+    background-color: #f03351;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+}
+
+.user-initial {
+    width: 60px;
+    height: 60px;
+    background-color: #000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0 auto 10px;
+}
+
+.edit-profile-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #020202;
+    border: none;
+    margin-top: 30px;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-profile-btn:hover {
+    background-color: #ffffff;
+    color: #000;
+}
+
+.reward-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.reward-item {
+    background-color: #000;
+    padding: 10px;
+    border-radius: 5px;
+    flex: 1;
+    margin: 0 5px;
+    text-align: center;
+}
+
+.nav-menu {
+    margin-top: 30px;
+}
+
+.nav-menu a {
+    color: white;
+    display: block;
+    text-decoration: none;
+    padding: 20px;
+    border-bottom: 1px solid #333;
+}
+
+.nav-menu a:hover {
+    color: #f03351;
+}
+
+/* Form Styles */
+.right-box h2 {
+    border-bottom: 2px solid #f03351;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    background-color: #222;
+    color: white;
+    margin-top: 5px;
+    /* Add spacing between label and input */
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #f03351;
+    outline: none;
+}
+
+.radio-group {
+    display: flex;
+    width: 30%;
+    gap: 5px;
+}
+
+.note {
+    color: #f03351;
+    font-size: 12px;
+}
+
+.btn-save {
+    width: 100%;
+    padding: 10px;
+    background-color: #f03351;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-save:hover {
+    background-color: #d82a4b;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkbox-container label {
+    margin-bottom: 0;
+    margin-left: 5px;
+    color: white;
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-left: 0;
+}
+
+/* Radio button alignment */
+.radio-group input[type="radio"] {
+    margin-right: 5px;
+}
+
+.radio-group label {
+    margin-right: 20px;
+}
+
+/* Add some space for the last section */
+form {
+    padding-bottom: 30px;
+}
