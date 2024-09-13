@@ -48,6 +48,8 @@ class DetailSelection
             'schedules' => $dataSchedule,
         ];
 
+        show($data);
+
         //show($data);
 
         //Please do use this only at the end of the operations

@@ -16,7 +16,7 @@ class Cinema
                     WHERE ch.hallType = :hallType
                     AND ms.startingTime > NOW()
                     AND m.movieId = :movieId
-                    AND DATE(ms.startingTime) = :startingTime";
+                    AND ms.startingTime = :startingTime";
 
         $result = $this->query($query, $arr);
 

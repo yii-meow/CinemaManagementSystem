@@ -277,8 +277,8 @@
                             var id = 'exp' + (index + 1);
                             var hallType = item.hallType || 'Unknown';
 
-                            var selectedDate = selectedDateTime.split(" ")[0];
-                            var valueToPass = hallType + "|" + selectedDate;
+                            //var selectedDate = selectedDateTime.split(" ")[0];
+                            var valueToPass = hallType + "|" + selectedDateTime;
 
                             innerHtml += '<input type="radio" class="btn-check" value="' + valueToPass + '" name="options-exp" id="' + id + '" autocomplete="off">';
                             innerHtml += '<label style="margin: 0 10px -10px 0;" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="' + hallType + '" class="btn btn-outline-danger" for="' + id + '">';

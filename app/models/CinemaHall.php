@@ -17,7 +17,7 @@ class CinemaHall
                         JOIN MovieSchedule ms ON m.movieId = ms.movieId
                         JOIN CinemaHall c ON ms.cinemaHallId = c.hallId
                         WHERE m.movieId = :movieId
-                          AND DATE(ms.startingTime) = DATE(:startingTime) 
+                          AND ms.startingTime = :startingTime
                     )
                     SELECT 
                         startingTime, hallId, hallName, capacity, hallType, cinemaId
