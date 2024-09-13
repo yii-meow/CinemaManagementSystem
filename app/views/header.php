@@ -63,46 +63,49 @@
                 </div>
             </div>
 
-
-
-            <div class="profile-container action" id="profile">
-                <div style="margin-top: auto; margin-bottom: auto;">
-                    <button onclick="window.location.href='Profile'" class="btn header-font"
-                            style="padding:10px; width: 160px; font-size: 17px; display: flex; color: #f03351;">
-                        <div
-                            style="margin-top: -3px; border-radius: 150px; width: 30px; height: 30px; overflow: hidden;">
-                            <img src="<?= ROOT ?>/assets/images/defaultProfile.jpg" draggable="false"
-                                 style="background-color: white; border-radius: 100px; width: 30px; height: 30px;"
-                                 id="topImage" />
-                        </div>
-                        &nbsp;
-                        User Profile
-                    </button>
+            <?php if (isset($_SESSION['userId'])): ?>
+                <!-- User is logged in -->
+                <div class="profile-container action" id="profile">
+                    <div style="margin-top: auto; margin-bottom: auto;">
+                        <button onclick="window.location.href='Profile'" class="btn header-font" style="padding:10px; width: 160px; font-size: 17px; display: flex; color: #f03351;">
+                            <div style="margin-top: -3px; border-radius: 150px; width: 30px; height: 30px; overflow: hidden;">
+                                <img src="<?= ROOT ?>/assets/images/<?= !empty($user->profileImg) ? htmlspecialchars($user->profileImg) : '../../../public/assets/images/profile4.jpg' ?>" draggable="false" style="background-color: white; border-radius: 100px; width: 30px; height: 30px;" id="topImage" />
+                            </div>
+                            &nbsp;
+                            User Profile
+                        </button>
+                    </div>
                 </div>
-            </div>
-
-            <div class="login action" style="margin-right: 20px;">
-                <div style="margin-top: auto; margin-bottom: auto;">
-                    <button ID="btnLgn" class="topBtns btn dropdown-toggle header-font"
-                            data-bs-toggle="dropdown" aria-expanded="false"
-                            Style="font-size: 17px; color:#f03351">
-                        <i style="color: #f03351; font-size:18px"
-                           class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;
-                        Login
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li id="userlogin">
-                            <a href="Login" id="hrefCustomer"
-                               class="dropdown-item LoginHover">Customer</a>
-                        </li>
-                        <li id="stafflogin">
-                            <a id="hrefStaff" href="LoginStaff"
-                               class="dropdown-item LoginHover">Staff</a>
-                        </li>
-                    </ul>
+                <div class="login action" style="margin-right: 20px;">
+                    <div style="margin-top: auto; margin-bottom: auto;">
+                        <button ID="btnLgn" class="topBtns btn dropdown-toggle header-font" data-bs-toggle="dropdown" aria-expanded="false" Style="font-size: 17px; color:#f03351">
+                            <i style="color: #f03351; font-size:18px" class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;Logout
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="Logout" class="dropdown-item LoginHover">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
+            <?php else: ?>
+                <!-- User is not logged in -->
+                <div class="login action" style="margin-right: 20px;">
+                    <div style="margin-top: auto; margin-bottom: auto;">
+                        <button ID="btnLgn" class="topBtns btn dropdown-toggle header-font" data-bs-toggle="dropdown" aria-expanded="false" Style="font-size: 17px; color:#f03351">
+                            <i style="color: #f03351; font-size:18px" class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;Login
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li id="userlogin">
+                                <a href="Login" id="hrefCustomer" class="dropdown-item LoginHover">Customer</a>
+                            </li>
+                            <li id="stafflogin">
+                                <a id="hrefStaff" href="LoginStaff" class="dropdown-item LoginHover">Staff</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
-
     </div>
 </div>

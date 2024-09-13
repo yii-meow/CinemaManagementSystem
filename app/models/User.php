@@ -16,4 +16,10 @@ class User
     {
         return $this->insert($data);
     }
+
+    // Get user by userId
+    public function getUserById($userId)
+    {
+        return $this->first(['userId' => $userId]);
+    }
 }

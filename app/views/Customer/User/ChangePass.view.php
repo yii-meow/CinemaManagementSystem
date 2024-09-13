@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<html lang="zxx" class="no-js">
 
 <head>
-    <meta charset="UTF-8">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +26,12 @@
 
 <body>
 
-<body>
+<?php
+// Ensure that $data['user'] is set and assign it to $user
+if (isset($data['user'])) {
+$user = $data['user'];
+
+?>
 <div id="Customer">
 
     <?php include '../app/views/header.php' ?>
@@ -46,14 +49,15 @@
         <!-- Left Sidebar -->
         <div class="left-box">
             <div class="profile-card">
-                <div class="user-initial">K</div>
-                <p class="user-name">Kyan</p>
+                <img src="<?= ROOT ?>/assets/images/<?= !empty($user->profileImg) ? htmlspecialchars($user->profileImg) : 'profile4.jpg' ?>"
+                     alt="Profile Picture" class="user-image">
+                <p class="user-name"><?= htmlspecialchars($user->userName) ?></p>
                 <button class="edit-profile-btn" onclick="window.location.href='ProfileEdit'">Edit
                     Profile</button>
                 <div class="reward-info">
                     <div class="reward-item-info">
                         <p>Coins</p>
-                        <p>0</p>
+                        <p><?= htmlspecialchars($user->coins) ?></p>
                     </div>
                     <div class="reward-item-info">
                         <p>My Rewards</p>
@@ -66,8 +70,7 @@
                 <a href="#">My Tickets</a>
                 <a href="MyReward">My Rewards</a>
                 <a href="RewardCentre">Rewards Centre</a>
-                <a href="Favourite">Favourite</a>
-                <a href="#">Change Password</a>
+                <a href="" style="color: red">Change Password</a>
                 <a href="#">Delete Account</a>
             </div>
         </div>
@@ -99,7 +102,13 @@
     <?php include '../app/views/footer.php' ?>
 
 
-
+    <?php
+    } else {
+        // If $user is not set, handle the error appropriately
+        echo "User data not available";
+        exit();
+    }
+    ?>
     <!--JavaScripts-->
     <script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
