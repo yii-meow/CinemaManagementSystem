@@ -30,10 +30,10 @@
 
 <body>
 <!--Header-->
-<?php include '../../header.php'?>
+<?php include "../app/views/header.php"?>
 
 <!--Navigation Bar-->
-<?php include '../../navigationBar.php'?>
+<?php include "../app/views/navigationBar.php"?>
 
 
 <!--Main Contents-->
@@ -228,7 +228,7 @@
 
 
 <!--Footer-->
-<?php include '../../footer.php'?>
+<?php include "../app/views/footer.php"?>
 
 
 <!--JavaScripts-->
@@ -380,7 +380,7 @@
                                         accordionHtml += `
                                         <div class="radio-wrapper" style="max-width: fit-content;">
                                             <input type="radio" value="${formattedTime}" class="btn-check" name="time" id="${timeId}" autocomplete="off"
-                                                data-cinema="${cinema.name}" data-date="${time.startingTime}" data-hallid="${hallId}" data-experience="${selectedHallExperience}"
+                                                data-cinema="${cinema.name}" data-cinemaID="${cinemaId}" data-date="${time.startingTime}" data-hallid="${hallId}" data-experience="${selectedHallExperience}"
                                                 data-movie-title="${time.movieTitle}">
                                             <label class="btn btn-outline-danger" for="${timeId}">
                                                 <div class="hall-info" style="font-size: 14px;">
@@ -473,8 +473,9 @@
         let combinedDateTime = formatDateTime(dateTime); //Mon 29 July, 10:30AM
 
         let hallId = selectedTimeInput.getAttribute('data-hallid');
+        let cinemaId = selectedTimeInput.getAttribute('data-cinemaID');
 
-        location.href="<?=ROOT?>/SeatSelection?cin=" + cinema +"&exp=" + experience + "&date=" + dateTime + "&hid=" + hallId;
+        location.href="<?=ROOT?>/SeatSelection?cin=" + cinema +"&exp=" + experience + "&date=" + dateTime + "&hid=" + hallId + "&cid=" + cinemaId;
     }
 
 </script>

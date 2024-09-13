@@ -36,7 +36,7 @@ class CinemaHall
                     FROM Cinema c 
                     JOIN CinemaHall ch ON c.cinemaId = ch.cinemaId 
                     JOIN MovieSchedule ms ON ch.hallId = ms.cinemaHallId 
-                    WHERE c.cinemaId = :movieId 
+                    WHERE c.cinemaId = :cinemaId 
                     AND ms.startingTime = :startingTime;";
 
         $result = $this->query($query, $arr);

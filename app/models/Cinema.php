@@ -14,8 +14,9 @@ class Cinema
                     JOIN MovieSchedule ms ON ch.hallId = ms.cinemaHallId
                     JOIN Movie m ON ms.movieId = m.movieId
                     WHERE ch.hallType = :hallType
-                    AND DATE(ms.startingTime) = :startingTime
-                    AND m.movieId = :movieId";
+                    AND ms.startingTime > NOW()
+                    AND m.movieId = :movieId
+                    AND DATE(ms.startingTime) = :startingTime";
 
         $result = $this->query($query, $arr);
 

@@ -8,7 +8,7 @@ class MovieSchedule
                    MIN(movieScheduleId) AS movieScheduleId
                     FROM MovieSchedule
                     WHERE movieId = :movieId
-                      AND startingTime >= NOW()
+                      AND startingTime > NOW()
                     GROUP BY scheduleDate
                     ORDER BY scheduleDate";
 
