@@ -3,12 +3,12 @@
 
 class App
 {
-	private $controller = 'MovieDetails';                           //Can temporarily change to your currently working environment
+	private $controller = 'CinemaManagement';                           //Can temporarily change to your currently working environment
 	private $method 	= 'index';                                  //Can temporarily change to your currently working environment
 
 	private function splitURL()
 	{
-		$URL = $_GET['url'] ?? 'MovieDetails';                      //Can temporarily change to your currently working environment
+		$URL = $_GET['url'] ?? 'CinemaManagement';                      //Can temporarily change to your currently working environment
 		$URL = explode("/", trim($URL,"/"));
 		return $URL;	
 	}
