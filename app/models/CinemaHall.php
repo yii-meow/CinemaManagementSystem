@@ -30,6 +30,20 @@ class CinemaHall
         return $result;
     }
 
+    //Get capacity of the hall
+    public function getCinemaHallCapacity($arr){
+        $query = "SELECT ch.hallId, ch.hallName, ch.capacity, ch.hallType, c.cinemaId, c.name AS cinemaName, ms.startingTime 
+                    FROM Cinema c 
+                    JOIN CinemaHall ch ON c.cinemaId = ch.cinemaId 
+                    JOIN MovieSchedule ms ON ch.hallId = ms.cinemaHallId 
+                    WHERE c.cinemaId = :movieId 
+                    AND ms.startingTime = :startingTime;";
+
+        $result = $this->query($query, $arr);
+
+        return $result;
+    }
+
 
 }
 

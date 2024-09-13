@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,12 +16,12 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="../../../../public/css/reset.css" />
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css" />
 
-    <link rel="stylesheet" href="../../../../public/css/SeatSelection.css" />
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/SeatSelection.css" />
     <title>Seat Selection</title>
 
-    <link rel="icon" type="image/x-icon" href="../../../../public/images/icon.png">
+    <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
 </head>
 
 <body>
@@ -30,15 +29,27 @@
     <div class="outer-box">
         <div class="top-box">
             <div class="img-box">
-                <img draggable="false" src="../../../../public/images/movie.webp" />
+                <img draggable="false" src="<?=ROOT?>/assets/images/movie.webp" />
             </div>
             <div class="info-box">
                 <div class="movie-details">
                     <div class="movie-name">
-                        BOCCHI THE ROCK! Recap Part 1&nbsp;&nbsp;•&nbsp;&nbsp;RM 15.50
+                        <?php
+                         if(isset($data)){
+                             echo $data["movie"]->title;    //For std object
+                         }
+                        ?>
                     </div>
-                    <div class="movie-duration">
-                        <i class="fa-regular fa-clock"></i>&nbsp;2 Hours 2 Minutes
+                    <div class="movie-duration" style="margin-top:5px;">
+                        <i class="fa-regular fa-clock"></i>
+                        <?php
+                        if (isset($data["movie"]->duration)) {
+                            $duration = $data["movie"]->duration;
+                            $hour = intdiv($duration, 60);
+                            $minute = $duration % 60;
+                            echo $hour . " Hours " . $minute . " Mins";
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="select-details">
@@ -47,7 +58,11 @@
                             <i class="fa-solid fa-film"></i>&nbsp;Cinema
                         </p>
                         <p class="det">
-                            PAVILION BUKIT JALIL
+                            <?php
+                                if(isset($data)){
+                                    echo $data["qs"]["cinema"];
+                                }
+                            ?>
                         </p>
                     </div>
                     <div class="s-box">
@@ -55,7 +70,11 @@
                             <i class="fa-solid fa-film"></i>&nbsp;Experience
                         </p>
                         <p class="det">
-                            Deluxe
+                            <?php
+                            if(isset($data)){
+                                echo $data["qs"]["experience"];
+                            }
+                            ?>
                         </p>
                     </div>
                     <div class="s-box">
@@ -63,7 +82,13 @@
                             <i class="fa-solid fa-calendar-days"></i>&nbsp;Date & Time
                         </p>
                         <p class="det">
-                            Mon 29 July, 10:30AM
+                            <?php
+                            if(isset($data)){
+                                $date = new DateTime($data["qs"]["date"]);
+                                $formattedDate = $date->format('D d F, h:i A');
+                                echo $formattedDate;
+                            }
+                            ?>
                         </p>
                     </div>
                 </div>
@@ -72,13 +97,13 @@
 
         <div class="middle-box">
             <div class="cancel-btn">
-                <button onclick="location.href='DetailSelection.html'" type="button" class="btn btn-danger"><i
+                <button onclick="history.back()" type="button" class="btn btn-danger"><i
                         class="fa-solid fa-angle-left"></i>&nbsp;Back</button>
             </div>
 
             <div class="inmiddle">
 
-                <img src="../../../../public/images/screen.png" draggable="false" />
+                <img src="<?=ROOT?>/assets/images/screen.png" draggable="false" />
 
                 <div class="screen-tt">
                     Screen
