@@ -32,10 +32,10 @@
 <div id="Customer">
 
 
-    <?php include 'header.php'?>
+    <?php include 'header.php' ?>
 
 
-    <?php include 'navigationBar.php'?>
+    <?php include 'navigationBar.php' ?>
 
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb" style="background-color: #141414;">
@@ -103,7 +103,7 @@
 
 
 
-    <?php include 'footer.php'?>
+    <?php include 'footer.php' ?>
 
 
 
