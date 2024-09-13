@@ -224,6 +224,9 @@
                 My Feedback
             </div>
             <br>
+            <div class="link" style="text-align: right">
+                <a href="Feedback" style="color: white">Back to Add Feedback</a>
+            </div>
 
             <div class="inner-container mt-20">
                 <div class="space-btw">
@@ -237,7 +240,7 @@
                     <div>12/12/2023</div>
                 </div>
 
-                <div class="content mt-20 text-align-center">
+                <div class="content mt-20 text-align-center fs-large">
                     The environment is not really good and i don like it so much... Plus, it have some smelly
                     thing inside which is weird
                 </div>

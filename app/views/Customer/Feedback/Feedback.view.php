@@ -31,7 +31,6 @@ $app = new App;
 
 <body>
 
-<body>
 <div id="Customer">
 
     <!--Header-->
