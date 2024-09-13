@@ -2,8 +2,6 @@
 <div class="header" id="header">
 
     <div class="binder">
-
-
         <div style="margin-left: 20px;" class="business-icon">
             <div
                 style="color: white; height: inherit; text-align: center; font-weight: bold; font-size: 20px;">
