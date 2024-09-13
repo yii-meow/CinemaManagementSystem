@@ -78,18 +78,18 @@ $user = $data['user'];
         <!-- Right Content -->
         <div class="right-box">
             <h2>Edit Profile</h2>
-            <form action="ProfileEdit" method="post">
+            <form action="ProfileEdit" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" value="<?= htmlspecialchars($user->userName) ?>" disabled/>
+                    <input type="text" id="fullName" name="fullName" value="<?= htmlspecialchars($user->userName) ?>" />
                 </div>
                 <div class="form-group">
                     <label for="mobileNumber">Mobile Number</label>
-                    <input type="text" id="mobileNumber" value="<?= htmlspecialchars($user->phoneNo) ?>" disabled/>
+                    <input type="text" id="mobileNumber" name="mobileNumber" value="<?= htmlspecialchars($user->phoneNo) ?>" />
                 </div>
                 <div class="form-group">
                     <label for="emailAddress">Email Address</label>
-                    <input type="email" id="emailAddress" value="<?= htmlspecialchars($user->email) ?>" disabled/>
+                    <input type="email" id="emailAddress" name="emailAddress" value="<?= htmlspecialchars($user->email) ?>" />
                 </div>
                 <div class="form-group">
                     <label>Gender</label>
@@ -103,10 +103,12 @@ $user = $data['user'];
                 <div class="form-group">
                     <label for="dob">Date of Birth</label>
                     <input type="text" id="dob" value="<?= htmlspecialchars($user->birthDate) ?>" disabled />
-                    <br>
-                    <p class="note">* It cannot be changed after submission.</p>
+                    <input type="hidden" name="existingProfileImg" value="<?= htmlspecialchars($user->profileImg) ?>" />
                 </div>
-                <br>
+                <div class="form-group">
+                    <label for="profileImg">Profile Image</label>
+                    <input type="file" id="profileImg" name="profileImg" />
+                </div>
                 <button type="submit" style="width: 20%;" class="btn-save">Save</button>
             </form>
         </div>

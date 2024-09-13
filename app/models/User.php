@@ -22,4 +22,9 @@ class User
     {
         return $this->first(['userId' => $userId]);
     }
+
+    public function updateUser($userId, $data)
+    {
+        return $this->update(['userId' => $userId], $data);
+    }
 }
