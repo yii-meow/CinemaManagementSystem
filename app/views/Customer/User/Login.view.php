@@ -28,14 +28,13 @@
 
 <body>
 
-<body>
 <div id="Customer">
 
 
-    <?php include 'header.php'?>
+    <?php include '../app/views/header.php' ?>
 
 
-    <?php include 'navigationBar.php'?>
+    <?php include '../app/views/navigationBar.php' ?>
 
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb" style="background-color: #141414;">
@@ -103,7 +102,7 @@
 
 
 
-    <?php include 'footer.php'?>
+    <?php include '../app/views/footer.php' ?>
 
 
 
