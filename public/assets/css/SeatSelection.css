@@ -286,7 +286,7 @@ html {
 
 
 .indicator-box {
-    margin-top: 50px;
+    margin-bottom: 50px;
     display: flex;
     flex-flow: row nowrap;
     gap: 60px;

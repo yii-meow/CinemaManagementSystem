@@ -17,6 +17,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css"/>
 
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css"/>
@@ -29,177 +30,10 @@
 
 <body>
 <!--Header-->
-<div class="header" id="header">
-
-    <div class="binder">
-
-
-        <div style="margin-left: 20px;" class="business-icon">
-            <div style="color: white; height: inherit; text-align: center; font-weight: bold; font-size: 20px;">
-                <img src="<?= ROOT ?>/assets/images/alternativeIcon.png" draggable="false" width="200" height="55"/>
-            </div>
-        </div>
-
-        <div class="search-ctn col-7" style="margin-top: auto; margin-bottom: auto;">
-            <div class="search-ctn input-group" style="display: flex; flex-flow: row nowrap; min-width: 100%;"
-                 role="search">
-                <div class="s-box col-11">
-                    <input type="text" autocomplete="off"
-                           style="outline:2px solid #f03351; color: #f03351; position: relative; border-bottom-right-radius: 0px; border-top-right-radius: 0px;"
-                           id="txtSearch" class="form-control border border-1 search-bar" placeholder="Movie Title"/>
-                </div>
-                <div>
-                    <button id="btnSch"
-                            style="background-color: #141414; width: fit-content; border-bottom-left-radius: 0px; border-top-left-radius: 0px; border-color: #f03351; height: 41px; margin-top: -2px;"
-                            class="btn-light btn btn-search">
-                        <i style="color: #f03351; font-size: 18px; display: flex; justify-content: center; align-items: center; margin-top: 4.5px; height: 18px;"
-                           class="fa fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="right-header">
-
-        <div class="action-group" style="display: flex; flex-flow: row nowrap;">
-
-
-            <div class="nofitication-cont">
-                <div>
-                    <i onclick="openMessage()"
-                       style="cursor: pointer; position: relative; top: 0; color: white; font-size: 28px;"
-                       class="fa-regular fa-bell" id="bell"></i>
-                    <div runat="server" ID="REDDOT"
-                         style="position: absolute; top: 0; right: 0; border-radius: 100px; background-color: #ff2b2b; height: 11px; width: 11px;">
-                    </div>
-                </div>
-
-                <div class="messages">
-                    <ul id="dropdownMessage" tabindex="-1" class="dropdown-menu dropdown-menu-end"
-                        aria-labelledby="navbarDropdownMenuLink">
-                        <li>
-                            abcde
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-
-            <div class="profile-container action" id="profile">
-                <div style="margin-top: auto; margin-bottom: auto;">
-                    <button onclick="" class="btn header-font"
-                            style="padding:10px; width: 160px; font-size: 17px; display: flex; color: #f03351;">
-                        <div
-                                style="margin-top: -3px; border-radius: 150px; width: 30px; height: 30px; overflow: hidden;">
-                            <img src="<?= ROOT ?>/assets/images/defaultProfile.jpg" draggable="false"
-                                 style="background-color: white; border-radius: 100px; width: 30px; height: 30px;"
-                                 id="topImage"/>
-                        </div>
-                        &nbsp;
-                        User Profile
-                    </button>
-                </div>
-            </div>
-
-            <div class="login action" style="margin-right: 20px;">
-                <div style="margin-top: auto; margin-bottom: auto;">
-                    <button ID="btnLgn" class="topBtns btn dropdown-toggle header-font" data-bs-toggle="dropdown"
-                            aria-expanded="false" Style="font-size: 17px; color:#f03351">
-                        <i style="color: #f03351; font-size:18px"
-                           class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;
-                        Login
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li id="userlogin">
-                            <a href="" id="hrefCustomer" class="dropdown-item LoginHover">Customer</a>
-                        </li>
-                        <li id="stafflogin">
-                            <a id="hrefStaff" href="" class="dropdown-item LoginHover">Staff</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
+<?php include "../app/views/header.php"?>
 
 <!--Navigation Bar-->
-<div class="dropdowns" style="display: flex; flex-flow: row nowrap;">
-    <div class="drop">
-        <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            NEW MOVIES
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="">New Action</a></li>
-            <li><a class="dropdown-item" href="">New Horror</a></li>
-            <li><a class="dropdown-item" href="">New Animation</a></li>
-            <li><a class="dropdown-item" href="">New Romance</a></li>
-        </ul>
-    </div>
-    <div class="drop">
-        <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            ACTION
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="">Superhero</a></li>
-            <li><a class="dropdown-item" href="">War</a></li>
-            <li><a class="dropdown-item" href="">Adventure</a></li>
-        </ul>
-    </div>
-    <div class="drop">
-        <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            HORROR
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="">Supernatural Horror</a></li>
-            <li><a class="dropdown-item" href="">Zombie</a></li>
-        </ul>
-    </div>
-    <div class="drop">
-        <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            ANIMATION
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="">2D Animation</a></li>
-            <li><a class="dropdown-item" href="">3D Animation</a></li>
-            <li><a class="dropdown-item" href="">Anime</a></li>
-        </ul>
-    </div>
-    <div class="drop">
-        <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            ROMANCE
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="">Romantic Comedy</a></li>
-            <li><a class="dropdown-item" href="">Romantic Drama</a></li>
-        </ul>
-    </div>
-    <ul class="nav-item dropdown">
-        <button class="btn dropbtn" type="button" aria-expanded="false">
-            <a href="" style="text-decoration: none;"> NOW SHOWING</a>
-        </button>
-    </ul>
-    <ul class="nav-item dropdown">
-        <button class="btn dropbtn" type="button" aria-expanded="false">
-            <a href="" style="text-decoration: none;"> COMING SOON</a>
-        </button>
-    </ul>
-    <div class="drop">
-        <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            FORUM
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/Forum/Forum.html">Community Forum</a></li>
-            <li><a class="dropdown-item" href="/Forum/AddPost.html">Create Post</a></li>
-            <li><a class="dropdown-item" href="/Forum/MyPost.html">My Post</a></li>
-            <li><a class="dropdown-item" href="/Forum/LikedPost.html">Liked Post</a></li>
-        </ul>
-    </div>
-</div>
+<?php include "../app/views/navigationBar.php"?>
 
 
 <!--Main Contents-->
@@ -249,9 +83,7 @@
                         <?php foreach ($data["schedules"] as $schedule): ?>
                             <?php
                             // Separate Date and Time
-                            $dateTime = explode(" ", $schedule->startingTime); // No need to store in an array
-                            $date = $dateTime[0];
-                            $time = $dateTime[1];
+                            $date = $schedule->scheduleDate;
 
                             // Separate Year, Month, and Day
                             $dateResult = explode("-", $date); // Use this to break down the date parts
@@ -266,8 +98,7 @@
 
                             <input type="radio" class="btn-check" name="selectedDate"
                                    value="<?php echo htmlspecialchars($schedule->startingTime); ?>"
-                                   id="<?php echo $schedule->movieScheduleId ?>" autocomplete="off"
-                                   onchange="fetchHallTypes()">
+                                   id="<?php echo $schedule->movieScheduleId ?>" autocomplete="off">
                             <label class="btn btn-outline-danger" for="<?php echo $schedule->movieScheduleId ?>">
                                 <p name="day"><?php echo $dayOfWeek; ?></p>
                                 <p name="date"><?php echo $day; ?></p>
@@ -298,195 +129,10 @@
         <p class="cinema-title">Select Cinema and Time</p>
 
 
-        <div class="accordion-box">
-            <div class="accordion" id="accordionPanelsStayOpenExample">
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseOne">
-                            <b>1 UTAMA</b>
-                        </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
-                        <div class="accordion-body">
-                            <div class="time-radio">
-                                <input type="radio" class="btn-check" name="time" id="oneutama1" autocomplete="off">
-                                <label class="btn btn-outline-danger" for="oneutama1">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;10:30AM
-                                </label>
-
-                                <input type="radio" class="btn-check" name="time" id="oneutama2" autocomplete="off">
-                                <label class="btn btn-outline-danger" for="oneutama2">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;4:00PM
-                                </label>
-
-                                <input type="radio" class="btn-check" name="time" id="oneutama3" autocomplete="off">
-                                <label class="btn btn-outline-danger" for="oneutama3">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;8:30PM
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseTwo">
-                            <b>BUKIT TINGGI</b>
-                        </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-                        <div class="accordion-body">
-                            <div class="time-radio">
-                                <input type="radio" class="btn-check" name="time" id="bukittinggi1"
-                                       autocomplete="off">
-                                <label class="btn btn-outline-danger" for="bukittinggi1">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;10:30AM
-                                </label>
-
-                                <input type="radio" class="btn-check" name="time" id="bukittinggi2"
-                                       autocomplete="off">
-                                <label class="btn btn-outline-danger" for="bukittinggi2">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;4:00PM
-                                </label>
-
-                                <input type="radio" class="btn-check" name="time" id="bukittinggi3"
-                                       autocomplete="off">
-                                <label class="btn btn-outline-danger" for="bukittinggi3">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;8:30PM
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseThree">
-                            <b>CENTRAL I-CITY</b>
-                        </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
-                        <div class="accordion-body">
-                            <div class="time-radio">
-                                <input type="radio" class="btn-check" name="time" id="centralicity1"
-                                       autocomplete="off">
-                                <label class="btn btn-outline-danger" for="centralicity1">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;10:30AM
-                                </label>
-
-                                <input type="radio" class="btn-check" name="time" id="centralicity2"
-                                       autocomplete="off">
-                                <label class="btn btn-outline-danger" for="centralicity2">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;4:00PM
-                                </label>
-
-                                <input type="radio" class="btn-check" name="time" id="centralicity3"
-                                       autocomplete="off">
-                                <label class="btn btn-outline-danger" for="centralicity3">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;8:30PM
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseFour">
-                            <b>PAVILION BUKIT JALIL</b>
-                        </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
-                        <div class="accordion-body">
-                            <div class="time-radio">
-                                <input type="radio" class="btn-check" name="time" id="pavilion1" autocomplete="off">
-                                <label class="btn btn-outline-danger" for="pavilion1">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;10:30AM
-                                </label>
-
-                                <input type="radio" class="btn-check" name="time" id="pavilion2" autocomplete="off">
-                                <label class="btn btn-outline-danger" for="pavilion2">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;4:00PM
-                                </label>
-
-                                <input type="radio" class="btn-check" name="time" id="pavilion3" autocomplete="off">
-                                <label class="btn btn-outline-danger" for="pavilion3">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;8:30PM
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseFive">
-                            <b>MINES</b>
-                        </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse">
-                        <div class="accordion-body">
-                            <div class="time-radio">
-                                <input type="radio" class="btn-check" name="time" id="mines1" autocomplete="off">
-                                <label class="btn btn-outline-danger" for="mines1">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;10:30AM
-                                </label>
-
-                                <input type="radio" class="btn-check" name="time" id="mines2" autocomplete="off">
-                                <label class="btn btn-outline-danger" for="mines2">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;4:00PM
-                                </label>
-
-                                <input type="radio" class="btn-check" name="time" id="mines3" autocomplete="off">
-                                <label class="btn btn-outline-danger" for="mines3">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;8:30PM
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseSix">
-                            <b>KEPONG</b>
-                        </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse">
-                        <div class="accordion-body">
-                            <div class="time-radio">
-                                <input type="radio" class="btn-check" name="time" id="kepong1" autocomplete="off">
-                                <label class="btn btn-outline-danger" for="kepong1">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;10:30AM
-                                </label>
-
-                                <input type="radio" class="btn-check" name="time" id="kepong2" autocomplete="off">
-                                <label class="btn btn-outline-danger" for="kepong2">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;4:00PM
-                                </label>
-
-                                <input type="radio" class="btn-check" name="time" id="kepong3" autocomplete="off">
-                                <label class="btn btn-outline-danger" for="kepong3">
-                                    <i class="fa-regular fa-clock"></i>&nbsp;8:30PM
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+        <div class="accordion-box" id="accordion-box">
+            <div class="accordion" id="accordion-container">
+                <!--Content is generated in AJAX-->
+                <p id="pretext">Please select Date or Experience first.</p>
             </div>
         </div>
 
@@ -536,7 +182,7 @@
                             <td class="title">Cinema :
                             </td>
                             <td class="answer t-cinema">
-                                <span>PAVILION BUKIT JALIL</span>
+                                <span id="cinemaResult"></span>
                             </td>
                         </tr>
 
@@ -544,7 +190,7 @@
                             <td class="title">Experience :
                             </td>
                             <td class="answer t-exp">
-                                <span>Deluxe</span>
+                                <span id="experienceResult"></span>
                             </td>
                         </tr>
 
@@ -552,7 +198,7 @@
                             <td class="title">Time & Date :
                             </td>
                             <td class="answer t-timedate">
-                                <span>Mon 29 July, 10:30AM</span>
+                                <span id="dateTimeResult"></span>
                             </td>
                         </tr>
 
@@ -560,7 +206,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="display: flex; justify-content: center;">
-                <button onclick="location.href='SeatSelection.html'" style="width: 85%;" type="button"
+                <button onclick="selectSeat()" style="width: 85%;" type="button"
                         class="btn btn-danger"><i class="fa-solid fa-couch"></i>&nbsp;Select
                     Seats
                 </button>
@@ -571,24 +217,18 @@
 
 
 <!--Next Select Seat-->
-<div class="toTop" id="toTop">
-    <button id="top" data-bs-toggle="modal" data-bs-target="#myModal">
-        <i class="fa-regular fa-circle-check"></i>&nbsp;Confirm
-    </button>
-</div>
+<!--<div class="toTop" id="toTop">-->
+<!--    <button id="top" onclick="showModal()" data-bs-target="#myModal">-->
+<!--        <i class="fa-regular fa-circle-check"></i>&nbsp;Confirm-->
+<!--    </button>-->
+<!--</div>-->
 
 
 <!--End of Main Contents-->
 
 
 <!--Footer-->
-<footer id="footer">
-    <div class="footer-container container-fluid">
-        <div class="bottom" style="text-align: center; color: white;">
-            © 2023 - 2024 DreamWorks Cinema (Copyright All Right Reserved)
-        </div>
-    </div>
-</footer>
+<?php include "../app/views/footer.php"?>
 
 
 <!--JavaScripts-->
@@ -598,102 +238,249 @@
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 </script>
 
-<div style="color:white; font-weight: bold;" id="form_output"></div>
 
+<!--User Selection-->
 <script>
+    $.ajaxSetup({
+        cache: false
+    });
+
+    // Unbind any previous event handlers before attaching new ones
+    $('#form1').off('change', 'input[name="selectedDate"]').on('change', 'input[name="selectedDate"]', fetchHallTypes);
+    $('#form2').off('change', 'input[name="options-exp"]').on('change', 'input[name="options-exp"]', fetchCinema);
+
+
     function fetchHallTypes() {
+        var selectedDateTime = $("input[name='selectedDate']:checked").val();
 
-        var selectedDate = $("input[name='selectedDate']:checked").val(); // Get the value of the selected radio button
+        //Reset the experience choice
+        $(".exp-radio").html('<p id="pretext">Loading experiences...</p>'); // Show loading message
+        $("input[name='options-exp']").prop('checked', false);
 
-        if (selectedDate) {
-            $('#form1').off('change').on('change', function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: "<?=ROOT?>/DetailSelection/fetchHallExperienceOfTheMovieDate",
-                    type: "POST",
-                    data: $(this).serialize(),
-                    success: function (response) {
-                        // Get the returned result from the controller
-                        var data = response.data;
 
-                        // Construct the inner HTML for radio buttons and labels
-                        var innerHtml = '';
+        //Reset the cinema choice
+        $("#accordion-container").html('<p id="pretext">Please select Date or Experience first.</p>'); // Show loading message
+        $("input[name='time']").prop('checked', false);
 
-                        // Check if data is an array and contains objects with 'hallType' property
-                        if (Array.isArray(data) && data.length > 0) {
-                            data.forEach(function (item, index) {
-                                var id = 'exp' + (index + 1); // Create unique IDs for radio buttons
-                                var hallType = item.hallType || 'Unknown'; // Use a default value if hallType is not provided
 
-                                val valueToPass = item.hallType + "|" + selectedDate;
-                                alert(valueToPass)
+        if (selectedDateTime) {
+            $.ajax({
+                url: "<?=ROOT?>/DetailSelection/fetchHallExperienceOfTheMovieDate",
+                type: "POST",
+                data: $('#form1').serialize(),
+                success: function (response) {
+                    var data = response.data;
+                    var innerHtml = '';
 
-                                innerHtml += '<input type="radio" onchange="fetchCinema()" class="btn-check" value="' + valueToPass + '" name="options-exp" id="' + id + '" autocomplete="off" >';
-                                innerHtml += '<label style="margin: 0 10px -10px 0;" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="' + hallType + '" class="btn btn-outline-danger" for="' + id + '">';
-                                innerHtml += '<i class="fa-solid fa-film"></i>&nbsp;' + hallType;
-                                innerHtml += '</label>';
-                            });
-                        } else {
-                            innerHtml += '<p>No experiences available.</p>';
-                        }
+                    if (Array.isArray(data) && data.length > 0) {
+                        data.forEach(function (item, index) {
+                            var id = 'exp' + (index + 1);
+                            var hallType = item.hallType || 'Unknown';
 
-                        // Inject the inner HTML into the existing container
-                        $(".exp-radio").html(innerHtml);
-                    },
-                    error: function (jXHR, textStatus, errorThrown) {
-                        alert(errorThrown);
+                            var selectedDate = selectedDateTime.split(" ")[0];
+                            var valueToPass = hallType + "|" + selectedDate;
+
+                            innerHtml += '<input type="radio" class="btn-check" value="' + valueToPass + '" name="options-exp" id="' + id + '" autocomplete="off">';
+                            innerHtml += '<label style="margin: 0 10px -10px 0;" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="' + hallType + '" class="btn btn-outline-danger" for="' + id + '">';
+                            innerHtml += '<i class="fa-solid fa-film"></i>&nbsp;' + hallType;
+                            innerHtml += '</label>';
+                        });
+                    } else {
+                        innerHtml = '<p id="pretext">No experiences available for this date.</p>';
                     }
-                });
+                    $(".exp-radio").html(innerHtml);
+                },
+                error: function (jXHR, textStatus, errorThrown) {
+                    $(".exp-radio").html('<p>Error loading experiences. Please try again.</p>');
+                    console.error("Error fetching hall types:", errorThrown);
+                }
             });
+        } else {
+            $(".exp-radio").html('<p>Please select a date.</p>');
         }
     }
-</script>
 
-<script>
     function fetchCinema() {
+        var selectedHallExperience = $("input[name='options-exp']:checked").val();
 
-        var selectedHallExperience = $("input[name='options-exp']:checked").val(); // Get the value of the selected radio button
+        $("#accordion-container").html('<p id="pretext">Loading cinemas...</p>'); // Show loading message
+        $("input[name='time']").prop('checked', false);
 
         if (selectedHallExperience) {
-            $('#form2').off('change').on('change', function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: "<?=ROOT?>/DetailSelection/fetchCinemaAndTimeForTheMovieAndHallType",
-                    type: "POST",
-                    data: $(this).serialize(),
-                    success: function (response) {
-                        // Get the returned result from the controller
-                        var data = response.data;
+            $.ajax({
+                url: "<?=ROOT?>/DetailSelection/fetchCinemaAndTime",
+                type: "POST",
+                data: $('#form2').serialize(),
+                success: function (response) {
+                    //document.writeln(JSON.stringify(response));     //Test returned results
+                    var data = response.data;
+                    var accordionHtml = '';
+                    var cinemas = {};
 
-                        // Construct the inner HTML for radio buttons and labels
-                        var innerHtml = '';
+                    // Organize data by cinema
+                    data.forEach(function (item) {
+                        var cinemaId = item.cinemaId;
+                        var hallId = item.hallId;
 
-                        // Check if data is an array and contains objects with 'hallType' property
-                        if (Array.isArray(data) && data.length > 0) {
-                            data.forEach(function (item, index) {
-                                var id = 'exp' + (index + 1); // Create unique IDs for radio buttons
-                                var hallType = item.hallType || 'Unknown'; // Use a default value if hallType is not provided
-
-                                innerHtml += '<input type="radio" onchange="fetchCinema()" class="btn-check" value="' + item.hallType + '" name="options-exp" id="' + id + '" autocomplete="off" >';
-                                innerHtml += '<label style="margin: 0 10px -10px 0;" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="' + hallType + '" class="btn btn-outline-danger" for="' + id + '">';
-                                innerHtml += '<i class="fa-solid fa-film"></i>&nbsp;' + hallType;
-                                innerHtml += '</label>';
-                            });
-                        } else {
-                            innerHtml += '<p>No experiences available.</p>';
+                        // Initialize cinema group
+                        if (!cinemas[cinemaId]) {
+                            cinemas[cinemaId] = {
+                                name: item.cinemaName,
+                                halls: {}
+                            };
                         }
 
-                        // Inject the inner HTML into the existing container
-                        $(".exp-radio").html(innerHtml);
-                    },
-                    error: function (jXHR, textStatus, errorThrown) {
-                        alert(errorThrown);
+                        // Initialize hall group
+                        if (!cinemas[cinemaId].halls[hallId]) {
+                            cinemas[cinemaId].halls[hallId] = {
+                                name: item.hallName,
+                                type: item.hallType,
+                                times: []
+                            };
+                        }
+
+                        // Add time slot
+                        cinemas[cinemaId].halls[hallId].times.push({
+                            startingTime: item.startingTime,
+                            movieTitle: item.movieTitle,
+                            duration: item.duration,
+                            language: item.language,
+                            description: item.description
+                        });
+                    });
+
+                    // Generate accordion HTML
+                    for (var cinemaId in cinemas) {
+                        if (cinemas.hasOwnProperty(cinemaId)) {
+                            var cinema = cinemas[cinemaId];
+                            accordionHtml += `
+                           <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#cinema-${cinemaId}" aria-expanded="false"
+                                            aria-controls="cinema-${cinemaId}">
+                                        <b>${cinema.name}</b>
+                                    </button>
+                                </h2>
+                                <div id="cinema-${cinemaId}" class="accordion-collapse collapse">
+                                    <div class="accordion-body" style="display: flex; flex-flow: row wrap; gap: 10px;">`;
+
+
+                            for (var hallId in cinema.halls) {
+                                if (cinema.halls.hasOwnProperty(hallId)) {
+                                    var hall = cinema.halls[hallId];
+                                    accordionHtml += `<div class="time-radio" style="max-width: fit-content;">`;
+
+                                    hall.times.forEach(function (time, index) {
+                                        var timeId = `cinema-${cinemaId}_hall-${hallId}_time-${index}`;
+                                        var formattedTime = new Date(time.startingTime).toLocaleTimeString([], {
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        });
+                                        accordionHtml += `
+                                        <div class="radio-wrapper" style="max-width: fit-content;">
+                                            <input type="radio" value="${formattedTime}" class="btn-check" name="time" id="${timeId}" autocomplete="off"
+                                                data-cinema="${cinema.name}" data-cinemaID="${cinemaId}" data-date="${time.startingTime}" data-hallid="${hallId}" data-experience="${selectedHallExperience}"
+                                                data-movie-title="${time.movieTitle}">
+                                            <label class="btn btn-outline-danger" for="${timeId}">
+                                                <div class="hall-info" style="font-size: 14px;">
+                                                    ${hall.name} | ${hall.type}
+                                                </div>
+                                                <div class="time-info" style="font-size: 18px;">
+                                                    <i class="fa-regular fa-clock"></i>&nbsp;${formattedTime}
+                                                </div>
+                                            </label>
+                                        </div>`;
+                                    });
+
+                                    accordionHtml += `</div>`;
+                                }
+                            }
+
+                            accordionHtml += `</div></div></div>`;
+                        }
                     }
-                });
+
+                    // Inject the generated HTML into the accordion container
+                    $('#accordion-container').html(accordionHtml);
+
+                    // Add event listener for opening modal
+                    $("input[name='time']").on('change', function () {
+                        assignValueToModal()
+                        var modal = new bootstrap.Modal(document.getElementById('myModal'));
+                        modal.show();
+                    });
+
+                },
+                error: function (jXHR, textStatus, errorThrown) {
+                    console.error("Error fetching cinema data:", errorThrown);
+                    alert("Error loading cinema data. Please try again.");
+                }
             });
+        } else {
+            alert("Please select a hall experience.");
         }
     }
+
+
+    function assignValueToModal() {
+        //Prepare Value
+        let selectedTimeInput = document.querySelector('input[name="time"]:checked');
+
+        let cinema = selectedTimeInput.getAttribute('data-cinema');
+        let experiencePure = selectedTimeInput.getAttribute('data-experience');
+        let experience = experiencePure.split("|")[0];
+
+        let dateTime = selectedTimeInput.getAttribute('data-date');
+        let combinedDateTime = formatDateTime(dateTime); //Mon 29 July, 10:30AM
+
+        //Apply Values
+        document.getElementById("experienceResult").innerText = experience;
+        document.getElementById("cinemaResult").innerText = cinema;
+        document.getElementById("dateTimeResult").innerText = combinedDateTime;
+    }
+
+    function formatDateTime(dateTime) {
+        const date = new Date(dateTime); // Assuming dateTime is a valid date string
+        const options = { weekday: 'short', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' };
+        let formattedDate = date.toLocaleString('en-GB', options);
+
+        // Replace "at" with ","
+        formattedDate = formattedDate.replace(' at ', ', ');
+
+        // Add AM or PM
+        const hours = date.getHours();
+        const period = hours >= 12 ? 'PM' : 'AM';
+
+        return formattedDate + ' ' + period;
+    }
+
+    //Deselect time if modal close
+    $('#myModal').on('hidden.bs.modal', function () {
+        $("input[name='time']").prop('checked', false);
+    });
+
+
+    function selectSeat(){
+        //Prepare Value
+        let selectedTimeInput = document.querySelector('input[name="time"]:checked');
+
+        let cinema = selectedTimeInput.getAttribute('data-cinema');
+        let experiencePure = selectedTimeInput.getAttribute('data-experience');
+        let experience = experiencePure.split("|")[0];
+
+        let dateTime = selectedTimeInput.getAttribute('data-date');
+        let combinedDateTime = formatDateTime(dateTime); //Mon 29 July, 10:30AM
+
+        let hallId = selectedTimeInput.getAttribute('data-hallid');
+        let cinemaId = selectedTimeInput.getAttribute('data-cinemaID');
+
+        location.href="<?=ROOT?>/SeatSelection?cin=" + cinema +"&exp=" + experience + "&date=" + dateTime + "&hid=" + hallId + "&cid=" + cinemaId;
+    }
+
 </script>
+
+
 
 </body>
 

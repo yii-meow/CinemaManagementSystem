@@ -48,16 +48,18 @@ class DetailSelection
             'schedules' => $dataSchedule,
         ];
 
+        //show($data);
+
         //Please do use this only at the end of the operations
         $this->view('Customer/Selection/DetailSelection', $data);
     }
 
 
 
+    //If the system cannot find the specified method in view, it will call the default one which is index() specified in App.php
     //Method 2
     public function fetchHallExperienceOfTheMovieDate()
     {
-        $dataHall = [];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Retrieve data from POST request
             $selectedDate = $_POST['selectedDate'] ?? '';
@@ -76,8 +78,31 @@ class DetailSelection
                 exit;
             }
         }
-        // Handle other methods or render a view
-        $this->view('Customer/Selection/SeatSelection', $dataHall);
+    }
+
+    public function fetchCinemaAndTime(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Retrieve data from POST request
+            $SelectedValues = $_POST['options-exp'] ?? '';
+            $explodedValue = explode("|", $SelectedValues);
+            $selectedExperience = $explodedValue[0];
+            $selectedDate = $explodedValue[1];
+
+            $modelCinema = new Cinema();
+            $arr = [
+                "hallType" => $selectedExperience,
+                "startingTime" => $selectedDate,
+                "movieId" => $_SESSION['movieId'],
+            ];
+            $result = $modelCinema->getCinemaHallOfMovie($arr);
+
+            if ($result) {
+                // Respond with JSON
+                header('Content-Type: application/json');
+                echo json_encode(['data' => $result]);
+                exit;
+            }
+        }
     }
 
 }
