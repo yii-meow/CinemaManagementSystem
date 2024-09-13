@@ -22,4 +22,11 @@ class Cinema
         return $result;
     }
 
+    public function getAllCinema(){
+        $query = "SELECT * FROM Cinema";
+        $result = $this->query($query);
+
+        return $result;
+    }
+
 }
