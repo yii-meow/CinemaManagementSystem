@@ -112,9 +112,9 @@
                         <div class="col">
                             <div class="card h-100">
                                 <div class="card-body">
-                                    <h5 class="card-title"><?php echo htmlspecialchars($cinema->name); ?></h5>
+                                    <h5 class="card-title"><?php echo htmlspecialchars($cinema->getName()); ?></h5>
                                     <p class="card-text cinema-stat">
-                                        <i class="fas fa-map-marker-alt me-2"></i><?php echo htmlspecialchars($cinema->city); ?>
+                                        <i class="fas fa-map-marker-alt me-2"></i><?php echo htmlspecialchars($cinema->getCity()); ?>
                                     </p>
                                     <p class="card-text cinema-stat">
                                         <!--                                        <i class="fas fa-tv me-2"></i>--><?php //echo htmlspecialchars($cinema['halls']); ?>
@@ -126,7 +126,7 @@
                                     </p>
                                 </div>
                                 <div class="card-footer bg-transparent border-top-0 mt-3">
-                                    <a href="CinemaDetails.php?id=<?php echo urlencode($cinema->id); ?>">
+                                    <a href="CinemaDetails.php?id=<?php echo urlencode($cinema->getCinemaId()); ?>">
                                         <button class="btn btn-md btn-outline-info px-4">
                                             <i class="fas fa-info-circle me-2"></i>View Hall Details
                                         </button>

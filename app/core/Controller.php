@@ -1,5 +1,6 @@
 <?php
 //Dont change it plz
+namespace App\core;
 trait Controller
 {
     public function view($name, $data = [])

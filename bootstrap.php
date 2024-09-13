@@ -7,20 +7,26 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 
 require_once "vendor/autoload.php";
-
 // Create a simple "default" Doctrine ORM configuration for Annotations
+$isDevMode = true;
+$proxyDir = null;
+$cache = null;
+$useSimpleAnnotationReader = false;
 $config = ORMSetup::createAttributeMetadataConfiguration(
-    paths: array(__DIR__ . "/app/models"),
-    isDevMode: true,
+    [__DIR__."/app/models"],
+    $isDevMode,
+    $proxyDir,
+    $cache,
+    $useSimpleAnnotationReader
 );
 
 // configuring the database connection
 $connection = DriverManager::getConnection([
     'driver' => 'pdo_mysql',
-    'host' => 'localhost',
-    'dbname' => 'your_database_name',
-    'user' => 'your_username',
-    'password' => 'your_password',
+    'host' => 'cinema-management-system.cl9dstv2z9by.us-east-1.rds.amazonaws.com',
+    'dbname' => 'CinemaManagementSystem',
+    'user' => 'nbuser',
+    'password' => 'cinemasystem0123',
 ], $config);
 
 // obtaining the entity manager

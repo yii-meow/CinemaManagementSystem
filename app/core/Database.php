@@ -1,53 +1,64 @@
-<?php 
+<?php
 
-Trait Database
+namespace App\core;
+
+use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\EntityManager;
+
+trait Database
 {
+    private static $entityManager = null;
 
-	private function connect()
-	{
-        $string = "mysql:host=".DBHOST.";port=3306;dbname=".DBNAME;
-		$con = new PDO($string,DBUSER,DBPASS);
-		return $con;
-	}
+    public static function getEntityManager()
+    {
+        if (self::$entityManager === null) {
+            require_once __DIR__ . '/../../bootstrap.php';
+            self::$entityManager = $entityManager;
+        }
+        return self::$entityManager;
+    }
 
-	public function query($query, $data = [])
-	{
+    private function connect()
+    {
+        $string = "mysql:host=" . DBHOST . ";port=3306;dbname=" . DBNAME;
+        $con = new PDO($string, DBUSER, DBPASS);
+        return $con;
+    }
 
-		$con = $this->connect();
-		$stm = $con->prepare($query);
+    public function query($query, $data = [])
+    {
 
-		$check = $stm->execute($data);
-		if($check)
-		{
-			$result = $stm->fetchAll(PDO::FETCH_OBJ);
-			if(is_array($result) && count($result))
-			{
-				return $result;
-			}
-		}
+        $con = $this->connect();
+        $stm = $con->prepare($query);
 
-		return false;
-	}
+        $check = $stm->execute($data);
+        if ($check) {
+            $result = $stm->fetchAll(PDO::FETCH_OBJ);
+            if (is_array($result) && count($result)) {
+                return $result;
+            }
+        }
 
-	public function get_row($query, $data = [])
-	{
+        return false;
+    }
 
-		$con = $this->connect();
-		$stm = $con->prepare($query);
+    public function get_row($query, $data = [])
+    {
 
-		$check = $stm->execute($data);
-		if($check)
-		{
-			$result = $stm->fetchAll(PDO::FETCH_OBJ);
-			if(is_array($result) && count($result))
-			{
-				return $result[0];
-			}
-		}
+        $con = $this->connect();
+        $stm = $con->prepare($query);
 
-		return false;
-	}
-	
+        $check = $stm->execute($data);
+        if ($check) {
+            $result = $stm->fetchAll(PDO::FETCH_OBJ);
+            if (is_array($result) && count($result)) {
+                return $result[0];
+            }
+        }
+
+        return false;
+    }
+
 }
 
 
