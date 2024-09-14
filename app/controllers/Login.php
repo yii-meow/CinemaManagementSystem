@@ -1,5 +1,6 @@
 <?php
-
+namespace App\controllers;
+use App\core\Controller;
 class Login
 {
     use Controller;

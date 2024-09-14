@@ -16,7 +16,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"></script>
-    <link rel="stylesheet" href="../../../public/css/reset.css"/>
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css"/>
 
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css"/>
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/MovieCategory.css"/>
@@ -27,7 +27,6 @@
 </head>
 
 <body>
-
 <!--Header-->
 <?php include(dirname(__DIR__) . '../../header.php') ?>
 <?php include(dirname(__DIR__) . '../../navigationBar.php') ?>

@@ -1,11 +1,10 @@
 <?php
 
 namespace App\controllers;
+
 use App\models\Cinema;
 use App\core\Controller;
 use App\core\Database;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 class CinemaManagement
 {
@@ -22,7 +21,20 @@ class CinemaManagement
 
     public function index()
     {
-        $cinemas = $this->cinemaRepository->findAll();
+        $cinemaEntities = $this->cinemaRepository->findAll();
+        $cinemas = array_map(function ($cinema) {
+            return [
+                'cinemaId' => $cinema->getCinemaId(),
+                'name' => $cinema->getName(),
+                'address' => $cinema->getAddress(),
+                'city' => $cinema->getCity(),
+                'state' => $cinema->getState(),
+                'openingHours' => $cinema->getOpeningHours()
+            ];
+        }, $cinemaEntities);
+
+        $testingEntities = $this->cinemaRepository->findByState("Kuala Lumpur");
+
         $data['cinemas'] = $cinemas;
         $this->view('Admin/Cinema/CinemaManagement', $data);
     }
@@ -30,7 +42,8 @@ class CinemaManagement
 
     public function getCinemaHallOfMovie($hallType, $startingTime, $movieId)
     {
-        $results = $this->cinemaRepository->getCinemaHallOfMovie($hallType, $startingTime, $movieId);
+        // need to define in cinema repository
+//        $results = $this->cinemaRepository->getCinemaHallOfMovie($hallType, $startingTime, $movieId);
         // Process results...
     }
 }

@@ -1,23 +1,11 @@
 <?php
-
-// bootstrap.php
-
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 
 require_once "vendor/autoload.php";
-// Create a simple "default" Doctrine ORM configuration for Annotations
-$isDevMode = true;
-$proxyDir = null;
-$cache = null;
-$useSimpleAnnotationReader = false;
 $config = ORMSetup::createAttributeMetadataConfiguration(
-    [__DIR__."/app/models"],
-    $isDevMode,
-    $proxyDir,
-    $cache,
-    $useSimpleAnnotationReader
+    [__DIR__."/app/models"]
 );
 
 // configuring the database connection

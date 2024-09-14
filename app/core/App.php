@@ -3,12 +3,12 @@ namespace App\core;
 
 class App
 {
-	private $controller = 'CinemaManagement';                           //Can temporarily change to your currently working environment
+	private $controller = 'Homepage';                           //Can temporarily change to your currently working environment
 	private $method 	= 'index';                                  //Can temporarily change to your currently working environment
 
 	private function splitURL()
 	{
-		$URL = $_GET['url'] ?? 'CinemaManagement';                      //Can temporarily change to your currently working environment
+		$URL = $_GET['url'] ?? 'Homepage';                      //Can temporarily change to your currently working environment
 		$URL = explode("/", trim($URL,"/"));
 		return $URL;	
 	}

@@ -1,8 +1,4 @@
 <?php
-// Composer autoloader
-require_once __DIR__ . '/../../vendor/autoload.php';
-
-// Your custom autoloader
 spl_autoload_register(function ($classname) {
     // Remove the 'App\' namespace prefix if it exists
     $classname = str_replace('App\\', '', $classname);

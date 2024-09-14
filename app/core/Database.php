@@ -1,8 +1,6 @@
 <?php
 
 namespace App\core;
-
-use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
 trait Database
@@ -27,7 +25,6 @@ trait Database
 
     public function query($query, $data = [])
     {
-
         $con = $this->connect();
         $stm = $con->prepare($query);
 
