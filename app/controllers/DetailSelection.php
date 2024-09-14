@@ -4,7 +4,8 @@ class DetailSelection {
     use Controller;
     public function index() {
         //Get query string value
-        $movieId = $_GET['mid'];
+        $movieId = $_GET['mid']; //obtain the query string from in MovieDetails.view.php
+
 
         //Model
         $model = new Movie();

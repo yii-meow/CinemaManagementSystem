@@ -3,17 +3,17 @@
 
 class App
 {
-	private $controller = 'MovieDetails';                           //Can temporarily change to your currently working environment
-	private $method 	= 'index';                                  //Can temporarily change to your currently working environment
+	private $controller = 'AddPost';//controller name                           //Can temporarily change to your currently working environment
+	private $method 	= 'index';// method inside your controller                                  //Can temporarily change to your currently working environment
 
 	private function splitURL()
 	{
-		$URL = $_GET['url'] ?? 'MovieDetails';                      //Can temporarily change to your currently working environment
+		$URL = $_GET['url'] ?? 'AddPost';// this must be same with the controller name in line 6                      //Can temporarily change to your currently working environment
 		$URL = explode("/", trim($URL,"/"));
 		return $URL;	
 	}
 
-	public function loadController()
+	public function loadController()// this is dynamic routing function
 	{
 		$URL = $this->splitURL();
 
@@ -27,7 +27,7 @@ class App
 		}else{
 			$filename = "../app/controllers/Error404.php";          //Dont change it plz
 			require $filename;
-			$this->controller = "Error404";                         //Dont change it plz
+			$this->controller = "Error404";// it will auto detect, when the page not exists it will direactly display 404                         //Dont change it plz
 		}
 
 		$controller = new $this->controller;

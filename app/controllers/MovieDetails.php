@@ -12,11 +12,12 @@ class MovieDetails
         // Initialize Model in order to use the model
         $model = new Movie();
         $arr["movieId"] = $movieID;
-        $result = $model->getMovieByMovieID($arr);
+        $result = $model->getMovieByMovieID($arr);// specify to access which query// pass parameter to SQL query
 
-        $data = [];
+        $data = []; // this is associate array, to store the retrieved data
         if($result){
             $data = [
+                //key     => value
                 "movieId" => $result[0]->movieId,
                 "title" => $result[0]->title,
                 "duration" => $result[0]->duration,
@@ -35,6 +36,7 @@ class MovieDetails
         }
 
         //Route to the destinaiton page, with passing data from the Model
-        $this->view('Customer/Movie/MovieDetails', $data);
+        $this->view('Customer/Movie/MovieDetails', $data); // the method from Controller
+        // the path name  **ensure always put this at the end
     }
 }

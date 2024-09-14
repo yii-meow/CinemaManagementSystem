@@ -2,7 +2,7 @@
 //Dont change it plz
 trait Controller
 {
-    public function view($name, $data = [])
+    public function view($name, $data = []) // $name = destination path, $data = the retrieved data
     {
         if (!empty($data))
             extract($data);

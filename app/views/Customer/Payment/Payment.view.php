@@ -25,7 +25,7 @@
 </head>
 
 <body>
-    <div class="all-container">
+<div class="all-container">
         <!-- Payment side -->
         <div class="left-box">
             <div class="logo">
