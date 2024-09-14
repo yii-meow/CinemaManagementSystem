@@ -1,15 +1,30 @@
 <?php
+
 namespace App\controllers;
+
 use App\core\Controller;
+use App\core\Database;
+use App\models\User;
+
 class Register
 {
     use Controller;
+
+    private $entityManager;
+    private $userRepository;
+
+    public function __construct()
+    {
+        // Initialize entityManager and repository
+        $this->entityManager = Database::getEntityManager();
+        $this->userRepository = $this->entityManager->getRepository(User::class);
+    }
 
     public function index()
     {
         $data = ['error' => null];
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Collect and sanitize input
             $name = $_POST['name'] ?? '';
             $email = $_POST['email'] ?? '';
@@ -26,24 +41,27 @@ class Register
                 $data['error'] = 'Passwords do not match.';
             } else {
                 // Check if user already exists
-                $userModel = new User();
-                $existingUser = $userModel->getUserByPhoneNo($phoneNo);
+                $existingUser = $this->userRepository->findOneBy(['phoneNo' => $phoneNo]);
 
                 if ($existingUser) {
                     $data['error'] = 'User with this phone number already exists.';
                 } else {
-                    // Insert new user
-                    $userData = [
-                        'userName' => $name,
-                        'email' => $email,
-                        'birthDate' => $birthday,
-                        'gender' => $gender,
-                        'phoneNo' => $phoneNo,
-                        'password' => $password, // No hashing yet
-                        'coins' => 0
-                    ];
+                    // Hash the password
+                    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-                    $userModel->createUser($userData);
+                    // Create new user
+                    $user = new User();
+                    $user->setUserName($name)
+                        ->setEmail($email)
+                        ->setBirthDate($birthday)
+                        ->setGender($gender)
+                        ->setPhoneNo($phoneNo)
+                        ->setPassword($hashedPassword) // Store hashed password
+                        ->setCoins(0);
+
+                    // Persist user data
+                    $this->entityManager->persist($user);
+                    $this->entityManager->flush();
 
                     // Redirect to success page or login
                     $this->view('Customer/User/Login', $data);
@@ -52,6 +70,7 @@ class Register
             }
         }
 
+        // Render the registration form view
         $this->view('Customer/User/Register', $data);
     }
 }

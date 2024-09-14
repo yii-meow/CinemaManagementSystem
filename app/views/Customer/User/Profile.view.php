@@ -1,38 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-          integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"></script>
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css" />
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css" />
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/profile.css" />
-    <title>Categories</title>
+<?php include '../app/views/user_header.php' ?>
 
-    <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
-</head>
 
 <body>
-<?php
-// Ensure that $data['user'] is set and assign it to $user
-if (isset($data['user'])) {
-    $user = $data['user'];
 
-?>
 <div id="Customer">
 
+    <?php
+    // Ensure that $data['user'] is set and assign it to $user
+    if (isset($data['user'])) {
+        $user = $data['user'];
+        ?>
     <?php include '../app/views/header.php' ?>
 
 
@@ -46,33 +26,8 @@ if (isset($data['user'])) {
             User Profile
         </div>
         <!-- Left Sidebar -->
-        <div class="left-box">
-            <div class="profile-card">
-                <img src="<?= ROOT ?>/assets/images/<?= !empty($user->profileImg) ? htmlspecialchars($user->profileImg) : 'profile4.jpg' ?>"
-                     alt="Profile Picture" class="user-image">
-                <p class="user-name"><?= htmlspecialchars($user->userName) ?></p>
-                <button class="edit-profile-btn" onclick="window.location.href='ProfileEdit'">Edit
-                    Profile</button>
-                <div class="reward-info">
-                    <div class="reward-item-info">
-                        <p>Coins</p>
-                        <p><?= htmlspecialchars($user->coins) ?></p>
-                    </div>
-                    <div class="reward-item-info">
-                        <p>My Rewards</p>
-                        <p>0</p>
-                    </div>
-                </div>
-            </div>
+        <?php include '../app/views/ProfileNav.php' ?>
 
-            <div class="nav-menu">
-                <a href="#">My Tickets</a>
-                <a href="MyReward">My Rewards</a>
-                <a href="RewardCentre">Rewards Centre</a>
-                <a href="ChangePass">Change Password</a>
-                <a href="#">Delete Account</a>
-            </div>
-        </div>
 
         <!-- Right Content -->
         <div class="right-box">
@@ -80,28 +35,28 @@ if (isset($data['user'])) {
             <form>
                 <div class="form-group">
                     <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" value="<?= htmlspecialchars($user->userName) ?>" disabled/>
+                    <input type="text" id="fullName" value="<?= htmlspecialchars($user['userName']) ?>" disabled/>
                 </div>
                 <div class="form-group">
                     <label for="mobileNumber">Mobile Number</label>
-                    <input type="text" id="mobileNumber" value="<?= htmlspecialchars($user->phoneNo) ?>" disabled/>
+                    <input type="text" id="mobileNumber" value="<?= htmlspecialchars($user['phoneNo']) ?>" disabled/>
                 </div>
                 <div class="form-group">
                     <label for="emailAddress">Email Address</label>
-                    <input type="email" id="emailAddress" value="<?= htmlspecialchars($user->email) ?>" disabled/>
+                    <input type="email" id="emailAddress" value="<?= htmlspecialchars($user['email']) ?>" disabled/>
                 </div>
                 <div class="form-group">
                     <label>Gender</label>
                     <div class="radio-group">
-                        <input type="radio" id="male" name="gender" value="male" <?= $user->gender == 'M' ? 'checked' : '' ?>>
+                        <input type="radio" id="male" name="gender" value="male" <?= $user['gender'] == 'M' ? 'checked' : '' ?>>
                         <label for="male">Male</label>
-                        <input type="radio" id="female" name="gender" value="female" <?= $user->gender == 'F' ? 'checked' : '' ?>>
+                        <input type="radio" id="female" name="gender" value="female" <?= $user['gender'] == 'F' ? 'checked' : '' ?>>
                         <label for="female">Female</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="dob">Date of Birth</label>
-                    <input type="text" id="dob" value="<?= htmlspecialchars($user->birthDate) ?>" disabled />
+                    <input type="text" id="dob" value="<?= htmlspecialchars($user['birthDate']) ?>" disabled />
                     <br>
                     <p class="note">* It cannot be changed after submission.</p>
                 </div>
@@ -112,6 +67,7 @@ if (isset($data['user'])) {
         </div>
     </div>
 
+
     <!--End of Main Contents-->
 
     <?php include '../app/views/footer.php' ?>
@@ -119,6 +75,7 @@ if (isset($data['user'])) {
 
     <?php
     } else {
+
         // If $user is not set, handle the error appropriately
         echo "User data not available";
         exit();
