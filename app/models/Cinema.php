@@ -15,7 +15,8 @@ class Cinema
 
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
-    public function getCinemaHallOfMovie($arr){
+    public function getCinemaHallOfMovie($arr)
+    {
         $query = "SELECT c.cinemaId, c.name AS cinemaName, c.address, c.city, c.state, c.openingHours,
                    ch.hallId, ch.hallName, ch.hallType,
                    ms.startingTime,
@@ -28,6 +29,7 @@ class Cinema
                     AND ms.startingTime > NOW()
                     AND m.movieId = :movieId
                     AND ms.startingTime = :startingTime";
+    }
 
     #[ORM\Column(type: 'string', length: 255)]
     private $address;

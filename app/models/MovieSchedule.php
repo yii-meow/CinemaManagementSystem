@@ -1,9 +1,8 @@
 <?php
+namespace App\models;
+use Doctrine\ORM\Mapping as ORM;
 class MovieSchedule
 {
-    use Database;
-
-
     public function getMovieScheduleDate($movieID){
 
         $query = "
