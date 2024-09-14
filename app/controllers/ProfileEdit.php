@@ -6,16 +6,12 @@ class ProfileEdit
 
     public function index()
     {
-        // Check if userId is set in the session
         if (!isset($_SESSION['userId'])) {
-            // Redirect to login if userId is not set
             header('Location: ' . ROOT . '/Login');
             exit();
         }
 
         $userId = $_SESSION['userId'];
-
-        // Fetch user details from the model
         $userModel = new User();
         $user = $userModel->getUserById($userId);
 
@@ -24,28 +20,37 @@ class ProfileEdit
             exit();
         }
 
-        // Pass the user data to the profile view
         $data['user'] = $user;
 
-        // Check if form is submitted
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Validate and process form data
+            // Validate and sanitize inputs
             $updatedData = [
-                'userName' => $_POST['fullName'],
-                'email' => $_POST['emailAddress'],
-                'phoneNo' => $_POST['mobileNumber'],
-                'gender' => $_POST['gender'],
-                // Handle profile image upload
+                'userName' => htmlspecialchars($_POST['fullName']),
+                'email' => htmlspecialchars($_POST['emailAddress']),
+                'phoneNo' => htmlspecialchars($_POST['mobileNumber']),
+                'gender' => htmlspecialchars($_POST['gender']),
                 'profileImg' => $this->handleProfileImageUpload()
             ];
 
-            // Update user data
-            if ($userModel->updateUser($userId, $updatedData)) {
-                // Redirect to profile page with success message
-                header('Location: ' . ROOT . '/Profile');
-                exit();
+            // Perform the update
+            $userModel->updateUser($userId, $updatedData);
+
+            // Fetch the updated user data
+            $updatedUser = $userModel->getUserById($userId);
+
+            // Check if the updated data matches the newly fetched user data
+            if (
+                $updatedUser->userName === $updatedData['userName'] &&
+                $updatedUser->email === $updatedData['email'] &&
+                $updatedUser->phoneNo === $updatedData['phoneNo'] &&
+                $updatedUser->gender === $updatedData['gender'] &&
+                $updatedUser->profileImg === $updatedData['profileImg']
+            ) {
+                // Send a success response
+                echo json_encode(['status' => 'success', 'message' => 'Profile updated successfully']);
             } else {
-                echo "Failed to update user profile";
+                // Send an error response
+                echo json_encode(['status' => 'error', 'message' => 'Failed to update profile']);
             }
         }
 
@@ -54,13 +59,10 @@ class ProfileEdit
 
     private function handleProfileImageUpload()
     {
-        // Define the upload directory
         $uploadDir = 'C:/xampp/htdocs/CinemaManagementSystem/public/assets/images/';
 
         if (isset($_FILES['profileImg']) && $_FILES['profileImg']['error'] === UPLOAD_ERR_OK) {
             $uploadFile = $uploadDir . basename($_FILES['profileImg']['name']);
-
-            // Attempt to move the uploaded file to the designated directory
             if (move_uploaded_file($_FILES['profileImg']['tmp_name'], $uploadFile)) {
                 return basename($_FILES['profileImg']['name']);
             } else {
@@ -69,7 +71,6 @@ class ProfileEdit
             }
         }
 
-        // Return the existing profile image if upload fails
         return $_POST['existingProfileImg'] ?? 'defaultProfile.jpg';
     }
 }

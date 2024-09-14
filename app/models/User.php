@@ -23,8 +23,10 @@ class User
         return $this->first(['userId' => $userId]);
     }
 
+    // Method to update user information in the User model
     public function updateUser($userId, $data)
     {
-        return $this->update(['userId' => $userId], $data);
+        return $this->update($userId, $data, 'userId'); // Specify the correct column name 'userId'
     }
+
 }

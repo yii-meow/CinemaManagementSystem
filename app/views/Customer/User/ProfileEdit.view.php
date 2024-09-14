@@ -78,38 +78,34 @@ $user = $data['user'];
         <!-- Right Content -->
         <div class="right-box">
             <h2>Edit Profile</h2>
-            <form action="ProfileEdit" method="post" enctype="multipart/form-data">
+            <form id="editProfileForm" action="ProfileEdit" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" name="fullName" value="<?= htmlspecialchars($user->userName) ?>" />
+                    <input type="text" id="fullName" name="fullName" value="<?= htmlspecialchars($user->userName) ?>" required />
                 </div>
                 <div class="form-group">
                     <label for="mobileNumber">Mobile Number</label>
-                    <input type="text" id="mobileNumber" name="mobileNumber" value="<?= htmlspecialchars($user->phoneNo) ?>" />
+                    <input type="text" id="mobileNumber" name="mobileNumber" value="<?= htmlspecialchars($user->phoneNo) ?>" required />
                 </div>
                 <div class="form-group">
                     <label for="emailAddress">Email Address</label>
-                    <input type="email" id="emailAddress" name="emailAddress" value="<?= htmlspecialchars($user->email) ?>" />
+                    <input type="email" id="emailAddress" name="emailAddress" value="<?= htmlspecialchars($user->email) ?>" required />
                 </div>
                 <div class="form-group">
                     <label>Gender</label>
                     <div class="radio-group">
-                        <input type="radio" id="male" name="gender" value="male" <?= $user->gender == 'M' ? 'checked' : '' ?>>
+                        <input type="radio" id="male" name="gender" value="M" <?= $user->gender == 'M' ? 'checked' : '' ?>>
                         <label for="male">Male</label>
-                        <input type="radio" id="female" name="gender" value="female" <?= $user->gender == 'F' ? 'checked' : '' ?>>
+                        <input type="radio" id="female" name="gender" value="F" <?= $user->gender == 'F' ? 'checked' : '' ?>>
                         <label for="female">Female</label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="dob">Date of Birth</label>
-                    <input type="text" id="dob" value="<?= htmlspecialchars($user->birthDate) ?>" disabled />
-                    <input type="hidden" name="existingProfileImg" value="<?= htmlspecialchars($user->profileImg) ?>" />
-                </div>
-                <div class="form-group">
                     <label for="profileImg">Profile Image</label>
                     <input type="file" id="profileImg" name="profileImg" />
+                    <input type="hidden" name="existingProfileImg" value="<?= htmlspecialchars($user->profileImg) ?>" />
                 </div>
-                <button type="submit" style="width: 20%;" class="btn-save">Save</button>
+                <button type="submit" class="btn-save">Save</button>
             </form>
         </div>
     </div>
@@ -132,6 +128,39 @@ $user = $data['user'];
     <script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- JavaScript for AJAX form submission and response handling -->
+    <script>
+        document.getElementById('editProfileForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Create FormData object to send data and files via AJAX
+            const formData = new FormData(this);
+
+            // Send form data via AJAX
+            fetch('ProfileEdit', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Show success message
+                        alert('Profile updated successfully');
+
+                        // Reload the page after a short delay to reflect changes
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000); // Refresh after 1 second
+                    } else {
+                        // Show error message
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
 
 </body>
 
