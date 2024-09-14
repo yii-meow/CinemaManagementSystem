@@ -3,6 +3,7 @@
 namespace App\controllers;
 
 use App\models\User;
+use App\models\Reward;
 use App\core\Controller;
 use App\core\Database;
 
@@ -12,12 +13,14 @@ class RewardCentre
 
     private $entityManager;
     private $userRepository;
+    private $rewardRepository;
 
     public function __construct()
     {
-        // Initialize EntityManager and User repository
+        // Initialize EntityManager and repositories
         $this->entityManager = Database::getEntityManager();
         $this->userRepository = $this->entityManager->getRepository(User::class);
+        $this->rewardRepository = $this->entityManager->getRepository(Reward::class);
     }
 
     public function index()
@@ -44,7 +47,10 @@ class RewardCentre
             exit();
         }
 
-        // Pass the user data to the view
+        // Fetch all rewards from the database
+        $rewards = $this->rewardRepository->findAll();
+
+        // Pass the user and rewards data to the view
         $data['user'] = [
             'userId' => $user->getUserId(),
             'profileImg' => $user->getProfileImg(),
@@ -55,6 +61,9 @@ class RewardCentre
             'birthDate' => $user->getBirthDate(),
             'coins' => $user->getCoins()
         ];
+
+        // Pass the rewards to the view
+        $data['rewards'] = $rewards;
 
         // Render the RewardCentre view
         $this->view('Customer/User/RewardCentre', $data);
