@@ -102,10 +102,6 @@
 }
 
 
-
-
-
-
 .bottom-box {
     width: 100%;
     margin-top: -60px;
@@ -262,4 +258,9 @@ tr {
 .modal-backdrop {
     background-color: rgba(0, 0, 0, 1) !important;
     /* Adjust the alpha value to make it darker */
+}
+
+#pretext {
+    font-size: 18px;
+    color:white;
 }
