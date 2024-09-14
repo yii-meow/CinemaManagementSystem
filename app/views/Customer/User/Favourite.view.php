@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<html lang="zxx" class="no-js">
 
 <head>
-    <meta charset="UTF-8">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,7 +44,7 @@
         <!-- Left Sidebar -->
         <div class="left-box">
             <div class="profile-card">
-                <div class="user-initial">K</div>
+                <img src="<?= ROOT ?>/assets/images/profile1.jpg" alt="Profile Picture" class="user-image">
                 <p class="user-name">Kyan</p>
                 <button class="edit-profile-btn" onclick="window.location.href='ProfileEdit'">Edit
                     Profile</button>

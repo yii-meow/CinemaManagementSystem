@@ -32,11 +32,11 @@
 <div id="Customer">
 
     <!--Header-->
-    <?php include '../../header.php'?>
+    <?php include "../app/views/header.php"?>
 
 
     <!--Navigation Bar-->
-    <?php include '../../navigationBar.php'?>
+    <?php include "../app/views/navigationBar.php"?>
 
 
     <!--Main Contents-->
@@ -289,7 +289,7 @@
 
 
     <!--Footer-->
-    <?php include '../../footer.php'?>
+    <?php include "../app/views/footer.php"?>
 
 
     <!--JavaScripts-->

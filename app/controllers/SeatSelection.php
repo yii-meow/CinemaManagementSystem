@@ -16,6 +16,7 @@ class SeatSelection
         $queryString["experience"] = $_GET["exp"];
         $queryString["date"] = $_GET["date"];
         $queryString["hallId"] = $_GET["hid"];
+        $queryString["cinemaId"] = $_GET["cid"];
 
         //Movie Details
         $movieData = [];
@@ -29,7 +30,7 @@ class SeatSelection
         //Seat Details
         $hallData = [];
         $modalHall = new CinemaHall();
-        $arrHall["movieId"] = $movieID;
+        $arrHall["cinemaId"] = $_GET["cid"];
         $arrHall["startingTime"] = $_GET["date"];
         $hallResult = $modalHall->getCinemaHallCapacity($arrHall);
         if($hallResult){
@@ -42,9 +43,6 @@ class SeatSelection
             "qs" => $queryString,
             "hall" => $hallData,
         ];
-
-        show($data);
-
         $this->view('Customer/Selection/SeatSelection', $data);
     }
 }

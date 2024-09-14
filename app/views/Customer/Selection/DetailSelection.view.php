@@ -30,10 +30,10 @@
 
 <body>
 <!--Header-->
-<?php include '../../header.php'?>
+<?php include "../app/views/header.php"?>
 
 <!--Navigation Bar-->
-<?php include '../../navigationBar.php'?>
+<?php include "../app/views/navigationBar.php"?>
 
 
 <!--Main Contents-->
@@ -228,7 +228,7 @@
 
 
 <!--Footer-->
-<?php include '../../footer.php'?>
+<?php include "../app/views/footer.php"?>
 
 
 <!--JavaScripts-->
@@ -277,8 +277,8 @@
                             var id = 'exp' + (index + 1);
                             var hallType = item.hallType || 'Unknown';
 
-                            var selectedDate = selectedDateTime.split(" ")[0];
-                            var valueToPass = hallType + "|" + selectedDate;
+                            //var selectedDate = selectedDateTime.split(" ")[0];
+                            var valueToPass = hallType + "|" + selectedDateTime;
 
                             innerHtml += '<input type="radio" class="btn-check" value="' + valueToPass + '" name="options-exp" id="' + id + '" autocomplete="off">';
                             innerHtml += '<label style="margin: 0 10px -10px 0;" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="' + hallType + '" class="btn btn-outline-danger" for="' + id + '">';
@@ -380,7 +380,7 @@
                                         accordionHtml += `
                                         <div class="radio-wrapper" style="max-width: fit-content;">
                                             <input type="radio" value="${formattedTime}" class="btn-check" name="time" id="${timeId}" autocomplete="off"
-                                                data-cinema="${cinema.name}" data-date="${time.startingTime}" data-hallid="${hallId}" data-experience="${selectedHallExperience}"
+                                                data-cinema="${cinema.name}" data-cinemaID="${cinemaId}" data-date="${time.startingTime}" data-hallid="${hallId}" data-experience="${selectedHallExperience}"
                                                 data-movie-title="${time.movieTitle}">
                                             <label class="btn btn-outline-danger" for="${timeId}">
                                                 <div class="hall-info" style="font-size: 14px;">
@@ -473,8 +473,9 @@
         let combinedDateTime = formatDateTime(dateTime); //Mon 29 July, 10:30AM
 
         let hallId = selectedTimeInput.getAttribute('data-hallid');
+        let cinemaId = selectedTimeInput.getAttribute('data-cinemaID');
 
-        location.href="<?=ROOT?>/SeatSelection?cin=" + cinema +"&exp=" + experience + "&date=" + dateTime + "&hid=" + hallId;
+        location.href="<?=ROOT?>/SeatSelection?cin=" + cinema +"&exp=" + experience + "&date=" + dateTime + "&hid=" + hallId + "&cid=" + cinemaId;
     }
 
 </script>

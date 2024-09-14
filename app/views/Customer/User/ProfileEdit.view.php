@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<html lang="zxx" class="no-js">
 
 <head>
-    <meta charset="UTF-8">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +26,12 @@
 
 <body>
 
-<body>
+<?php
+// Ensure that $data['user'] is set and assign it to $user
+if (isset($data['user'])) {
+$user = $data['user'];
+
+?>
 <div id="Customer">
 
     <?php include '../app/views/header.php' ?>
@@ -46,13 +49,15 @@
         <!-- Left Sidebar -->
         <div class="left-box">
             <div class="profile-card">
-                <img src="<?= ROOT ?>/assets/images/profile1.jpg" alt="Profile Picture" class="user-image">
-                <p class="user-name">Kyan</p>
-                <button class="edit-profile-btn" style="background-color:whitesmoke;color: black">Edit Profile</button>
+                <img src="<?= ROOT ?>/assets/images/<?= !empty($user->profileImg) ? htmlspecialchars($user->profileImg) : 'profile4.jpg' ?>"
+                     alt="Profile Picture" class="user-image">
+                <p class="user-name"><?= htmlspecialchars($user->userName) ?></p>
+                <button class="edit-profile-btn" onclick="window.location.href='ProfileEdit'" style="background-color: whitesmoke;color: black">Edit
+                    Profile</button>
                 <div class="reward-info">
                     <div class="reward-item-info">
                         <p>Coins</p>
-                        <p>0</p>
+                        <p><?= htmlspecialchars($user->coins) ?></p>
                     </div>
                     <div class="reward-item-info">
                         <p>My Rewards</p>
@@ -65,7 +70,6 @@
                 <a href="#">My Tickets</a>
                 <a href="MyReward">My Rewards</a>
                 <a href="RewardCentre">Rewards Centre</a>
-                <a href="Favourite">Favourite</a>
                 <a href="ChangePass">Change Password</a>
                 <a href="#">Delete Account</a>
             </div>
@@ -74,35 +78,37 @@
         <!-- Right Content -->
         <div class="right-box">
             <h2>Edit Profile</h2>
-            <form>
+            <form action="ProfileEdit" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" value="Kyan" />
+                    <input type="text" id="fullName" name="fullName" value="<?= htmlspecialchars($user->userName) ?>" />
                 </div>
                 <div class="form-group">
                     <label for="mobileNumber">Mobile Number</label>
-                    <input type="text" id="mobileNumber" value="+6 0143519831" />
+                    <input type="text" id="mobileNumber" name="mobileNumber" value="<?= htmlspecialchars($user->phoneNo) ?>" />
                 </div>
                 <div class="form-group">
                     <label for="emailAddress">Email Address</label>
-                    <input type="email" id="emailAddress" value="kyhanchong0803@gmail.com" />
+                    <input type="email" id="emailAddress" name="emailAddress" value="<?= htmlspecialchars($user->email) ?>" />
                 </div>
                 <div class="form-group">
                     <label>Gender</label>
                     <div class="radio-group">
-                        <input type="radio" id="male" name="gender" value="male" checked>
+                        <input type="radio" id="male" name="gender" value="male" <?= $user->gender == 'M' ? 'checked' : '' ?>>
                         <label for="male">Male</label>
-                        <input type="radio" id="female" name="gender" value="female">
+                        <input type="radio" id="female" name="gender" value="female" <?= $user->gender == 'F' ? 'checked' : '' ?>>
                         <label for="female">Female</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="dob">Date of Birth</label>
-                    <input type="date" id="dob" value="2003-08-03" disabled />
-                    <br>
-                    <p class="note">* It cannot be changed after submission.</p>
+                    <input type="text" id="dob" value="<?= htmlspecialchars($user->birthDate) ?>" disabled />
+                    <input type="hidden" name="existingProfileImg" value="<?= htmlspecialchars($user->profileImg) ?>" />
                 </div>
-                <br>
+                <div class="form-group">
+                    <label for="profileImg">Profile Image</label>
+                    <input type="file" id="profileImg" name="profileImg" />
+                </div>
                 <button type="submit" style="width: 20%;" class="btn-save">Save</button>
             </form>
         </div>
@@ -114,6 +120,13 @@
     <?php include '../app/views/footer.php' ?>
 
 
+    <?php
+    } else {
+        // If $user is not set, handle the error appropriately
+        echo "User data not available";
+        exit();
+    }
+    ?>
 
     <!--JavaScripts-->
     <script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>

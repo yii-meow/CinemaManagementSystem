@@ -103,7 +103,7 @@ class CinemaHall
                         JOIN MovieSchedule ms ON m.movieId = ms.movieId
                         JOIN CinemaHall c ON ms.cinemaHallId = c.hallId
                         WHERE m.movieId = :movieId
-                          AND DATE(ms.startingTime) = DATE(:startingTime)
+                          AND ms.startingTime = :startingTime
                     )
                     SELECT
                         startingTime, hallId, hallName, capacity, hallType, cinemaId
@@ -117,13 +117,12 @@ class CinemaHall
     }
 
     //Get capacity of the hall
-    public function getCinemaHallCapacity($arr)
-    {
-        $query = "SELECT ch.hallId, ch.hallName, ch.capacity, ch.hallType, c.cinemaId, c.name AS cinemaName, ms.startingTime
-                    FROM Cinema c
-                    JOIN CinemaHall ch ON c.cinemaId = ch.cinemaId
-                    JOIN MovieSchedule ms ON ch.hallId = ms.cinemaHallId
-                    WHERE c.cinemaId = :movieId
+    public function getCinemaHallCapacity($arr){
+        $query = "SELECT ch.hallId, ch.hallName, ch.capacity, ch.hallType, c.cinemaId, c.name AS cinemaName, ms.startingTime 
+                    FROM Cinema c 
+                    JOIN CinemaHall ch ON c.cinemaId = ch.cinemaId 
+                    JOIN MovieSchedule ms ON ch.hallId = ms.cinemaHallId 
+                    WHERE c.cinemaId = :cinemaId 
                     AND ms.startingTime = :startingTime;";
 
         $result = $this->query($query, $arr);
