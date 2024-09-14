@@ -1,14 +1,14 @@
 <?php
-
+namespace App\core;
 
 class App
 {
-	private $controller = 'MovieDetails';                           //Can temporarily change to your currently working environment
+	private $controller = 'Homepage';                           //Can temporarily change to your currently working environment
 	private $method 	= 'index';                                  //Can temporarily change to your currently working environment
 
 	private function splitURL()
 	{
-		$URL = $_GET['url'] ?? 'MovieDetails';                      //Can temporarily change to your currently working environment
+		$URL = $_GET['url'] ?? 'Homepage';                      //Can temporarily change to your currently working environment
 		$URL = explode("/", trim($URL,"/"));
 		return $URL;	
 	}
@@ -17,20 +17,19 @@ class App
 	{
 		$URL = $this->splitURL();
 
-		/** select controller **/
-		$filename = "../app/controllers/".ucfirst($URL[0]).".php";
-		if(file_exists($filename))
-		{
-			require $filename;
-			$this->controller = ucfirst($URL[0]);
-			unset($URL[0]);
-		}else{
-			$filename = "../app/controllers/Error404.php";          //Dont change it plz
-			require $filename;
-			$this->controller = "Error404";                         //Dont change it plz
+        $controllerName = ucfirst($URL[0]);
+        $controllerClass = "\\App\\controllers\\" . $controllerName;
+
+        if(class_exists($controllerClass))
+        {
+            $this->controller = $controllerName;
+            unset($URL[0]);
+        }else{
+            $controllerClass = "\\App\\controllers\\Error404";
+            $this->controller = "Error404";                        //Dont change it plz
 		}
 
-		$controller = new $this->controller;
+        $controller = new $controllerClass();
 
 		/** select method **/
 		if(!empty($URL[1]))

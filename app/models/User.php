@@ -1,8 +1,9 @@
 <?php
+namespace App\models;
 
+use Doctrine\ORM\Mapping as ORM;
 class User
 {
-    use Model;
 
     protected $table = 'User';
     // Get user by phone number

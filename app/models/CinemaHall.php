@@ -1,16 +1,104 @@
 <?php
 
+namespace App\models;
+
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+#[ORM\Table(name: 'CinemaHall')]
 class CinemaHall
 {
-    use Database;
-    public function getCinemaHallOfMovie($arr){
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private $hallId;
+
+    #[ORM\Column(type: 'integer')]
+    private $capacity;
+
+    #[ORM\Column(type: 'string')]
+    private $hallName;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cinema", inversedBy="halls")
+     * @ORM\JoinColumn(nullable=false)
+     */
+//    #[ORM\JoinColumn(name: 'cinemaId', referencedColumnName: 'cinemaId')]
+    private $cinema;
+
+    /**
+     * @return mixed
+     */
+    public function getHallId()
+    {
+        return $this->hallId;
+    }
+
+    /**
+     * @param mixed $hallId
+     */
+    public function setHallId($hallId): void
+    {
+        $this->hallId = $hallId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCapacity()
+    {
+        return $this->capacity;
+    }
+
+    /**
+     * @param mixed $capacity
+     */
+    public function setCapacity($capacity): void
+    {
+        $this->capacity = $capacity;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHallName()
+    {
+        return $this->hallName;
+    }
+
+    /**
+     * @param mixed $hallName
+     */
+    public function setHallName($hallName): void
+    {
+        $this->hallName = $hallName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCinema()
+    {
+        return $this->cinema;
+    }
+
+    /**
+     * @param mixed $cinema
+     */
+    public function setCinema($cinema): void
+    {
+        $this->cinema = $cinema;
+    }
+
+    public function getCinemaHallOfMovie($arr)
+    {
         $query = "WITH RankedHalls AS (
-                        SELECT 
-                            ms.startingTime, 
-                            c.hallId, 
-                            c.hallName, 
-                            c.capacity, 
-                            c.hallType, 
+                        SELECT
+                            ms.startingTime,
+                            c.hallId,
+                            c.hallName,
+                            c.capacity,
+                            c.hallType,
                             c.cinemaId,
                             ROW_NUMBER() OVER (PARTITION BY c.hallType ORDER BY ms.startingTime) AS rn
                         FROM Movie m
@@ -19,7 +107,7 @@ class CinemaHall
                         WHERE m.movieId = :movieId
                           AND ms.startingTime = :startingTime
                     )
-                    SELECT 
+                    SELECT
                         startingTime, hallId, hallName, capacity, hallType, cinemaId
                     FROM RankedHalls
                     WHERE rn = 1

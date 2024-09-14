@@ -6,7 +6,7 @@
 
         <div style="margin-left: 20px;" class="business-icon">
             <div
-                style="color: white; height: inherit; text-align: center; font-weight: bold; font-size: 20px;">
+                    style="color: white; height: inherit; text-align: center; font-weight: bold; font-size: 20px;">
                 <img src="<?= ROOT ?>/assets/images/alternativeIcon.png" draggable="false" width="200" height="55" />
             </div>
         </div>
