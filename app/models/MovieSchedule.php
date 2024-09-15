@@ -1,31 +1,65 @@
 <?php
+
 namespace App\models;
+
+use App\repositories\MovieScheduleRepository;
 use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: MovieScheduleRepository::class)]
+#[ORM\Table(name: 'MovieSchedule')]
 class MovieSchedule
 {
-    public function getMovieScheduleDate($movieID){
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private $movieScheduleId;
 
-        $query = "
-                SELECT 
-                    DATE(startingTime) AS scheduleDate,
-                    startingTime,
-                    MIN(movieScheduleId) AS movieScheduleId,
-                    CONVERT_TZ(NOW(), '+00:00', '+08:00') AS currentTime
-                FROM 
-                    MovieSchedule
-                WHERE 
-                    movieId = :movieId
-                    AND startingTime > CONVERT_TZ(NOW(), '+00:00', '+08:00')
-                GROUP BY 
-                    scheduleDate
-                ORDER BY 
-                    scheduleDate;
-                ";
+    #[ORM\Column(type: 'datetime')]
+    private $startingTime;
 
-        $result = $this->query($query, $movieID);
-        return $result;
+    #[ORM\ManyToOne(targetEntity: Movie::class)]
+    #[ORM\JoinColumn(name: 'movieId', referencedColumnName: 'movieId')]
+    private $movie;
+
+    #[ORM\ManyToOne(targetEntity: CinemaHall::class)]
+    #[ORM\JoinColumn(name: 'cinemaHallId', referencedColumnName: 'hallId')]
+    private $cinemaHall;
+
+    public function getMovieScheduleId(): ?int
+    {
+        return $this->movieScheduleId;
     }
 
+    public function getStartingTime(): \DateTimeInterface
+    {
+        return $this->startingTime;
+    }
 
+    public function setStartingTime(\DateTimeInterface $startingTime): self
+    {
+        $this->startingTime = $startingTime;
+        return $this;
+    }
 
+    public function getMovie(): ?Movie
+    {
+        return $this->movie;
+    }
+
+    public function setMovie(?Movie $movie): self
+    {
+        $this->movie = $movie;
+        return $this;
+    }
+
+    public function getCinemaHall(): ?CinemaHall
+    {
+        return $this->cinemaHall;
+    }
+
+    public function setCinemaHall(?CinemaHall $cinemaHall): self
+    {
+        $this->cinemaHall = $cinemaHall;
+        return $this;
+    }
 }

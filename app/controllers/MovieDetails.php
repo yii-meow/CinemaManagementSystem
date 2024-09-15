@@ -1,42 +1,56 @@
 <?php
 
+namespace App\controllers;
+
+use App\core\Controller;
+use App\core\Database;
+use App\models\Movie;
+
 class MovieDetails
 {
+
     use Controller;
+
+    private $entityManager;
+    private $movieRepository;
+
+    public function __construct()
+    {
+        $this->entityManager = Database::getEntityManager();
+        //Get the Repository
+        $this->movieRepository = $this->entityManager->getRepository(Movie::class);
+    }
 
     public function index()
     {
         //Gather SQL parameters
         $movieID = 1; //test id
 
-        // Initialize Model in order to use the model
-        $model = new Movie();
-        $arr["movieId"] = $movieID;
-        $result = $model->getMovieByMovieID($arr);// specify to access which query// pass parameter to SQL query
-
+        //Get a specific record
+        $movieResult = $this->movieRepository->find($movieID);
         $data = []; // this is associate array, to store the retrieved data
-        if($result){
+        if ($movieResult) {
             $data = [
                 //key     => value
-                "movieId" => $result[0]->movieId,
-                "title" => $result[0]->title,
-                "duration" => $result[0]->duration,
-                "photo" => $result[0]->photo,
-                "trailerLink" => $result[0]->trailerLink,
-                "category" => $result[0]->catagory,
-                "releaseDate" => $result[0]->releaseDate,
-                "language" => $result[0]->language,
-                "subtitles" => $result[0]->subtitles,
-                "director" => $result[0]->director,
-                "casts" => $result[0]->casts,
-                "description" => $result[0]->description,
-                "classification" => $result[0]->classification,
-                "status" => $result[0]->status
+                "movieId" => $movieResult->getMovieId(),
+                "title" => $movieResult->getTitle(),
+                "duration" => $movieResult->getDuration(),
+                "photo" => $movieResult->getPhoto(),
+                "trailerLink" => $movieResult->getTrailerLink(),
+                "category" => $movieResult->getCatagory(),
+                "releaseDate" => $movieResult->getReleaseDate() ? $movieResult->getReleaseDate()->format('Y-m-d H:i:s') : null,
+                "language" => $movieResult->getLanguage(),
+                "subtitles" => $movieResult->getSubtitles(),
+                "director" => $movieResult->getDirector(),
+                "casts" => $movieResult->getCasts(),
+                "description" => $movieResult->getDescription(),
+                "classification" => $movieResult->getClassification(),
+                "status" => $movieResult->getStatus(),
             ];
         }
 
         //Route to the destinaiton page, with passing data from the Model
         $this->view('Customer/Movie/MovieDetails', $data); // the method from Controller
-        // the path name  **ensure always put this at the end
+
     }
 }
