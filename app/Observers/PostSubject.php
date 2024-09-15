@@ -11,13 +11,13 @@ class PostSubject implements SplSubject
     private $replies = []; // Array of replies
 
     // Attach an observer
-    public function attach(SplObserver $observer)
+    public function attach(Forum $observer)
     {
         $this->observers[] = $observer;
     }
 
     // Detach an observer
-    public function detach(SplObserver $observer)
+    public function detach(Forum $observer)
     {
         $this->observers = array_filter($this->observers, function ($obs) use ($observer) {
             return $obs !== $observer;

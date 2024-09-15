@@ -1,9 +1,10 @@
-<!-- Observer
-- receive update from subject, update the observer
--->
 <?php
-interface SplObserver
-{
+//SplObserver
+
+namespace App\Observers;
+
+
+interface SplObserver {
     public function update(SplSubject $subject);
 }
 ?>

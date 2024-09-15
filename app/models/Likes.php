@@ -1,24 +1,85 @@
 <?php
-class Likes{
-    use Model;
-    protected $table = 'Likes';
+namespace App\models;
 
+use Doctrine\ORM\Mapping as ORM;
+use SplSubject;
 
-    // to retrieve the post that liked by the user followed by the post's owner info
-    public function getLikedPostByUserID($data){
-        $query = "SELECT Post.*, User.userName, User.profileImg 
-                  FROM Likes 
-                  INNER JOIN Post ON Likes.postID = Post.postID
-                  INNER JOIN User ON Post.userID = User.userID
-                  WHERE Likes.likedBy = :userID";
+#[ORM\Entity]
+#[ORM\Table(name: 'Likes')]
+class Likes implements SplSubject
+{
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private $likeID;
 
-        return $this->query($query, ['userID' => $data['userID']]);
+    #[ORM\ManyToOne(targetEntity: 'Post', inversedBy: 'likes')]
+    #[ORM\JoinColumn(name: 'postID', referencedColumnName: 'postID', nullable: false)]
+    private $post;
+
+    #[ORM\Column(type: 'datetime')]
+    private $likeDate;
+
+    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\JoinColumn(name: 'likedBy', referencedColumnName: 'userId', nullable: false)]
+    private $likedBy;
+
+    private $observers = [];
+
+    public function getLikeID(): ?int
+    {
+        return $this->likeID;
     }
 
-    public function deleteLikesByPostID($postID)
+    public function getPost(): ?Post
     {
-        // Use the delete method from the Model trait
-        return $this->delete($postID, 'postID');
+        return $this->post;
+    }
+
+    public function setPost(?Post $post): self
+    {
+        $this->post = $post;
+        return $this;
+    }
+
+    public function getLikeDate(): ?\DateTime
+    {
+        return $this->likeDate;
+    }
+
+    public function setLikeDate(\DateTime $likeDate): self
+    {
+        $this->likeDate = $likeDate;
+        return $this;
+    }
+
+    public function getLikedBy(): ?User
+    {
+        return $this->likedBy;
+    }
+
+    public function setLikedBy(User $likedBy): self
+    {
+        $this->likedBy = $likedBy;
+        return $this;
+    }
+
+    public function attach(\SplObserver $observer)
+    {
+        $this->observers[] = $observer;
+    }
+
+    public function detach(\SplObserver $observer)
+    {
+        $this->observers = array_filter($this->observers, function($obs) use ($observer) {
+            return $obs !== $observer;
+        });
+    }
+
+    public function notify()
+    {
+        foreach ($this->observers as $observer) {
+            $observer->update($this);
+        }
     }
 }
-?>

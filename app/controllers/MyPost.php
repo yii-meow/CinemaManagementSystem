@@ -1,38 +1,89 @@
 <?php
+namespace App\controllers;
+
+use App\core\Controller;
+use App\core\Database;
+use App\models\Post;
+use App\models\Comment;
+use App\models\Reply;
+use App\models\User;
+use Doctrine\ORM\EntityManagerInterface;
 
 class MyPost
 {
     use Controller;
 
+    private $entityManager;
+    private $postRepository;
+    private $commentRepository;
+    private $replyRepository;
+    private $userRepository;
+
+    public function __construct()
+    {
+        $this->entityManager = Database::getEntityManager();
+        $this->postRepository = $this->entityManager->getRepository(Post::class);
+        $this->commentRepository = $this->entityManager->getRepository(Comment::class);
+        $this->replyRepository = $this->entityManager->getRepository(Reply::class);
+        $this->userRepository = $this->entityManager->getRepository(User::class);
+    }
+
     public function index()
     {
-        $userId = 1; // Temporarily hard code user ID
+        // Initial debug message
+        show("HELLO");
 
-        // Initialize the Post, Comment, and Reply models
-        $postModel = new Post();
-        $commentModel = new Comment();
-        $replyModel = new Reply();
+        // Temporarily hard code user ID
+        $userId = 1;
 
-        // Retrieve posts for the specified user
-        $posts = $postModel->getPostsByUserID($userId);
+        try {
+            // Retrieve the User entity
+            $user = $this->userRepository->find($userId);
 
-        // Organize posts, comments, and replies
-        $data = [];
+            if ($user === null) {
+                throw new \Exception("User not found with ID: " . $userId);
+            }
+            // Retrieve posts for the specified user
+            $posts = $this->postRepository->findBy(['user' => $user]);
 
-        // Check if posts were retrieved and if it is an array
-        if (!empty($posts) && is_array($posts)) {
+            if (empty($posts)) {
+                $this->view('Customer/Forum/MyPost', ['message' => 'Currently no posts from users.']);
+                return;
+            }
+
+            // Initialize data array
+            $data = [];
+
             foreach ($posts as $post) {
-                // Retrieve comments for each post using the Comment model
-                $comments = $commentModel->getComments($post->postID) ?: [];
+                show("Processing post ID: " . $post->getPostID());
 
-                // For each comment, retrieve replies using the Reply model
-                foreach ($comments as &$comment) {
-                    // Get replies for the current comment
-                    $comment->replies = $replyModel->getReplies($comment->commentID) ?: [];
+                // Retrieve comments for the current post
+                $comments = $this->commentRepository->findBy(['post' => $post]);
+                // this line onwords not working show("HI");
+                // Initialize comments array for the post
+                $postComments = [];
+
+                if (!empty($comments)) {
+                    show("Comment not empty");
+                    foreach ($comments as $comment) {
+                        // Get replies for the current comment
+                        $replies = $this->replyRepository->findBy(['comment' => $comment]);
+
+                        // Attach replies to the comment
+                        $comment->replies = $replies;
+
+                        // Add comment to postComments array
+                        $postComments[] = $comment;
+
+                        // Debug information
+                        show("Number of replies for comment ID " . $comment->getCommentID() . ": " . count($replies));
+                    }
+                } else {
+                    show("No comments found for post ID: " . $post->getPostID());
                 }
 
                 // Attach comments to the post
-                $post->comments = $comments;
+                $post->comments = $postComments;
 
                 // Add the post to the data array
                 $data[] = $post;
@@ -40,12 +91,11 @@ class MyPost
 
             // Pass the structured data to the view
             $this->view('Customer/Forum/MyPost', ['posts' => $data]);
-        } else {
-            // Handle the case where no posts are available
-            $this->view('Customer/Forum/MyPost', ['message' => 'Currently no posts from users.']);
+        } catch (\Exception $e) {
+            // Handle exceptions and errors
+            show("Error: " . $e->getMessage());
+            $this->view('Customer/Forum/MyPost', ['message' => 'An error occurred while retrieving posts.']);
         }
     }
-
-
 }
 ?>
