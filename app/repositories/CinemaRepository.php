@@ -27,4 +27,5 @@ class CinemaRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
 }

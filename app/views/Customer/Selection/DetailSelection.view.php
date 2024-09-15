@@ -83,7 +83,13 @@
                         <?php foreach ($data["schedules"] as $schedule): ?>
                             <?php
                             // Separate Date and Time
-                            $date = $schedule->scheduleDate;
+                            $startingTime = $schedule["startingTime"];
+
+                            // Convert the DateTime object to the desired timezone
+                            $startingTime->setTimezone(new \DateTimeZone('Asia/Kuala_Lumpur'));
+
+                            $date = $startingTime->format('Y-m-d');
+                            $time = $startingTime->format('H:i:s');
 
                             // Separate Year, Month, and Day
                             $dateResult = explode("-", $date); // Use this to break down the date parts
@@ -97,9 +103,9 @@
                             ?>
 
                             <input type="radio" class="btn-check" name="selectedDate"
-                                   value="<?php echo htmlspecialchars($schedule->startingTime); ?>"
-                                   id="<?php echo $schedule->movieScheduleId ?>" autocomplete="off">
-                            <label class="btn btn-outline-danger" for="<?php echo $schedule->movieScheduleId ?>">
+                                   value="<?php echo htmlspecialchars($startingTime->format('Y-m-d H:i:s')); ?>"
+                                   id="<?php echo htmlspecialchars($schedule["movieScheduleId"]) ?>" autocomplete="off">
+                            <label class="btn btn-outline-danger" for="<?php echo htmlspecialchars($schedule["movieScheduleId"]); ?>">
                                 <p name="day"><?php echo $dayOfWeek; ?></p>
                                 <p name="date"><?php echo $day; ?></p>
                                 <p name="month"><?php echo $monthName; ?></p>
@@ -250,6 +256,8 @@
     $('#form2').off('change', 'input[name="options-exp"]').on('change', 'input[name="options-exp"]', fetchCinema);
 
 
+
+
     function fetchHallTypes() {
         var selectedDateTime = $("input[name='selectedDate']:checked").val();
 
@@ -270,6 +278,14 @@
                 data: $('#form1').serialize(),
                 success: function (response) {
                     var data = response.data;
+
+
+                    //////Testing
+                    //document.writeln(data)
+                    //document.writeln(response)
+                    document.writeln(JSON.stringify(response.data));
+
+
                     var innerHtml = '';
 
                     if (Array.isArray(data) && data.length > 0) {
@@ -299,6 +315,11 @@
             $(".exp-radio").html('<p>Please select a date.</p>');
         }
     }
+
+
+
+
+
 
     function fetchCinema() {
         var selectedHallExperience = $("input[name='options-exp']:checked").val();

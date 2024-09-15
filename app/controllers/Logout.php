@@ -1,12 +1,24 @@
 <?php
 
+namespace App\controllers;
+
+use App\core\Controller;
+
 class Logout
 {
+    use Controller;
+
     public function index()
     {
+        // Start session if it's not already started
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
 
-        // Destroy all session data
-        $_SESSION = array(); // Clear the session array
+        // Clear the session array
+        $_SESSION = [];
+
+        // Destroy session cookies if set
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 42000,
@@ -14,10 +26,12 @@ class Logout
                 $params["secure"], $params["httponly"]
             );
         }
-        session_destroy(); // Destroy the session itself
+
+        // Destroy the session itself
+        session_destroy();
 
         // Redirect to the login page
-        header('Location: ' . ROOT . '/Login');
+        $this->view('Customer/User/Login');
         exit();
     }
 }

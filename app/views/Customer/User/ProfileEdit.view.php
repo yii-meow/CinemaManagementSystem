@@ -1,35 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-          integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"></script>
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css" />
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css" />
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/profile.css" />
-    <title>Categories</title>
+<?php include '../app/views/user_header.php' ?>
 
-    <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
-</head>
 
 <body>
 
 <?php
 // Ensure that $data['user'] is set and assign it to $user
 if (isset($data['user'])) {
-$user = $data['user'];
+    $user = $data['user'];
 
 ?>
 <div id="Customer">
@@ -47,65 +27,46 @@ $user = $data['user'];
             User Profile
         </div>
         <!-- Left Sidebar -->
-        <div class="left-box">
-            <div class="profile-card">
-                <img src="<?= ROOT ?>/assets/images/<?= !empty($user->profileImg) ? htmlspecialchars($user->profileImg) : 'profile4.jpg' ?>"
-                     alt="Profile Picture" class="user-image">
-                <p class="user-name"><?= htmlspecialchars($user->userName) ?></p>
-                <button class="edit-profile-btn" onclick="window.location.href='ProfileEdit'" style="background-color: whitesmoke;color: black">Edit
-                    Profile</button>
-                <div class="reward-info">
-                    <div class="reward-item-info">
-                        <p>Coins</p>
-                        <p><?= htmlspecialchars($user->coins) ?></p>
-                    </div>
-                    <div class="reward-item-info">
-                        <p>My Rewards</p>
-                        <p>0</p>
-                    </div>
-                </div>
-            </div>
+        <?php include '../app/views/ProfileNav.php' ?>
 
-            <div class="nav-menu">
-                <a href="#">My Tickets</a>
-                <a href="MyReward">My Rewards</a>
-                <a href="RewardCentre">Rewards Centre</a>
-                <a href="ChangePass">Change Password</a>
-                <a href="#">Delete Account</a>
-            </div>
-        </div>
 
         <!-- Right Content -->
         <div class="right-box">
             <h2>Edit Profile</h2>
             <form id="editProfileForm" action="ProfileEdit" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" name="fullName" value="<?= htmlspecialchars($user->userName) ?>" required />
+                    <label for="userName">Full Name</label>
+                    <input type="text" id="userName" name="userName" value="<?= htmlspecialchars($user['userName']) ?>" required />
                 </div>
                 <div class="form-group">
-                    <label for="mobileNumber">Mobile Number</label>
-                    <input type="text" id="mobileNumber" name="mobileNumber" value="<?= htmlspecialchars($user->phoneNo) ?>" required />
+                    <label for="phoneNo">Mobile Number</label>
+                    <input type="text" id="phoneNo" name="phoneNo" value="<?= htmlspecialchars($user['phoneNo']) ?>" required />
                 </div>
                 <div class="form-group">
-                    <label for="emailAddress">Email Address</label>
-                    <input type="email" id="emailAddress" name="emailAddress" value="<?= htmlspecialchars($user->email) ?>" required />
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required />
                 </div>
                 <div class="form-group">
                     <label>Gender</label>
                     <div class="radio-group">
-                        <input type="radio" id="male" name="gender" value="M" <?= $user->gender == 'M' ? 'checked' : '' ?>>
+                        <input type="radio" id="male" name="gender" value="M" <?= $user['gender'] == 'M' ? 'checked' : '' ?>>
                         <label for="male">Male</label>
-                        <input type="radio" id="female" name="gender" value="F" <?= $user->gender == 'F' ? 'checked' : '' ?>>
+                        <input type="radio" id="female" name="gender" value="F" <?= $user['gender'] == 'F' ? 'checked' : '' ?>>
                         <label for="female">Female</label>
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="birthDate">Date of Birth</label>
+                    <input type="text" id="birthDate" name="birthDate" value="<?= htmlspecialchars($user['birthDate']) ?>" disabled />
+                    <br>
+                    <p class="note">* It cannot be changed after submission.</p>
+                </div>
+                <div class="form-group">
                     <label for="profileImg">Profile Image</label>
                     <input type="file" id="profileImg" name="profileImg" />
-                    <input type="hidden" name="existingProfileImg" value="<?= htmlspecialchars($user->profileImg) ?>" />
+                    <input type="hidden" name="existingProfileImg" value="<?= htmlspecialchars($user['profileImg']) ?>" />
                 </div>
-                <button type="submit" class="btn-save">Save</button>
+                <button type="submit" class="btn-save" style="width: 150px">Save</button>
             </form>
         </div>
     </div>
@@ -129,38 +90,7 @@ $user = $data['user'];
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- JavaScript for AJAX form submission and response handling -->
-    <script>
-        document.getElementById('editProfileForm').addEventListener('submit', function(event) {
-            event.preventDefault();
 
-            // Create FormData object to send data and files via AJAX
-            const formData = new FormData(this);
-
-            // Send form data via AJAX
-            fetch('ProfileEdit', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        // Show success message
-                        alert('Profile updated successfully');
-
-                        // Reload the page after a short delay to reflect changes
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1000); // Refresh after 1 second
-                    } else {
-                        // Show error message
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
-    </script>
 
 </body>
 

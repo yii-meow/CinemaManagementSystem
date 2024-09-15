@@ -2,7 +2,8 @@
   "require": {
     "doctrine/orm": "^2.19",
     "symfony/cache": "^6.0",
-    "doctrine/annotations": "1.14"
+    "doctrine/annotations": "1.14",
+    "doctrine/dbal": "^3.9"
   },
   "autoload": {
     "psr-4": {
