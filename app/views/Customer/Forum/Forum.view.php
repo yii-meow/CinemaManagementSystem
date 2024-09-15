@@ -20,6 +20,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
               crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"></script>
+
         <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css"/>
 
         <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css"/>
@@ -310,7 +311,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                                                     <button class="btn header-font">
                                                         <img src="<?= ROOT ?>/assets/images/<?php echo htmlspecialchars($postItem['profileImg'], ENT_QUOTES, 'UTF-8'); ?>" draggable="false" id="topImage" style="width: 50px; height: 50px;" />
                                                     </button>
-                                                    <span class="username"><?php echo $postItem['userName']; ?></span>
+                                                    <span class="username"><?php echo htmlspecialchars($postItem['userName'], ENT_QUOTES, 'UTF-8'); ?></span>
                                                 </div>
                                                 <div class="post-options">
                                                     <button class="options-btn" onclick="toggleDropdown(event)">
@@ -326,21 +327,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                                             <br>
                                             <?php if ($postItem['contentImg']): ?>
                                                 <div class="post-image">
-                                                    <img src="<?= ROOT ?>/assets/contentImg/<?php echo $postItem['contentImg']; ?>" class="posted-image" onclick="openModal(this)" />
+                                                    <img src="<?php echo ROOT . htmlspecialchars($postItem['contentImg']); ?>" alt="Post Image">
                                                 </div>
                                             <?php endif; ?>
 
                                             <div class="post-content">
-                                                <p><?php echo $postItem['content']; ?></p>
+                                                <p><?php echo htmlspecialchars($postItem['content'], ENT_QUOTES, 'UTF-8'); ?></p>
                                                 <div class="post-details">
-                                                    <span><?php echo $postItem['postDate']; ?></span>
+                                                    <span><?php echo htmlspecialchars($postItem['postDate'], ENT_QUOTES, 'UTF-8'); ?></span>
                                                     <button class="action-button translate-button">Translate</button>
                                                 </div>
 
                                                 <div class="action-container">
                                                     <div class="action-item">
                                                         <i class="fa fa-heart-o"></i>
-                                                        <p class="like-count">10</p> <!-- Replace with dynamic like count if available -->
+                                                        <p class="like-count"><?php echo htmlspecialchars($postItem['likeCount'], ENT_QUOTES, 'UTF-8'); ?></p>
                                                     </div>
                                                     <button class="action-button viewComment-button" onclick="toggleComments(event)" style="margin-top: -6px;">View Comment</button>
                                                 </div>
@@ -357,6 +358,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                                                         <div class="input-wrapper">
                                                             <form method="POST" action="<?= ROOT ?>/public/index.php">
                                                                 <input type="hidden" name="action" value="createComment" />
+                                                                <input type="hidden" name="postID" value="<?php echo htmlspecialchars($post_id, ENT_QUOTES, 'UTF-8'); ?>" />
                                                                 <textarea class="comment-input" style="font-size: 0.8em;" name="commentText" placeholder="Write a comment..." required></textarea>
                                                                 <button class="send-comment" type="submit"><i class="fas fa-paper-plane"></i></button>
                                                             </form>
@@ -367,12 +369,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                                                                 <div class="user-comment">
                                                                     <div class="profile-container mr-3">
                                                                         <button class="btn header-font">
-                                                                            <img src="<?= ROOT ?>/assets/images/<?php echo $comment->profileImg; ?>" draggable="false" id="topImage" style="width: 30px; height: 30px;" />
+                                                                            <img src="<?= ROOT ?>/assets/images/<?php echo htmlspecialchars($comment->profileImg, ENT_QUOTES, 'UTF-8'); ?>" draggable="false" id="topImage" style="width: 30px; height: 30px;" />
                                                                         </button>
                                                                     </div>
                                                                     <div class="comment-body">
-                                                                        <span class="uname-cmt"><?php echo $comment->userName; ?></span>
-                                                                        <div class="comment-text"><?php echo $comment->CommentText; ?></div>
+                                                                        <span class="uname-cmt"><?php echo htmlspecialchars($comment->userName, ENT_QUOTES, 'UTF-8'); ?></span>
+                                                                        <div class="comment-text"><?php echo htmlspecialchars($comment->CommentText, ENT_QUOTES, 'UTF-8'); ?></div>
                                                                         <div class="comment-actions">
                                                                             <button class="action-button reply-button" onclick="showReplyBox(event)">Reply</button>
                                                                             <button class="action-button translate-button">Translate</button>
@@ -391,20 +393,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                                                                                 <div class="user-reply">
                                                                                     <div class="profile-container mr-3">
                                                                                         <button class="btn header-font">
-                                                                                            <img src="<?= ROOT ?>/assets/images/<?php echo $reply->profileImg; ?>" draggable="false" id="topImage" style="width: 20px; height: 20px;" />
+                                                                                            <img src="<?= ROOT ?>/assets/images/<?php echo htmlspecialchars($reply->profileImg, ENT_QUOTES, 'UTF-8'); ?>" draggable="false" id="topImage" style="width: 20px; height: 20px;" />
                                                                                         </button>
                                                                                     </div>
                                                                                     <div class="reply-body">
-                                                                                        <span class="uname-rpl"><?php echo $reply->userName; ?></span>
-                                                                                        <div class="reply-text"><p style="color: #005eff; display: inline;">@<?php echo $reply->userName; ?></p> <?php echo $reply->replyText; ?></div>
-                                                                                        <div class="reply-actions">
-                                                                                            <button class="action-button reply-button" onclick="showSubReplyBox(event)">Reply</button>
-                                                                                            <button class="action-button translate-button">Translate</button>
-                                                                                        </div>
-                                                                                        <div class="reply-wrapper" style="display:none; width: 380px;">
-                                                                                            <input type="text" class="reply-input" placeholder="Write your reply here..." style="font-size: 0.8em;" />
-                                                                                            <button class="send-reply" type="submit" onclick="sendReply(event)"><i class="fas fa-paper-plane"></i></button>
-                                                                                        </div>
+                                                                                        <span class="uname-rpl"><?php echo htmlspecialchars($reply->userName, ENT_QUOTES, 'UTF-8'); ?></span>
+                                                                                        <div class="reply-text"><?php echo htmlspecialchars($reply->ReplyText, ENT_QUOTES, 'UTF-8'); ?></div>
                                                                                     </div>
                                                                                 </div>
                                                                             <?php endforeach; ?>
@@ -417,11 +411,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                                                 </div>
                                             </div>
                                         </div>
-                                        <br>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <p>Currently no posts from users.</p>
+                                    <p>No posts available.</p>
                                 <?php endif; ?>
+
+
 
                             </div>
 
