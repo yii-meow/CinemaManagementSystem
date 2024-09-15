@@ -4,15 +4,12 @@ namespace App\controllers;
 
 use App\core\Controller;
 
-class LoginStaff
+class StaffManage
 {
     use Controller;
-
     public function index()
     {
 
-        // Render the login view
-        $this->view('Customer/User/LoginStaff');
+        $this->view('Admin/User/StaffManage');
     }
-
 }

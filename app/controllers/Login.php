@@ -2,6 +2,7 @@
 
 namespace App\controllers;
 
+use App\models\Admin;
 use App\models\User;
 use App\core\Controller;
 use App\core\Database;
@@ -12,12 +13,14 @@ class Login
 
     private $entityManager;
     private $userRepository;
+    private $adminRepository;
 
     public function __construct()
     {
         // Initialize EntityManager and User repository
         $this->entityManager = Database::getEntityManager();
         $this->userRepository = $this->entityManager->getRepository(User::class);
+        $this->adminRepository = $this->entityManager->getRepository(Admin::class);
     }
 
     public function index()
@@ -28,6 +31,7 @@ class Login
         }
 
         $data = ['error' => null];
+        $userType = $_POST['userType'] ?? 'user';  // Default to 'user' if not provided
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $phoneNo = $_POST['phoneNo'] ?? null;
@@ -37,33 +41,61 @@ class Login
             if (empty($phoneNo) || empty($password)) {
                 $data['error'] = "Please provide both phone number and password.";
             } else {
-                // Fetch the user from the repository by phone number
-                $user = $this->userRepository->findOneBy(['phoneNo' => $phoneNo]);
+                // Handle user or admin login based on userType
+                if ($userType === 'admin') {
+                    // Admin login logic
+                    $admin = $this->adminRepository->findOneBy(['phoneNo' => $phoneNo]);
 
-                // Check if user exists and password matches
-                if ($user && password_verify($password, $user->getPassword())) {
-                    $_SESSION['userId'] = $user->getUserId();
-                    // Pass the user data to the profile view
-                    $data['user'] = [
-                        'userId' => $user->getUserId(),
-                        'profileImg' => $user->getProfileImg(),
-                        'userName' => $user->getUserName(),
-                        'phoneNo' => $user->getPhoneNo(),
-                        'email' => $user->getEmail(),
-                        'gender' => $user->getGender(),
-                        'birthDate' => $user->getBirthDate(),
-                        'coins' => $user->getCoins()
-                    ];
-                    // Redirect to the profile page
-                    $this->view('Customer/User/Profile', $data);
-                    exit();
+                    if ($admin && password_verify($password, $admin->getPassword())) {
+                        $_SESSION['admin'] = [
+                            'userId' => $admin->getUserId(),
+                            'userName' => $admin->getUserName(),
+                            'role' => $admin->getRole(),
+                        ];
+                        // Redirect to AdminProfile
+                        $this->view('Admin/User/AdminProfile');
+                        exit();
+                    } else {
+                        $data['error'] = "Invalid phone number or password for admin.";
+                    }
                 } else {
-                    $data['error'] = "Invalid phone number or password.";
+                    // User login logic
+                    $user = $this->userRepository->findOneBy(['phoneNo' => $phoneNo]);
+
+                    if ($user) {
+                        // Check if user is active
+                        if ($user->getStatus() === 'deactive') {
+                            $data['error'] = "Your account is deactivated. Please contact support.";
+                        } else if (password_verify($password, $user->getPassword())) {
+                            $_SESSION['userId'] = $user->getUserId();
+                            $data['user'] = [
+                                'userId' => $user->getUserId(),
+                                'profileImg' => $user->getProfileImg(),
+                                'userName' => $user->getUserName(),
+                                'phoneNo' => $user->getPhoneNo(),
+                                'email' => $user->getEmail(),
+                                'gender' => $user->getGender(),
+                                'birthDate' => $user->getBirthDate(),
+                                'coins' => $user->getCoins()
+                            ];
+                            // Redirect to the user profile page
+                            $this->view('Customer/User/Profile', $data);
+                            exit();
+                        } else {
+                            $data['error'] = "Invalid phone number or password for user.";
+                        }
+                    } else {
+                        $data['error'] = "User not found.";
+                    }
                 }
             }
         }
 
-        // Render the login view
-        $this->view('Customer/User/Login', $data);
+        // Render the appropriate login view based on userType
+        if ($userType === 'admin') {
+            $this->view('Customer/User/LoginStaff', $data);
+        } else {
+            $this->view('Customer/User/Login', $data);
+        }
     }
 }

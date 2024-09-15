@@ -12,9 +12,6 @@ class User
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $userId;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserReward::class)]
-    private $userRewards;
-
     #[ORM\Column(type: 'string', length: 255)]
     private $userName;
 
@@ -39,7 +36,12 @@ class User
     #[ORM\Column(type: 'string', length: 1)]
     private $gender;
 
+    #[ORM\Column(type: 'string', length: 50)]
+    private $status;
+
     // For foreign side
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserReward::class)]
+    private $userRewards;
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'Post')]
     private $posts;
     #[ORM\OneToMany(mappedBy: 'commenter', targetEntity: 'Comment')]
@@ -145,6 +147,17 @@ class User
     public function setGender(string $gender): self
     {
         $this->gender = $gender;
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
         return $this;
     }
 
