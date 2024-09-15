@@ -2,31 +2,10 @@
 <html lang="en">
 
 <?php include '../app/views/user_header.php' ?>
+
+
 <style>
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        padding-top: 100px; /* Location of the box */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        align-content: center;
-    }
-
-    .modal-content {
-        background-color: #fefefe;
-        color: black;
-        margin: auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-    }
-
+    /* Center the reward header (title and image) */
     .reward-header {
         display: flex;
         flex-direction: column;
@@ -35,30 +14,14 @@
     }
 
     .reward-header h2 {
-        text-align: center;
-        margin: 0;
-        padding: 10px 0;
+        margin-bottom: 10px;
     }
 
     .reward-header img {
-        margin-top: 10px;
-    }
-
-    .close-btn {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .close-btn:hover,
-    .close-btn:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
+        max-width: 100px;
+        height: auto;
     }
 </style>
-
 <body>
 
 <?php
@@ -117,10 +80,10 @@ if (isset($data['user']) && isset($data['rewards'])) {
             <div class="modal-content">
                 <span class="close-btn" onclick="closeRewardDetail()">&times;</span>
 
-                <!-- Add a container for centering title and image -->
+                <!-- Centered reward header with title and image -->
                 <div class="reward-header">
                     <h2 id="reward-title">Reward Title</h2>
-                    <img id="reward-img" src="" alt="Reward Image" style="width:100px; height:auto;">
+                    <img id="reward-img" src="" alt="Reward Image">
                 </div>
 
                 <p id="reward-category">Category: </p>
@@ -132,7 +95,6 @@ if (isset($data['user']) && isset($data['rewards'])) {
         </div>
 
         <?php include '../app/views/footer.php' ?>
-    </div>
 
     <?php
 } else {
@@ -140,6 +102,7 @@ if (isset($data['user']) && isset($data['rewards'])) {
     exit();
 }
 ?>
+    </div>
 
 <script>
     function filterRewards(category) {

@@ -9,6 +9,6 @@ class LoginStaff
     {
 
         //Please do use this only at the end of the operations
-        $this->view('Customer/User/LoginStaff');
+        $this->view('Admin/User/');
     }
 }

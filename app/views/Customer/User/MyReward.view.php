@@ -5,10 +5,9 @@
 <body>
 
 <?php
-// Ensure that $data['user'] is set and assign it to $user
 if (isset($data['user'])) {
 $user = $data['user'];
-$userRewards = $data['userRewards']; // Array of user rewards
+$userRewards = $data['userRewards'];
 ?>
 <div id="Customer">
     <?php include '../app/views/header.php' ?>
@@ -29,7 +28,7 @@ $userRewards = $data['userRewards']; // Array of user rewards
             </div>
             <div class="redeemed-reward-list">
                 <?php foreach ($userRewards as $userReward) {
-                    $reward = $userReward->reward; // Access the Reward object
+                    $reward = $userReward->getReward(); // Access the Reward object
                     ?>
                     <div class="redeemed-reward-item" data-category="<?= htmlspecialchars($reward->getCategory()) ?>">
                         <img src="<?= ROOT ?>/assets/images/<?= htmlspecialchars($reward->getRewardImg()) ?>" alt="<?= htmlspecialchars($reward->getRewardTitle()) ?>">
@@ -40,8 +39,6 @@ $userRewards = $data['userRewards']; // Array of user rewards
                         </div>
                         <?php if ($userReward->getStatus() === 'Used') { ?>
                             <div class="used-label">Used</div>
-                        <?php } else { ?>
-                            <div class="used-label">Unused</div>
                         <?php } ?>
                     </div>
                 <?php } ?>

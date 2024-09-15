@@ -112,8 +112,8 @@ class RewardCentre
 
         // Create a new UserReward entry
         $userReward = new UserReward();
-        $userReward->setUserId($userId);
-        $userReward->setRewardId($rewardId);
+        $userReward->setUser($user);
+        $userReward->setReward($reward);
         $userReward->setStatus('Unused');
         $userReward->setRedeemDate(new \DateTime());
 

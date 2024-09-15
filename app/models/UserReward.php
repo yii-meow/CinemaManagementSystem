@@ -13,11 +13,13 @@ class UserReward
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $userRewardId;
 
-    #[ORM\Column(type: 'integer')]
-    private $userId;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userRewards')]
+    #[ORM\JoinColumn(name: 'userId', referencedColumnName: 'userId')]
+    private $user;
 
-    #[ORM\Column(type: 'integer')]
-    private $rewardId;
+    #[ORM\ManyToOne(targetEntity: Reward::class, inversedBy: 'userRewards')]
+    #[ORM\JoinColumn(name: 'rewardId', referencedColumnName: 'rewardId')]
+    private $reward;
 
     #[ORM\Column(type: 'string', length: 50)]
     private $status;
@@ -32,25 +34,20 @@ class UserReward
         return $this->userRewardId;
     }
 
-    public function getUserId(): int
+    public function setUser(?User $user): self
     {
-        return $this->userId;
-    }
-
-    public function setUserId(int $userId): self
-    {
-        $this->userId = $userId;
+        $this->user = $user;
         return $this;
     }
 
-    public function getRewardId(): int
+    public function getReward(): ?Reward
     {
-        return $this->rewardId;
+        return $this->reward;
     }
 
-    public function setRewardId(int $rewardId): self
+    public function setReward(?Reward $reward): self
     {
-        $this->rewardId = $rewardId;
+        $this->reward = $reward;
         return $this;
     }
 
