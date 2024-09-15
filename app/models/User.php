@@ -36,6 +36,19 @@ class User
     #[ORM\Column(type: 'string', length: 1)]
     private $gender;
 
+    // For foreign side
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'Post')]
+    private $posts;
+    #[ORM\OneToMany(mappedBy: 'commenter', targetEntity: 'Comment')]
+    private $commenters;
+
+    #[ORM\OneToMany(mappedBy: 'userReply', targetEntity: 'Reply')]
+    private $reply;
+
+    #[ORM\OneToMany(mappedBy: 'likedBy', targetEntity: 'Likes')]
+    private $liker;
+
+
     // Getters and Setters
 
     public function getUserId(): ?int
@@ -47,6 +60,7 @@ class User
     {
         return $this->userName;
     }
+
 
     public function setUserName(string $userName): self
     {

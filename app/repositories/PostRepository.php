@@ -7,15 +7,15 @@ use Doctrine\ORM\EntityRepository;
 
 class PostRepository extends EntityRepository
 {
-    public function findAllWithDetails()
+    public function findAllPostsWithRelations()
     {
         return $this->createQueryBuilder('p')
             ->leftJoin('p.comments', 'c')
+            ->leftJoin('c.replies', 'r')
             ->leftJoin('p.likes', 'l')
-            ->leftJoin('p.replies', 'r')
             ->addSelect('c')
-            ->addSelect('l')
             ->addSelect('r')
+            ->addSelect('l')
             ->orderBy('p.postDate', 'DESC')
             ->getQuery()
             ->getResult();
