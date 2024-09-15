@@ -77,7 +77,6 @@
                   <span class="star">★</span>
                 </span>
                         </div>
-
                         <div class="formats">
                             <span class="format">IMAX</span>
                             <span class="format">IMAX</span>
@@ -114,35 +113,6 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="booking-container">
-        <h2>PURCHASE TICKET</h2>
-        <div class="toggle-container">
-            <button class="toggle-btn active">
-          <span style="font-size: 1.2em">
-            <i class="fa fa-film fa-lg" aria-hidden="true"></i>
-          </span>
-                NEARBY CINEMAS
-            </button>
-            <button class="toggle-btn">
-          <span style="font-size: 1.2em">
-            <i class="fa fa-gratipay fa-lg" aria-hidden="true"></i>
-          </span>
-                FAVORITE CINEMAS
-            </button>
-        </div>
-        <div class="location-container">
-            <p>What is your location?</p>
-            <div class="input-wrapper">
-                <input type="text" class="location-input" placeholder="Postal code or city"/>
-                <button class="map-icon-button">
-                    <i class="fas fa-map-marker-alt map-icon"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="showtime container mt-4 mb-3">
     <div class="showtime-container">
         <span class="showtime-title">SHOWTIMES & TICKETS</span>
@@ -152,11 +122,13 @@
         <div class="filter-label">WHERE</div>
         <div class="filter-options">
             <span class="filter-option active">ANY CINEMA</span>
-            <span class="filter-option">Pavilion KL</span>
-            <span class="filter-option">Pavilion Bukit Jalil</span>
-            <span class="filter-option">Mid Valley KL</span>
-            <span class="filter-option">Sunway Velocity</span>
-            <span class="filter-option">Sunway Pyramid</span>
+            <?php
+            if (isset($cinemas)) {
+                foreach ($cinemas as $cinema): ?>
+                    <span class="filter-option"><?= htmlspecialchars($cinema->getName()) ?></span>
+
+                <?php endforeach;
+            } ?>
         </div>
     </div>
     <div class="filter-section">
@@ -164,24 +136,31 @@
         <div class="filter-label">WHAT</div>
         <div class="filter-options">
             <span class="filter-option active">ANY EXPERIENCE</span>
-            <span class="filter-option">STANDARD</span>
-            <span class="filter-option">PREMIUM</span>
-            <span class="filter-option">DELUXE</span>
+            <span class="filter-option">IMAX</span>
+            <span class="filter-option">DELUXUE</span>
+            <span class="filter-option">ATMOS</span>
+            <span class="filter-option">BENIE</span>
         </div>
     </div>
     <div class="filter-section">
         <i class="fa fa-clock-o" aria-hidden="true"></i>
         <div class="filter-label">WHEN</div>
         <div class="filter-options">
-            <span class="filter-option active">ANYTIME</span>
-            <span class="filter-option">TODAY, 8/1</span>
-            <span class="filter-option">TOMORROW, 8/2</span>
-            <span class="filter-option">SATURDAY 8/3</span>
-            <span class="filter-option">SUNDAY 8/4</span>
-            <span class="filter-option">MONDAY 8/5</span>
-            <span class="filter-option">TUESDAY 8/6</span>
-            <span class="filter-option">WEDNESDAY 8/7</span>
-            <span class="filter-option">THURSDAY</span>
+            <?php
+            $today = new DateTime();
+            for ($i = 0; $i < 4; $i++) {
+                $date = clone $today;
+                $date->modify("+$i day");
+                $formattedDate = $date->format('l n/j');
+                $displayText = $i === 0 ? "TODAY, $formattedDate" :
+                    ($i === 1 ? "TOMORROW, $formattedDate" :
+                        strtoupper($formattedDate));
+                $isToday = $i === 0;
+                ?>
+                <span class="filter-option<?= $isToday ? ' active' : '' ?>"><?= htmlspecialchars($displayText) ?></span>
+                <?php
+            }
+            ?>
         </div>
     </div>
     <div class="movies">
