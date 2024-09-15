@@ -33,13 +33,13 @@
 
 <div class="main">
     <div class="bg-blur" id="bgBlur"></div>
-
     <nav>
         <ul>
             <li class="showing">POPULAR MOVIES SHOWING NOW</li>
         </ul>
     </nav>
 
+<!--    TODO: Calculate five available movies with highest ticket sales  -->
     <div class="content">
         <div class="carousel">
             <button class="nav-button" onclick="changeMovies(-1)">
@@ -122,6 +122,7 @@
         <div class="filter-label">WHERE</div>
         <div class="filter-options">
             <span class="filter-option active">ANY CINEMA</span>
+<!--            TODO: Let user click on the cinema to filter today movies-->
             <?php
             if (isset($cinemas)) {
                 foreach ($cinemas as $cinema): ?>
@@ -161,6 +162,7 @@
                 </p>
                 <div class="movie-format mt-2">STANDARD</div>
                 <div class="showtimes mt-5">
+<!--                    TODO: Let user click on the button and navigate to the ticket page-->
                     <?php foreach ($movie['available_times'] as $time): ?>
                         <button class="showtime-btn"><?= $time->format('h:i A') ?></button>
                     <?php endforeach; ?>
@@ -169,11 +171,11 @@
         </div>
         <?php endforeach; } ?>
 
-        <div class="text-center w-100 p-5">
-            <btn class="bg-dark text-white px-5 py-4 w-100 rounded">
-                <span style="font-size: 1.6rem">Show More</span>
-            </btn>
-        </div>
+<!--        <div class="text-center w-100 p-5">-->
+<!--            <btn class="bg-dark text-white px-5 py-4 w-100 rounded">-->
+<!--                <span style="font-size: 1.6rem">Show More</span>-->
+<!--            </btn>-->
+<!--        </div>-->
     </div>
 </div>
 
@@ -198,13 +200,7 @@
 </div>
 
 <!--Footer-->
-<footer id="footer">
-    <div class="footer-container container-fluid">
-        <div class="bottom" style="text-align: center; color: white">
-            © 2023 - 2024 DreamWorks Cinema (Copyright All Right Reserved)
-        </div>
-    </div>
-</footer>
+<?php include(dirname(__DIR__) . '../../footer.php') ?>
 </body>
 
 </html>
