@@ -121,7 +121,7 @@
 
 <div class="showtime container mt-6 mb-3">
     <div class="showtime-container">
-        <span class="showtime-title">TODAY SHOWTIMES</span>
+        <span class="showtime-title">TODAY AVAILABLE SHOWTIMES</span>
     </div>
     <div class="filter-section">
         <i class="fa fa-globe" aria-hidden="true"></i>
@@ -160,7 +160,7 @@
                         </p>
                         <div class="movie-format mt-2"><?= htmlspecialchars($movie["category"]) ?></div>
                         <?php foreach ($movie['cinemas'] as $cinema): ?>
-                            <div class="cinema-showtimes mt-5" data-cinema-id="<?= $cinema['id'] ?>">
+                            <div class="cinema-showtimes mt-5 py-3" data-cinema-id="<?= $cinema['id'] ?>">
                                 <h3><?= htmlspecialchars($cinema['name']) ?></h3>
                                 <div class="showtimes mt-4">
                                     <?php foreach ($cinema['showtimes'] as $showtime): ?>

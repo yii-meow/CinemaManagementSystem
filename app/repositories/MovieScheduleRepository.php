@@ -10,6 +10,7 @@ class MovieScheduleRepository extends EntityRepository
 {
     public function findMovieSchedule()
     {
+        date_default_timezone_set('Asia/Kuala_Lumpur');
         $now = new \DateTime();
         $endOfDay = new \DateTime('today 23:59:59');
 
