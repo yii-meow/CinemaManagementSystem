@@ -15,8 +15,10 @@ class MovieScheduleRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('ms');
         $query = $qb
-            ->select('m.movieId', 'm.title', 'm.duration', 'm.language', 'm.photo', 'ms.startingTime')
+            ->select('m.movieId', 'm.title', 'm.duration', 'm.language', 'm.photo', 'm.classification', 'ms.startingTime', 'c.cinemaId', 'c.name as cinemaName')
             ->innerJoin('ms.movie', 'm')
+            ->innerJoin('ms.cinemaHall', 'ch')
+            ->innerJoin('ch.cinema', 'c')
             ->where('ms.startingTime BETWEEN :now AND :endOfDay')
             ->setParameter('now', $now)
             ->setParameter('endOfDay', $endOfDay)
@@ -26,10 +28,11 @@ class MovieScheduleRepository extends EntityRepository
 
         $results = $query->getResult();
 
-        // Group the results by movie
+        // Group the results by movie and cinema
         $groupedResults = [];
         foreach ($results as $result) {
             $movieId = $result['movieId'];
+            $cinemaId = $result['cinemaId'];
             if (!isset($groupedResults[$movieId])) {
                 $groupedResults[$movieId] = [
                     'movieId' => $movieId,
@@ -37,10 +40,18 @@ class MovieScheduleRepository extends EntityRepository
                     'title' => $result['title'],
                     'duration' => $result['duration'],
                     'language' => $result['language'],
-                    'available_times' => []
+                    'classification' => $result['classification'],
+                    'cinemas' => []
                 ];
             }
-            $groupedResults[$movieId]['available_times'][] = $result['startingTime'];
+            if (!isset($groupedResults[$movieId]['cinemas'][$cinemaId])) {
+                $groupedResults[$movieId]['cinemas'][$cinemaId] = [
+                    'id' => $cinemaId,
+                    'name' => $result['cinemaName'],
+                    'showtimes' => []
+                ];
+            }
+            $groupedResults[$movieId]['cinemas'][$cinemaId]['showtimes'][] = $result['startingTime'];
         }
 
         return array_values($groupedResults);

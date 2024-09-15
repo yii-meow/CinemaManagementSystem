@@ -39,7 +39,7 @@
         </ul>
     </nav>
 
-<!--    TODO: Calculate five available movies with highest ticket sales  -->
+    <!--    TODO: Calculate five available movies with highest ticket sales  -->
     <div class="content">
         <div class="carousel">
             <button class="nav-button" onclick="changeMovies(-1)">
@@ -122,11 +122,13 @@
         <div class="filter-label">WHERE</div>
         <div class="filter-options">
             <span class="filter-option active">ANY CINEMA</span>
-<!--            TODO: Let user click on the cinema to filter today movies-->
+            <!--            TODO: Let user click on the cinema to filter today movies-->
             <?php
             if (isset($cinemas)) {
                 foreach ($cinemas as $cinema): ?>
-                    <span class="filter-option"><?= htmlspecialchars($cinema->getName()) ?></span>
+                    <span class="filter-option" data-cinema-id="<?= $cinema->getCinemaId() ?>">
+                        <?= htmlspecialchars($cinema->getName()) ?>
+                    </span>
 
                 <?php endforeach;
             } ?>
@@ -145,37 +147,41 @@
     </div>
     <div class="movies">
         <?php
-
         if(isset($moviesWithGroupedSchedules)){
-        foreach ($moviesWithGroupedSchedules as $movie):
-        $duration = $movie['duration'];
-        $hours = floor($duration / 60);
-        $minutes = $duration % 60;
-        $durationFormatted = "{$hours} hours and {$minutes} minutes";
-        ?>
-        <div class="movie-result">
-            <img src="<?= htmlspecialchars($movie['photo']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="movie-poster"/>
-            <div class="movie-details">
-                <h2 class="movie-title"><?= htmlspecialchars(strtoupper($movie['title'])) ?></h2>
-                <p class="movie-info mt-4 text-secondary">
-                    <?= htmlspecialchars($movie['classification'] ?? 'Not Rated') ?> | <?= $durationFormatted ?> | <?= htmlspecialchars($movie['language']) ?>, CLOSED CAPTIONING, DESCRIPTIVE AUDIO
-                </p>
-                <div class="movie-format mt-2">STANDARD</div>
-                <div class="showtimes mt-5">
-<!--                    TODO: Let user click on the button and navigate to the ticket page-->
-                    <?php foreach ($movie['available_times'] as $time): ?>
-                        <button class="showtime-btn"><?= $time->format('h:i A') ?></button>
-                    <?php endforeach; ?>
+            foreach ($moviesWithGroupedSchedules as $movie):
+                $duration = $movie['duration'];
+                $hours = floor($duration / 60);
+                $minutes = $duration % 60;
+                $durationFormatted = "{$hours} hours and {$minutes} minutes";
+                ?>
+                <div class="movie-result w-100">
+                    <img src="<?= htmlspecialchars($movie['photo']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="movie-poster"/>
+                    <div class="movie-details">
+                        <h2 class="movie-title"><?= htmlspecialchars(strtoupper($movie['title'])) ?></h2>
+                        <p class="movie-info mt-4 text-secondary">
+                            <?= htmlspecialchars($movie['classification'] ?? 'Not Rated') ?> | <?= $durationFormatted ?> | Language: <?= htmlspecialchars($movie['language']) ?>
+                        </p>
+                        <div class="movie-format mt-2">STANDARD</div>
+                        <?php foreach ($movie['cinemas'] as $cinema): ?>
+                            <div class="cinema-showtimes mt-5" data-cinema-id="<?= $cinema['id'] ?>">
+                                <h3><?= htmlspecialchars($cinema['name']) ?></h3>
+                                <div class="showtimes mt-4">
+                                    <?php foreach ($cinema['showtimes'] as $time): ?>
+                                        <button class="showtime-btn"><?= $time->format('h:i A') ?></button>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <?php endforeach; } ?>
+            <?php endforeach;
+        } ?>
 
-<!--        <div class="text-center w-100 p-5">-->
-<!--            <btn class="bg-dark text-white px-5 py-4 w-100 rounded">-->
-<!--                <span style="font-size: 1.6rem">Show More</span>-->
-<!--            </btn>-->
-<!--        </div>-->
+        <!--        <div class="text-center w-100 p-5">-->
+        <!--            <btn class="bg-dark text-white px-5 py-4 w-100 rounded">-->
+        <!--                <span style="font-size: 1.6rem">Show More</span>-->
+        <!--            </btn>-->
+        <!--        </div>-->
     </div>
 </div>
 
@@ -183,10 +189,11 @@
     <h1>COMING SOON</h1>
     <div class="movie-grid">
         <?php
-        if(isset($comingSoonMovies) && !empty($comingSoonMovies)):
-            foreach($comingSoonMovies as $movie): ?>
+        if (isset($comingSoonMovies) && !empty($comingSoonMovies)):
+            foreach ($comingSoonMovies as $movie): ?>
                 <div class="movie-card">
-                    <img src="<?= htmlspecialchars($movie->getPhoto())?>" alt="<?= htmlspecialchars($movie->getTitle()) ?>"/>
+                    <img src="<?= htmlspecialchars($movie->getPhoto()) ?>"
+                         alt="<?= htmlspecialchars($movie->getTitle()) ?>"/>
                     <div class="p-2">
                         <h2 class="movie-title"><?= htmlspecialchars($movie->getTitle()) ?></h2>
                         <p class="movie-date text-dark">Coming <?= $movie->getReleaseDate()->format('M. d, Y') ?></p>
