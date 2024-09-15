@@ -15,7 +15,7 @@ class MovieScheduleRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('ms');
         $query = $qb
-            ->select('m.movieId', 'm.title', 'm.duration', 'm.language', 'm.photo', 'm.classification', 'ms.startingTime', 'c.cinemaId', 'c.name as cinemaName')
+            ->select('m.movieId', 'm.title', 'm.catagory', 'm.duration', 'm.language', 'm.photo', 'm.classification', 'ms.startingTime', 'ms.movieScheduleId', 'c.cinemaId', 'c.name as cinemaName', 'ch.hallType')
             ->innerJoin('ms.movie', 'm')
             ->innerJoin('ms.cinemaHall', 'ch')
             ->innerJoin('ch.cinema', 'c')
@@ -36,6 +36,7 @@ class MovieScheduleRepository extends EntityRepository
             if (!isset($groupedResults[$movieId])) {
                 $groupedResults[$movieId] = [
                     'movieId' => $movieId,
+                    'category' => $result["catagory"],
                     'photo' => $result['photo'],
                     'title' => $result['title'],
                     'duration' => $result['duration'],
@@ -51,7 +52,11 @@ class MovieScheduleRepository extends EntityRepository
                     'showtimes' => []
                 ];
             }
-            $groupedResults[$movieId]['cinemas'][$cinemaId]['showtimes'][] = $result['startingTime'];
+            $groupedResults[$movieId]['cinemas'][$cinemaId]['showtimes'][] = [
+                'time' => $result['startingTime'],
+                'hallType' => $result['hallType'],
+                'scheduleId' => $result['movieScheduleId']
+            ];
         }
 
         return array_values($groupedResults);

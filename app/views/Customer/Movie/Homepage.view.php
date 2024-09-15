@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css"/>
 
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css"/>
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/MovieCategory.css"/>
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Homepage.css"/>
     <title>Homepage</title>
 
@@ -42,7 +41,7 @@
     <!--    TODO: Calculate five available movies with highest ticket sales  -->
     <div class="content">
         <div class="carousel">
-            <button class="nav-button" onclick="changeMovies(-1)">
+            <button class="nav-button" id="prevButton">
                 &#10094;
             </button>
             <div class="movie-container" id="movieContainer">
@@ -51,61 +50,68 @@
                     <div>
                         <img src="<?= ROOT ?>/assets/images/movie.webp" alt="Movie"/>
                         <div class="ranking-container">
-                            <span class="ranking-title">Deadpool</span>
+                            <span class="ranking-title">Deadpool 1</span>
                             <span class="ranking-rating">
-                              <span class="rating">5.0</span>
-                              <span class="star">★</span>
-                            </span>
-                        </div>
-
-                        <div class="formats">
-                            <span class="format">IMAX</span>
-                            <span class="format">IMAX</span>
-                            <span class="format">IMAX</span>
+                          <span class="rating">5.0</span>
+                          <span class="star">★</span>
+                        </span>
                         </div>
                     </div>
                 </div>
-
                 <div class="movie">
                     <div><span class="movie-ranking">2</span></div>
                     <div>
-                        <img src="<?= ROOT ?>/assets/images/movie2.webp" alt="Movie"/>
+                        <img src="<?= ROOT ?>/assets/images/pp.webp" alt="Movie"/>
                         <div class="ranking-container">
-                            <span class="ranking-title">Deadpool</span>
+                            <span class="ranking-title">Deadpool 2</span>
                             <span class="ranking-rating">
-                  <span class="rating">5.0</span>
-                  <span class="star">★</span>
-                </span>
-                        </div>
-                        <div class="formats">
-                            <span class="format">IMAX</span>
-                            <span class="format">IMAX</span>
-                            <span class="format">IMAX</span>
+                          <span class="rating">5.0</span>
+                          <span class="star">★</span>
+                        </span>
                         </div>
                     </div>
                 </div>
-
                 <div class="movie">
                     <div><span class="movie-ranking">3</span></div>
                     <div>
+                        <img src="<?= ROOT ?>/assets/images/movie2.webp" alt="Movie"/>
+                        <div class="ranking-container">
+                            <span class="ranking-title">Deadpool 3</span>
+                            <span class="ranking-rating">
+                          <span class="rating">5.0</span>
+                          <span class="star">★</span>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie">
+                    <div><span class="movie-ranking">4</span></div>
+                    <div>
                         <img src="<?= ROOT ?>/assets/images/mainMovie_1.jpg" alt="Movie"/>
                         <div class="ranking-container">
-                            <span class="ranking-title">Deadpool</span>
+                            <span class="ranking-title">Deadpool 4</span>
                             <span class="ranking-rating">
-                  <span class="rating">5.0</span>
-                  <span class="star">★</span>
-                </span>
+                          <span class="rating">5.0</span>
+                          <span class="star">★</span>
+                        </span>
                         </div>
-
-                        <div class="formats">
-                            <span class="format">IMAX</span>
-                            <span class="format">IMAX</span>
-                            <span class="format">IMAX</span>
+                    </div>
+                </div>
+                <div class="movie">
+                    <div><span class="movie-ranking">5</span></div>
+                    <div>
+                        <img src="<?= ROOT ?>/assets/images/pp.webp" alt="Movie"/>
+                        <div class="ranking-container">
+                            <span class="ranking-title">Deadpool 5</span>
+                            <span class="ranking-rating">
+                          <span class="rating">5.0</span>
+                          <span class="star">★</span>
+                        </span>
                         </div>
                     </div>
                 </div>
             </div>
-            <button class="nav-button" onclick="changeMovies(1)">&#10095;</button>
+            <button class="nav-button" id="nextButton">&#10095;</button>
         </div>
     </div>
     <div class="text-center">
@@ -120,34 +126,23 @@
     <div class="filter-section">
         <i class="fa fa-globe" aria-hidden="true"></i>
         <div class="filter-label">WHERE</div>
-        <div class="filter-options">
-            <span class="filter-option active">ANY CINEMA</span>
-            <!--            TODO: Let user click on the cinema to filter today movies-->
+        <div class="filter-options" id="cinema-filter">
+            <span class="filter-option active" data-cinema-id="all">All Cinemas</span>
             <?php
             if (isset($cinemas)) {
                 foreach ($cinemas as $cinema): ?>
-                    <span class="filter-option" data-cinema-id="<?= $cinema->getCinemaId() ?>">
-                        <?= htmlspecialchars($cinema->getName()) ?>
-                    </span>
-
+                    <span class="filter-option"
+                          data-cinema-id="<?= $cinema->getCinemaId() ?>"><?= htmlspecialchars($cinema->getName()) ?></span>
                 <?php endforeach;
             } ?>
         </div>
     </div>
-    <div class="filter-section">
-        <i class="fa fa-window-maximize" aria-hidden="true"></i>
-        <div class="filter-label">WHAT</div>
-        <div class="filter-options">
-            <span class="filter-option active">ANY EXPERIENCE</span>
-            <span class="filter-option">IMAX</span>
-            <span class="filter-option">DELUXUE</span>
-            <span class="filter-option">ATMOS</span>
-            <span class="filter-option">BENIE</span>
-        </div>
+    <div id="no-movies-message" style="display: none;">
+        <p>No movies available for the selected cinema.</p>
     </div>
     <div class="movies">
         <?php
-        if(isset($moviesWithGroupedSchedules)){
+        if (isset($moviesWithGroupedSchedules)) {
             foreach ($moviesWithGroupedSchedules as $movie):
                 $duration = $movie['duration'];
                 $hours = floor($duration / 60);
@@ -155,19 +150,24 @@
                 $durationFormatted = "{$hours} hours and {$minutes} minutes";
                 ?>
                 <div class="movie-result w-100">
-                    <img src="<?= htmlspecialchars($movie['photo']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="movie-poster"/>
+                    <img src="<?= htmlspecialchars($movie['photo']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>"
+                         class="movie-poster"/>
                     <div class="movie-details">
                         <h2 class="movie-title"><?= htmlspecialchars(strtoupper($movie['title'])) ?></h2>
                         <p class="movie-info mt-4 text-secondary">
-                            <?= htmlspecialchars($movie['classification'] ?? 'Not Rated') ?> | <?= $durationFormatted ?> | Language: <?= htmlspecialchars($movie['language']) ?>
+                            <?= htmlspecialchars($movie['classification'] ?? 'Not Rated') ?> | <?= $durationFormatted ?>
+                            | Language: <?= htmlspecialchars($movie['language']) ?>
                         </p>
-                        <div class="movie-format mt-2">STANDARD</div>
+                        <div class="movie-format mt-2"><?= htmlspecialchars($movie["category"]) ?></div>
                         <?php foreach ($movie['cinemas'] as $cinema): ?>
                             <div class="cinema-showtimes mt-5" data-cinema-id="<?= $cinema['id'] ?>">
                                 <h3><?= htmlspecialchars($cinema['name']) ?></h3>
                                 <div class="showtimes mt-4">
-                                    <?php foreach ($cinema['showtimes'] as $time): ?>
-                                        <button class="showtime-btn"><?= $time->format('h:i A') ?></button>
+                                    <?php foreach ($cinema['showtimes'] as $showtime): ?>
+                                        <button class="showtime-btn" data-schedule-id="<?= $showtime['scheduleId'] ?>">
+                                            <?= $showtime['time']->format('h:i A') ?>
+                                            (<?= htmlspecialchars($showtime['hallType']) ?>)
+                                        </button>
                                     <?php endforeach; ?>
                                 </div>
                             </div>
@@ -176,12 +176,6 @@
                 </div>
             <?php endforeach;
         } ?>
-
-        <!--        <div class="text-center w-100 p-5">-->
-        <!--            <btn class="bg-dark text-white px-5 py-4 w-100 rounded">-->
-        <!--                <span style="font-size: 1.6rem">Show More</span>-->
-        <!--            </btn>-->
-        <!--        </div>-->
     </div>
 </div>
 
@@ -208,6 +202,90 @@
 
 <!--Footer-->
 <?php include(dirname(__DIR__) . '../../footer.php') ?>
+
+<script>
+    const movieContainer = document.getElementById('movieContainer');
+    const movies = document.querySelectorAll('.movie');
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+
+    let currentIndex = 0;
+
+    function updateCarousel() {
+        movies.forEach((movie, index) => {
+            if (index >= currentIndex && index < currentIndex + 3) {
+                movie.style.display = 'block';
+            } else {
+                movie.style.display = 'none';
+            }
+        });
+    }
+
+    prevButton.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+        }
+    });
+
+    nextButton.addEventListener('click', () => {
+        if (currentIndex < movies.length - 3) {
+            currentIndex++;
+            updateCarousel();
+        }
+    });
+
+    // Initial setup
+    updateCarousel();
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterOptions = document.querySelectorAll('#cinema-filter .filter-option');
+        const movieResults = document.querySelectorAll('.movie-result');
+        const noMoviesMessage = document.getElementById('no-movies-message');
+
+        filterOptions.forEach(option => {
+            option.addEventListener('click', function () {
+                const selectedCinemaId = this.getAttribute('data-cinema-id');
+
+                // Update active class
+                filterOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+
+                let visibleMoviesCount = 0;
+
+                movieResults.forEach(movie => {
+                    const cinemaShowtimes = movie.querySelectorAll('.cinema-showtimes');
+                    let hasVisibleShowtimes = false;
+
+                    cinemaShowtimes.forEach(cinema => {
+                        if (selectedCinemaId === 'all' || cinema.getAttribute('data-cinema-id') === selectedCinemaId) {
+                            cinema.style.display = 'block';
+                            hasVisibleShowtimes = true;
+                        } else {
+                            cinema.style.display = 'none';
+                        }
+                    });
+
+                    // Show/hide the entire movie result based on whether it has visible showtimes
+                    if (hasVisibleShowtimes) {
+                        movie.style.display = 'flex';
+                        visibleMoviesCount++;
+                    } else {
+                        movie.style.display = 'none';
+                    }
+                });
+
+                // Show/hide the "no movies" message
+                if (visibleMoviesCount === 0) {
+                    noMoviesMessage.style.display = 'block';
+                } else {
+                    noMoviesMessage.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
 </body>
 
 </html>

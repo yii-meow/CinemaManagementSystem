@@ -32,11 +32,11 @@ class Homepage
         $comingSoonMovies = $this->movieRepository->findComingSoonMovies();
         //Please do use this only at the end of the operations
 
-        $this->view('Customer/Movie/Homepage',[
-            'cinemas' => $cinemas,
-            'moviesWithGroupedSchedules' => $showtimes,
+        $this->view('Customer/Movie/Homepage', [
+                'cinemas' => $cinemas,
+                'moviesWithGroupedSchedules' => $showtimes,
                 "comingSoonMovies" => $comingSoonMovies
-                ]
+            ]
         );
     }
 }
