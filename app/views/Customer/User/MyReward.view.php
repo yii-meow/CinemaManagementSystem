@@ -9,7 +9,6 @@
 if (isset($data['user'])) {
 $user = $data['user'];
 $userRewards = $data['userRewards']; // Array of user rewards
-$rewardCount = $data['rewardCount'];
 ?>
 <div id="Customer">
     <?php include '../app/views/header.php' ?>
@@ -28,24 +27,24 @@ $rewardCount = $data['rewardCount'];
                 <button class="filter-btn" onclick="filterRewards('Ticket')">Ticket</button>
                 <button class="filter-btn" onclick="filterRewards('Food&Beverage')">Food and Beverage</button>
             </div>
-            <!-- Redeemed Rewards List -->
             <div class="redeemed-reward-list">
-                <?php foreach ($userRewards as $reward): ?>
-                    <div class="redeemed-reward-item" data-category="<?= htmlspecialchars($reward['category']) ?>">
-                        <img src="<?= ROOT ?>/assets/images/<?= !empty($reward['rewardImg']) ? htmlspecialchars($reward['rewardImg']) : 'default.jpg' ?>" alt="<?= htmlspecialchars($reward['rewardTitle']) ?>">
+                <?php foreach ($userRewards as $userReward) {
+                    $reward = $userReward->reward; // Access the Reward object
+                    ?>
+                    <div class="redeemed-reward-item" data-category="<?= htmlspecialchars($reward->getCategory()) ?>">
+                        <img src="<?= ROOT ?>/assets/images/<?= htmlspecialchars($reward->getRewardImg()) ?>" alt="<?= htmlspecialchars($reward->getRewardTitle()) ?>">
                         <div class="redeemed-reward-details">
-                            <h3><?= htmlspecialchars($reward['rewardTitle']) ?></h3>
-                            <p><?= htmlspecialchars($reward['description']) ?></p>
-                            <p class="redeem-date">Redeemed on: <?= htmlspecialchars($reward['redeemDate']->format('F j, Y')) ?></p>
+                            <h3><?= htmlspecialchars($reward->getRewardTitle()) ?></h3>
+                            <p><?= htmlspecialchars($reward->getDescription()) ?></p>
+                            <p class="redeem-date">Redeemed on: <?= htmlspecialchars($userReward->getRedeemDate()->format('F j, Y')) ?></p>
                         </div>
-                        <!-- Used Label -->
-                        <?php if ($reward['status'] === 'Used'): ?>
+                        <?php if ($userReward->getStatus() === 'Used') { ?>
                             <div class="used-label">Used</div>
-                        <?php else: ?>
+                        <?php } else { ?>
                             <div class="used-label">Unused</div>
-                        <?php endif; ?>
+                        <?php } ?>
                     </div>
-                <?php endforeach; ?>
+                <?php } ?>
             </div>
         </div>
     </div>

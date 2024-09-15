@@ -76,7 +76,6 @@
 <?php
 if (isset($data['user'])) {
 $user = $data['user'];
-$rewardCount = $data['rewardCount'];
 
 ?>
 

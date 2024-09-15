@@ -4,7 +4,7 @@ namespace App\controllers;
 
 use App\models\User;
 use App\models\UserReward;
-use App\models\Reward;
+use App\models\Reward; // Import the Reward entity
 use App\core\Controller;
 use App\core\Database;
 
@@ -15,7 +15,7 @@ class MyReward
     private $entityManager;
     private $userRepository;
     private $userRewardRepository;
-    private $rewardRepository;
+    private $rewardRepository; // Add Reward repository
 
     public function __construct()
     {
@@ -23,7 +23,7 @@ class MyReward
         $this->entityManager = Database::getEntityManager();
         $this->userRepository = $this->entityManager->getRepository(User::class);
         $this->userRewardRepository = $this->entityManager->getRepository(UserReward::class);
-        $this->rewardRepository = $this->entityManager->getRepository(Reward::class);
+        $this->rewardRepository = $this->entityManager->getRepository(Reward::class); // Initialize Reward repository
     }
 
     public function index()
@@ -50,28 +50,16 @@ class MyReward
             exit();
         }
 
-        // Fetch user rewards from the repository
+        // Fetch rewards for the user
         $userRewards = $this->userRewardRepository->findBy(['userId' => $userId]);
 
-        // Fetch reward details for the user's rewards
-        $rewardDetails = [];
+        // Fetch additional details for each reward
         foreach ($userRewards as $userReward) {
             $reward = $this->rewardRepository->find($userReward->getRewardId());
-            if ($reward) {
-                $rewardDetails[] = [
-                    'userRewardId' => $userReward->getUserRewardId(),
-                    'rewardId' => $reward->getRewardId(),
-                    'rewardTitle' => $reward->getRewardTitle(),
-                    'category' => $reward->getCategory(),
-                    'description' => $reward->getDescription(),
-                    'rewardImg' => $reward->getRewardImg(),
-                    'redeemDate' => $userReward->getRedeemDate(),
-                    'status' => $userReward->getStatus()  // Include status here
-                ];
-            }
+            $userReward->reward = $reward; // Add the reward to the userReward object
         }
 
-        // Prepare data for the view
+        // Pass the user data and user rewards to the view
         $data['user'] = [
             'userId' => $user->getUserId(),
             'profileImg' => $user->getProfileImg(),
@@ -82,8 +70,7 @@ class MyReward
             'birthDate' => $user->getBirthDate(),
             'coins' => $user->getCoins()
         ];
-        $data['userRewards'] = $rewardDetails;
-        $data['rewardCount'] = count($userRewards);
+        $data['userRewards'] = $userRewards;
 
         // Render the MyReward view
         $this->view('Customer/User/MyReward', $data);

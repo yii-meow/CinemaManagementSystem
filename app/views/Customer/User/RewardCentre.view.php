@@ -65,7 +65,6 @@
 if (isset($data['user']) && isset($data['rewards'])) {
     $user = $data['user'];
     $rewards = $data['rewards'];
-    $rewardCount = $data['rewardCount'];
     ?>
 
     <div id="Customer">

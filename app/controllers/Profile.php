@@ -5,7 +5,6 @@ namespace App\controllers;
 use App\models\User;
 use App\core\Controller;
 use App\core\Database;
-use App\models\UserReward;
 
 class Profile
 {
@@ -13,14 +12,12 @@ class Profile
 
     private $entityManager;
     private $userRepository;
-    private $userRewardRepository;
 
     public function __construct()
     {
         // Initialize entityManager and repository
         $this->entityManager = Database::getEntityManager();
         $this->userRepository = $this->entityManager->getRepository(User::class);
-        $this->userRewardRepository = $this->entityManager->getRepository(UserReward::class);
     }
 
     public function index()
@@ -47,10 +44,7 @@ class Profile
             exit();
         }
 
-        // Fetch user rewards from the repository
-        $userRewards = $this->userRewardRepository->findBy(['userId' => $userId]);
-
-        // Prepare data for the view
+        // Pass the user data to the profile view
         $data['user'] = [
             'userId' => $user->getUserId(),
             'profileImg' => $user->getProfileImg(),
@@ -61,7 +55,6 @@ class Profile
             'birthDate' => $user->getBirthDate(),
             'coins' => $user->getCoins()
         ];
-        $data['rewardCount'] = count($userRewards);
 
         $this->view('Customer/User/Profile', $data);
     }

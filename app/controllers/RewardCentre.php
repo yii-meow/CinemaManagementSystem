@@ -15,14 +15,12 @@ class RewardCentre
     private $entityManager;
     private $userRepository;
     private $rewardRepository;
-    private $userRewardRepository;
 
     public function __construct()
     {
         // Initialize EntityManager and repositories
         $this->entityManager = Database::getEntityManager();
         $this->userRepository = $this->entityManager->getRepository(User::class);
-        $this->userRewardRepository = $this->entityManager->getRepository(UserReward::class);
         $this->rewardRepository = $this->entityManager->getRepository(Reward::class);
     }
 
@@ -53,10 +51,7 @@ class RewardCentre
         // Fetch all rewards from the database
         $rewards = $this->rewardRepository->findAll();
 
-        // Fetch user rewards from the repository
-        $userRewards = $this->userRewardRepository->findBy(['userId' => $userId]);
-
-        // Prepare data for the view
+        // Pass the user and rewards data to the view
         $data['user'] = [
             'userId' => $user->getUserId(),
             'profileImg' => $user->getProfileImg(),
@@ -67,7 +62,6 @@ class RewardCentre
             'birthDate' => $user->getBirthDate(),
             'coins' => $user->getCoins()
         ];
-        $data['rewardCount'] = count($userRewards);
 
         // Pass the rewards to the view
         $data['rewards'] = $rewards;
