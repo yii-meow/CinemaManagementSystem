@@ -180,55 +180,20 @@
 <div class="coming-soon-movie container">
     <h1>COMING SOON</h1>
     <div class="movie-grid">
-        <div class="movie-card">
-            <img src="../../../public/images/movie.webp" alt="The Rocky Horror Picture Show"/>
-            <div class="p-2">
-                <h2 class="movie-title">THE ROCKY HORROR PICTURE SHOW</h2>
-                <p class="movie-date text-dark">Tomorrow, Aug. 03</p>
-            </div>
-        </div>
-        <div class="movie-card">
-            <img src="../../../public/images/movie.webp" alt="The Rocky Horror Picture Show"/>
-            <div class="p-2">
-                <h2 class="movie-title">THE ROCKY HORROR PICTURE SHOW</h2>
-                <p class="movie-date text-dark">Tomorrow, Aug. 03</p>
-            </div>
-        </div>
-        <div class="movie-card">
-            <img src="../../../public/images/movie.webp" alt="The Rocky Horror Picture Show"/>
-            <div class="p-2">
-                <h2 class="movie-title">THE ROCKY HORROR PICTURE SHOW</h2>
-                <p class="movie-date text-dark">Tomorrow, Aug. 03</p>
-            </div>
-        </div>
-        <div class="movie-card">
-            <img src="../../../public/images/movie.webp" alt="The Rocky Horror Picture Show"/>
-            <div class="p-2">
-                <h2 class="movie-title">THE ROCKY HORROR PICTURE SHOW</h2>
-                <p class="movie-date text-dark">Tomorrow, Aug. 03</p>
-            </div>
-        </div>
-        <div class="movie-card">
-            <img src="../../../public/images/movie.webp" alt="The Rocky Horror Picture Show"/>
-            <div class="p-2">
-                <h2 class="movie-title">THE ROCKY HORROR PICTURE SHOW</h2>
-                <p class="movie-date text-dark">Tomorrow, Aug. 03</p>
-            </div>
-        </div>
-        <div class="movie-card">
-            <img src="../../../public/images/movie.webp" alt="The Rocky Horror Picture Show"/>
-            <div class="p-2">
-                <h2 class="movie-title">THE ROCKY HORROR PICTURE SHOW</h2>
-                <p class="movie-date text-dark">Tomorrow, Aug. 03</p>
-            </div>
-        </div>
-        <div class="movie-card">
-            <img src="../../../public/images/movie.webp" alt="The Rocky Horror Picture Show"/>
-            <div class="p-2">
-                <h2 class="movie-title">THE ROCKY HORROR PICTURE SHOW</h2>
-                <p class="movie-date text-dark">Tomorrow, Aug. 03</p>
-            </div>
-        </div>
+        <?php
+        if(isset($comingSoonMovies) && !empty($comingSoonMovies)):
+            foreach($comingSoonMovies as $movie): ?>
+                <div class="movie-card">
+                    <img src="<?= htmlspecialchars($movie->getPhoto())?>" alt="<?= htmlspecialchars($movie->getTitle()) ?>"/>
+                    <div class="p-2">
+                        <h2 class="movie-title"><?= htmlspecialchars($movie->getTitle()) ?></h2>
+                        <p class="movie-date text-dark">Coming <?= $movie->getReleaseDate()->format('M. d, Y') ?></p>
+                    </div>
+                </div>
+            <?php endforeach;
+        else: ?>
+            <p>No coming soon movies at this time.</p>
+        <?php endif; ?>
     </div>
 </div>
 

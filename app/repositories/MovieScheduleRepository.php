@@ -45,4 +45,5 @@ class MovieScheduleRepository extends EntityRepository
 
         return array_values($groupedResults);
     }
+
 }
