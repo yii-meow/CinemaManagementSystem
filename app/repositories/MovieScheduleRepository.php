@@ -8,31 +8,41 @@ use Doctrine\ORM\EntityRepository;
 
 class MovieScheduleRepository extends EntityRepository
 {
-    public function findByMovieScheduleDate($movieId)
+    public function findMovieSchedule()
     {
-        $today = new \DateTime();
-        $tomorrow = (new \DateTime())->modify('+1 day');
+        $now = new \DateTime();
+        $endOfDay = new \DateTime('today 23:59:59');
 
-        $query = $this->createQueryBuilder('ms')
-            ->select('m.movieId, m.title, m.duration, m.language')
-            ->addSelect('GROUP_CONCAT(ms.startingTime) AS scheduleTimes')
+        $qb = $this->createQueryBuilder('ms');
+        $query = $qb
+            ->select('m.movieId', 'm.title', 'm.duration', 'm.language', 'm.photo', 'ms.startingTime')
             ->innerJoin('ms.movie', 'm')
-            ->where('ms.startingTime >= :today')
-            ->andWhere('ms.startingTime < :tomorrow')
-            ->setParameter('today', $today->format('Y-m-d 00:00:00'))
-            ->setParameter('tomorrow', $tomorrow->format('Y-m-d 00:00:00'))
-            ->groupBy('m.movieId')
+            ->where('ms.startingTime BETWEEN :now AND :endOfDay')
+            ->setParameter('now', $now)
+            ->setParameter('endOfDay', $endOfDay)
             ->orderBy('m.title', 'ASC')
+            ->addOrderBy('ms.startingTime', 'ASC')
             ->getQuery();
 
         $results = $query->getResult();
 
-        // Post-process to convert the concatenated string of times into an array
-        foreach ($results as &$result) {
-            $result['scheduleTimes'] = explode(',', $result['scheduleTimes']);
-            sort($result['scheduleTimes']);
+        // Group the results by movie
+        $groupedResults = [];
+        foreach ($results as $result) {
+            $movieId = $result['movieId'];
+            if (!isset($groupedResults[$movieId])) {
+                $groupedResults[$movieId] = [
+                    'movieId' => $movieId,
+                    'photo' => $result['photo'],
+                    'title' => $result['title'],
+                    'duration' => $result['duration'],
+                    'language' => $result['language'],
+                    'available_times' => []
+                ];
+            }
+            $groupedResults[$movieId]['available_times'][] = $result['startingTime'];
         }
 
-        return $results;
+        return array_values($groupedResults);
     }
 }

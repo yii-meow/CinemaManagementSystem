@@ -113,9 +113,9 @@
     </div>
 </div>
 
-<div class="showtime container mt-4 mb-3">
+<div class="showtime container mt-6 mb-3">
     <div class="showtime-container">
-        <span class="showtime-title">SHOWTIMES & TICKETS</span>
+        <span class="showtime-title">TODAY SHOWTIMES</span>
     </div>
     <div class="filter-section">
         <i class="fa fa-globe" aria-hidden="true"></i>
@@ -142,135 +142,32 @@
             <span class="filter-option">BENIE</span>
         </div>
     </div>
-    <div class="filter-section">
-        <i class="fa fa-clock-o" aria-hidden="true"></i>
-        <div class="filter-label">WHEN</div>
-        <div class="filter-options">
-            <?php
-            $today = new DateTime();
-            for ($i = 0; $i < 4; $i++) {
-                $date = clone $today;
-                $date->modify("+$i day");
-                $formattedDate = $date->format('l n/j');
-                $displayText = $i === 0 ? "TODAY, $formattedDate" :
-                    ($i === 1 ? "TOMORROW, $formattedDate" :
-                        strtoupper($formattedDate));
-                $isToday = $i === 0;
-                ?>
-                <span class="filter-option<?= $isToday ? ' active' : '' ?>"><?= htmlspecialchars($displayText) ?></span>
-                <?php
-            }
-            ?>
-        </div>
-    </div>
     <div class="movies">
-        <div class="movie-result">
-            <img src="../../../public/images/movie.webp" alt="Deadpool & Wolverine" class="movie-poster"/>
-            <div class="movie-details">
-                <h2 class="movie-title">DEADPOOL & WOLVERINE</h2>
-                <p class="movie-info mt-4 text-secondary">
-                    R | 2 hours and 7 minutes | CLOSED CAPTIONING, DESCRIPTIVE AUDIO,
-                    NO PASSES
-                </p>
-                <div class="movie-format mt-2">STANDARD</div>
-                <div class="showtimes mt-5">
-                    <button class="showtime-btn">10:15 AM</button>
-                    <button class="showtime-btn">11:00 AM</button>
-                    <button class="showtime-btn">12:00 PM</button>
-                    <button class="showtime-btn">01:10 PM</button>
-                    <button class="showtime-btn">02:00 PM</button>
-                    <button class="showtime-btn">03:00 PM</button>
-                    <button class="showtime-btn">04:05 PM</button>
-                    <button class="showtime-btn">05:00 PM</button>
-                    <button class="showtime-btn">06:00 PM</button>
-                    <button class="showtime-btn">07:00 PM</button>
-                    <button class="showtime-btn">08:00 PM</button>
-                    <button class="showtime-btn">09:00 PM</button>
-                    <button class="showtime-btn">10:00 PM</button>
-                </div>
-            </div>
-        </div>
+        <?php
 
+        if(isset($moviesWithGroupedSchedules)){
+        foreach ($moviesWithGroupedSchedules as $movie):
+        $duration = $movie['duration'];
+        $hours = floor($duration / 60);
+        $minutes = $duration % 60;
+        $durationFormatted = "{$hours} hours and {$minutes} minutes";
+        ?>
         <div class="movie-result">
-            <img src="../../../public/images/movie.webp" alt="Deadpool & Wolverine" class="movie-poster"/>
+            <img src="<?= htmlspecialchars($movie['photo']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>" class="movie-poster"/>
             <div class="movie-details">
-                <h2 class="movie-title">DEADPOOL & WOLVERINE</h2>
+                <h2 class="movie-title"><?= htmlspecialchars(strtoupper($movie['title'])) ?></h2>
                 <p class="movie-info mt-4 text-secondary">
-                    R | 2 hours and 7 minutes | CLOSED CAPTIONING, DESCRIPTIVE AUDIO,
-                    NO PASSES
+                    <?= htmlspecialchars($movie['classification'] ?? 'Not Rated') ?> | <?= $durationFormatted ?> | <?= htmlspecialchars($movie['language']) ?>, CLOSED CAPTIONING, DESCRIPTIVE AUDIO
                 </p>
                 <div class="movie-format mt-2">STANDARD</div>
                 <div class="showtimes mt-5">
-                    <button class="showtime-btn">10:15 AM</button>
-                    <button class="showtime-btn">11:00 AM</button>
-                    <button class="showtime-btn">12:00 PM</button>
-                    <button class="showtime-btn">01:10 PM</button>
-                    <button class="showtime-btn">02:00 PM</button>
-                    <button class="showtime-btn">03:00 PM</button>
-                    <button class="showtime-btn">04:05 PM</button>
-                    <button class="showtime-btn">05:00 PM</button>
-                    <button class="showtime-btn">06:00 PM</button>
-                    <button class="showtime-btn">07:00 PM</button>
-                    <button class="showtime-btn">08:00 PM</button>
-                    <button class="showtime-btn">09:00 PM</button>
-                    <button class="showtime-btn">10:00 PM</button>
+                    <?php foreach ($movie['available_times'] as $time): ?>
+                        <button class="showtime-btn"><?= $time->format('h:i A') ?></button>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
-
-        <div class="movie-result">
-            <img src="../../../public/images/movie.webp" alt="Deadpool & Wolverine" class="movie-poster"/>
-            <div class="movie-details">
-                <h2 class="movie-title">DEADPOOL & WOLVERINE</h2>
-                <p class="movie-info mt-4 text-secondary">
-                    R | 2 hours and 7 minutes | CLOSED CAPTIONING, DESCRIPTIVE AUDIO,
-                    NO PASSES
-                </p>
-                <div class="movie-format mt-2">STANDARD</div>
-                <div class="showtimes mt-5">
-                    <button class="showtime-btn">10:15 AM</button>
-                    <button class="showtime-btn">11:00 AM</button>
-                    <button class="showtime-btn">12:00 PM</button>
-                    <button class="showtime-btn">01:10 PM</button>
-                    <button class="showtime-btn">02:00 PM</button>
-                    <button class="showtime-btn">03:00 PM</button>
-                    <button class="showtime-btn">04:05 PM</button>
-                    <button class="showtime-btn">05:00 PM</button>
-                    <button class="showtime-btn">06:00 PM</button>
-                    <button class="showtime-btn">07:00 PM</button>
-                    <button class="showtime-btn">08:00 PM</button>
-                    <button class="showtime-btn">09:00 PM</button>
-                    <button class="showtime-btn">10:00 PM</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="movie-result">
-            <img src="../../../public/images/movie.webp" alt="Deadpool & Wolverine" class="movie-poster"/>
-            <div class="movie-details">
-                <h2 class="movie-title">DEADPOOL & WOLVERINE</h2>
-                <p class="movie-info mt-4 text-secondary">
-                    R | 2 hours and 7 minutes | CLOSED CAPTIONING, DESCRIPTIVE AUDIO,
-                    NO PASSES
-                </p>
-                <div class="movie-format mt-2">STANDARD</div>
-                <div class="showtimes mt-5">
-                    <button class="showtime-btn">10:15 AM</button>
-                    <button class="showtime-btn">11:00 AM</button>
-                    <button class="showtime-btn">12:00 PM</button>
-                    <button class="showtime-btn">01:10 PM</button>
-                    <button class="showtime-btn">02:00 PM</button>
-                    <button class="showtime-btn">03:00 PM</button>
-                    <button class="showtime-btn">04:05 PM</button>
-                    <button class="showtime-btn">05:00 PM</button>
-                    <button class="showtime-btn">06:00 PM</button>
-                    <button class="showtime-btn">07:00 PM</button>
-                    <button class="showtime-btn">08:00 PM</button>
-                    <button class="showtime-btn">09:00 PM</button>
-                    <button class="showtime-btn">10:00 PM</button>
-                </div>
-            </div>
-        </div>
+        <?php endforeach; } ?>
 
         <div class="text-center w-100 p-5">
             <btn class="bg-dark text-white px-5 py-4 w-100 rounded">

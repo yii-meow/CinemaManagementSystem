@@ -25,12 +25,13 @@ class Homepage
     public function index()
     {
         $cinemas = $this->cinemaRepository->findAll();
-        $filteredShowtime = $this->movieScheduleRepository->findByMovieScheduleDate(1);
-        show($filteredShowtime);
+        $showtimes = $this->movieScheduleRepository->findMovieSchedule();
         //Please do use this only at the end of the operations
 
-        $this->view('Customer/Movie/Homepage',
-            ['cinemas' => $cinemas]
+        $this->view('Customer/Movie/Homepage',[
+            'cinemas' => $cinemas,
+            'moviesWithGroupedSchedules' => $showtimes
+                ]
         );
     }
 }
