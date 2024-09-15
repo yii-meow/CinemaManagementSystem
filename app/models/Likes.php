@@ -13,16 +13,17 @@ class Likes implements SplSubject
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $likeID;
 
-    #[ORM\ManyToOne(targetEntity: 'Post', inversedBy: 'likes')]
+    //Foreign key
+    #[ORM\ManyToOne(inversedBy: 'likes')]
     #[ORM\JoinColumn(name: 'postID', referencedColumnName: 'postID', nullable: false)]
-    private $post;
+    private Post $post;
 
     #[ORM\Column(type: 'datetime')]
     private $likeDate;
 
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\ManyToOne(inversedBy: '$liker')]
     #[ORM\JoinColumn(name: 'likedBy', referencedColumnName: 'userId', nullable: false)]
-    private $likedBy;
+    private User $likedBy;
 
     private $observers = [];
 

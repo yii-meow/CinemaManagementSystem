@@ -5,8 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 use App\repositories\PostRepository;
 
 
-#[ORM\Entity]
 #[ORM\Table(name: 'Post')]
+#[ORM\Entity(repositoryClass:PostRepository::class)]
 class Post
 {
     #[ORM\Id]
@@ -14,15 +14,21 @@ class Post
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $postID;
 
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    //Foreign key - Many to One alway the owning side (use InversedBy)
+    #[ORM\ManyToOne(inversedBy: 'posts')] // post is the owning side
     #[ORM\JoinColumn(name: 'userID', referencedColumnName: 'userId', nullable: false)]
-    private $user;
+    private User $user;
 
+    //Foreign side
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: 'Comment')]
     private $comments;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: 'Likes')]
     private $likes;
+
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: 'ReportRequest')]
+    private $reportPost;
+
 
     #[ORM\Column(type: 'string', length: 255)]
     private $content;
