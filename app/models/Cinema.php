@@ -29,6 +29,9 @@ class Cinema
     #[ORM\Column(type: 'string', length: 255)]
     private $openingHours;
 
+    #[ORM\OneToMany(mappedBy: 'cinema', targetEntity: CinemaHall::class)]
+    private $cinemaHalls;
+
     // Getters and setters
 
     public function getCinemaId(): ?int

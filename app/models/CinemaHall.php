@@ -1,36 +1,36 @@
 <?php
-////
-////namespace App\models;
-////
-////use App\repositories\CinemaHallRepository;
-////use Doctrine\Common\Collections\Collection;
-////use Doctrine\ORM\Mapping as ORM;
-////
-////#[ORM\Entity(repositoryClass: CinemaHallRepository::class)]
-////#[ORM\Table(name: 'CinemaHall')]
-////class CinemaHall
-////{
-////    #[ORM\Id]
-////    #[ORM\GeneratedValue]
-////    #[ORM\Column(type: 'integer')]
-////    private $hallId;
-////
-////
-////    #[ORM\Column(type: 'string')]
-////    private $hallName;
-////
-////    #[ORM\Column(type: 'integer')]
-////    private $capacity;
-////
-////    #[ORM\Column(type: 'string')]
-////    private $hallType;
-////
-////
-////    //Foreign Key
-////    #[ORM\ManyToOne(targetEntity: Cinema::class)]
-////    #[ORM\JoinColumn(name: "cinemaId", referencedColumnName: "cinemaId", onDelete: "CASCADE")]
-////    private Collection $cinemas;
-////
+//
+//namespace App\models;
+//
+//use App\repositories\CinemaHallRepository;
+//use Doctrine\Common\Collections\Collection;
+//use Doctrine\ORM\Mapping as ORM;
+//
+//#[ORM\Entity(repositoryClass: CinemaHallRepository::class)]
+//#[ORM\Table(name: 'CinemaHall')]
+//class CinemaHall
+//{
+//    #[ORM\Id]
+//    #[ORM\GeneratedValue]
+//    #[ORM\Column(type: 'integer')]
+//    private $hallId;
+//
+//
+//    #[ORM\Column(type: 'string')]
+//    private $hallName;
+//
+//    #[ORM\Column(type: 'integer')]
+//    private $capacity;
+//
+//    #[ORM\Column(type: 'string')]
+//    private $hallType;
+//
+//
+//    //Foreign Key
+//    #[ORM\ManyToOne(targetEntity: Cinema::class)]
+//    #[ORM\JoinColumn(name: "cinemaId", referencedColumnName: "cinemaId", onDelete: "CASCADE")]
+//    private Collection $cinemas;
+//
 ////
 ////
 ////
@@ -254,7 +254,7 @@ class CinemaHall
     #[ORM\Column(type: 'string', length: 255)]
     private $hallType;
 
-    #[ORM\ManyToOne(targetEntity: Cinema::class)]
+    #[ORM\ManyToOne(targetEntity: Cinema::class, inversedBy: 'cinemaHalls')]
     #[ORM\JoinColumn(name: 'cinemaId', referencedColumnName: 'cinemaId')]
     private $cinema;
 

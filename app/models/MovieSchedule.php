@@ -18,7 +18,7 @@ class MovieSchedule
     private $startingTime;
 
     #[ORM\ManyToOne(targetEntity: Movie::class)]
-    #[ORM\JoinColumn(name: 'movieId', referencedColumnName: 'movieId')]
+    #[ORM\JoinColumn(name: 'movieId', referencedColumnName: 'movieId', nullable: false)]
     private $movie;
 
     #[ORM\ManyToOne(targetEntity: CinemaHall::class)]

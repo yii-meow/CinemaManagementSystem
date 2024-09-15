@@ -10,15 +10,29 @@ class MovieScheduleRepository extends EntityRepository
 {
     public function findByMovieScheduleDate($movieId)
     {
-        return $this->createQueryBuilder('ms')
-            ->select('ms.startingTime')
-            ->addSelect('MIN(ms.movieScheduleId) AS movieScheduleId')
-            ->where('ms.movie = :movieId')
-            ->andWhere('ms.startingTime > CURRENT_TIMESTAMP()')
-            ->setParameter('movieId', $movieId)
-            ->groupBy('ms.startingTime')
-            ->orderBy('ms.startingTime', 'ASC')
-            ->getQuery()
-            ->getResult();
+        $today = new \DateTime();
+        $tomorrow = (new \DateTime())->modify('+1 day');
+
+        $query = $this->createQueryBuilder('ms')
+            ->select('m.movieId, m.title, m.duration, m.language')
+            ->addSelect('GROUP_CONCAT(ms.startingTime) AS scheduleTimes')
+            ->innerJoin('ms.movie', 'm')
+            ->where('ms.startingTime >= :today')
+            ->andWhere('ms.startingTime < :tomorrow')
+            ->setParameter('today', $today->format('Y-m-d 00:00:00'))
+            ->setParameter('tomorrow', $tomorrow->format('Y-m-d 00:00:00'))
+            ->groupBy('m.movieId')
+            ->orderBy('m.title', 'ASC')
+            ->getQuery();
+
+        $results = $query->getResult();
+
+        // Post-process to convert the concatenated string of times into an array
+        foreach ($results as &$result) {
+            $result['scheduleTimes'] = explode(',', $result['scheduleTimes']);
+            sort($result['scheduleTimes']);
+        }
+
+        return $results;
     }
 }
