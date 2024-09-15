@@ -13,16 +13,17 @@ class Reply implements SplSubject
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $replyID;
 
-    #[ORM\ManyToOne(targetEntity: 'Comment', inversedBy: 'replies')]
+    //Foreign key
+    #[ORM\ManyToOne(inversedBy: '$comment')]
     #[ORM\JoinColumn(name: 'commentID', referencedColumnName: 'commentID', nullable: false)]
-    private $comment;
+    private Comment $comment;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $replyText;
 
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\ManyToOne(inversedBy: '$reply')]
     #[ORM\JoinColumn(name: 'replyUserID', referencedColumnName: 'userId', nullable: false)]
-    private $replyUser;
+    private User $userReply;
 
     private $observers = [];
 

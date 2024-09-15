@@ -6,6 +6,7 @@ use App\models\User;
 use App\models\Reward;
 use App\core\Controller;
 use App\core\Database;
+use App\models\UserReward;
 
 class RewardCentre
 {
@@ -67,5 +68,63 @@ class RewardCentre
 
         // Render the RewardCentre view
         $this->view('Customer/User/RewardCentre', $data);
+    }
+
+    public function redeemReward($rewardId)
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['userId'])) {
+            echo json_encode(['status' => 'error', 'message' => 'User not logged in']);
+            exit();
+        }
+
+        $userId = $_SESSION['userId'];
+
+        // Fetch user and reward from the repositories
+        $user = $this->userRepository->find($userId);
+        $reward = $this->rewardRepository->find($rewardId);
+
+        if (!$user || !$reward) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid user or reward']);
+            exit();
+        }
+
+        // Check if the user has enough coins
+        if ($user->getCoins() < $reward->getNeededCoins()) {
+            echo json_encode(['status' => 'error', 'message' => 'Not enough coins']);
+            exit();
+        }
+
+        // Check if the reward is available in stock
+        if ($reward->getQty() <= 0) {
+            echo json_encode(['status' => 'error', 'message' => 'Reward out of stock']);
+            exit();
+        }
+
+        // Deduct the coins from the user
+        $user->setCoins($user->getCoins() - $reward->getNeededCoins());
+
+        // Update the reward quantity
+        $reward->setQty($reward->getQty() - 1);
+
+        // Create a new UserReward entry
+        $userReward = new UserReward();
+        $userReward->setUser($user);
+        $userReward->setReward($reward);
+        $userReward->setStatus('Unused');
+        $userReward->setRedeemDate(new \DateTime());
+
+        // Persist changes to the database
+        $this->entityManager->persist($user);
+        $this->entityManager->persist($reward);
+        $this->entityManager->persist($userReward);
+        $this->entityManager->flush();
+
+        // Send success response
+        echo json_encode(['status' => 'success', 'message' => 'Reward redeemed successfully']);
+        exit();
     }
 }

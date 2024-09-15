@@ -11,8 +11,10 @@ class ReportRequest{
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $reportID;
 
-    #[ORM\Column(type: 'integer')]
-    private $postID;
+    //Foreign key
+    #[ORM\ManyToOne(inversedBy: 'reportPost')]
+    #[ORM\JoinColumn(name: 'postID', referencedColumnName: 'postID', nullable: false)]
+    private Post $post;
 
     #[ORM\Column(type: 'datetime')]
     private $reportDate;

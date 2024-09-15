@@ -12,6 +12,9 @@ class Reward
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $rewardId;
 
+    #[ORM\OneToMany(mappedBy: 'reward', targetEntity: UserReward::class)]
+    private $userRewards;
+
     #[ORM\Column(type: 'string', length: 255)]
     private $rewardTitle;
 

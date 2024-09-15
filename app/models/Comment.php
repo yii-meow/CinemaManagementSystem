@@ -13,13 +13,17 @@ class Comment implements SplSubject
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $commentID;
 
-    #[ORM\ManyToOne(targetEntity: 'Post', inversedBy: 'comments')]
+    //Foreign key
+    #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(name: 'postID', referencedColumnName: 'postID', nullable: false)]
-    private $post;
+    private Post $post;
 
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\ManyToOne(inversedBy: '$commenters')]
     #[ORM\JoinColumn(name: 'commenterID', referencedColumnName: 'userId', nullable: false)]
-    private $commenter;
+    private User $commenter;
+
+    #[ORM\OneToMany(mappedBy: '$comment', targetEntity: 'Reply')]
+    private $comment;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $commentText;

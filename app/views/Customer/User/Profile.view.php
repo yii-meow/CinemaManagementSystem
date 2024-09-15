@@ -12,6 +12,7 @@
     // Ensure that $data['user'] is set and assign it to $user
     if (isset($data['user'])) {
         $user = $data['user'];
+
         ?>
     <?php include '../app/views/header.php' ?>
 

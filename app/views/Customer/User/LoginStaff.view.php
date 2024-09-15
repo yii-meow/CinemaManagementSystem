@@ -22,6 +22,26 @@
     <title>Categories</title>
 
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
+    <style>
+        /* Wrapper for the password input and icon */
+        .password-group {
+            position: relative;
+        }
+
+        .password-group input {
+            padding-right: 40px; /* Add space for the eye icon */
+        }
+
+        .password-group .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 10px; /* Position the eye icon inside the input box */
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #777;
+        }
+    </style>
 </head>
 
 <body>
@@ -73,12 +93,13 @@
                                        placeholder="Mobile Number" onfocus="this.placeholder = ''"
                                        onblur="this.placeholder = 'Mobile Number'">
                             </div>
-                            <div class="col-md-12 form-group">
-                                <input type="password" class="form-control" id="password" name="password"
-                                       placeholder="Password" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Password'">
-                                <br>
+                            <div class="col-md-12 form-group password-group">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                                <span class="fa fa-eye password-toggle" onclick="togglePassword()"></span>
                             </div>
+                            <br>
+                            <br>
+                            <br>
 
                             <div class="col-md-12 form-group">
                                 <button type="submit" value="submit" class="primary-btn">Log In</button>
@@ -99,7 +120,21 @@
     <script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script>
+        function togglePassword() {
+            var passwordInput = document.getElementById('password');
+            var toggleIcon = document.querySelector('.password-toggle');
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            }
+        }
+    </script>
 </body>
 
 </html>

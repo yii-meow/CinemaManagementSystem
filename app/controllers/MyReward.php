@@ -3,6 +3,8 @@
 namespace App\controllers;
 
 use App\models\User;
+use App\models\UserReward;
+use App\models\Reward;
 use App\core\Controller;
 use App\core\Database;
 
@@ -12,12 +14,16 @@ class MyReward
 
     private $entityManager;
     private $userRepository;
+    private $userRewardRepository;
+    private $rewardRepository;
 
     public function __construct()
     {
-        // Initialize EntityManager and User repository
+        // Initialize EntityManager and repositories
         $this->entityManager = Database::getEntityManager();
         $this->userRepository = $this->entityManager->getRepository(User::class);
+        $this->userRewardRepository = $this->entityManager->getRepository(UserReward::class);
+        $this->rewardRepository = $this->entityManager->getRepository(Reward::class);
     }
 
     public function index()
@@ -30,7 +36,7 @@ class MyReward
         // Check if userId is set in the session
         if (!isset($_SESSION['userId'])) {
             // Redirect to login if userId is not set
-            header('Location: ' . ROOT . '/Login');
+            $this->view('Customer/User/Login');
             exit();
         }
 
@@ -44,7 +50,16 @@ class MyReward
             exit();
         }
 
-        // Pass the user data to the view
+        // Fetch rewards for the user
+        $userRewards = $this->userRewardRepository->findBy(['user' => $user]);
+
+        // Fetch additional details for each reward
+        foreach ($userRewards as $userReward) {
+            $reward = $this->rewardRepository->find($userReward->getReward());
+            $userReward->setReward($reward); // Set the reward using a setter
+        }
+
+        // Pass the user data and user rewards to the view
         $data['user'] = [
             'userId' => $user->getUserId(),
             'profileImg' => $user->getProfileImg(),
@@ -55,6 +70,7 @@ class MyReward
             'birthDate' => $user->getBirthDate(),
             'coins' => $user->getCoins()
         ];
+        $data['userRewards'] = $userRewards;
 
         // Render the MyReward view
         $this->view('Customer/User/MyReward', $data);
