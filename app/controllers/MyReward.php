@@ -3,6 +3,8 @@
 namespace App\controllers;
 
 use App\models\User;
+use App\models\UserReward;
+use App\models\Reward; // Import the Reward entity
 use App\core\Controller;
 use App\core\Database;
 
@@ -12,12 +14,16 @@ class MyReward
 
     private $entityManager;
     private $userRepository;
+    private $userRewardRepository;
+    private $rewardRepository; // Add Reward repository
 
     public function __construct()
     {
-        // Initialize EntityManager and User repository
+        // Initialize EntityManager and repositories
         $this->entityManager = Database::getEntityManager();
         $this->userRepository = $this->entityManager->getRepository(User::class);
+        $this->userRewardRepository = $this->entityManager->getRepository(UserReward::class);
+        $this->rewardRepository = $this->entityManager->getRepository(Reward::class); // Initialize Reward repository
     }
 
     public function index()
@@ -44,7 +50,16 @@ class MyReward
             exit();
         }
 
-        // Pass the user data to the view
+        // Fetch rewards for the user
+        $userRewards = $this->userRewardRepository->findBy(['userId' => $userId]);
+
+        // Fetch additional details for each reward
+        foreach ($userRewards as $userReward) {
+            $reward = $this->rewardRepository->find($userReward->getRewardId());
+            $userReward->reward = $reward; // Add the reward to the userReward object
+        }
+
+        // Pass the user data and user rewards to the view
         $data['user'] = [
             'userId' => $user->getUserId(),
             'profileImg' => $user->getProfileImg(),
@@ -55,6 +70,7 @@ class MyReward
             'birthDate' => $user->getBirthDate(),
             'coins' => $user->getCoins()
         ];
+        $data['userRewards'] = $userRewards;
 
         // Render the MyReward view
         $this->view('Customer/User/MyReward', $data);

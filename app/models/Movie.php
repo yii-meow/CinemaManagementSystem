@@ -5,7 +5,7 @@ namespace App\models;
 use App\repositories\MovieRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: MovieRepository::class)]
 #[ORM\Table(name: 'Movie')]
 class Movie
 {
@@ -52,6 +52,9 @@ class Movie
 
     #[ORM\Column(type: 'string', length: 255)]
     private $status;
+
+    #[ORM\OneToMany(mappedBy: 'movie', targetEntity: MovieSchedule::class)]
+    private $schedules;
 
     public function getMovieId(): ?int
     {

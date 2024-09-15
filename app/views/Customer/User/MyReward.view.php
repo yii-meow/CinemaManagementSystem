@@ -1,28 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-          integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"></script>
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css" />
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css" />
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/profile.css" />
-    <title>Categories</title>
-
-    <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
-</head>
+<?php include '../app/views/user_header.php' ?>
 
 <body>
 
@@ -30,85 +8,74 @@
 // Ensure that $data['user'] is set and assign it to $user
 if (isset($data['user'])) {
 $user = $data['user'];
-
+$userRewards = $data['userRewards']; // Array of user rewards
 ?>
 <div id="Customer">
-
     <?php include '../app/views/header.php' ?>
-
-
     <?php include '../app/views/navigationBar.php' ?>
-
-
-    <!--Main Contents-->
-
     <div class="outer-box">
         <div class="main-title">
             User Profile
         </div>
         <!-- Left Sidebar -->
         <?php include '../app/views/ProfileNav.php' ?>
-
-
         <!-- Right Content -->
         <div class="right-box">
             <h2>My Reward</h2>
-
-            <!-- Filter Options -->
             <div class="filter-options">
                 <button class="filter-btn active" onclick="filterRewards('all')">All</button>
-                <button class="filter-btn" onclick="filterRewards('ticket')">Ticket</button>
-                <button class="filter-btn" onclick="filterRewards('food')">Food and Beverage</button>
+                <button class="filter-btn" onclick="filterRewards('Ticket')">Ticket</button>
+                <button class="filter-btn" onclick="filterRewards('Food&Beverage')">Food and Beverage</button>
             </div>
-
-            <!-- Redeemed Rewards List -->
             <div class="redeemed-reward-list">
-                <div class="redeemed-reward-item">
-                    <img src="<?= ROOT ?>/assets/images/mainMovie_1.jpg" alt="Reward 1">
-                    <div class="redeemed-reward-details">
-                        <h3>Reward Title 1</h3>
-                        <p>Description of the redeemed reward goes here. This could include details about what
-                            the reward is for.
-                        </p>
-                        <p class="redeem-date">Redeemed on: August 29, 2024</p>
+                <?php foreach ($userRewards as $userReward) {
+                    $reward = $userReward->reward; // Access the Reward object
+                    ?>
+                    <div class="redeemed-reward-item" data-category="<?= htmlspecialchars($reward->getCategory()) ?>">
+                        <img src="<?= ROOT ?>/assets/images/<?= htmlspecialchars($reward->getRewardImg()) ?>" alt="<?= htmlspecialchars($reward->getRewardTitle()) ?>">
+                        <div class="redeemed-reward-details">
+                            <h3><?= htmlspecialchars($reward->getRewardTitle()) ?></h3>
+                            <p><?= htmlspecialchars($reward->getDescription()) ?></p>
+                            <p class="redeem-date">Redeemed on: <?= htmlspecialchars($userReward->getRedeemDate()->format('F j, Y')) ?></p>
+                        </div>
+                        <?php if ($userReward->getStatus() === 'Used') { ?>
+                            <div class="used-label">Used</div>
+                        <?php } else { ?>
+                            <div class="used-label">Unused</div>
+                        <?php } ?>
                     </div>
-                    <!-- Used Label -->
-                    <div class="used-label">Used</div>
-                </div>
-                <div class="redeemed-reward-item">
-                    <img src="<?= ROOT ?>/assets/images/mainMovie_1.jpg" alt="Reward 2">
-                    <div class="redeemed-reward-details">
-                        <h3>Reward Title 2</h3>
-                        <p>Description of the redeemed reward goes here. This could include details about what
-                            the reward is for.
-                        </p>
-                        <p class="redeem-date">Redeemed on: August 30, 2024</p>
-                    </div>
-                </div>
-                <!-- Add more redeemed reward items as needed -->
+                <?php } ?>
             </div>
         </div>
     </div>
-
-    <!--End of Main Contents-->
-
-
     <?php include '../app/views/footer.php' ?>
-
-
     <?php
     } else {
-        // If $user is not set, handle the error appropriately
         echo "User data not available";
         exit();
     }
     ?>
-
-    <!--JavaScripts-->
+    <!-- JavaScripts -->
     <script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script>
+        function filterRewards(category) {
+            var filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(function (button) {
+                button.classList.remove('active');
+            });
+            document.querySelector(`.filter-btn[onclick="filterRewards('${category}')"]`).classList.add('active');
+            var rewards = document.querySelectorAll('.redeemed-reward-item');
+            rewards.forEach(function (reward) {
+                if (category === 'all' || reward.getAttribute('data-category') === category) {
+                    reward.style.display = 'flex';
+                } else {
+                    reward.style.display = 'none';
+                }
+            });
+        }
+        filterRewards('all');
+    </script>
 </body>
-
 </html>

@@ -53,15 +53,13 @@
 
 /* Reward Item */
 .reward-item {
-    background-color: #222;
-    padding: 15px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    border-left: 2px solid #f03351;
-    border-right: 2px solid #f03351;
-    gap: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: #000;
+    padding: 10px;
+    border-radius: 5px;
+    flex: 1;
+    margin: 0 5px;
+    text-align: center;
+    display: flex; /* Ensure items are shown in flex layout */
 }
 
 .reward-item-info {
