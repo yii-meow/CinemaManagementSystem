@@ -28,17 +28,20 @@ $userRewards = $data['userRewards'];
             </div>
             <div class="redeemed-reward-list">
                 <?php foreach ($userRewards as $userReward) {
-                    $reward = $userReward->getReward(); // Access the Reward object
+                    $reward = $userReward->getReward();  // Fetch the associated Reward object
                     ?>
                     <div class="redeemed-reward-item" data-category="<?= htmlspecialchars($reward->getCategory()) ?>">
                         <img src="<?= ROOT ?>/assets/images/<?= htmlspecialchars($reward->getRewardImg()) ?>" alt="<?= htmlspecialchars($reward->getRewardTitle()) ?>">
                         <div class="redeemed-reward-details">
                             <h3><?= htmlspecialchars($reward->getRewardTitle()) ?></h3>
                             <p><?= htmlspecialchars($reward->getDescription()) ?></p>
-                            <p class="redeem-date">Redeemed on: <?= htmlspecialchars($userReward->getRedeemDate()->format('F j, Y')) ?></p>
+                            <p>Promo Code: <?= htmlspecialchars($userReward->getPromoCode()) ?></p>
+                            <p class="redeem-date">Redeemed on: <?= htmlspecialchars($userReward->getRedeemDate()) ?></p>
                         </div>
-                        <?php if ($userReward->getStatus() === 'Used') { ?>
+                        <?php if ($userReward->getRewardCondition() === 'used') { ?>
                             <div class="used-label">Used</div>
+                        <?php } else { ?>
+                            <div class="used-label">Unused</div>
                         <?php } ?>
                     </div>
                 <?php } ?>

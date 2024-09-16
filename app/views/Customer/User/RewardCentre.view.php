@@ -53,6 +53,7 @@ if (isset($data['user']) && isset($data['rewards'])) {
                 <div class="reward-list">
                     <?php foreach ($rewards as $reward): ?>
                         <div class="reward-item" data-category="<?= $reward->getCategory() ?>"
+                             data-reward-id="<?= $reward->getRewardId() ?>"
                              onclick="openRewardDetail(
                                      '<?= $reward->getRewardTitle() ?>',
                                      '<?= $reward->getCategory() ?>',
@@ -68,7 +69,7 @@ if (isset($data['user']) && isset($data['rewards'])) {
                                 <p><?= $reward->getDescription() ?></p>
                                 <p>Quantity: <?= $reward->getQty() ?></p>
                                 <p>Needed Coins: <?= $reward->getNeededCoins() ?></p>
-                                <button class="btn-redeem" data-reward-id="<?= $reward->getRewardId() ?>">Redeem</button>
+                                <button class="btn-redeem">Redeem</button>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -124,6 +125,29 @@ if (isset($data['user']) && isset($data['rewards'])) {
 
     filterRewards('all');
 
+    function redeemReward(event, rewardId) {
+        event.stopPropagation(); // Prevent the click event from propagating to parent elements
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "RewardCentre/redeemReward/", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                alert(xhr.responseText);
+                location.reload(); // Reload the page to reflect changes
+            } else {
+                alert("Error redeeming reward.");
+            }
+        };
+        xhr.send("rewardId=" + rewardId);
+    }
+
+    document.querySelectorAll('.btn-redeem').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            var rewardId = this.closest('.reward-item').dataset.rewardId;
+            redeemReward(event, rewardId); // Pass the event to redeemReward
+        });
+    });
+
     function openRewardDetail(title, category, description, details, qty, neededCoins, imgSrc) {
         document.getElementById('reward-title').textContent = title;
         document.getElementById('reward-category').textContent = 'Category: ' + category;
@@ -147,35 +171,6 @@ if (isset($data['user']) && isset($data['rewards'])) {
             modal.style.display = 'none';
         }
     }
-
-    document.querySelectorAll('.btn-redeem').forEach(function (button) {
-        button.addEventListener('click', function (event) {
-            // Stop the click event from propagating to the parent element (reward item)
-            event.stopPropagation();
-
-            const rewardId = this.getAttribute('data-reward-id');
-
-            // Make an AJAX request to redeem the reward
-            fetch('<?= ROOT ?>/RewardCentre/redeemReward/' + rewardId, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        alert('Reward redeemed successfully');
-                        location.reload(); // Reload the page to update the reward list and user coins
-                    } else {
-                        alert(data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
-    });
 </script>
 
 </body>

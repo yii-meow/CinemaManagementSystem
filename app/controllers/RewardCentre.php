@@ -70,61 +70,91 @@ class RewardCentre
         $this->view('Customer/User/RewardCentre', $data);
     }
 
-    public function redeemReward($rewardId)
+    public function redeemReward()
     {
+        // Start the session if it's not already started
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
 
+        // Check if userId is set in the session
         if (!isset($_SESSION['userId'])) {
-            echo json_encode(['status' => 'error', 'message' => 'User not logged in']);
+            // Redirect to login if userId is not set
+            header('Location: ' . ROOT . '/Login');
             exit();
         }
 
         $userId = $_SESSION['userId'];
+        $rewardId = $_POST['rewardId']; // Assuming rewardId is passed via POST
 
-        // Fetch user and reward from the repositories
+        // Fetch user and reward details
         $user = $this->userRepository->find($userId);
         $reward = $this->rewardRepository->find($rewardId);
 
         if (!$user || !$reward) {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid user or reward']);
+            echo "User or reward not found";
             exit();
         }
 
         // Check if the user has enough coins
         if ($user->getCoins() < $reward->getNeededCoins()) {
-            echo json_encode(['status' => 'error', 'message' => 'Not enough coins']);
+            echo "Not enough coins to redeem this reward.";
             exit();
         }
 
-        // Check if the reward is available in stock
+        // Check if the reward quantity is available
         if ($reward->getQty() <= 0) {
-            echo json_encode(['status' => 'error', 'message' => 'Reward out of stock']);
+            echo "Reward is out of stock.";
             exit();
         }
 
-        // Deduct the coins from the user
-        $user->setCoins($user->getCoins() - $reward->getNeededCoins());
-
-        // Update the reward quantity
-        $reward->setQty($reward->getQty() - 1);
-
-        // Create a new UserReward entry
+        // Proceed with redemption
         $userReward = new UserReward();
         $userReward->setUser($user);
         $userReward->setReward($reward);
-        $userReward->setStatus('Unused');
-        $userReward->setRedeemDate(new \DateTime());
+        $userReward->setRewardCondition('unused'); // Updated method name
 
-        // Persist changes to the database
-        $this->entityManager->persist($user);
-        $this->entityManager->persist($reward);
+        // Generate a unique 6-digit promo code
+        $promoCode = $this->generatePromoCode();
+        $userReward->setPromoCode($promoCode);
+
+        // Set the redeem date in yyyy-mm-dd format
+        $redeemDate = new \DateTime();
+        $formattedRedeemDate = $redeemDate->format('Y-m-d'); // Format date to yyyy-mm-dd
+        $userReward->setRedeemDate($formattedRedeemDate);
+
+        // Persist the new user reward
         $this->entityManager->persist($userReward);
+
+        // Update the reward quantity
+        $reward->setQty($reward->getQty() - 1);
         $this->entityManager->flush();
 
-        // Send success response
-        echo json_encode(['status' => 'success', 'message' => 'Reward redeemed successfully']);
-        exit();
+        // Update user's coins
+        $user->setCoins($user->getCoins() - $reward->getNeededCoins());
+        $this->entityManager->flush();
+
+        echo "Reward redeemed successfully. Your promo code is: " . $promoCode;
     }
+
+    private function generatePromoCode(): int
+    {
+        $promoCode = rand(100000, 999999);
+
+        // Check for uniqueness
+        while ($this->isPromoCodeExists($promoCode)) {
+            $promoCode = rand(100000, 999999);
+        }
+
+        return $promoCode;
+    }
+
+    private function isPromoCodeExists($promoCode): bool
+    {
+        // Query the database to check if the promo code already exists
+        $promoRepository = $this->entityManager->getRepository(UserReward::class);
+        return $promoRepository->findOneBy(['promoCode' => $promoCode]) !== null;
+    }
+
+
 }
