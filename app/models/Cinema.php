@@ -5,7 +5,7 @@ namespace App\models;
 use App\repositories\CinemaRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: CinemaRepository::class)]
 #[ORM\Table(name: 'Cinema')]
 class Cinema
 {
@@ -92,6 +92,22 @@ class Cinema
     {
         $this->openingHours = $openingHours;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCinemaHalls()
+    {
+        return $this->cinemaHalls;
+    }
+
+    /**
+     * @param mixed $cinemaHalls
+     */
+    public function setCinemaHalls($cinemaHalls): void
+    {
+        $this->cinemaHalls = $cinemaHalls;
     }
 
 

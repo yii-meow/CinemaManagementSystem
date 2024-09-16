@@ -4,7 +4,7 @@
         <div class="sidebar p-3">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="CinemaManagement">
                         <i class="fas fa-film me-4 fa-lg"></i>
                         Cinemas
                     </a>
@@ -52,6 +52,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="TicketPricingManagement">
+                        <i class="fa fa-ticket me-4 fa-lg"></i>
+                        Ticket Pricing Management
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="TicketTracking.html">
                         <i class="fa fa-ticket-alt me-4 fa-lg"></i>
                         Ticket Tracking
@@ -74,10 +80,11 @@
         <!-- Admin Info -->
         <div class="admin-info">
             <div class="d-flex align-items-center mb-2">
-                <img src="<?= ROOT ?>/assets/images/defaultProfile.jpg" alt="Admin Avatar" class="me-2" />
+                <img src="<?= ROOT ?>/assets/images/defaultProfile.jpg" alt="Admin Avatar" class="me-2"/>
                 <div>
                     <strong><?= $_SESSION['admin']['userName'] ?? 'Admin' ?></strong>
-                    <div class="small text-muted" style="background-color: whitesmoke; border-radius: 20px; text-align: center; width: 100px"><?= $_SESSION['admin']['role'] ?? 'Role' ?></div>
+                    <div class="small text-muted"
+                         style="background-color: whitesmoke; border-radius: 20px; text-align: center; width: 100px"><?= $_SESSION['admin']['role'] ?? 'Role' ?></div>
                 </div>
             </div>
             <!-- Profile Link -->
