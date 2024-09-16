@@ -1,15 +1,41 @@
 <?php
+
 namespace App\controllers;
+
 use App\core\Controller;
+use App\core\Database;
+
+
+use App\models\Cinema;
+use App\models\Movie;
+use App\models\MovieSchedule;
+use App\models\CinemaHall;
+
 class SeatSelection
 {
     use Controller;
+
+    private $entityManager;
+    private $movieRepository;
+    private $movieScheduleRepository;
+    private $cinemaHallRepository;
+    private $cinemaRepository;
+
+    public function __construct()
+    {
+        $this->entityManager = Database::getEntityManager();
+        //Get the Repository
+        $this->movieRepository = $this->entityManager->getRepository(Movie::class);
+        $this->movieScheduleRepository = $this->entityManager->getRepository(MovieSchedule::class);
+        $this->cinemaHallRepository = $this->entityManager->getRepository(CinemaHall::class);
+        $this->cinemaRepository = $this->entityManager->getRepository(Cinema::class);
+    }
 
     public function index()
     {
 
         //MovieID
-        $movieID = $_SESSION['movieId'];
+        $movieId = $_SESSION['movieId'];
 
         //Query String Details
         $queryString["cinema"] = $_GET["cin"];
@@ -17,32 +43,89 @@ class SeatSelection
         $queryString["date"] = $_GET["date"];
         $queryString["hallId"] = $_GET["hid"];
         $queryString["cinemaId"] = $_GET["cid"];
+        $queryString["movieScheduleId"] = $_GET["sce"];
+        $queryString["hallName"] = $_GET["hname"];
 
-        //Movie Details
+
+
+        //MovieDetails
         $movieData = [];
-        $modalMovie = new Movie();
-        $arrMovie["movieId"] = $movieID;
-        $movieResult = $modalMovie->getMovieByMovieID($arrMovie);
-        if($movieResult){
-            $movieData = $movieResult[0];
+        $movieObj = $this->movieRepository->find($movieId);
+        if ($movieObj) {
+            $movieData = [
+                "movieId" => $movieObj->getMovieId(),
+                "title" => $movieObj->getTitle(),
+                "photo" => $movieObj->getPhoto(),
+                "trailerLink" => $movieObj->getTrailerLink(),
+                "duration" => $movieObj->getDuration(),
+                "catagory" => $movieObj->getCatagory(),
+                "releaseDate" => $movieObj->getReleaseDate(),
+                "language" => $movieObj->getLanguage(),
+                "subtitles" => $movieObj->getSubtitles(),
+                "director" => $movieObj->getDirector(),
+                "casts" => $movieObj->getCasts(),
+                "description" => $movieObj->getDescription(),
+                "classification" => $movieObj->getClassification(),
+                "status" => $movieObj->getStatus(),
+            ];
         }
 
         //Seat Details
         $hallData = [];
-        $modalHall = new CinemaHall();
-        $arrHall["cinemaId"] = $_GET["cid"];
-        $arrHall["startingTime"] = $_GET["date"];
-        $hallResult = $modalHall->getCinemaHallCapacity($arrHall);
-        if($hallResult){
-            $hallData = $hallResult[0];
+        $hallObj = $this->cinemaRepository->findCinemaHallDetails($queryString["cinemaId"], $queryString["date"]);
+
+        if ($hallObj) {
+            $hallData = [
+                "hallId" => $hallObj[0]["hallId"],
+                "capacity" => $hallObj[0]["capacity"],
+            ];
         }
+
 
         //Preparing data to pass
         $data = [
             "movie" => $movieData,
+            "hall" => $hallObj,
             "qs" => $queryString,
-            "hall" => $hallData,
         ];
+
+        //Render VIew
         $this->view('Customer/Selection/SeatSelection', $data);
     }
+
+
+
+    public function SubmitRequest()
+    {
+        // Initialize an empty $data array to pass to the view
+        $data = [];
+
+        // Check if the request is POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Get the values from the form
+            $listOfSelectedSeat = $_POST['listOfSeat'] ?? '';
+            $scheduleId = $_POST['scheduleId'] ?? '';
+            $cinemaName = $_POST['cinema'] ?? '';
+            $experience = $_POST['experience'] ?? '';
+            $date = $_POST['date'] ?? '';
+            $hallId = $_POST['hallId'] ?? '';
+            $hallName = $_POST['hallName'] ?? '';
+            $listOfSelectedSeat = $_POST['listOfSeat'] ?? '';
+
+            // Check if the user selected seats
+            if ($listOfSelectedSeat) {
+                // If seats are selected, prepare the data to pass to the Payment view
+                header("Location:". ROOT . " /Payment?seats=". $listOfSelectedSeat . "&scheduleId=". $scheduleId . "&exp=" . $experience . "&date=" . $date . "&hid=" . $hallId . "&cn=" . $cinemaName . "&hn=" . $hallName);
+            } else {
+                if(isset($_REQUEST["destination"])){
+                    header("Location: {$_REQUEST["destination"]}");
+                }
+            }
+
+        }
+
+
+    }
+
+
 }

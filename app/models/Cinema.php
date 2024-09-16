@@ -102,6 +102,7 @@ class Cinema
     /**
      * @return mixed
      */
+    // Getter for cinemaHalls
     public function getCinemaHalls()
     {
         return $this->cinemaHalls;

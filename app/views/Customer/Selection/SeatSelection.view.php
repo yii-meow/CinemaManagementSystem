@@ -31,7 +31,7 @@
         <div class="img-box">
             <img draggable="false" src="<?php
             if (isset($data)) {
-                echo $data["movie"]->photo;
+                echo $data["movie"]["photo"];
             }
             ?>"/>
         </div>
@@ -40,15 +40,15 @@
                 <div class="movie-name">
                     <?php
                     if (isset($data)) {
-                        echo $data["movie"]->title;    //For std object
+                        echo $data["movie"]["title"];    //For std object
                     }
                     ?>
                 </div>
                 <div class="movie-duration" style="margin-top:5px;">
                     <i class="fa-regular fa-clock"></i>
                     <?php
-                    if (isset($data["movie"]->duration)) {
-                        $duration = $data["movie"]->duration;
+                    if (isset($data["movie"]["duration"])) {
+                        $duration = $data["movie"]["duration"];
                         $hour = intdiv($duration, 60);
                         $minute = $duration % 60;
                         echo $hour . " Hours " . $minute . " Mins";
@@ -76,7 +76,7 @@
                     <p class="det">
                         <?php
                         if (isset($data)) {
-                            echo $data["qs"]["experience"];
+                            echo $data["qs"]["experience"] . " (" . $data["qs"]["hallName"] . ")";
                         }
                         ?>
                     </p>
@@ -119,143 +119,10 @@
 
 
     <div class="bottom-box seats" id="seats">
-<!--        <div class="row" data-row="A">-->
-<!--            <div class="seatrowtitle">A</div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--        </div>-->
-<!--        <div class="row" data-row="B">-->
-<!--            <div class="seatrowtitle">B</div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--        </div>-->
-<!--        <div class="row" data-row="C">-->
-<!--            <div class="seatrowtitle">C</div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--        </div>-->
-<!--        <div class="row" data-row="D">-->
-<!--            <div class="seatrowtitle">D</div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--        </div>-->
-<!--        <div class="row" data-row="E">-->
-<!--            <div class="seatrowtitle">E</div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--        </div>-->
-<!--        <div class="row" data-row="F">-->
-<!--            <div class="seatrowtitle">F</div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--        </div>-->
-<!--        <div class="row" data-row="G">-->
-<!--            <div class="seatrowtitle">G</div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--        </div>-->
-<!--        <div class="row" data-row="H">-->
-<!--            <div class="seatrowtitle">H</div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--        </div>-->
-<!--        <div class="row" data-row="I">-->
-<!--            <div class="seatrowtitle">I</div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat occupied"></div>-->
-<!--            <div class="seat"></div>-->
-<!--        </div>-->
-
+        <!--From JS-->
     </div>
+
+
     <div class="indicator-box">
 
         <div class="indicator-subbox">
@@ -288,32 +155,47 @@
     </div>
 </div>
 
-<div class="footer-box">
-    <div class="left-b">
-        <div class="lbtt">
-            Seat Selection
-        </div>
-        <div id="listOfSeat" class="listOfSeat">
-            <!--Show all seats selected by user-->
-        </div>
-    </div>
-    <div class="right-b">
-        <div id="ttPrice" class="outerright">
-            <!--Display Total Price-->
-            Total: RM 0.00
-        </div>
-        <div class="innerright">
-            <div>
-                <button id="reset" type="button" class="btn btn-secondary">Reset</button>
-            </div>
-            <div>
-                <button type="button" class="btn btn-light">Confirm</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<input type="hidden" id="capacity" value="<?= isset($data) ? $data["hall"]->capacity : '' ?>"/>
+<div style="width: 98%; margin-left: auto; margin-right: auto" id="alert-container"></div>
+<form id="myForm" action="<?= ROOT ?>/SeatSelection/SubmitRequest" method="post">
+    <div class="footer-box">
+        <div class="left-b">
+            <div class="lbtt">
+                Seat Selection
+            </div>
+            <div id="listOfSeat" class="listOfSeat">
+                <!--Show all seats selected by user-->
+                -
+            </div>
+        </div>
+        <div class="right-b">
+
+            <div class="innerright">
+                <div>
+                    <button id="reset" type="button" class="btn btn-secondary">Reset</button>
+                </div>
+                <div>
+                    <input id="submitPurchase" type="submit" class="btn btn-light" value="Confirm"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--A set of values for controller-->
+    <input type="hidden" name="scheduleId" id="scheduleId" value="<?php if(isset($data)){echo $data["qs"]["movieScheduleId"];}?>"/>
+    <input type="hidden" name="listOfSeat" id="hiddenListOfSeat"/>
+
+    <?php
+    if(isset($data)) {
+        foreach ($data["qs"] as $key => $value) {
+            echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
+        }
+    }
+    ?>
+
+    <input type="hidden" name="destination" value="<?php echo $_SERVER["REQUEST_URI"]; ?>"/>
+</form>
+
+<input type="hidden" id="capacity" value="<?= isset($data) ? $data["hall"][0]["capacity"] : '' ?>"/>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -355,7 +237,7 @@
                     var rowHtml = `<div class="row" data-row="${row.label}">`;
                     rowHtml += `<div class="seatrowtitle">${row.label}</div>`;
                     for (var j = 0; j < row.seats; j++) {
-                        rowHtml += `<div class="seat occupied"></div>`;
+                        rowHtml += `<div class="seat"></div>`;
                     }
                     rowHtml += `</div>`;
                     $('#seats').append(rowHtml);
@@ -410,15 +292,55 @@
             });
             seatResult.innerHTML = seatArray.join(', ');
 
-            const moviePrice = 15.5;
-            const totalPriceResult = document.querySelector("#ttPrice");
-            var count = seatArray.length;
-            var total = moviePrice * count;
-
-            totalPriceResult.innerHTML = "Total: RM " + total.toFixed(2);
+            //Add value to hidden field
+            const hiddenListOfSeat = document.querySelector("#hiddenListOfSeat");
+            hiddenListOfSeat.value = seatArray.join('|');
         }
     });
+
+
+    document.getElementById('myForm').addEventListener('submit', function (event) {
+        //Get form elements
+        const seats = document.getElementById('hiddenListOfSeat').value;
+
+        //Validation flags
+        var isValid = true;
+
+        //Validate the user has selected at least one seat
+        if (!seats) {
+            event.preventDefault()
+            createAlert('Please select at least one seat to proceed.', 'danger');
+        }
+    });
+
+
+    function createAlert(message, alertType) {
+        // Create the alert element
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${alertType} alert-dismissible fade show`;
+        alertDiv.role = 'alert';
+
+        // Create the strong element for the message
+        const strong = document.createElement('strong');
+        strong.textContent = message;
+
+        // Create the button element to close the alert
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = 'btn-close';
+        closeButton.setAttribute('data-bs-dismiss', 'alert');
+        closeButton.setAttribute('aria-label', 'Close');
+
+        // Append the strong element and close button to the alert
+        alertDiv.appendChild(strong);
+        alertDiv.appendChild(closeButton);
+
+        // Insert the alert into the container
+        document.getElementById('alert-container').appendChild(alertDiv);
+    }
+
 </script>
+
 </body>
 
 </html>

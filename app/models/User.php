@@ -42,6 +42,7 @@ class User
     // For foreign side
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserReward::class)]
     private $userRewards;
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'Post')]
     private $posts;
     #[ORM\OneToMany(mappedBy: 'commenter', targetEntity: 'Comment')]

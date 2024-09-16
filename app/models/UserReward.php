@@ -13,18 +13,21 @@ class UserReward
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $userRewardId;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userRewards')]
-    #[ORM\JoinColumn(name: 'userId', referencedColumnName: 'userId')]
-    private $user;
-
     #[ORM\ManyToOne(targetEntity: Reward::class, inversedBy: 'userRewards')]
     #[ORM\JoinColumn(name: 'rewardId', referencedColumnName: 'rewardId')]
     private $reward;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    private $status;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userRewards')]
+    #[ORM\JoinColumn(name: 'userId', referencedColumnName: 'userId')]
+    private $user;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'string', length: 20)]
+    private $rewardCondition; // Changed column name
+
+    #[ORM\Column(type: 'integer')]
+    private $promoCode;
+
+    #[ORM\Column(type: 'string', length: 20, nullable: true)]
     private $redeemDate;
 
     // Getters and Setters
@@ -51,23 +54,34 @@ class UserReward
         return $this;
     }
 
-    public function getStatus(): string
+    public function getRewardCondition(): string // Changed method name
     {
-        return $this->status;
+        return $this->rewardCondition;
     }
 
-    public function setStatus(string $status): self
+    public function setRewardCondition(string $condition): self // Changed method name
     {
-        $this->status = $status;
+        $this->rewardCondition = $condition;
         return $this;
     }
 
-    public function getRedeemDate(): ?\DateTime
+    public function getPromoCode(): int
+    {
+        return $this->promoCode;
+    }
+
+    public function setPromoCode(int $promoCode): self
+    {
+        $this->promoCode = $promoCode;
+        return $this;
+    }
+
+    public function getRedeemDate(): string
     {
         return $this->redeemDate;
     }
 
-    public function setRedeemDate(?\DateTime $redeemDate): self
+    public function setRedeemDate(string $redeemDate): self
     {
         $this->redeemDate = $redeemDate;
         return $this;

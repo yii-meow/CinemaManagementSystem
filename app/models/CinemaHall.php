@@ -31,6 +31,12 @@ class CinemaHall
     #[ORM\OneToMany(mappedBy: 'cinemaHall', targetEntity: MovieSchedule::class, fetch: "EXTRA_LAZY")]
     private $movieSchedules;
 
+    #[ORM\OneToMany(mappedBy: 'cinema', targetEntity: CinemaHall::class)]
+    private $cinemaHalls;
+
+    #[ORM\OneToMany(mappedBy: 'cinemaHall', targetEntity: MovieSchedule::class)]
+    private $movieSchedules;
+
     public function getHallId(): ?int
     {
         return $this->hallId;
@@ -78,6 +84,18 @@ class CinemaHall
     {
         $this->cinema = $cinema;
         return $this;
+    }
+
+    // Getter for movieSchedules
+    public function getMovieSchedules()
+    {
+        return $this->movieSchedules;
+    }
+
+    // Setter for movieSchedules
+    public function setMovieSchedules($movieSchedules)
+    {
+        $this->movieSchedules = $movieSchedules;
     }
 }
 

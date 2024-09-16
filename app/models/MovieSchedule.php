@@ -64,4 +64,5 @@ class MovieSchedule
         $this->cinemaHall = $cinemaHall;
         return $this;
     }
+
 }
