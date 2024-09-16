@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityRepository;
 
 class MovieRepository extends EntityRepository
 {
-<<<<<<< Updated upstream
     public function findComingSoonMovies()
     {
         return $this->createQueryBuilder('m')
@@ -17,6 +16,3 @@ class MovieRepository extends EntityRepository
             ->getResult();
     }
 }
-=======
-}
->>>>>>> Stashed changes
