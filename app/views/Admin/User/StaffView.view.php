@@ -33,81 +33,104 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content mt-3">
             <h1 class="mb-2">Staff Details</h1>
 
+            <!-- Display success or error messages -->
+            <?php if (isset($error)): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($success)): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?= htmlspecialchars($success, ENT_QUOTES, 'UTF-8') ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+
             <!-- Display Staff Details -->
-            <form id="staffDetailsForm" class="main-content p-4 mt-3" style="
-                                    background-color: #ffffff;
-                                    border-radius: 8px;
-                                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                                ">
-                <div class="mb-3">
-                    <label for="staffID" class="form-label">Staff ID</label>
-                    <input type="text" class="form-control" id="staffID" value="ST001" required disabled />
-                </div>
+            <?php if (isset($staff)): ?>
+                <form id="staffDetailsForm" class="main-content p-4 mt-3" method="POST" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                    <div class="mb-3">
+                        <label for="staffID" class="form-label">Staff ID</label>
+                        <input type="text" class="form-control" id="staffID" value="<?= htmlspecialchars($staff->getUserId(), ENT_QUOTES, 'UTF-8'); ?>" required disabled />
+                    </div>
 
-                <div class="mb-3">
-                    <label for="staffName" class="form-label">Staff Name</label>
-                    <input type="text" class="form-control" id="staffName" value="John Doe" required disabled />
-                </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <input type="text" class="form-control" id="role" value="<?= htmlspecialchars($staff->getRole(), ENT_QUOTES, 'UTF-8'); ?>" required disabled />
+                    </div>
 
-                <div class="mb-3">
-                    <label for="role" class="form-label">Role</label>
-                    <select class="form-select" id="role" required disabled>
-                        <option value="SuperAdmin" selected>Super Admin</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Staff">Staff</option>
-                    </select>
-                </div>
+                    <div class="mb-3">
+                        <label for="staffName" class="form-label">Staff Name</label>
+                        <input type="text" class="form-control" name="staffName" id="staffName" value="<?= htmlspecialchars($staff->getUserName(), ENT_QUOTES, 'UTF-8'); ?>" required disabled />
+                    </div>
 
-                <div class="mb-3">
-                    <label for="phoneNo" class="form-label">Phone Number</label>
-                    <input type="text" class="form-control" id="phoneNo" value="+123456789" required disabled />
-                </div>
+                    <div class="mb-3">
+                        <label for="phoneNo" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" name="phoneNo" id="phoneNo" value="<?= htmlspecialchars($staff->getPhoneNo(), ENT_QUOTES, 'UTF-8'); ?>" required disabled />
+                    </div>
 
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" value="password123" required
-                           disabled />
-                </div>
-                <br>
+                    <input type="hidden" name="delete" value="1" />
 
-                <div class="data-bs-toggle justify-content-between">
-                    <a href="StaffManage" class="btn btn-primary">Back</a>
-                    <button type="button" class="btn btn-secondary" id="editButton">Update</button>
-                    <button type="submit" class="btn btn-success d-none" id="saveButton">Save</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
-                </div>
-            </form>
+                    <br>
+
+                    <div class="d-md-block justify-content-between">
+                        <a href="StaffManage" class="btn btn-primary">Back</a>
+                        <button type="button" class="btn btn-secondary" id="editButton">Edit</button>
+                        <button type="submit" class="btn btn-success d-none" id="saveButton">Save</button>
+                        <button type="submit" class="btn btn-danger" id="deleteButton" name="delete" value="1">Delete</button>
+                    </div>
+                </form>
+            <?php else: ?>
+                <p>No staff details available.</p>
+            <?php endif; ?>
         </main>
     </div>
 </div>
 
 <script>
-    // When the Update button is clicked, enable form fields for editing
+    // Enable form fields for editing
     document.getElementById("editButton").addEventListener("click", function () {
         document.getElementById("staffName").disabled = false;
-        document.getElementById("role").disabled = false;
         document.getElementById("phoneNo").disabled = false;
-        document.getElementById("password").disabled = false;
 
-        // Show the Save button and hide the Update button
+        // Show the Save button and hide the Edit button
         document.getElementById("saveButton").classList.remove("d-none");
         document.getElementById("editButton").classList.add("d-none");
     });
 
-    // Additional save logic can go here
+    // Handle form submission for saving and deleting
     document.getElementById("staffDetailsForm").addEventListener("submit", function (e) {
         e.preventDefault();
-        // Implement save functionality here
 
-        // Disable fields after saving
-        document.getElementById("staffName").disabled = true;
-        document.getElementById("role").disabled = true;
-        document.getElementById("phoneNo").disabled = true;
-        document.getElementById("password").disabled = true;
+        // Get the form action and method
+        const formAction = this.action;
+        const formMethod = this.method;
 
-        // Reset the buttons
-        document.getElementById("saveButton").classList.add("d-none");
-        document.getElementById("editButton").classList.remove("d-none");
+        // Handle form submission
+        fetch(formAction, {
+            method: formMethod,
+            body: new URLSearchParams(new FormData(this)),
+        }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Display success message and redirect
+                    const successAlert = document.createElement('div');
+                    successAlert.className = 'alert alert-success alert-dismissible fade show';
+                    successAlert.role = 'alert';
+                    successAlert.innerHTML = data.success + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                    document.querySelector('main').insertBefore(successAlert, document.querySelector('main').firstChild);
+                    setTimeout(() => window.location.href = 'StaffManage', 2000); // Redirect after 2 seconds
+                } else if (data.error) {
+                    // Display error message
+                    const errorAlert = document.createElement('div');
+                    errorAlert.className = 'alert alert-danger alert-dismissible fade show';
+                    errorAlert.role = 'alert';
+                    errorAlert.innerHTML = data.error + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                    document.querySelector('main').insertBefore(errorAlert, document.querySelector('main').firstChild);
+                }
+            });
     });
 </script>
 

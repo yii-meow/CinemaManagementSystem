@@ -122,7 +122,7 @@
                                         <td><?= htmlspecialchars($reward['rewardTitle'], ENT_QUOTES, 'UTF-8'); ?></td>
                                         <td><?= htmlspecialchars($reward['category'], ENT_QUOTES, 'UTF-8'); ?></td>
                                         <td><img src="<?= ROOT ?>/assets/images/<?= htmlspecialchars($reward['rewardImg'] ?? 'default.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="Reward Image" class="img-thumbnail" style="width: 100px; height: 100px;" /></td>
-                                        <td style="<?= $reward['status'] === 'Used' ? 'color: red;' : 'color: green;' ?>"><b><?= htmlspecialchars($reward['status'], ENT_QUOTES, 'UTF-8'); ?></b></td>
+                                        <td style="<?= $reward['rewardCondition'] === 'used' ? 'color: red;' : 'color: green;' ?>"><b><?= htmlspecialchars($reward['rewardCondition'], ENT_QUOTES, 'UTF-8'); ?></b></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>

@@ -33,9 +33,6 @@ class Reward
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $rewardImg;
 
-    #[ORM\OneToMany(mappedBy: 'reward', targetEntity: UserReward::class)]
-    private $userRewards;
-
     // Getters and Setters
 
     public function getRewardId(): ?int
