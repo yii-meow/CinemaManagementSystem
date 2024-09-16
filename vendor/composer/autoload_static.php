@@ -48,6 +48,7 @@ class ComposerStaticInit46ce6e86a967325458d0a86c874047a3
             'Doctrine\\Common\\Collections\\' => 28,
             'Doctrine\\Common\\Cache\\' => 22,
             'Doctrine\\Common\\' => 16,
+            'DoctrineExtensions\\' => 19,
         ),
         'A' => 
         array (
@@ -150,8 +151,12 @@ class ComposerStaticInit46ce6e86a967325458d0a86c874047a3
         ),
         'Doctrine\\Common\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/event-manager/src',
-            1 => __DIR__ . '/..' . '/doctrine/common/src',
+            0 => __DIR__ . '/..' . '/doctrine/common/src',
+            1 => __DIR__ . '/..' . '/doctrine/event-manager/src',
+        ),
+        'DoctrineExtensions\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/beberlei/doctrineextensions/src',
         ),
         'App\\' => 
         array (

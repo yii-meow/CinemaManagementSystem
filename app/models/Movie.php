@@ -203,4 +203,16 @@ class Movie
         $this->status = $status;
         return $this;
     }
+
+    // Getter for movieSchedules
+    public function getMovieSchedules()
+    {
+        return $this->schedules;
+    }
+
+    // Setter for movieSchedules
+    public function setMovieSchedules($movieSchedules)
+    {
+        $this->schedules = $movieSchedules;
+    }
 }
