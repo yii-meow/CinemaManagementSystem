@@ -302,10 +302,17 @@
             // Collect form data
             const formData = new FormData(this);
 
-            // Combine opening and closing hours
+            // Get opening and closing hours
             const openingHour = formData.get('openingHour');
             const closingHour = formData.get('closingHour');
-            formData.set('openingHours', `${openingHour} - ${closingHour}`);
+
+            // Convert and combine the times
+            const formattedOpeningHour = convertTimeFormat(openingHour);
+            const formattedClosingHour = convertTimeFormat(closingHour);
+            const openingHours = `${formattedOpeningHour}-${formattedClosingHour}`;
+
+            // Set the new openingHours and remove the old fields
+            formData.set('openingHours', openingHours);
             formData.delete('openingHour');
             formData.delete('closingHour');
 

@@ -32,7 +32,7 @@ class CinemaRepository extends EntityRepository
     {
         return $this->createQueryBuilder("c")
             ->select('c.cinemaId', 'c.name', 'c.state', 'c.openingHours', 'c.city', 'COUNT(c.cinemaId) as hallCount')
-            ->innerJoin('c.cinemaHalls', 'ch')
+            ->leftJoin('c.cinemaHalls', 'ch')
             ->groupBy('c.cinemaId')
             ->getQuery()
             ->getResult();
