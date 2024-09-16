@@ -3,12 +3,20 @@ namespace App\core;
 
 class App
 {
+<<<<<<< Updated upstream
     private $controller = 'Homepage';//controller name                           //Can temporarily change to your currently working environment
+=======
+    private $controller = 'MovieDetails';//controller name                           //Can temporarily change to your currently working environment
+>>>>>>> Stashed changes
     private $method = 'index';// method inside your controller                                  //Can temporarily change to your currently working environment
 
     private function splitURL()
     {
+<<<<<<< Updated upstream
         $URL = $_GET['url'] ?? 'Homepage';// this must be same with the controller name in line 6                      //Can temporarily change to your currently working environment
+=======
+        $URL = $_GET['url'] ?? 'MovieDetails';// this must be same with the controller name in line 6                      //Can temporarily change to your currently working environment
+>>>>>>> Stashed changes
         $URL = explode("/", trim($URL, "/"));
         return $URL;
     }

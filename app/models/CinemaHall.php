@@ -258,6 +258,12 @@ class CinemaHall
     #[ORM\JoinColumn(name: 'cinemaId', referencedColumnName: 'cinemaId')]
     private $cinema;
 
+    #[ORM\OneToMany(mappedBy: 'cinema', targetEntity: CinemaHall::class)]
+    private $cinemaHalls;
+
+    #[ORM\OneToMany(mappedBy: 'cinemaHall', targetEntity: MovieSchedule::class)]
+    private $movieSchedules;
+
     public function getHallId(): ?int
     {
         return $this->hallId;
@@ -305,6 +311,18 @@ class CinemaHall
     {
         $this->cinema = $cinema;
         return $this;
+    }
+
+    // Getter for movieSchedules
+    public function getMovieSchedules()
+    {
+        return $this->movieSchedules;
+    }
+
+    // Setter for movieSchedules
+    public function setMovieSchedules($movieSchedules)
+    {
+        $this->movieSchedules = $movieSchedules;
     }
 }
 

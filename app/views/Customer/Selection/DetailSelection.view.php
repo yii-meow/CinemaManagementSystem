@@ -46,7 +46,7 @@
         <div class="poster-box">
             <img src="
             <?php if (isset($data)) {
-                echo $data['movies']['photo'];
+                echo $data['movies']["photo"];
             } ?>" style="width: 60%;" draggable="false"/>
         </div>
         <div class="detail-box">
@@ -283,7 +283,7 @@
                     //////Testing
                     //document.writeln(data)
                     //document.writeln(response)
-                    document.writeln(JSON.stringify(response.data));
+                    //document.writeln(JSON.stringify(response.data));
 
 
                     var innerHtml = '';
@@ -338,6 +338,13 @@
                     var accordionHtml = '';
                     var cinemas = {};
 
+
+                    //////Testing
+                    //document.writeln(data)
+                    // document.writeln(response)
+                    // document.writeln(JSON.stringify(response.data));
+
+
                     // Organize data by cinema
                     data.forEach(function (item) {
                         var cinemaId = item.cinemaId;
@@ -362,12 +369,14 @@
 
                         // Add time slot
                         cinemas[cinemaId].halls[hallId].times.push({
-                            startingTime: item.startingTime,
+                            movieScheduleId: item.movieScheduleId,
+                            startingTime: item.startingTime.date,
                             movieTitle: item.movieTitle,
                             duration: item.duration,
                             language: item.language,
                             description: item.description
                         });
+
                     });
 
                     // Generate accordion HTML
@@ -388,6 +397,7 @@
 
 
                             for (var hallId in cinema.halls) {
+
                                 if (cinema.halls.hasOwnProperty(hallId)) {
                                     var hall = cinema.halls[hallId];
                                     accordionHtml += `<div class="time-radio" style="max-width: fit-content;">`;
@@ -401,8 +411,8 @@
                                         accordionHtml += `
                                         <div class="radio-wrapper" style="max-width: fit-content;">
                                             <input type="radio" value="${formattedTime}" class="btn-check" name="time" id="${timeId}" autocomplete="off"
-                                                data-cinema="${cinema.name}" data-cinemaID="${cinemaId}" data-date="${time.startingTime}" data-hallid="${hallId}" data-experience="${selectedHallExperience}"
-                                                data-movie-title="${time.movieTitle}">
+                                                data-cinema="${cinema.name}" data-cinemaID="${cinemaId}" data-scheduleID="${time.movieScheduleId}" data-date="${time.startingTime}" data-hallid="${hallId}" data-experience="${selectedHallExperience}"
+                                                data-movie-title="${time.movieTitle} " data-hallName="${hall.name}">
                                             <label class="btn btn-outline-danger" for="${timeId}">
                                                 <div class="hall-info" style="font-size: 14px;">
                                                     ${hall.name} | ${hall.type}
@@ -489,14 +499,16 @@
         let cinema = selectedTimeInput.getAttribute('data-cinema');
         let experiencePure = selectedTimeInput.getAttribute('data-experience');
         let experience = experiencePure.split("|")[0];
+        let hallName = selectedTimeInput.getAttribute('data-hallName');
 
         let dateTime = selectedTimeInput.getAttribute('data-date');
         let combinedDateTime = formatDateTime(dateTime); //Mon 29 July, 10:30AM
 
         let hallId = selectedTimeInput.getAttribute('data-hallid');
         let cinemaId = selectedTimeInput.getAttribute('data-cinemaID');
+        let scheduleId = selectedTimeInput.getAttribute('data-scheduleID')
 
-        location.href="<?=ROOT?>/SeatSelection?cin=" + cinema +"&exp=" + experience + "&date=" + dateTime + "&hid=" + hallId + "&cid=" + cinemaId;
+        location.href="<?=ROOT?>/SeatSelection?cin=" + cinema +"&exp=" + experience + "&date=" + dateTime + "&hid=" + hallId + "&cid=" + cinemaId + "&sce=" + scheduleId + "&hname=" + hallName;
     }
 
 </script>
