@@ -60,7 +60,6 @@ class CinemaManagement
             } else {
                 // Create a new Cinema entity
                 $cinema = new Cinema();
-
                 // Set the properties based on the POST data
                 $cinema->setName($name);
                 $cinema->setAddress($address);

@@ -176,21 +176,19 @@
                 const movieId = formData.get('movieId');
                 const startingTime = formData.get('startingTime');
 
-                // Here you would typically send this data to your server
-                console.log('Saving schedule:', {cinemaHallId, movieId, startingTime});
-
-                // Example AJAX call (you'll need to implement the actual endpoint)
                 fetch('<?=ROOT?>/HallMovieSchedule/addHallMovieSchedule', {
                     method: 'POST',
                     body: formData
                 })
                     .then(response => response.json())
                     .then(data => {
+                        console.log("here!")
                         // Close the modal and optionally refresh the page
                         var modal = bootstrap.Modal.getInstance(document.getElementById('addMovieScheduleModal'));
                         modal.hide();
                     })
                     .catch((error) => {
+                        console.error("here2")
                         console.error('Error:', error);
                     });
 

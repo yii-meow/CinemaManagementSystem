@@ -32,13 +32,7 @@ class Cinema
     #[ORM\OneToMany(mappedBy: 'cinema', targetEntity: CinemaHall::class, fetch: "EXTRA_LAZY")]
     private $cinemaHalls;
 
-    public function __construct()
-    {
-        $this->cinemaHalls = new ArrayCollection();
-    }
-
     // Getters and setters
-
     public function getCinemaId(): ?int
     {
         return $this->cinemaId;
