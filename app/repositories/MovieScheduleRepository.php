@@ -63,4 +63,17 @@ class MovieScheduleRepository extends EntityRepository
         return array_values($groupedResults);
     }
 
+    public function findUpcomingSchedulesByHall($hallId)
+    {
+        return $this->createQueryBuilder('ms')
+            ->select('ms', 'm')
+            ->join('ms.movie', 'm')
+            ->where('ms.cinemaHall = :hallId')
+            ->andWhere('ms.startingTime >= :now')
+            ->setParameter('hallId', $hallId)
+            ->setParameter('now', new \DateTime())
+            ->orderBy('ms.startingTime', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

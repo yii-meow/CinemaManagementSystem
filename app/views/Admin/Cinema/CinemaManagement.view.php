@@ -38,7 +38,7 @@
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/AdminCinemaManagement.css"/>
     <title>Cinema Management</title>
 
-    <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/Media/Image/icon.png"/>
+    <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png"/>
 </head>
 
 <body>
@@ -131,7 +131,7 @@
                                     </p>
                                 </div>
                                 <div class="card-footer bg-transparent border-top-0 mt-3">
-                                    <a href="CinemaDetails/<?= urlencode($cinema['cinemaId']) ?>">
+                                    <a href="CinemaDetails?id=<?= urlencode($cinema['cinemaId']) ?>">
                                         <button class="btn btn-md btn-outline-info px-4">
                                             <i class="fas fa-info-circle me-2"></i>View Cinema Details
                                         </button>
@@ -295,6 +295,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 <script>
+    // Function to convert time from "HH:MM" to "HHMM"
+    function convertTimeFormat(timeString) {
+        // Remove the colon and pad with leading zero if necessary
+        return timeString.replace(':', '').padStart(4, '0');
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         // Form submission handler
         document.getElementById('addCinemaForm').addEventListener('submit', function (e) {

@@ -179,7 +179,7 @@
                 <div
                         class="pricing-header d-flex justify-content-between align-items-center"
                 >
-                    <h2 class="h4">Comission Fee</h2>
+                    <h2 class="h4">Commission Fee</h2>
                     <button
                             class="btn btn-primary btn-sm"
                             data-bs-toggle="modal"
@@ -197,7 +197,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>Comission Fee</td>
+                        <td>Commission Fee</td>
                         <td>1.5%</td>
                     </tr>
                     </tbody>

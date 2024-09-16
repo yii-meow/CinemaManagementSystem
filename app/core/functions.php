@@ -26,11 +26,17 @@ function formatOpeningHours($hours)
         return $hours; // Return original if format is unexpected
     }
 
-    $start = str_pad($parts[0], 2, '0', STR_PAD_LEFT);
-    $end = str_pad($parts[1], 2, '0', STR_PAD_LEFT);
+    $formatTime = function($time) {
+        if (strlen($time) !== 4) {
+            return $time; // Return original if format is unexpected
+        }
+        $hour = substr($time, 0, 2);
+        $minute = substr($time, 2, 2);
+        return date("g:i A", strtotime("$hour:$minute"));
+    };
 
-    $formatted_start = date("g:i A", strtotime($start . ":00"));
-    $formatted_end = date("g:i A", strtotime($end . ":00"));
+    $formatted_start = $formatTime($parts[0]);
+    $formatted_end = $formatTime($parts[1]);
 
     return $formatted_start . ' - ' . $formatted_end;
 }
