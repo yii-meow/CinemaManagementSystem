@@ -322,7 +322,6 @@
             formData.delete('openingHour');
             formData.delete('closingHour');
 
-            // Send data to server (replace with your actual endpoint)
             fetch('<?=ROOT?>/CinemaManagement/addCinema', {
                 method: 'POST',
                 body: formData

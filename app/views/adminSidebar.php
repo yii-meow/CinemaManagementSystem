@@ -5,14 +5,14 @@
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link" href="CinemaManagement">
-                        <i class="fas fa-film me-4 fa-lg"></i>
+                        <i class="fas fa-building me-4 fa-lg"></i>
                         Cinemas
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        <i class="fas fa-calendar-alt me-4 fa-lg"></i>
-                        Showtimes
+                        <i class="fas fa-film me-4 fa-lg"></i>
+                        Movies
                     </a>
                 </li>
                 <li class="nav-item">

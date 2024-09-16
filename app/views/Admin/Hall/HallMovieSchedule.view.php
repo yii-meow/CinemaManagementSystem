@@ -33,7 +33,6 @@
             href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"></script>
-    <!-- <link rel="stylesheet" href="../reset.css" /> -->
 
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/AdminCinemaManagement.css"/>
     <title>Hall Movie Schedule Details</title>
@@ -53,7 +52,10 @@
                 <i class="fas fa-arrow-left me-2"></i>Back
             </button>
             <div class="d-flex align-items-center">
-                <h1 class="mb-2">Mid Valley - Hall 1</h1>
+                <h1 class="mb-2">
+                    <?php echo $cinemaInformation["name"] ?>
+                    - Hall <?= $cinemaInformation["hallName"] ?>
+                </h1>
                 <i class="fa fa-info-circle ms-3 fa-lg"></i>
             </div>
             <div class="d-flex flex-row-reverse mb-3">
@@ -67,12 +69,11 @@
             <div class="movie-schedule">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2>Scheduled Movies</h2>
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMovieScheduleModal">
                         <i class="fa fa-plus me-2"></i>Add New Movie Schedule
                     </button>
                 </div>
             </div>
-
             <div class="d-flex flex-column gap-4">
                 <?php if (isset($groupedSchedules)) foreach ($groupedSchedules as $date => $movieSchedules): ?>
                     <div>
@@ -118,6 +119,88 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="addMovieScheduleModal" tabindex="-1" aria-labelledby="addMovieScheduleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMovieScheduleModalLabel">Add New Movie Schedule</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addMovieScheduleForm">
+                    <input type="hidden" id="cinemaHallId" name="cinemaHallId"
+                           value="<?php echo htmlspecialchars($cinemaInformation["hallId"]); ?>">
+                    <div class="mb-3">
+                        <label for="movieSelect" class="form-label">Select Movie</label>
+                        <select class="form-select" id="movieSelect" name="movieId" required>
+                            <option value="">Choose a movie...</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="startingTime" class="form-label">Starting Time</label>
+                        <input type="datetime-local" class="form-control" id="startingTime" name="startingTime"
+                               required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveSchedule">Save Schedule</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Populate the movie select dropdown
+        const movieSelect = document.getElementById('movieSelect');
+        const movies = <?php if (isset($movies)) echo json_encode($movies); ?>;
+
+        movies.forEach(movie => {
+            const option = document.createElement('option');
+            option.value = movie.id;
+            option.textContent = movie.title;
+            movieSelect.appendChild(option);
+        });
+
+        // Handle form submission
+        document.getElementById('saveSchedule').addEventListener('click', function () {
+            const form = document.getElementById('addMovieScheduleForm');
+            if (form.checkValidity()) {
+                const formData = new FormData(form);
+                const cinemaHallId = formData.get('cinemaHallId');
+                const movieId = formData.get('movieId');
+                const startingTime = formData.get('startingTime');
+
+                // Here you would typically send this data to your server
+                console.log('Saving schedule:', {cinemaHallId, movieId, startingTime});
+
+                // Example AJAX call (you'll need to implement the actual endpoint)
+                fetch('<?=ROOT?>/HallMovieSchedule/addHallMovieSchedule', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Close the modal and optionally refresh the page
+                        var modal = bootstrap.Modal.getInstance(document.getElementById('addMovieScheduleModal'));
+                        modal.hide();
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
+                // Reset the form
+                form.reset();
+            } else {
+                form.reportValidity();
+            }
+        });
+    });
+</script>
 </body>
 </html>
