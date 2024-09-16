@@ -53,7 +53,9 @@ class Login
                             'role' => $admin->getRole(),
                         ];
                         // Redirect to AdminProfile
-                        $this->view('Admin/User/AdminProfile');
+                        $admin = $this->adminRepository->find($admin->getUserId());
+                        $data = ['admin' => $admin];
+                        $this->view('Admin/User/AdminProfile', $data);
                         exit();
                     } else {
                         $data['error'] = "Invalid phone number or password for admin.";

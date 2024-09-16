@@ -33,6 +33,12 @@ if (isset($data['user'])) {
         <!-- Right Content -->
         <div class="right-box">
             <h2>Edit Profile</h2>
+            <?php if (isset($data['error']) && !empty($data['error'])): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= htmlspecialchars($data['error']) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
             <form id="editProfileForm" action="ProfileEdit" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="userName">Full Name</label>
@@ -89,7 +95,6 @@ if (isset($data['user'])) {
     <script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- JavaScript for AJAX form submission and response handling -->
 
 
 </body>
