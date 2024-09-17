@@ -183,7 +183,7 @@
                             <span>
                                 <?php
                                 if (isset($data)) {
-                                    echo $data["qs"]["exp"] . " (" . $data["qs"]["hn"] . ")";
+                                    echo $data["qs"]["exp"];
                                 }
                                 ?>
                             </span>
@@ -209,7 +209,7 @@
                             <span>
                             <?php
                             if (isset($data)) {
-                                echo $data["qs"]["hid"];
+                                echo $data["qs"]["hn"];
                             }
                             ?>
                             </span>

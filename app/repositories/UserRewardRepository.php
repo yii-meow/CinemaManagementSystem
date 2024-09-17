@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRewardRepository extends EntityRepository
 {
-    public function findPromoCodeUserOwn($userId, $promoCode)
+    public function findPromoCodeUserOwn(int $userId, int $promoCode)
     {
         $user = $this->getEntityManager()->getRepository(User::class)->find($userId);
         $results = null;

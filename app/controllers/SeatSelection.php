@@ -35,22 +35,22 @@ class SeatSelection
     {
 
         //MovieID
-        $movieId = $_SESSION['movieId'];
+        $movieId = (int) $_SESSION['movieId'];
 
         //Query String Details
-        $queryString["cinema"] = $_GET["cin"];
-        $queryString["experience"] = $_GET["exp"];
-        $queryString["date"] = $_GET["date"];
-        $queryString["hallId"] = $_GET["hid"];
-        $queryString["cinemaId"] = $_GET["cid"];
-        $queryString["movieScheduleId"] = $_GET["sce"];
-        $queryString["hallName"] = $_GET["hname"];
+        $queryString["cinema"] = (string) $_GET["cin"];
+        $queryString["experience"] = (string) $_GET["exp"];
+        $queryString["date"] = (string) $_GET["date"];
+        $queryString["hallId"] = (int) $_GET["hid"];
+        $queryString["cinemaId"] = (int) $_GET["cid"];
+        $queryString["movieScheduleId"] = (int) $_GET["sce"];
+        $queryString["hallName"] = (string) $_GET["hname"];
 
 
 
         //MovieDetails
         $movieData = [];
-        $movieObj = $this->movieRepository->find($movieId);
+        $movieObj = $this->movieRepository->find((int)$movieId);
         if ($movieObj) {
             $movieData = [
                 "movieId" => $movieObj->getMovieId(),
@@ -72,7 +72,7 @@ class SeatSelection
 
         //Seat Details
         $hallData = [];
-        $hallObj = $this->cinemaRepository->findCinemaHallDetails($queryString["cinemaId"], $queryString["date"]);
+        $hallObj = $this->cinemaRepository->findCinemaHallDetails((int) $queryString["cinemaId"], (string) $queryString["date"]);
 
         if ($hallObj) {
             $hallData = [
