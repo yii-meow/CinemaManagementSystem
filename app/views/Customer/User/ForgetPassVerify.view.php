@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/login.css" />
-    <script src="<?= ROOT ?>/assets/js/webotp.js" defer></script>
     <title>Forgot Password</title>
 
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
@@ -62,7 +61,7 @@
                         <br>
                         <br>
                         <h3>Forget Password</h3>
-                        <form class="row login_form" action="ResetPass" method="post" id="contactForm">
+                        <form class="row login_form" method="post" action="RequestOTP" id="contactForm">
                             <div class="col-md-12 form-group">
                                 <input type="tel" class="form-control" id="phoneNo" name="phoneNo"
                                        placeholder="Mobile Number" onfocus="this.placeholder = ''"
@@ -70,7 +69,7 @@
                                 <br>
                             </div>
                             <div class="col-md-12 form-group">
-                                <button type="submit" value="submit" class="primary-btn">Verify</button>
+                                <button type="submit" value="submit" class="primary-btn">Request OTP</button>
                             </div>
                             <div class="col-md-12 form-group">
                                 <a href="Login">Go Back to Login</a>

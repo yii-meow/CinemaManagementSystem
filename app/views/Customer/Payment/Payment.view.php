@@ -183,7 +183,7 @@
                             <span>
                                 <?php
                                 if (isset($data)) {
-                                    echo $data["qs"]["exp"];
+                                    echo $data["cinemaHall"]["hallType"];
                                 }
                                 ?>
                             </span>
@@ -196,7 +196,7 @@
                             <span>
                                 <?php
                                 if (isset($data)) {
-                                    echo $data["qs"]["cn"];
+                                    echo $data["cinemaHall"]["cinema"]["cinemaName"];
                                 }
                                 ?>
                             </span>
@@ -209,7 +209,7 @@
                             <span>
                             <?php
                             if (isset($data)) {
-                                echo $data["qs"]["hn"];
+                                echo $data["cinemaHall"]["hallName"];
                             }
                             ?>
                             </span>
@@ -304,7 +304,7 @@
 
     <!--Data to Pass to Controller-->
     <input type="hidden" name="hallType" value="<?php if (isset($data)) {
-        echo $data["qs"]["exp"];
+        echo $data["cinemaHall"]["hallType"];
     } ?>"/>
 
     <input type="hidden" name="selectedDateTime" value="<?php if (isset($data)) {
@@ -345,6 +345,9 @@
             document.getElementById("alltotal").innerHTML = <?php if (isset($data)) {
                 echo number_format($data["amount"]["finalPrice"], 2);
             } ?>;
+
+            promoApplied = false
+            document.getElementById("voucher").readOnly = false;
         }
     })
 
@@ -419,68 +422,68 @@
     }
 
 
+
+    //Flag of Promo Code Status
+    let promoApplied = false;
     function applyPromoCode() {
         $.ajax({
-                url: "<?=ROOT?>/Payment/applyPromo",
-                type: "POST",
-                data: $('#form1').serialize(),
-                success: function (response) {
-
-                    //////Testing
-                    //document.writeln(data)
-                    //  document.writeln(response)
-                    // document.writeln(JSON.stringify(response.data));
-
-                    if (response.data && response.data["discount"] > 0) {
-
-
-                        //Show successful
-                        $('#alertPromo').empty(); // Clear previous alerts
-                        const alertDivPromo = $('<div class="alert alert-success alert-dismissible fade show" role="alert"></div>');
-                        alertDivPromo.text('Promo code has been applied.');
-                        const closeButton = $('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
-                        alertDivPromo.append(closeButton);
-                        $('#alertPromo').append(alertDivPromo);
-
-
-                        //Apply result
-                        //discount-amt pcode-no
-                        document.getElementById("discount-amt").innerHTML = "RM " + response.data["discount"].toFixed(2);
-                        document.getElementById("pcode-no").innerHTML = response.data["promoCode"];
-
-
-                        //Get the final price and update
-                        const finalamt = document.getElementById("alltotal").innerHTML;
-                        var newPrice = finalamt - 20;
-                        document.getElementById("alltotal").innerHTML = newPrice.toFixed(2);
-
-                    } else {
-                        $('#alertPromo').empty(); // Clear previous alerts
-                        //If the voucher is invalid
-                        const alertDivPromo = $('<div class="alert alert-warning alert-dismissible fade show" role="alert"></div>');
-                        alertDivPromo.text('Promo code used or invalid.');
-                        const closeButton = $('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
-                        alertDivPromo.append(closeButton);
-                        $('#alertPromo').append(alertDivPromo)
-
-                        document.getElementById("discount-amt").innerHTML = "-";
-                        document.getElementById("pcode-no").innerHTML = "-";
-
-
-                        //Get the final price and update
-                        document.getElementById("alltotal").innerHTML = <?php if (isset($data)) {
-                                                                             echo number_format($data["amount"]["finalPrice"], 2);
-                                                                        } ?>;
-                    }
-
-                },
-                error: function (jXHR, textStatus, errorThrown) {
-                    console.error("Error", errorThrown);
+            url: "<?=ROOT?>/Payment/applyPromo",
+            type: "POST",
+            data: $('#form1').serialize(),
+            success: function (response) {
+                if (promoApplied) {
+                    // If promo code is already applied, return early
+                    return;
                 }
+                if (response.data && response.data["discount"] > 0) {
+                    // Mark promo code as applied
+                    promoApplied = true;
+                    //Lock the input box
+                    document.getElementById("voucher").readOnly = true;
+
+                    // Disable the Apply Promo Code button
+                    $('#applyPromoButton').prop('disabled', true);
+
+                    // Show successful alert
+                    $('#alertPromo').empty(); // Clear previous alerts
+                    const alertDivPromo = $('<div class="alert alert-success alert-dismissible fade show" role="alert"></div>');
+                    alertDivPromo.text('Promo code has been applied.');
+                    const closeButton = $('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
+                    alertDivPromo.append(closeButton);
+                    $('#alertPromo').append(alertDivPromo);
+
+                    // Apply result
+                    document.getElementById("discount-amt").innerHTML = "RM " + response.data["discount"].toFixed(2);
+                    document.getElementById("pcode-no").innerHTML = response.data["promoCode"];
+
+                    // Get the final price and update
+                    const finalamt = parseFloat(document.getElementById("alltotal").innerHTML);
+                    var newPrice = finalamt - response.data["discount"]; // Use the actual discount value
+                    document.getElementById("alltotal").innerHTML = newPrice.toFixed(2);
+
+                } else {
+                    $('#alertPromo').empty(); // Clear previous alerts
+                    // If the voucher is invalid
+                    const alertDivPromo = $('<div class="alert alert-warning alert-dismissible fade show" role="alert"></div>');
+                    alertDivPromo.text('Promo code used or invalid.');
+                    const closeButton = $('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
+                    alertDivPromo.append(closeButton);
+                    $('#alertPromo').append(alertDivPromo);
+
+                    document.getElementById("discount-amt").innerHTML = "-";
+                    document.getElementById("pcode-no").innerHTML = "-";
+
+                    // Get the final price and update
+                    document.getElementById("alltotal").innerHTML = <?php if (isset($data)) { echo number_format($data["amount"]["finalPrice"], 2); } ?>;
+
+                    promoApplied = false
+                    document.getElementById("voucher").readOnly = false
+                }
+            },
+            error: function (jXHR, textStatus, errorThrown) {
+                console.error("Error", errorThrown);
             }
-        );
-
-
+        });
     }
 
 </script>
