@@ -15,4 +15,9 @@ class MovieRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findByMovieId($movieId)
+    {
+        return $this->findOne(['movieId' => $movieId]);
+    }
 }

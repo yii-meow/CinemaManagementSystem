@@ -147,7 +147,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveSchedule">Save Schedule</button>
+                <button type="submit" form="addMovieScheduleForm" class="btn btn-primary">Save Schedule</button>
             </div>
         </div>
     </div>
@@ -168,35 +168,67 @@
         });
 
         // Handle form submission
-        document.getElementById('saveSchedule').addEventListener('click', function () {
-            const form = document.getElementById('addMovieScheduleForm');
-            if (form.checkValidity()) {
-                const formData = new FormData(form);
-                const cinemaHallId = formData.get('cinemaHallId');
-                const movieId = formData.get('movieId');
-                const startingTime = formData.get('startingTime');
+        //document.getElementById('saveSchedule').addEventListener('click', function () {
+        //    const form = document.getElementById('addMovieScheduleForm');
+        //    if (form.checkValidity()) {
+        //        const formData = new FormData(form);
+        //        const cinemaHallId = formData.get('cinemaHallId');
+        //        const movieId = formData.get('movieId');
+        //        const startingTime = formData.get('startingTime');
+        //
+        //        fetch('<?//=ROOT?>///HallMovieSchedule/addHallMovieSchedule', {
+        //            method: 'POST',
+        //            body: formData
+        //        })
+        //            .then(response => response.json())
+        //            .then(data => {
+        //                console.log("here11111!")
+        //                // Close the modal and optionally refresh the page
+        //                var modal = bootstrap.Modal.getInstance(document.getElementById('addMovieScheduleModal'));
+        //                modal.hide();
+        //            })
+        //            .catch((error) => {
+        //                console.error("here222222")
+        //                console.error('Error:', error);
+        //            });
+        //
+        //        // Reset the form
+        //        form.reset();
+        //    } else {
+        //        form.reportValidity();
+        //    }
+        //});
+        document.getElementById('addMovieScheduleForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            // Collect form data
+            const formData = new FormData(this);
 
-                fetch('<?=ROOT?>/HallMovieSchedule/addHallMovieSchedule', {
-                    method: 'POST',
-                    body: formData
+            // Get opening and closing hours
+            const cinemaHallId = formData.get('cinemaHallId');
+            const movieId = formData.get('movieId');
+            const startingTime = formData.get('startingTime');
+
+            // Set the new openingHours and remove the old fields
+
+            fetch('<?=ROOT?>/HallMovieSchedule/addHallMovieSchedule', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Added movie schedule successfully");
+                    // Close the modal and optionally refresh the page
+                    var modal = bootstrap.Modal.getInstance(document.getElementById('addMovieScheduleModal'));
+                    modal.hide();
+                    location.reload();
                 })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log("here!")
-                        // Close the modal and optionally refresh the page
-                        var modal = bootstrap.Modal.getInstance(document.getElementById('addMovieScheduleModal'));
-                        modal.hide();
-                    })
-                    .catch((error) => {
-                        console.error("here2")
-                        console.error('Error:', error);
-                    });
+                .catch((error) => {
+                    alert("Error in adding movie schedule");
+                    console.error('Error:', error);
+                });
 
-                // Reset the form
-                form.reset();
-            } else {
-                form.reportValidity();
-            }
+            // Reset the form
+            form.reset();
         });
     });
 </script>

@@ -328,8 +328,10 @@
             })
                 .then(response => response.json())
                 .then(data => {
+                    alert("Added cinema successfully!");
                     // Handle successful submission
                     $('#addCinemaModal').modal('hide');
+                    location.reload();
                 })
                 .catch(error => {
                     // Handle errors

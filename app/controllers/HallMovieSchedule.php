@@ -70,8 +70,6 @@ class HallMovieSchedule
             $movieId = $_POST['movieId'] ?? '';
             $startingTime = $_POST['startingTime'] ?? '';
 
-            echo $cinemaHallId . $movieId . $startingTime;
-
             if (empty($cinemaHallId) || empty($movieId) || empty($startingTime)) {
                 echo 'Please fill in all required fields.';
                 exit();
@@ -80,7 +78,6 @@ class HallMovieSchedule
                     // Fetch the related entities
                     $movie = $this->movieRepository->find($movieId);
                     $cinemaHall = $this->cinemaHallRepository->find($cinemaHallId);
-
                     if (!$movie || !$cinemaHall) {
                         jsonResponse(['success' => false, 'message' => 'Invalid movie or cinema hall.']);
                         return;
@@ -99,10 +96,8 @@ class HallMovieSchedule
 
                     // Flush changes to the database
                     $this->entityManager->flush();
-
                     jsonResponse(['success' => true, 'message' => 'Cinema added successfully']);
                 } catch (\Exception $e) {
-                    error_log($e->getMessage());
                     jsonResponse(['success' => false, 'message' => 'An error occurred while adding the movie schedule']);
                 }
             }
