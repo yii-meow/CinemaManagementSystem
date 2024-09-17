@@ -6,6 +6,7 @@ use App\core\Controller;
 use App\core\Database;
 
 
+use App\core\Encryption;
 use App\models\Cinema;
 use App\models\Movie;
 use App\models\MovieSchedule;
@@ -38,33 +39,23 @@ class Payment
         $this->userRewardRepository = $this->entityManager->getRepository(UserReward::class);
     }
 
+    public function decryptParam($param, $decryption) {
+        return isset($_GET[$param]) ? $decryption->decrypt($_GET[$param], $decryption->getKey()) : '';
+    }
+
     public function index()
     {
-        //Get Query String Values
-        $schedule = (int) $_GET['scheduleId'] ?? '';
-        $queryString['scheduleId'] = $schedule;
+        $decryption = new Encryption();
 
-        $seats = (string) $_GET['seats'] ?? '';
-        $queryString['seats'] = $seats;
-
-        $experience = (string) $_GET['exp'] ?? '';
-        $queryString['exp'] = $experience;
-
-        $date = (string) $_GET['date'] ?? '';
-        $queryString['date'] = $date;
-
-        $hallId = (int) $_GET['hid'] ?? '';
-        $queryString['hid'] = $hallId;
-
-        $cinemaName = (string) $_GET['cn'] ?? '';
-        $queryString['cn'] = $cinemaName;
-
-        $hallName = (string) $_GET['hn'] ?? '';
-        $queryString['hn'] = $hallName;
-
+        $queryString = [
+            'scheduleId' => (int) $this->decryptParam('scheduleId', $decryption),
+            'seats'      => $this->decryptParam('seats', $decryption),
+            'date'       => $this->decryptParam('date', $decryption),
+            'hid'        => (int) $this->decryptParam('hid', $decryption),
+        ];
 
         //Get Movie ID
-        $movieId = (int) $_SESSION['movieId'];
+        $movieId = (int)$_SESSION['movieId'];
 
         //Get Movie Details
         $movieData = [];
@@ -89,17 +80,42 @@ class Payment
         }
 
 
+        //Get Hall Details
+        $hallData = [];
+        $hallObj = $this->cinemaHallRepository->find((int)$queryString["hid"]);
+        if($hallObj){
+            $cinemaObj = $hallObj->getCinema();
+
+            $hallData = [
+                //Get Hall Info
+                "hallName" => $hallObj->getHallName(),
+                "hallType" => $hallObj->getHallType(),
+                //Get Cinema Name
+                "cinema" => $cinemaObj ?  [
+                        "cinemaName" => $cinemaObj->getName(),
+                    ]: null,
+            ];
+
+        }
+
+
+
+
+
+
         //Price Calculation
-        $amount = $this->calculateTotalPrice((string)$experience,(string)$date, (string)$seats);
+        $amount = $this->calculateTotalPrice((string)$hallData["hallType"], (string)$queryString["date"], (string)$queryString["seats"]);
 
         //Preparing data to pass
         $data = [
             "movie" => $movieData,
             "qs" => $queryString,
             "amount" => $amount,
+            "cinemaHall" => $hallData,
         ];
 
-        //show($data);
+        // Close the EntityManager Database Connection after operations are done
+        $this->entityManager->close();
 
         $this->view("Customer/Payment/Payment", $data);
     }
@@ -123,7 +139,6 @@ class Payment
             $lastName = $this->test_input((string)$_POST['lName']);
             $email = $this->test_input((string)$_POST['email']);
             $phone = $this->test_input((string)$_POST['phone']);
-
 
 
             //VALIDATION
@@ -186,7 +201,6 @@ class Payment
                 $amount = $_POST['finalPrice'] ?? '';  //Returned Value
 
 
-
                 ///////DESIGN PATTERN - STRATEGY
                 //Initialize PaymentStrategyContext with the selected payment method
                 $paymentContext = new PaymentStrategyContext($selectedPaymentMethod);
@@ -207,7 +221,8 @@ class Payment
                 }
             }
 
-
+            // Close the EntityManager Database Connection after operations are done
+            $this->entityManager->close();
         }
     }
 
@@ -286,7 +301,6 @@ class Payment
 
 
         //Final Price Result
-        //return $totalTicketPrice + $commissionFee + $sst - $discount;
         return [
             'totalTicketPrice' => $totalTicketPrice,
             'commissionFee' => $commissionFee,
@@ -296,7 +310,8 @@ class Payment
     }
 
 
-    public function applyPromo(){
+    public function applyPromo()
+    {
         //Check Promo Code Discount
         $promoCode = $this->test_input((int)$_POST['promoCode'] ?? '');
         $discount = $this->checkPromoCodeForThatUser((int)$promoCode);
@@ -320,11 +335,13 @@ class Payment
 
         $userRewardObj = $this->userRewardRepository->findPromoCodeUserOwn((int)$userId, (int)$promoCode);
 
-        if($userRewardObj){
+        if ($userRewardObj) {
             return 20.00;
         } else {
             return 0.0;
         }
+
+
     }
 
 

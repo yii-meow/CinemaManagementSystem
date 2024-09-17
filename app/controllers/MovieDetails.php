@@ -49,6 +49,9 @@ class MovieDetails
             ];
         }
 
+        // Close the EntityManager Database Connection after operations are done
+        $this->entityManager->close();
+
         //Route to the destinaiton page, with passing data from the Model
         $this->view('Customer/Movie/MovieDetails', $data); // the method from Controller
 
