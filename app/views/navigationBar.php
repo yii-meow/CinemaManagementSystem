@@ -76,4 +76,14 @@
             <li><a class="dropdown-item" href="/Forum/LikedPost.html">Liked Post</a></li>
         </ul>
     </div>
+    <div class="drop " style="margin-left: auto">
+        <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+            FEEDBACK
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="FeedbackController">Add Feedback</a></li>
+            <li><a class="dropdown-item" href="FeedbackHistory">Feedback History</a></li>
+        </ul>
+    </div>
 </div>

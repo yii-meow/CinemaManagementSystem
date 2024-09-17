@@ -1,23 +1,34 @@
 <?php
+namespace App\controllers;
+
+use App\models\User;
+use App\core\Controller;
+use App\core\Database;
+use App\models\Feedback;
 
 class Admin_FeedbackView
 {
     use Controller;
 
+    private $entityManager;
+    private $feedbackRepository;
+    public function __construct()
+    {
+        $this->entityManager = Database::getEntityManager();
+        $this->feedbackRepository = $this->entityManager->getRepository(Feedback::class);
+        $this->userRepository = $this->entityManager->getRepository(User::class);
+    }
     public function index()
     {
-        $feedback = null;
-        $feedback['userID'] = "3";
-        $feedback['content'] = "123gygwegfiwey";
-        $feedback['rating'] = "3";
-        $feedback['date'] = "12/12/2025";
-        $feedback['status'] = "unread";
-        $feedback['reply'] = "dshgiwdgifyiwe";
-        $feedback['coinCompensation'] = "100";
+        $feedback = $this->feedbackRepository->findBy(['feedbackID' => $_GET['feedbackID']]);
+
         $data = $feedback;
 
-        //get selected feedback record
+        //print_r($feedback);
+        //die();
 
+
+        //get selected feedback record
         //Route to the destinaiton page, with passing data from the Model
         $this->view('Admin/Feedback/Feedback_view', $data);
     }

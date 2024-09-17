@@ -17,70 +17,8 @@
 <body>
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
-        <nav class="col-md-3 col-lg-2 d-md-block p-0">
-            <div class="sidebar-container">
-                <div class="sidebar p-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                <i class="fas fa-film me-4 fa-lg"></i>
-                                Cinemas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-calendar-alt me-4 fa-lg"></i>
-                                Showtimes
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-ticket-alt me-4 fa-lg"></i>
-                                Bookings
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="AdminForum.html">
-                                <i class="fa fa-users me-4 fa-lg"></i>
-                                Forum
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Feedback.html">
-                                <i class="fa fa-comment-dots me-4 fa-lg"></i>
-                                Feedback
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-chart-bar me-4 fa-lg"></i>
-                                Reports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-cog me-4 fa-lg"></i>
-                                Settings
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Admin Info -->
-                <div class="admin-info">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="<?= ROOT ?>/assets/images/pp.webp" alt="Admin Avatar" class="me-2" />
-                        <div>
-                            <strong>John Doe</strong>
-                            <div class="small text-muted">Admin</div>
-                        </div>
-                    </div>
-                    <button class="btn btn-outline-light btn-sm w-100">
-                        <i class="fas fa-sign-out-alt me-2"></i>Logout
-                    </button>
-                </div>
-            </div>
-        </nav>
+
+        <?php include "../app/views/adminSideBar.php"?>
 
         <!-- Main content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3">
@@ -93,12 +31,38 @@
 
             <!-- Filters and Sorting -->
             <div class="row mb-4">
-                <div class="col-md-4" style="width: 65%;">
+
+                <div class="col-md-4 mt-3" style="width: 50%;">
+                    <label for="status">Feedback</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                         <input type="text" class="form-control" placeholder="Search Feedback..." />
                     </div>
                 </div>
+                <div class="col-md-4 mt-3" style="width: 50%;">
+                    <label for="rating">Rating</label>
+                    <div class="input-group">
+                        <select class="form-select" id="rating" required>
+                            <option value="5" selected>5 Stars</option>
+                            <option value="4" >4 Stars</option>
+                            <option value="3" >3 Stars</option>
+                            <option value="2" >2 Stars</option>
+                            <option value="1" >1 Star</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-3" style="width: 50%;">
+                    <label for="status">Status</label>
+                    <div class="input-group">
+                        <select class="form-select" id="status" required>
+                            <option value="pending" selected>Pending Review</option>
+                            <option value="inProgress" >In Progress</option>
+                            <option value="resolved" >Resolved</option>
+                            <option value="compensationOffered" >Compensation Offered</option>
+                        </select>
+                    </div>
+                </div>
+
 
 
             </div>
@@ -117,68 +81,30 @@
                 </tr>
                 </thead>
                 <tbody>
+                <?php if(!empty($data)){ foreach ($data as $index => $feedback){ ?>
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
+                    <th scope="row"><?= $index+1 ?></th>
+                    <td><?= $feedback->getUser()->getUserName() ?></td>
                     <td>
                         <div>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
+                            <?php for ($i = 1; $i <= 5; $i++){?>
+                                <span class="fa fa-star  <?php if($feedback->getRating() >= $i) { echo "checked"; } ?>"></span>
+                            <?php } ?>
                         </div>
                     </td>
-                    <td>12/12/2034</td>
-                    <td>Unread</td>
-                    <td><a href="Admin_FeedbackView?feedbackID=3"><button class="btn btn-md btn-outline-primary me-2">
+                    <td><?= $feedback->getCreatedAt()->format('Y-m-d') ?></td>
+                    <td><?= strtoupper($feedback->getStatus()) ?></td>
+                    <td><a href="Admin_FeedbackView?feedbackID=<?= $feedback->getFeedbackId() ?>"><button class="btn btn-md btn-outline-primary me-2">
                                 <i class="fas fa-exclamation-circle me-1"></i>View
                             </button></a>
-                        <a href="Admin_FeedbackEdit?feedbackID=3">
+                        <a href="Admin_FeedbackEdit?feedbackID=<?= $feedback->getFeedbackId() ?>">
                             <button class="btn btn-md btn-outline-primary me-2">
                                 <i class="fas fa-edit me-1"></i>Edit
                             </button>
                         </a>
                     </td>
                 </tr>
-
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Mark</td>
-                    <td>
-                        <div>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                        </div>
-                    </td>
-                    <td>12/12/2034</td>
-                    <td>Read</td>
-                    <td><button class="btn btn-md btn-outline-primary me-2">
-                            <i class="fas fa-exclamation-circle me-1"></i>View
-                        </button></td>
-                </tr>
-
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Mark</td>
-                    <td>
-                        <div>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </td>
-                    <td>12/12/2034</td>
-                    <td>Read</td>
-                    <td><button class="btn btn-md btn-outline-primary me-2">
-                            <i class="fas fa-exclamation-circle me-1"></i>View
-                        </button></td>
-                </tr>
+                <?php }} ?>
 
                 </tbody>
             </table>

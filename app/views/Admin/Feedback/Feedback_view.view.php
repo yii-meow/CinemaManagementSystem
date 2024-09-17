@@ -18,69 +18,7 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <nav class="col-md-3 col-lg-2 d-md-block p-0">
-            <div class="sidebar-container">
-                <div class="sidebar p-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                <i class="fas fa-film me-4 fa-lg"></i>
-                                Cinemas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-calendar-alt me-4 fa-lg"></i>
-                                Showtimes
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-ticket-alt me-4 fa-lg"></i>
-                                Bookings
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="AdminForum.html">
-                                <i class="fa fa-users me-4 fa-lg"></i>
-                                Forum
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Feedback.html">
-                                <i class="fa fa-comment-dots me-4 fa-lg"></i>
-                                Feedback
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-chart-bar me-4 fa-lg"></i>
-                                Reports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-cog me-4 fa-lg"></i>
-                                Settings
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Admin Info -->
-                <div class="admin-info">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="/Media/Image/pp.webp" alt="Admin Avatar" class="me-2" />
-                        <div>
-                            <strong>John Doe</strong>
-                            <div class="small text-muted">Admin</div>
-                        </div>
-                    </div>
-                    <button class="btn btn-outline-light btn-sm w-100">
-                        <i class="fas fa-sign-out-alt me-2"></i>Logout
-                    </button>
-                </div>
-            </div>
-        </nav>
+        <?php include "../app/views/adminSideBar.php"?>
 
         <!-- Main content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content mt-3">
@@ -93,53 +31,50 @@
                     ">
                 <div class="mb-3">
                     <label for="title" class="form-label">Received from</label>
-                    <input type="text" class="form-control" id="title" value="<?= $data['userID'] ?>" required disabled />
+                    <input type="text" class="form-control" id="title" value="<?= $data[0]->getUser()->getUserName() ?>" required disabled />
                 </div>
 
                 <div class="mb-3">
                     <label for="feedback" class="form-label">Feedback</label>
                     <textarea class="form-control" id="feedback" rows="5" required
-                              disabled><?php echo $data['content'] ?></textarea>
+                              disabled><?= $data[0]->getContent() ?></textarea>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Rating</label>
                     <div>
-
-                        <?php
-                        for($i = 1; $i <= 5; $i++){
-                        ?>
-                            <span class="fa fa-star <?php if($i <= $data['rating']){ echo "checked";} ?>"></span>
-                        <?php
-                        }
-                        ?>
+                        <?php for ($i = 1; $i <= 5; $i++){?>
+                            <span class="fa fa-star  <?php if($data[0]->getRating() >= $i) { echo "checked"; } ?>"></span>
+                        <?php } ?>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="date" class="form-label">Date</label>
-                    <input type="text" class="form-control" id="date" value="<?= $data['date'] ?>" required disabled />
+                    <input type="text" class="form-control" id="date" value="<?= $data[0]->getCreatedAt()->format('Y-m-d') ?>" required disabled />
                 </div>
 
                 <div class="mb-3">
                     <label for="status" class="form-label">Status</label>
                     <select class="form-select" id="status" required disabled>
-                        <option value="unread" <?php if($data['status'] == "unread"){ echo "selected"; } ?>>Unread</option>
-                        <option value="read" <?php if($data['status'] == "read"){ echo "selected"; } ?>>Read</option>
+                        <option value="pending" <?php if($data[0]->getStatus() == "pending"){ echo "selected"; } ?>>Pending Review</option>
+                        <option value="inProgress" <?php if($data[0]->getStatus() == "inProgress"){ echo "selected"; } ?>>In Progress</option>
+                        <option value="resolved" <?php if($data[0]->getStatus() == "resolved"){ echo "selected"; } ?>>Resolved</option>
+                        <option value="compensationOffered" <?php if($data[0]->getStatus() == "compensationOffered"){ echo "selected"; } ?>>Compensation Offered</option>
                     </select>
                 </div>
 
                 <div class="mb-3">
                     <label for="reply" class="form-label">Reply</label>
-                    <textarea class="form-control" id="reply" rows="5" disabled><?php echo $data['reply'] ?></textarea>
+                    <textarea class="form-control" id="reply" rows="5" disabled><?= $data[0]->getReply() ?></textarea>
                 </div>
 
                 <div class="mb-3">
                     <label for="coinCompensation" class="form-label">Coin Compensation</label>
-                    <input type="number" class="form-control" id="coinCompensation" value="<?= $data['coinCompensation'] ?>" disabled />
+                    <input type="number" class="form-control" id="coinCompensation" value="<?= $data[0]->getCoinCompensation() ?>" disabled />
                 </div>
 
-                <a href="Admin_FeedbackIndex"><button class="btn btn-danger">Back</button></a>
+                <a href="Admin_FeedbackIndex"><div class="btn btn-danger">Back</div></a>
             </form>
         </main>
 

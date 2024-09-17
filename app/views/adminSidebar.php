@@ -57,7 +57,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Feedback.html">
+                    <a class="nav-link" href="Admin_FeedbackIndex">
                         <i class="fa fa-comment-dots me-4 fa-lg"></i>
                         Feedback
                     </a>
