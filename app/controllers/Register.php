@@ -40,7 +40,7 @@ class Register
             } elseif ($password !== $cpassword) {
                 $data['error'] = 'Passwords do not match.';
             } else {
-                // Check if user already exists
+                // Check if user already exists with the same phone number
                 $existingUser = $this->userRepository->findOneBy(['phoneNo' => $phoneNo]);
 
                 if ($existingUser) {
@@ -63,7 +63,8 @@ class Register
                     $this->entityManager->persist($user);
                     $this->entityManager->flush();
 
-                    // Redirect to success page or login
+                    // Redirect to login page or success page
+                    $data['success'] = 'Registration successful. Please log in.';
                     $this->view('Customer/User/Login', $data);
                     exit();
                 }

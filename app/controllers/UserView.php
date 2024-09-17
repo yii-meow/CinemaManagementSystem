@@ -56,7 +56,7 @@ class UserView
                     'rewardTitle' => $reward->getRewardTitle(),
                     'category' => $reward->getCategory(),
                     'rewardImg' => $reward->getRewardImg(),
-                    'status' => $userReward->getStatus() // Assuming status is stored in UserReward
+                    'rewardCondition' => $userReward->getRewardCondition() // Assuming status is stored in UserReward
                 ];
             }
         }

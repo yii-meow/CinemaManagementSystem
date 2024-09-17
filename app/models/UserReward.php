@@ -2,11 +2,9 @@
 
 namespace App\models;
 
-
-use App\repositories\UserRewardRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UserRewardRepository::class)]
+#[ORM\Entity]
 #[ORM\Table(name: 'UserReward')]
 class UserReward
 {
@@ -15,41 +13,24 @@ class UserReward
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $userRewardId;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userReward')]
-    #[ORM\JoinColumn(name: 'userId', referencedColumnName: 'userId')]
-    private $user;
-
-    #[ORM\ManyToOne(targetEntity: Reward::class, inversedBy: 'userReward')]
+    #[ORM\ManyToOne(targetEntity: Reward::class, inversedBy: 'userRewards')]
     #[ORM\JoinColumn(name: 'rewardId', referencedColumnName: 'rewardId')]
     private $reward;
 
-//    #[ORM\Column(type: 'string', length: 50)]
-//    private $status;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userRewards')]
+    #[ORM\JoinColumn(name: 'userId', referencedColumnName: 'userId')]
+    private $user;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $redeemDate;
+    #[ORM\Column(type: 'string', length: 20)]
+    private $rewardCondition; // Changed column name
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $rewardCondition;
-
-    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    #[ORM\Column(type: 'integer')]
     private $promoCode;
 
+    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    private $redeemDate;
 
-    public function getRewardCondition()
-    {
-        return $this->rewardCondition;
-    }
-
-    public function setRewardCondition($rewardCondition): void
-    {
-        $this->rewardCondition = $rewardCondition;
-    }
-
-
-    // Getters and Setter
-
-
+    // Getters and Setters
 
     public function getUserRewardId(): ?int
     {
@@ -62,12 +43,6 @@ class UserReward
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-
     public function getReward(): ?Reward
     {
         return $this->reward;
@@ -79,36 +54,36 @@ class UserReward
         return $this;
     }
 
-    public function getStatus(): string
+    public function getRewardCondition(): string // Changed method name
     {
-        return $this->status;
+        return $this->rewardCondition;
     }
 
-    public function setStatus(string $status): self
+    public function setRewardCondition(string $condition): self // Changed method name
     {
-        $this->status = $status;
+        $this->rewardCondition = $condition;
         return $this;
     }
 
-    public function getRedeemDate(): ?\DateTime
-    {
-        return $this->redeemDate;
-    }
-
-    public function setRedeemDate(?\DateTime $redeemDate): self
-    {
-        $this->redeemDate = $redeemDate;
-        return $this;
-    }
-
-    public function getPromoCode(): ?string
+    public function getPromoCode(): int
     {
         return $this->promoCode;
     }
 
-    public function setPromoCode(?string $promoCode): self
+    public function setPromoCode(int $promoCode): self
     {
         $this->promoCode = $promoCode;
+        return $this;
+    }
+
+    public function getRedeemDate(): string
+    {
+        return $this->redeemDate;
+    }
+
+    public function setRedeemDate(string $redeemDate): self
+    {
+        $this->redeemDate = $redeemDate;
         return $this;
     }
 }

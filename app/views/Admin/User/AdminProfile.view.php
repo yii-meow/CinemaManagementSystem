@@ -32,63 +32,122 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content mt-3">
             <h1 class="mb-2">Admin Profile</h1>
 
+            <?php if (isset($data['messages'])): ?>
+                <?php foreach ($data['messages'] as $message): ?>
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
             <!-- Profile Form -->
-            <form id="adminProfileForm" class="main-content p-4 mt-3" style="
-                                            background-color: #ffffff;
-                                            border-radius: 8px;
-                                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                                        ">
-                <div class="mb-3">
-                    <label for="adminID" class="form-label">Admin ID</label>
-                    <input type="text" class="form-control" id="adminID" value="A001" required disabled />
-                </div>
+            <form id="adminProfileForm" class="main-content p-4 mt-3" method="post" style="
+                    background-color: #ffffff;
+                    border-radius: 8px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                ">
+                <?php if (isset($data['admin'])): ?>
+                    <div class="mb-3">
+                        <label for="adminID" class="form-label">
+                            <i class="fas fa-id-badge me-2"></i>Admin ID
+                        </label>
+                        <input type="text" class="form-control" id="adminID" value="<?= htmlspecialchars($data['admin']->getUserId(), ENT_QUOTES, 'UTF-8'); ?>" required disabled />
+                    </div>
 
-                <div class="mb-3">
-                    <label for="adminUsername" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="adminUsername" value="admin_john" required />
-                </div>
+                    <div class="mb-3">
+                        <label for="adminUsername" class="form-label">
+                            <i class="fas fa-user me-2"></i>Username
+                        </label>
+                        <input type="text" class="form-control" id="adminUsername" name="adminUsername" value="<?= htmlspecialchars($data['admin']->getUserName(), ENT_QUOTES, 'UTF-8'); ?>" required disabled />
+                    </div>
 
-                <div class="mb-3">
-                    <label for="adminEmail" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="adminEmail" value="admin.john@example.com"
-                           required />
-                </div>
+                    <div class="mb-3">
+                        <label for="adminPhoneNo" class="form-label">
+                            <i class="fas fa-phone me-2"></i>Phone Number
+                        </label>
+                        <input type="text" class="form-control" id="adminPhoneNo" name="adminPhoneNo" value="<?= htmlspecialchars($data['admin']->getPhoneNo(), ENT_QUOTES, 'UTF-8'); ?>" required disabled />
+                    </div>
 
-                <div class="mb-3">
-                    <label for="adminPhoneNo" class="form-label">Phone Number</label>
-                    <input type="text" class="form-control" id="adminPhoneNo" value="+123456789" required />
-                </div>
+                    <div class="mb-3">
+                        <label for="currentPassword" class="form-label">
+                            <i class="fas fa-lock me-2"></i>Current Password
+                        </label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Enter current password" disabled />
+                            <button type="button" class="btn btn-outline-secondary" id="toggleCurrentPassword">
+                                <i class="fas fa-eye" id="eyeCurrentPassword"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="adminPassword" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="adminPassword"
-                           placeholder="Enter new password" />
-                </div>
+                    <div class="mb-3">
+                        <label for="adminPassword" class="form-label">
+                            <i class="fas fa-lock me-2"></i>New Password
+                        </label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="adminPassword" name="adminPassword" placeholder="Enter new password" disabled />
+                            <button type="button" class="btn btn-outline-secondary" id="toggleNewPassword">
+                                <i class="fas fa-eye" id="eyeNewPassword"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="adminRole" class="form-label">Role</label>
-                    <input type="text" class="form-control" id="adminRole" value="Admin" disabled />
-                </div>
+                    <div class="mb-3">
+                        <label for="adminRole" class="form-label">
+                            <i class="fas fa-briefcase me-2"></i>Role
+                        </label>
+                        <input type="text" class="form-control" id="adminRole" value="<?= htmlspecialchars($data['admin']->getRole(), ENT_QUOTES, 'UTF-8'); ?>" disabled />
+                    </div>
 
-                <div class="d-md-block justify-content-between">
-                    <button type="button" class="btn btn-secondary" id="editProfileButton">Edit Profile</button>
-                    <button type="submit" class="btn btn-success d-none" id="saveProfileButton">Save
-                        Changes</button>
-                </div>
+                    <div class="d-md-block justify-content-between">
+                        <button type="button" class="btn btn-secondary" id="editProfileButton">
+                            <i class="fas fa-edit me-2"></i>Edit Profile
+                        </button>
+                        <button type="submit" class="btn btn-success d-none" id="saveProfileButton">
+                            <i class="fas fa-save me-2"></i>Save Changes
+                        </button>
+                    </div>
+                <?php else: ?>
+                    <p>No admin data available.</p>
+                <?php endif; ?>
             </form>
         </main>
     </div>
 </div>
 
 <script>
-    // When the Edit Profile button is clicked, enable form fields for editing
+    // Toggle password visibility
+    function togglePasswordVisibility(inputId, iconId) {
+        const passwordInput = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    document.getElementById('toggleCurrentPassword').addEventListener('click', function () {
+        togglePasswordVisibility('currentPassword', 'eyeCurrentPassword');
+    });
+
+    document.getElementById('toggleNewPassword').addEventListener('click', function () {
+        togglePasswordVisibility('adminPassword', 'eyeNewPassword');
+    });
+
+    // Enable form fields for editing
     document.getElementById("editProfileButton").addEventListener("click", function () {
         document.getElementById("adminUsername").disabled = false;
-        document.getElementById("adminEmail").disabled = false;
         document.getElementById("adminPhoneNo").disabled = false;
         document.getElementById("adminPassword").disabled = false;
+        document.getElementById("currentPassword").disabled = false;
 
-        // Show the Save Changes button and hide the Edit Profile button
         document.getElementById("saveProfileButton").classList.remove("d-none");
         document.getElementById("editProfileButton").classList.add("d-none");
     });
@@ -96,19 +155,10 @@
     // Handle Save Changes button click
     document.getElementById("adminProfileForm").addEventListener("submit", function (e) {
         e.preventDefault();
-        // Implement save functionality here
-
-        // Disable fields after saving
-        document.getElementById("adminUsername").disabled = true;
-        document.getElementById("adminEmail").disabled = true;
-        document.getElementById("adminPhoneNo").disabled = true;
-        document.getElementById("adminPassword").disabled = true;
-
-        // Reset the buttons
-        document.getElementById("saveProfileButton").classList.add("d-none");
-        document.getElementById("editProfileButton").classList.remove("d-none");
+        document.getElementById("adminProfileForm").submit();
     });
 </script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -50,16 +50,9 @@ class MyReward
             exit();
         }
 
-        // Fetch rewards for the user
+        // Fetch user rewards with related reward details
         $userRewards = $this->userRewardRepository->findBy(['user' => $user]);
 
-        // Fetch additional details for each reward
-        foreach ($userRewards as $userReward) {
-            $reward = $this->rewardRepository->find($userReward->getReward());
-            $userReward->setReward($reward); // Set the reward using a setter
-        }
-
-        // Pass the user data and user rewards to the view
         $data['user'] = [
             'userId' => $user->getUserId(),
             'profileImg' => $user->getProfileImg(),
@@ -70,7 +63,8 @@ class MyReward
             'birthDate' => $user->getBirthDate(),
             'coins' => $user->getCoins()
         ];
-        $data['userRewards'] = $userRewards;
+
+        $data['userRewards'] = $userRewards;  // Passing the user rewards directly
 
         // Render the MyReward view
         $this->view('Customer/User/MyReward', $data);

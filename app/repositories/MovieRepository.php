@@ -17,5 +17,3 @@ class MovieRepository extends EntityRepository
             ->getResult();
     }
 }
-
-

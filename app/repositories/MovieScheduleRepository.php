@@ -80,4 +80,3 @@ class MovieScheduleRepository extends EntityRepository
 
     }
 }
-

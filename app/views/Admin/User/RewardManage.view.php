@@ -62,33 +62,40 @@
                     <th scope="col" style="width: 10%;">Reward Image</th>
                     <th scope="col" style="width: 10%;">Reward Title</th>
                     <th scope="col" style="width: 10%;">Category</th>
-                    <th scope="col" style="width: 15%;">Details</th>
-                    <th scope="col" style="width: 20%;">Description</th>
+                    <th scope="col" style="width: 10%;">Details</th>
+                    <th scope="col" style="width: 10%;">Description</th>
                     <th scope="col" style="width: 10%;">Qty</th>
-                    <th scope="col" style="width: 15%;">Action</th>
+                    <th scope="col" style="width: 5%;">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td><img src="../../Media/Image/movie.webp" alt="Reward Image 1" style="width: 100px;" />
-                    </td>
-                    <td>Reward Title 1</td>
-                    <td>Category 1</td>
-                    <td>Details about reward 1</td>
-                    <td>Description of reward 1</td>
-                    <td>10</td>
-                    <td>
-                        <a href="RewardView.html"><button class="btn btn-md btn-outline-primary me-2">
-                                <i class="fas fa-exclamation-circle me-1"></i>View
-                            </button></a>
-                        <button class="btn btn-md btn-outline-primary me-2" data-bs-toggle="modal"
-                                data-bs-target="#deleteConfirmationModal" data-reward-id="1">
-                            <i class="fas fa-trash me-1"></i>Delete
-                        </button>
-                    </td>
-                </tr>
-                <!-- Repeat for other rewards -->
+                <?php if (isset($rewards) && !empty($rewards)): ?>
+                    <?php foreach ($rewards as $index => $reward): ?>
+                        <tr>
+                            <th scope="row"><?= $index + 1 ?></th>
+                            <td>
+                                <img src="<?= ROOT ?>/assets/images/<?= htmlspecialchars($reward->getRewardImg(), ENT_QUOTES, 'UTF-8'); ?>" alt="Reward Image"
+                                     style="width: 70px;height: 70px"/>
+                            </td>
+                            <td><?= htmlspecialchars($reward->getRewardTitle(), ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?= htmlspecialchars($reward->getCategory(), ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?= htmlspecialchars($reward->getDetails(), ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?= htmlspecialchars($reward->getDescription(), ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?= htmlspecialchars($reward->getQty(), ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td>
+                                <a href="RewardView?rewardId=<?= htmlspecialchars($reward->getRewardId(), ENT_QUOTES, 'UTF-8'); ?>">
+                                    <button class="btn btn-md btn-outline-primary me-2">
+                                        <i class="fas fa-exclamation-circle me-1"></i>View
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="8" class="text-center">No rewards found.</td>
+                    </tr>
+                <?php endif; ?>
                 </tbody>
             </table>
         </main>
@@ -106,7 +113,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="addRewardForm" enctype="multipart/form-data">
+                <form id="addRewardForm" action="RewardManage" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="rewardImage" class="form-label">Reward Image</label>
                         <input type="file" class="form-control" id="rewardImage" name="rewardImage" />
@@ -137,31 +144,10 @@
                         <input type="number" class="form-control" id="neededCoins" name="neededCoins" required />
                     </div>
                     <div class="d-flex justify-content-end">
+                        <input type="hidden" name="action" value="addReward" />
                         <button type="submit" class="btn btn-primary">Add Reward</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmationModalLabel">
-                    <i class="fas fa-trash-alt me-2"></i>Delete Reward
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete this reward?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
             </div>
         </div>
     </div>
@@ -171,21 +157,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        // Handle delete button click
-        $('#deleteConfirmationModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var rewardId = button.data('reward-id');
-            var modal = $(this);
-            modal.find('#confirmDeleteBtn').data('reward-id', rewardId);
-        });
-
-        $('#confirmDeleteBtn').click(function () {
-            var rewardId = $(this).data('reward-id');
-            // Perform delete action using rewardId
-            // e.g., AJAX call to delete the reward
-        });
-    });
 </script>
 </body>
 
