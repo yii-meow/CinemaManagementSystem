@@ -38,7 +38,7 @@ class UserView
 
         if (!$userId) {
             // Redirect or handle error if userId is not available
-            header('Location: UserManage');
+            $this->view('Customer/User/LoginStaff');
             exit();
         }
 
@@ -56,7 +56,7 @@ class UserView
                     'rewardTitle' => $reward->getRewardTitle(),
                     'category' => $reward->getCategory(),
                     'rewardImg' => $reward->getRewardImg(),
-                    'status' => $userReward->getStatus() // Assuming status is stored in UserReward
+                    'rewardCondition' => $userReward->getRewardCondition() // Assuming status is stored in UserReward
                 ];
             }
         }

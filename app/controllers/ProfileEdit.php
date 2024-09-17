@@ -44,19 +44,46 @@ class ProfileEdit
             $user = $this->userRepository->find($userId);
 
             if ($user) {
-                // Update user data
+                $newPhoneNo = $_POST['phoneNo'];
+
+                // Check if the phone number is already taken by another user
+                $existingUser = $this->userRepository->findOneBy(['phoneNo' => $newPhoneNo]);
+
+                if ($existingUser && $existingUser->getUserId() !== $userId) {
+                    // Phone number is already in use by another user, show error
+                    $data = [
+                        'error' => 'Phone number is already in use by another user.',
+                        'user' => [
+                            'userId' => $user->getUserId(),
+                            'profileImg' => $user->getProfileImg(),
+                            'userName' => $user->getUserName(),
+                            'phoneNo' => $user->getPhoneNo(),
+                            'email' => $user->getEmail(),
+                            'gender' => $user->getGender(),
+                            'birthDate' => $user->getBirthDate(),
+                            'coins' => $user->getCoins()
+                        ]
+                    ];
+
+                    // Reload the profile edit view with the error message
+                    $this->view('Customer/User/ProfileEdit', $data);
+                    exit();
+                }
+
+                // Update user data if phone number is unique
                 $user->setUserName($_POST['userName'])
                     ->setGender($_POST['gender'])
-                    ->setPhoneNo($_POST['phoneNo'])
+                    ->setPhoneNo($newPhoneNo)
                     ->setEmail($_POST['email'])
                     ->setProfileImg($newProfileImg);
-
 
                 // Save updated user data
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 
+                // Prepare data to pass to the view
                 $data = [
+                    'success' => 'Profile updated successfully.',
                     'user' => [
                         'userId' => $user->getUserId(),
                         'profileImg' => $user->getProfileImg(),
@@ -68,7 +95,8 @@ class ProfileEdit
                         'coins' => $user->getCoins()
                     ]
                 ];
-                // Redirect to profile view with a success message or reload the profile edit view
+
+                // Redirect to profile view with a success message
                 $this->view('Customer/User/ProfileEdit', $data);
                 exit();
             } else {

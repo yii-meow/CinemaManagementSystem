@@ -53,8 +53,8 @@
             <table class="table">
                 <thead class="thead-dark" style="background-color: rgb(39, 37, 37); color:white">
                 <tr>
-                    <th scope="col" style="width: 5%;">No.</th>
-                    <th scope="col" style="width: 10%;">Profile Image</th>
+                    <th scope="col" style="width: 3%;">No.</th>
+                    <th scope="col" style="width: 5%;">Profile Image</th>
                     <th scope="col" style="width: 10%;">Username</th>
                     <th scope="col" style="width: 10%;">Phone</th>
                     <th scope="col" style="width: 15%;">Email</th>

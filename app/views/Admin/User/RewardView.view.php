@@ -27,69 +27,70 @@
             <h1 class="mb-2">Reward Details</h1>
 
             <!-- Display Reward Details -->
-            <form id="rewardDetailsForm" class="main-content p-4 mt-3" style="
-                    background-color: #ffffff;
-                    border-radius: 8px;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                ">
-                <div class="mb-3">
-                    <label for="rewardID" class="form-label">Reward ID</label>
-                    <input type="text" class="form-control" id="rewardID" value="R001" required disabled />
-                </div>
+            <?php if (isset($reward)): ?>
+                <form id="rewardDetailsForm" class="main-content p-4 mt-3" style="
+                        background-color: #ffffff;
+                        border-radius: 8px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    " action="RewardView" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="rewardId" value="<?= htmlspecialchars($reward->getRewardId(), ENT_QUOTES, 'UTF-8'); ?>" />
 
-                <div class="mb-3">
-                    <label for="rewardTitle" class="form-label">Reward Title</label>
-                    <input type="text" class="form-control" id="rewardTitle" value="Free Movie Ticket" required
-                           disabled />
-                </div>
-
-                <div class="mb-3">
-                    <label for="rewardCategory" class="form-label">Category</label>
-                    <input type="text" class="form-control" id="rewardCategory" value="Entertainment" required
-                           disabled />
-                </div>
-
-                <div class="mb-3">
-                    <label for="rewardImage" class="form-label">Reward Image</label>
-                    <div class="d-flex align-items-center">
-                        <img src="../../Media/Image/defaultProfile.jpg" alt="Reward Image"
-                             class="img-thumbnail me-3" style="width: 100px; height: 100px;" />
-                        <!-- Optionally include an option to update the image -->
-                        <input type="file" class="form-control" id="rewardImage" />
+                    <div class="mb-3">
+                        <label for="rewardId" class="form-label">Reward ID</label>
+                        <input type="text" class="form-control" id="rewardId" name="rewardId" value="<?= htmlspecialchars($reward->getRewardId(), ENT_QUOTES, 'UTF-8'); ?>" required disabled />
                     </div>
-                </div>
 
-                <div class="mb-3">
-                    <label for="rewardDetails" class="form-label">Details</label>
-                    <textarea class="form-control" id="rewardDetails" rows="3" required
-                              disabled>Free movie ticket valid for any movie.</textarea>
-                </div>
+                    <div class="mb-3">
+                        <label for="rewardTitle" class="form-label">Reward Title</label>
+                        <input type="text" class="form-control" id="rewardTitle" name="rewardTitle" value="<?= htmlspecialchars($reward->getRewardTitle(), ENT_QUOTES, 'UTF-8'); ?>" required disabled />
+                    </div>
 
-                <div class="mb-3">
-                    <label for="rewardDescription" class="form-label">Description</label>
-                    <textarea class="form-control" id="rewardDescription" rows="3" required
-                              disabled>This reward can be redeemed at any cinema branch.</textarea>
-                </div>
+                    <div class="mb-3">
+                        <label for="rewardCategory" class="form-label">Category</label>
+                        <input type="text" class="form-control" id="rewardCategory" name="category" value="<?= htmlspecialchars($reward->getCategory(), ENT_QUOTES, 'UTF-8'); ?>" required disabled />
+                    </div>
 
-                <div class="mb-3">
-                    <label for="rewardQty" class="form-label">Quantity</label>
-                    <input type="number" class="form-control" id="rewardQty" value="10" required disabled />
-                </div>
+                    <div class="mb-3">
+                        <label for="rewardImage" class="form-label">Reward Image</label>
+                        <div class="d-flex align-items-center">
+                            <img src="<?= ROOT ?>/assets/images/<?= htmlspecialchars($reward->getRewardImg(), ENT_QUOTES, 'UTF-8'); ?>" alt="Reward Image"
+                                 class="img-thumbnail me-3" style="width: 100px; height: 100px;" />
+                            <input type="file" class="form-control" id="rewardImage" name="rewardImage" />
+                        </div>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="neededCoins" class="form-label">Needed Coins</label>
-                    <input type="number" class="form-control" id="neededCoins" value="50" required disabled />
-                </div>
+                    <div class="mb-3">
+                        <label for="rewardDetails" class="form-label">Details</label>
+                        <textarea class="form-control" id="rewardDetails" name="details" rows="3" required disabled><?= htmlspecialchars($reward->getDetails(), ENT_QUOTES, 'UTF-8'); ?></textarea>
+                    </div>
 
-                <br>
+                    <div class="mb-3">
+                        <label for="rewardDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="rewardDescription" name="description" rows="3" required disabled><?= htmlspecialchars($reward->getDescription(), ENT_QUOTES, 'UTF-8'); ?></textarea>
+                    </div>
 
-                <div class="d-md-block justify-content-between">
-                    <a href="RewardManage.html" class="btn btn-primary">Back</a>
-                    <button type="button" class="btn btn-secondary" id="editButton">Edit</button>
-                    <button type="submit" class="btn btn-success d-none" id="saveButton">Save</button>
-                    <button type="button" class="btn btn-danger" id="deleteButton">Delete</button>
-                </div>
-            </form>
+                    <div class="mb-3">
+                        <label for="rewardQty" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="rewardQty" name="qty" value="<?= htmlspecialchars($reward->getQty(), ENT_QUOTES, 'UTF-8'); ?>" required disabled />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="neededCoins" class="form-label">Needed Coins</label>
+                        <input type="number" class="form-control" id="neededCoins" name="neededCoins" value="<?= htmlspecialchars($reward->getNeededCoins(), ENT_QUOTES, 'UTF-8'); ?>" required disabled />
+                    </div>
+
+                    <br>
+
+                    <div class="d-md-block justify-content-between">
+                        <a href="RewardManage" class="btn btn-primary">Back</a>
+                        <button type="button" class="btn btn-secondary" id="editButton">Edit</button>
+                        <button type="submit" class="btn btn-success d-none" id="saveButton" name="action" value="update">Save</button>
+                        <button type="submit" class="btn btn-danger" id="deleteButton" name="action" value="delete">Delete</button>
+                    </div>
+                </form>
+            <?php else: ?>
+                <p>No reward details available.</p>
+            <?php endif; ?>
         </main>
     </div>
 </div>
@@ -110,32 +111,6 @@
         document.getElementById("editButton").classList.add("d-none");
     });
 
-    // Additional save logic can go here
-    document.getElementById("rewardDetailsForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-        // Implement save functionality here
-
-        // Disable fields after saving
-        document.getElementById("rewardTitle").disabled = true;
-        document.getElementById("rewardCategory").disabled = true;
-        document.getElementById("rewardDetails").disabled = true;
-        document.getElementById("rewardDescription").disabled = true;
-        document.getElementById("rewardQty").disabled = true;
-        document.getElementById("neededCoins").disabled = true;
-
-        // Reset the buttons
-        document.getElementById("saveButton").classList.add("d-none");
-        document.getElementById("editButton").classList.remove("d-none");
-    });
-
-    // Handle Delete button click
-    document.getElementById("deleteButton").addEventListener("click", function () {
-        if (confirm("Are you sure you want to delete this reward?")) {
-            // Implement delete functionality here
-            alert("Reward deleted successfully.");
-            // Redirect or update the page as needed
-        }
-    });
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

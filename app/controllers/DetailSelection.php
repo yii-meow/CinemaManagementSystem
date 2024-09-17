@@ -10,6 +10,7 @@ use App\models\Cinema;
 use App\models\Movie;
 use App\models\MovieSchedule;
 use App\models\CinemaHall;
+use function Symfony\Component\String\s;
 
 class DetailSelection
 {
@@ -35,11 +36,11 @@ class DetailSelection
     public function index()
     {
         //Get query string value
-        $movieId = $_GET['mid']; //obtain the query string from in MovieDetails.view.php
+        $movieId = (int) $_GET['mid']; //obtain the query string from in MovieDetails.view.php
         $_SESSION['movieId'] = $movieId;
 
-
-        $resultMovie = $this->movieRepository->find($movieId);
+        //A Database Operation
+        $resultMovie = $this->movieRepository->find((int)$movieId);
         $dataMovieDetails = [];
         if ($resultMovie) {
             $dataMovieDetails = [
@@ -53,7 +54,7 @@ class DetailSelection
 
         //Get Movie Schedule Date and Time
         $dataSchedule = [];
-        $resultSchedule = $this->movieScheduleRepository->findByMovieScheduleDate($movieId);
+        $resultSchedule = $this->movieScheduleRepository->findByMovieScheduleDate((int)$movieId);
 
         if ($resultSchedule) {
             foreach ($resultSchedule as $schedule) {
@@ -66,7 +67,7 @@ class DetailSelection
             'movies' => $dataMovieDetails,
             'schedules' => $dataSchedule,
         ];
-//
+
 //        show($data);
 
         //Please do use this only at the end of the operations
@@ -84,7 +85,7 @@ class DetailSelection
             $selectedDate = $_POST['selectedDate'] ?? '';
 
             //Doctrine Operation
-            $result = $this->movieScheduleRepository->findCinemaHallOfMovie($_SESSION['movieId'], $selectedDate);
+            $result = $this->movieScheduleRepository->findCinemaHallOfMovie((int)$_SESSION['movieId'], (string)$selectedDate);
 
             //Pass result back to view
             if($result) {
@@ -102,12 +103,12 @@ class DetailSelection
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Retrieve data from POST request
-            $SelectedValues = $_POST['options-exp'] ?? '';
+            $SelectedValues = (string) $_POST['options-exp'] ?? '';
             $explodedValue = explode("|", $SelectedValues);
-            $selectedExperience = $explodedValue[0];
-            $selectedDate = $explodedValue[1];
+            $selectedExperience = (string) $explodedValue[0];
+            $selectedDate = (string) $explodedValue[1];
 
-            $result = $this->cinemaRepository->findCinemaHallOfMovie($selectedExperience ,$selectedDate, $_SESSION['movieId']);
+            $result = $this->cinemaRepository->findCinemaHallOfMovie((string)$selectedExperience , (string)$selectedDate, (int)$_SESSION['movieId']);
 
             //Pass result back to view
             if($result) {

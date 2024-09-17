@@ -55,6 +55,10 @@ class User
     private $liker;
 
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserReward::class)]
+    private $users;
+
+
     // Getters and Setters
 
     public function getUserId(): ?int

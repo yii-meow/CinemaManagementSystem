@@ -21,12 +21,23 @@
                         Customer
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="StaffManage">
-                        <i class="fas fa-user-circle me-4 fa-lg"></i>
-                        Staff
-                    </a>
-                </li>
+
+                <!-- Check admin role for Staff and Report visibility -->
+                <?php if ($_SESSION['admin']['role'] === 'SuperAdmin'): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="StaffManage">
+                            <i class="fas fa-user-circle me-4 fa-lg"></i>
+                            Staff
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ReportManage">
+                            <i class="fas fa-chart-bar me-4 fa-lg"></i>
+                            Reports
+                        </a>
+                    </li>
+                <?php endif; ?>
+
                 <li class="nav-item">
                     <a class="nav-link" href="RewardManage">
                         <i class="fas fa-award me-4 fa-lg"></i>
@@ -65,12 +76,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        <i class="fas fa-chart-bar me-4 fa-lg"></i>
-                        Reports
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
                         <i class="fas fa-cog me-4 fa-lg"></i>
                         Settings
                     </a>
@@ -82,9 +87,8 @@
             <div class="d-flex align-items-center mb-2">
                 <img src="<?= ROOT ?>/assets/images/defaultProfile.jpg" alt="Admin Avatar" class="me-2"/>
                 <div>
-                    <strong><?= $_SESSION['admin']['userName'] ?? 'Admin' ?></strong>
-                    <div class="small text-muted"
-                         style="background-color: whitesmoke; border-radius: 20px; text-align: center; width: 100px"><?= $_SESSION['admin']['role'] ?? 'Role' ?></div>
+                    <strong><?= htmlspecialchars($_SESSION['admin']['userName'] ?? 'Admin', ENT_QUOTES, 'UTF-8') ?></strong>
+                    <div class="small text-muted" style="background-color: whitesmoke; border-radius: 20px; text-align: center; width: 100px"><?= htmlspecialchars($_SESSION['admin']['role'] ?? 'Role', ENT_QUOTES, 'UTF-8') ?></div>
                 </div>
             </div>
             <!-- Profile Link -->

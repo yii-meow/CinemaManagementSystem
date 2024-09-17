@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/login.css" />
-    <title>Categories</title>
+    <script src="<?= ROOT ?>/assets/js/webotp.js" defer></script>
+    <title>Forgot Password</title>
 
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
 </head>
@@ -61,7 +62,7 @@
                         <br>
                         <br>
                         <h3>Forget Password</h3>
-                        <form class="row login_form" action="ResetPass" id="contactForm">
+                        <form class="row login_form" action="ResetPass" method="post" id="contactForm">
                             <div class="col-md-12 form-group">
                                 <input type="tel" class="form-control" id="phoneNo" name="phoneNo"
                                        placeholder="Mobile Number" onfocus="this.placeholder = ''"

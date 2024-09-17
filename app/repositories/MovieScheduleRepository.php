@@ -9,6 +9,32 @@ use DoctrineExtensions\Query\Mysql\Date;
 
 class MovieScheduleRepository extends EntityRepository
 {
+    public function findByMovieScheduleDate(int $movieId)
+    {
+        $today = new \DateTime('now', new \DateTimeZone('Asia/Kuala_Lumpur'));
+
+        $results = $this->createQueryBuilder("ms")
+            ->select('ms.startingTime', 'ms.movieScheduleId')
+            ->where('ms.movie = :movie')
+            ->andWhere('ms.startingTime >= :today')
+            ->setParameter('movie', $movieId)
+            ->setParameter('today', $today->format('Y-m-d H:i:s'))
+            ->orderBy('ms.startingTime', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        // Filter distinct startingTimes
+        $distinctResults = [];
+        foreach ($results as $result) {
+            $startingTimeKey = $result['startingTime']->format('Y-m-d');
+            if (!isset($distinctResults[$startingTimeKey])) {
+                $distinctResults[$startingTimeKey] = $result;
+            }
+        }
+
+        return array_values($distinctResults);
+    }
+
     public function findMovieSchedule()
     {
         date_default_timezone_set('Asia/Kuala_Lumpur');
@@ -77,30 +103,8 @@ class MovieScheduleRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
-//        $today = new \DateTime('now', new \DateTimeZone('Asia/Kuala_Lumpur'));
-//
-//        $results = $this->createQueryBuilder("ms")
-//            ->select('ms.startingTime', 'ms.movieScheduleId')
-//            ->where('ms.movie = :movie')
-//            ->andWhere('ms.startingTime >= :today')
-//            ->setParameter('movie', $movieId)
-//            ->setParameter('today', $today->format('Y-m-d H:i:s'))
-//            ->orderBy('ms.startingTime', 'ASC')
-//            ->getQuery()
-//            ->getResult();
-//
-//        // Filter distinct startingTimes
-//        $distinctResults = [];
-//        foreach ($results as $result) {
-//            $startingTimeKey = $result['startingTime']->format('Y-m-d');
-//            if (!isset($distinctResults[$startingTimeKey])) {
-//                $distinctResults[$startingTimeKey] = $result;
-//            }
-//        }
-//
-//        return array_values($distinctResults);
 
-    public function findCinemaHallOfMovie($movieId, $selectedDate)
+    public function findCinemaHallOfMovie(int $movieId, string $selectedDate) //string be ensured converted to \DateTime
     {
         $date = new \DateTime($selectedDate, new \DateTimeZone('Asia/Kuala_Lumpur'));
         $qb = $this->createQueryBuilder('ms')

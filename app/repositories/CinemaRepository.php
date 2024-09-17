@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 
 class CinemaRepository extends EntityRepository
 {
-    public function findByState($state)
+    public function findByState(string $state)
     {
         return $this->createQueryBuilder('c')
             ->where('c.state = :state')
@@ -38,8 +38,8 @@ class CinemaRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findCinemaHallOfMovie($hallType, $startingTime, $movieId)
-    {
+    public function findCinemaHallOfMovie(string $hallType, string $startingTime, int $movieId)
+    { //statingTime later will be converted to \DateTime
 
         $date = new \DateTime($startingTime);
         $qb = $this->createQueryBuilder('c')
@@ -61,9 +61,9 @@ class CinemaRepository extends EntityRepository
                 'm.description',
                 'ms.movieScheduleId'
             )
-            ->join('c.cinemaHalls', 'ch')  // Correct association: Cinema to CinemaHall
-            ->join('ch.movieSchedules', 'ms')  // CinemaHall to MovieSchedule association
-            ->join('ms.movie', 'm')  // MovieSchedule to Movie association
+            ->join('c.cinemaHalls', 'ch')
+            ->join('ch.movieSchedules', 'ms')
+            ->join('ms.movie', 'm')
             ->where('ch.hallType = :hallType')
             ->andWhere('ms.startingTime BETWEEN :date_start AND :date_end')
             ->andWhere('m.movieId = :movieId')
@@ -80,8 +80,9 @@ class CinemaRepository extends EntityRepository
     }
 
 
-    public function findCinemaHallDetails($cinemaId, $startingTime)
+    public function findCinemaHallDetails(int $cinemaId, string $startingTime) //statingTime later will be converted to \DateTime
     {
+
         $date = new \DateTime($startingTime);
 
         return $this->createQueryBuilder('c')
@@ -94,8 +95,8 @@ class CinemaRepository extends EntityRepository
                 'c.name AS cinemaName',
                 'ms.startingTime'
             )
-            ->join('c.cinemaHalls', 'ch')  // Join Cinema to CinemaHall
-            ->join('ch.movieSchedules', 'ms')  // Join CinemaHall to MovieSchedule
+            ->join('c.cinemaHalls', 'ch')
+            ->join('ch.movieSchedules', 'ms')
             ->where('c.cinemaId = :cinemaId')
             ->andWhere('ms.startingTime = :startingTime')
             ->setParameter('cinemaId', $cinemaId)

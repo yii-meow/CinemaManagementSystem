@@ -39,6 +39,18 @@
             </div>
 
             <!-- Filters and Sorting -->
+            <?php if (isset($error) && $error): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+            <?php if (isset($_GET['success'])): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?= htmlspecialchars($_GET['success'], ENT_QUOTES, 'UTF-8'); ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
             <div class="mb-3 d-flex flex-row-reverse">
                 <button class="btn btn-primary px-4 py-2" data-bs-toggle="modal" data-bs-target="#addUserModal">
                     <i class="fa fa-plus me-3"></i>Add New Staff
@@ -59,60 +71,33 @@
                 <tr>
                     <th scope="col" style="width: 5%;">No.</th>
                     <th scope="col" style="width: 15%;">Staff Name</th>
-                    <th scope="col" style="width: 20%;">Role</th>
                     <th scope="col" style="width: 20%;">Phone No</th>
+                    <th scope="col" style="width: 20%;">Role</th>
                     <th scope="col" style="width: 10%;">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>John Doe</td>
-                    <td>Manager</td>
-                    <td>123-456-7890</td>
-                    <td>
-                        <a href="StaffView"><button class="btn btn-md btn-outline-primary me-2">
-                                <i class="fas fa-exclamation-circle me-1"></i>View
-                            </button></a>
-                        <button class="btn btn-md btn-outline-primary me-2" data-bs-toggle="modal"
-                                data-bs-target="#deleteConfirmationModal" data-user-id="1">
-                            <i class="fas fa-trash me-1"></i>Delete
-                        </button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jane Smith</td>
-                    <td>Cashier</td>
-                    <td>098-765-4321</td>
-                    <td>
-                        <a href="StaffView"><button class="btn btn-md btn-outline-primary me-2">
-                                <i class="fas fa-exclamation-circle me-1"></i>View
-                            </button></a>
-                        <button class="btn btn-md btn-outline-primary me-2" data-bs-toggle="modal"
-                                data-bs-target="#deleteConfirmationModal" data-user-id="1">
-                            <i class="fas fa-trash me-1"></i>Delete
-                        </button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Mark Johnson</td>
-                    <td>Technician</td>
-                    <td>456-123-7890</td>
-                    <td>
-                        <a href="StaffView.html"><button class="btn btn-md btn-outline-primary me-2">
-                                <i class="fas fa-exclamation-circle me-1"></i>View
-                            </button></a>
-                        <button class="btn btn-md btn-outline-primary me-2" data-bs-toggle="modal"
-                                data-bs-target="#deleteConfirmationModal" data-user-id="1">
-                            <i class="fas fa-trash me-1"></i>Delete
-                        </button>
-                    </td>
-                </tr>
-
+                <?php if (isset($staff) && !empty($staff)): ?>
+                    <?php foreach ($staff as $index => $member): ?>
+                        <tr>
+                            <th scope="row"><?= $index + 1 ?></th>
+                            <td><?= htmlspecialchars($member->getUserName(), ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?= htmlspecialchars($member->getPhoneNo(), ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?= htmlspecialchars($member->getRole(), ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td>
+                                <a href="StaffView?staffId=<?= htmlspecialchars($member->getUserId(), ENT_QUOTES, 'UTF-8'); ?>">
+                                    <button class="btn btn-md btn-outline-primary me-2">
+                                        <i class="fas fa-eye me-1"></i>View
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5" class="text-center">No staff found.</td>
+                    </tr>
+                <?php endif; ?>
                 </tbody>
             </table>
     </div>
@@ -131,76 +116,38 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="POST" action="<?= ROOT ?>/StaffManage">
                     <div class="mb-3">
-                        <label for="cinemaName" class="form-label">
+                        <label for="staffName" class="form-label">
                             <i class="fas fa-user me-2"></i>Staff Name
                         </label>
-                        <input type="text" class="form-control" id="cinemaName" required />
+                        <input type="text" class="form-control" id="staffName" name="staffName" required />
                     </div>
                     <div class="mb-3">
-                        <label for="staffRole" class="form-label">
-                            <i class="fas fa-cog me-2"></i>Role
-                        </label>
-                        <select class="form-select" id="staffRole" required>
-                            <option value="">Select a role</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Staff">Staff</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="phoneNumber" class="form-label">
+                        <label for="staffPhone" class="form-label">
                             <i class="fas fa-phone-alt me-2"></i>Phone Number
                         </label>
-                        <input type="text" class="form-control" id="staffPhone" />
+                        <input type="text" class="form-control" id="staffPhone" name="phoneNo" required />
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">
-                            <i class="fas fa-lock me-2"></i>Password
+                        <label for="staffPass" class="form-label">
+                            <i class="fas fa-lock me-2"></i>Password <sup style="color: red">*Set Default*</sup>
                         </label>
-                        <input type="text" class="form-control" id="staffPass" />
+                        <input type="text" class="form-control" id="staffPass" value="staffpass" disabled/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i>Close
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Add Staff
+                        </button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times me-2"></i>Close
-                </button>
-                <button type="button" class="btn btn-primary">
-                    <i class="fas fa-save me-2"></i>Add Staff
-                </button>
-            </div>
         </div>
     </div>
 </div>
-
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmationModalLabel">
-                    <i class="fas fa-exclamation-triangle me-2"></i>Confirm Deletion
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete this staff member?</p>
-                <p id="deleteStaffName"></p> <!-- This will display the staff member's name -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times me-2"></i>Cancel
-                </button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteButton">
-                    <i class="fas fa-trash me-2"></i>Delete
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>

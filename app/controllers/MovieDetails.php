@@ -27,7 +27,7 @@ class MovieDetails
         $movieID = 1; //test id
 
         //Get a specific record
-        $movieResult = $this->movieRepository->find($movieID);
+        $movieResult = $this->movieRepository->find((int) $movieID);
         $data = []; // this is associate array, to store the retrieved data
         if ($movieResult) {
             $data = [
