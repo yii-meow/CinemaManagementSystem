@@ -65,13 +65,13 @@
                 <div class="card bg-secondary">
                     <div class="card-body">
                         <p class="card-text cinema-stat text-white">
-                            Operating Time: <?= htmlspecialchars($cinema->getOpeningHours());?>
+                            Operating Time: <?= htmlspecialchars($cinema->getOpeningHours()); ?>
                         </p>
 
                         <p class="card-text cinema-stat text-white">
-                            Address: <?= htmlspecialchars($cinema->getAddress());?>
-                            , <?= htmlspecialchars($cinema->getCity());?>
-                            , <?= htmlspecialchars($cinema->getState());?>
+                            Address: <?= htmlspecialchars($cinema->getAddress()); ?>
+                            , <?= htmlspecialchars($cinema->getCity()); ?>
+                            , <?= htmlspecialchars($cinema->getState()); ?>
                         </p>
                         <div class="mb-3 d-flex flex-row-reverse">
                             <button
@@ -198,20 +198,23 @@
                         <label for="cinemaName" class="form-label">
                             <i class="fas fa-film me-2"></i>Cinema Name
                         </label>
-                        <input type="text" class="form-control" id="cinemaName" name="name" value="<?= $cinema->getName() ?>" required>
+                        <input type="text" class="form-control" id="cinemaName" name="name"
+                               value="<?= $cinema->getName() ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="cinemaAddress" class="form-label">
                             <i class="fas fa-map-marker-alt me-2"></i>Address
                         </label>
-                        <input type="text" class="form-control" id="cinemaAddress" name="address" value="<?= $cinema->getAddress() ?>" required>
+                        <input type="text" class="form-control" id="cinemaAddress" name="address"
+                               value="<?= $cinema->getAddress() ?>" required>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="cinemaCity" class="form-label">
                                 <i class="fas fa-city me-2"></i>City
                             </label>
-                            <input type="text" class="form-control" id="cinemaCity" name="city" value="<?= $cinema->getCity() ?>" required>
+                            <input type="text" class="form-control" id="cinemaCity" name="city"
+                                   value="<?= $cinema->getCity() ?>" required>
                         </div>
                         <div class="col-md-6">
                             <label for="cinemaState" class="form-label">
@@ -257,11 +260,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="openingHour" class="form-label">Opening Hour</label>
-                                <input type="time" class="form-control" id="openingHour" name="openingHour" value="<?php echo $formattedOpeningTime; ?>" required>
+                                <input type="time" class="form-control" id="openingHour" name="openingHour"
+                                       value="<?php echo $formattedOpeningTime; ?>" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="closingHour" class="form-label">Closing Hour</label>
-                                <input type="time" class="form-control" id="closingHour" name="closingHour" value="<?php echo $formattedClosingTime; ?>" required>
+                                <input type="time" class="form-control" id="closingHour" name="closingHour"
+                                       value="<?php echo $formattedClosingTime; ?>" required>
                             </div>
                         </div>
                     </div>
@@ -320,14 +325,24 @@
             }
         });
 
-        saveCinemaChanges.addEventListener('click', async function() {
+        saveCinemaChanges.addEventListener('click', async function () {
             if (editCinemaForm.checkValidity()) {
                 // Collect form data
                 const formData = new FormData(editCinemaForm);
                 const cinemaData = Object.fromEntries(formData.entries());
 
+                // Function to convert time from HH:MM to HHMM format
+                const formatTime = (time) => {
+                    // Remove any non-digit characters
+                    const cleanTime = time.replace(/\D/g, '');
+                    // Pad with leading zeros if necessary
+                    return cleanTime.padStart(4, '0');
+                };
+
                 // Combine opening and closing hours
-                cinemaData.openingHours = `${cinemaData.openingHour}-${cinemaData.closingHour}`;
+                const openingHour = formatTime(cinemaData.openingHour);
+                const closingHour = formatTime(cinemaData.closingHour);
+                cinemaData.openingHours = `${openingHour}-${closingHour}`;
                 delete cinemaData.openingHour;
                 delete cinemaData.closingHour;
 
@@ -339,11 +354,10 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: cinemaData
+                        body: JSON.stringify(cinemaData)
                     });
                     const result = await response.json();
                     if (result.success) {
-                        console.log(result);
                         alert('Cinema updated successfully!');
                         $('#editCinemaModal').modal('hide');
                         location.reload(); // Refresh the page to show the new hall

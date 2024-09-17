@@ -90,10 +90,9 @@ class CinemaDetails
         }
     }
 
-    public function editCinema(){
+    public function editCinema()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-            jsonResponse(['success' => false, 'message' => "here!"]);
-
             $putData = file_get_contents("php://input");
 
             // Decode the JSON data
@@ -106,25 +105,36 @@ class CinemaDetails
                 exit;
             }
 
-            $name = $cinemaData['name'] ?? '';
-            $address = $cinemaData['address'] ?? '';
-            $city = $cinemaData['city'] ?? '';
-            $state = $cinemaData['state'] ?? '';
-            $openingHours = $cinemaData['openingHours'] ?? '';
-            $cinemaId = $cinemaData["cinemaId"];
+            $cinemaId = $cinemaData["cinemaId"] ?? null;
 
-            $cinema = new Cinema();
-            $cinema->setName($name);
-            $cinema->setAddress($address);
-            $cinema->setCity($city);
-            $cinema->setState($state);
-            $cinema->setOpeningHours($openingHours);
+            if (!$cinemaId) {
+                jsonResponse(['success' => false, 'message' => 'Cinema ID is required']);
+                return;
+            }
 
-            $cinemaHall = $this->cinemaHallRepository->findByCinemaId($cinemaId);
+            $cinema = $this->cinemaRepository->find($cinemaId);
 
-            jsonResponse(['success' => false, 'message' => $cinemaHall]);
-        }else{
+            if (!$cinema) {
+                jsonResponse(['success' => false, 'message' => 'Cinema not found']);
+                return;
+            }
 
+            // Update the cinema properties
+            $cinema->setName($cinemaData['name'] ?? $cinema->getName());
+            $cinema->setAddress($cinemaData['address'] ?? $cinema->getAddress());
+            $cinema->setCity($cinemaData['city'] ?? $cinema->getCity());
+            $cinema->setState($cinemaData['state'] ?? $cinema->getState());
+            $cinema->setOpeningHours($cinemaData['openingHours'] ?? $cinema->getOpeningHours());
+
+            try {
+                // Persist the changes
+                $this->entityManager->flush();
+                jsonResponse(['success' => true, 'message' => 'Cinema updated successfully']);
+            } catch (\Exception $e) {
+                jsonResponse(['success' => false, 'message' => 'Error updating cinema: ' . $e->getMessage()]);
+            }
+        } else {
+            $this->jsonResponse(['success' => false, 'message' => 'Method Not Allowed']);
         }
     }
 }

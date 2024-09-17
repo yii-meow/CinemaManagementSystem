@@ -10,7 +10,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
 //	define('DBDRIVER', '');
 
     //Routing
-	define('ROOT', 'http://localhost/CinemaManagementSystem/public');
+	define('ROOT', 'http://localhost:8000/CinemaManagementSystem/public');
 
 
     //Database Credentials
