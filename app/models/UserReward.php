@@ -2,9 +2,11 @@
 
 namespace App\models;
 
+
+use App\repositories\UserRewardRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: UserRewardRepository::class)]
 #[ORM\Table(name: 'UserReward')]
 class UserReward
 {
@@ -13,21 +15,41 @@ class UserReward
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $userRewardId;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userRewards')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userReward')]
     #[ORM\JoinColumn(name: 'userId', referencedColumnName: 'userId')]
     private $user;
 
-    #[ORM\ManyToOne(targetEntity: Reward::class, inversedBy: 'userRewards')]
+    #[ORM\ManyToOne(targetEntity: Reward::class, inversedBy: 'userReward')]
     #[ORM\JoinColumn(name: 'rewardId', referencedColumnName: 'rewardId')]
     private $reward;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    private $status;
+//    #[ORM\Column(type: 'string', length: 50)]
+//    private $status;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $redeemDate;
 
-    // Getters and Setters
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $rewardCondition;
+
+    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    private $promoCode;
+
+
+    public function getRewardCondition()
+    {
+        return $this->rewardCondition;
+    }
+
+    public function setRewardCondition($rewardCondition): void
+    {
+        $this->rewardCondition = $rewardCondition;
+    }
+
+
+    // Getters and Setter
+
+
 
     public function getUserRewardId(): ?int
     {
@@ -39,6 +61,12 @@ class UserReward
         $this->user = $user;
         return $this;
     }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
 
     public function getReward(): ?Reward
     {
@@ -70,6 +98,17 @@ class UserReward
     public function setRedeemDate(?\DateTime $redeemDate): self
     {
         $this->redeemDate = $redeemDate;
+        return $this;
+    }
+
+    public function getPromoCode(): ?string
+    {
+        return $this->promoCode;
+    }
+
+    public function setPromoCode(?string $promoCode): self
+    {
+        $this->promoCode = $promoCode;
         return $this;
     }
 }

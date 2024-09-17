@@ -2,7 +2,10 @@
 
 namespace App\Strategy;
 
-interface CalculateTotalCost
+
+//Strategy Interface
+interface PaymentStrategy
 {
+    public function pay(float $amount);
 
 }

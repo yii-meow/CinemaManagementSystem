@@ -8,12 +8,9 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
     define('DBUSER', 'nbuser');
     define('DBPASS', 'cinemasystem0123');
 	define('DBDRIVER', '');
-	
-<<<<<<< Updated upstream
-	define('ROOT', 'http://localhost:8000/CinemaManagementSystem/public');
-=======
+
 	define('ROOT', 'http://localhost:8080/CinemaManagementSystem/public');
->>>>>>> Stashed changes
+
 }else
 {
 	/** database config **/
