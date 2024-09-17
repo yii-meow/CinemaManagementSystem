@@ -46,7 +46,7 @@
         <div class="poster-box">
             <img src="
             <?php if (isset($data)) {
-                echo $data['movies']['photo'];
+                echo $data['movies']["photo"];
             } ?>" style="width: 60%;" draggable="false"/>
         </div>
         <div class="detail-box">
@@ -83,7 +83,13 @@
                         <?php foreach ($data["schedules"] as $schedule): ?>
                             <?php
                             // Separate Date and Time
-                            $date = $schedule->scheduleDate;
+                            $startingTime = $schedule["startingTime"];
+
+                            // Convert the DateTime object to the desired timezone
+                            $startingTime->setTimezone(new \DateTimeZone('Asia/Kuala_Lumpur'));
+
+                            $date = $startingTime->format('Y-m-d');
+                            $time = $startingTime->format('H:i:s');
 
                             // Separate Year, Month, and Day
                             $dateResult = explode("-", $date); // Use this to break down the date parts
@@ -97,9 +103,9 @@
                             ?>
 
                             <input type="radio" class="btn-check" name="selectedDate"
-                                   value="<?php echo htmlspecialchars($schedule->startingTime); ?>"
-                                   id="<?php echo $schedule->movieScheduleId ?>" autocomplete="off">
-                            <label class="btn btn-outline-danger" for="<?php echo $schedule->movieScheduleId ?>">
+                                   value="<?php echo htmlspecialchars($startingTime->format('Y-m-d H:i:s')); ?>"
+                                   id="<?php echo htmlspecialchars($schedule["movieScheduleId"]) ?>" autocomplete="off">
+                            <label class="btn btn-outline-danger" for="<?php echo htmlspecialchars($schedule["movieScheduleId"]); ?>">
                                 <p name="day"><?php echo $dayOfWeek; ?></p>
                                 <p name="date"><?php echo $day; ?></p>
                                 <p name="month"><?php echo $monthName; ?></p>
@@ -250,6 +256,8 @@
     $('#form2').off('change', 'input[name="options-exp"]').on('change', 'input[name="options-exp"]', fetchCinema);
 
 
+
+
     function fetchHallTypes() {
         var selectedDateTime = $("input[name='selectedDate']:checked").val();
 
@@ -270,6 +278,14 @@
                 data: $('#form1').serialize(),
                 success: function (response) {
                     var data = response.data;
+
+
+                    //////Testing
+                    //document.writeln(data)
+                    //document.writeln(response)
+                    //document.writeln(JSON.stringify(response.data));
+
+
                     var innerHtml = '';
 
                     if (Array.isArray(data) && data.length > 0) {
@@ -277,8 +293,8 @@
                             var id = 'exp' + (index + 1);
                             var hallType = item.hallType || 'Unknown';
 
-                            var selectedDate = selectedDateTime.split(" ")[0];
-                            var valueToPass = hallType + "|" + selectedDate;
+                            //var selectedDate = selectedDateTime.split(" ")[0];
+                            var valueToPass = hallType + "|" + selectedDateTime;
 
                             innerHtml += '<input type="radio" class="btn-check" value="' + valueToPass + '" name="options-exp" id="' + id + '" autocomplete="off">';
                             innerHtml += '<label style="margin: 0 10px -10px 0;" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="' + hallType + '" class="btn btn-outline-danger" for="' + id + '">';
@@ -300,6 +316,11 @@
         }
     }
 
+
+
+
+
+
     function fetchCinema() {
         var selectedHallExperience = $("input[name='options-exp']:checked").val();
 
@@ -316,6 +337,13 @@
                     var data = response.data;
                     var accordionHtml = '';
                     var cinemas = {};
+
+
+                    //////Testing
+                    //document.writeln(data)
+                    // document.writeln(response)
+                    // document.writeln(JSON.stringify(response.data));
+
 
                     // Organize data by cinema
                     data.forEach(function (item) {
@@ -341,12 +369,14 @@
 
                         // Add time slot
                         cinemas[cinemaId].halls[hallId].times.push({
-                            startingTime: item.startingTime,
+                            movieScheduleId: item.movieScheduleId,
+                            startingTime: item.startingTime.date,
                             movieTitle: item.movieTitle,
                             duration: item.duration,
                             language: item.language,
                             description: item.description
                         });
+
                     });
 
                     // Generate accordion HTML
@@ -367,6 +397,7 @@
 
 
                             for (var hallId in cinema.halls) {
+
                                 if (cinema.halls.hasOwnProperty(hallId)) {
                                     var hall = cinema.halls[hallId];
                                     accordionHtml += `<div class="time-radio" style="max-width: fit-content;">`;
@@ -380,8 +411,8 @@
                                         accordionHtml += `
                                         <div class="radio-wrapper" style="max-width: fit-content;">
                                             <input type="radio" value="${formattedTime}" class="btn-check" name="time" id="${timeId}" autocomplete="off"
-                                                data-cinema="${cinema.name}" data-cinemaID="${cinemaId}" data-date="${time.startingTime}" data-hallid="${hallId}" data-experience="${selectedHallExperience}"
-                                                data-movie-title="${time.movieTitle}">
+                                                data-cinema="${cinema.name}" data-cinemaID="${cinemaId}" data-scheduleID="${time.movieScheduleId}" data-date="${time.startingTime}" data-hallid="${hallId}" data-experience="${selectedHallExperience}"
+                                                data-movie-title="${time.movieTitle} " data-hallName="${hall.name}">
                                             <label class="btn btn-outline-danger" for="${timeId}">
                                                 <div class="hall-info" style="font-size: 14px;">
                                                     ${hall.name} | ${hall.type}
@@ -468,14 +499,16 @@
         let cinema = selectedTimeInput.getAttribute('data-cinema');
         let experiencePure = selectedTimeInput.getAttribute('data-experience');
         let experience = experiencePure.split("|")[0];
+        let hallName = selectedTimeInput.getAttribute('data-hallName');
 
         let dateTime = selectedTimeInput.getAttribute('data-date');
         let combinedDateTime = formatDateTime(dateTime); //Mon 29 July, 10:30AM
 
         let hallId = selectedTimeInput.getAttribute('data-hallid');
         let cinemaId = selectedTimeInput.getAttribute('data-cinemaID');
+        let scheduleId = selectedTimeInput.getAttribute('data-scheduleID')
 
-        location.href="<?=ROOT?>/SeatSelection?cin=" + cinema +"&exp=" + experience + "&date=" + dateTime + "&hid=" + hallId + "&cid=" + cinemaId;
+        location.href="<?=ROOT?>/SeatSelection?cin=" + cinema +"&exp=" + experience + "&date=" + dateTime + "&hid=" + hallId + "&cid=" + cinemaId + "&sce=" + scheduleId + "&hname=" + hallName;
     }
 
 </script>

@@ -19,9 +19,20 @@
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/login.css" />
-    <title>Categories</title>
+    <title>Register</title>
+    <style>
+        .form-group {
+            position: relative;
+        }
 
-    <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
+        .form-group .fa-eye, .form-group .fa-eye-slash {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -55,10 +66,9 @@
     <section class="login_box_area section_gap" style="background-color: #141414;">
         <div class="container">
             <div class="row">
-
                 <div class="col-lg-6 mx-auto" style="background-color: #ffffff;border-radius:10%;height: auto;">
                     <div class="login_form_inner" style="width: auto;height: auto">
-                        <h3>Register account</h3>
+                        <h3>Register Account</h3>
                         <?php if (isset($data['success'])): ?>
                             <div class="alert alert-success"><?= htmlspecialchars($data['success']) ?></div>
                         <?php endif; ?>
@@ -66,39 +76,41 @@
                         <?php if (isset($data['error'])): ?>
                             <div class="alert alert-danger"><?= htmlspecialchars($data['error']) ?></div>
                         <?php endif; ?>
-                        <form class="row login_form" action="Register" method="post"
-                              id="contactForm">
+
+                        <form class="row login_form" action="Register" method="post" id="contactForm">
                             <div class="col-md-12 form-group">
                                 <input type="text" class="form-control" id="name" name="name"
                                        placeholder="Username" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Username'">
+                                       onblur="this.placeholder = 'Username'" required>
                             </div>
                             <div class="col-md-12 form-group">
                                 <input type="email" class="form-control" id="email" name="email"
                                        placeholder="Email" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Email'">
+                                       onblur="this.placeholder = 'Email'" required>
                             </div>
                             <div class="col-md-12 form-group">
-                                <input type="tel" class="form-control"
-                                       id="phoneNo" name="phoneNo" placeholder="Contact Number"
-                                       onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Contact Number'">
+                                <input type="tel" class="form-control" id="phoneNo" name="phoneNo"
+                                       placeholder="Contact Number" onfocus="this.placeholder = ''"
+                                       onblur="this.placeholder = 'Contact Number'" required>
                             </div>
+                            <!-- Password Field with Toggle -->
                             <div class="col-md-12 form-group">
                                 <input type="password" minlength="8" class="form-control" id="password"
                                        name="password" placeholder="Password" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Password'">
+                                       onblur="this.placeholder = 'Password'" required>
+                                <i class="fa fa-eye" id="togglePassword"></i>
                             </div>
+                            <!-- Confirm Password Field with Toggle -->
                             <div class="col-md-12 form-group">
                                 <input type="password" minlength="8" class="form-control" id="cpassword"
-                                       name="cpassword" placeholder="Confirm Password"
-                                       onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Confirm Password'">
+                                       name="cpassword" placeholder="Confirm Password" onfocus="this.placeholder = ''"
+                                       onblur="this.placeholder = 'Confirm Password'" required>
+                                <i class="fa fa-eye" id="toggleCPassword"></i>
                             </div>
                             <div class="col-md-12 form-group">
                                 <input type="date" class="form-control" id="birthday" name="birthday"
                                        placeholder="Date of Birth" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Date of Birth'">
+                                       onblur="this.placeholder = 'Date of Birth'" required>
                             </div>
                             <div class="col-md-12 form-group" style="margin-bottom: 30px;text-align: left;">
                                 <label for="gender" style="margin-right: 30px;">Gender:</label>
@@ -120,16 +132,29 @@
     </section>
     <!--================End Registration Box Area =================-->
 
-
-
     <?php include '../app/views/footer.php' ?>
-
-
 
     <!--JavaScripts-->
     <script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Show/Hide Password Script -->
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const password = document.getElementById('password');
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        document.getElementById('toggleCPassword').addEventListener('click', function () {
+            const confirmPassword = document.getElementById('cpassword');
+            const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPassword.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
 
 </body>
 

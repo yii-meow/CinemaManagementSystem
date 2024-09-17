@@ -1,110 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-          integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"></script>
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css" />
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css" />
-    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/profile.css" />
-    <title>Categories</title>
+<?php include '../app/views/user_header.php' ?>
+<style>
+    /* Password Wrapper for handling visibility toggle */
+    .password-wrapper {
+        position: relative;
+        width: 100%; /* Ensure the wrapper takes full width */
+    }
 
-    <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
-</head>
+    /* Password input styling */
+    .password-wrapper input {
+        width: 100%;
+        padding-right: 40px; /* Add padding to make space for the eye icon */
+        padding-left: 10px; /* Spacing for input content */
+        background-color: #222;
+        border: 1px solid #333;
+        color: white;
+        border-radius: 5px;
+        height: 40px;
+        font-size: 16px;
+    }
 
+    /* Focus state for the password input */
+    .password-wrapper input:focus {
+        border-color: #f03351;
+        outline: none;
+    }
+
+    /* Toggle Password Visibility Icon */
+    .toggle-password {
+        position: absolute;
+        right: 10px; /* Place the icon on the right side */
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 18px;
+        color: #fff; /* Change to match your design */
+        background-color: transparent; /* Transparent background */
+        border: none;
+    }
+
+    /* Hover effect for the eye icon */
+    .toggle-password:hover {
+        color: #f03351;
+    }
+
+    /* Error message (optional, if you need to show validation messages) */
+    .password-error {
+        color: #f03351;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    /* Form Submit Button - Ensure Consistency with Existing Styles */
+    .btn-save {
+        width: 100%;
+        padding: 10px;
+        background-color: #f03351;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-save:hover {
+        background-color: #d82a4b;
+    }
+</style>
 <body>
 
 <?php
-// Ensure that $data['user'] is set and assign it to $user
 if (isset($data['user'])) {
 $user = $data['user'];
 
 ?>
+
 <div id="Customer">
 
     <?php include '../app/views/header.php' ?>
-
-
     <?php include '../app/views/navigationBar.php' ?>
 
-
     <!--Main Contents-->
-
     <div class="outer-box">
         <div class="main-title">
             User Profile
         </div>
         <!-- Left Sidebar -->
-        <div class="left-box">
-            <div class="profile-card">
-                <img src="<?= ROOT ?>/assets/images/<?= !empty($user->profileImg) ? htmlspecialchars($user->profileImg) : 'profile4.jpg' ?>"
-                     alt="Profile Picture" class="user-image">
-                <p class="user-name"><?= htmlspecialchars($user->userName) ?></p>
-                <button class="edit-profile-btn" onclick="window.location.href='ProfileEdit'">Edit
-                    Profile</button>
-                <div class="reward-info">
-                    <div class="reward-item-info">
-                        <p>Coins</p>
-                        <p><?= htmlspecialchars($user->coins) ?></p>
-                    </div>
-                    <div class="reward-item-info">
-                        <p>My Rewards</p>
-                        <p>0</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="nav-menu">
-                <a href="#">My Tickets</a>
-                <a href="MyReward">My Rewards</a>
-                <a href="RewardCentre">Rewards Centre</a>
-                <a href="" style="color: red">Change Password</a>
-                <a href="#">Delete Account</a>
-            </div>
-        </div>
+        <?php include '../app/views/ProfileNav.php' ?>
 
         <!-- Right Content -->
         <div class="right-box">
             <h2>Change Password</h2>
-            <form>
+            <!-- Change Password Form -->
+            <form action="<?= ROOT ?>/ChangePass/updatePassword" method="POST">
                 <div class="form-group">
                     <label for="currentPass">Current Password</label>
-                    <input type="text" id="currentPass" value="" />
+                    <div class="password-wrapper">
+                        <input type="password" id="currentPass" name="currentPass" required />
+                        <span class="toggle-password" onclick="togglePasswordVisibility('currentPass')">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="newPass">New Password</label>
-                    <input type="text" id="newPass" value="" />
+                    <div class="password-wrapper">
+                        <input type="password" id="newPass" name="newPass" required />
+                        <span class="toggle-password" onclick="togglePasswordVisibility('newPass')">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="confirmPass">Confirm Password</label>
-                    <input type="email" id="confirmPass" value="" />
+                    <label for="confirmPass">Confirm New Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="confirmPass" name="confirmPass" required />
+                        <span class="toggle-password" onclick="togglePasswordVisibility('confirmPass')">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
                 </div>
                 <button type="submit" style="width: 20%;" class="btn-save">Confirm</button>
             </form>
         </div>
     </div>
-
     <!--End of Main Contents-->
-
 
     <?php include '../app/views/footer.php' ?>
 
-
     <?php
     } else {
-        // If $user is not set, handle the error appropriately
         echo "User data not available";
         exit();
     }
@@ -114,6 +143,23 @@ $user = $data['user'];
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Password Visibility Toggle Script -->
+    <script>
+        function togglePasswordVisibility(fieldId) {
+            const passwordField = document.getElementById(fieldId);
+            const eyeIcon = passwordField.nextElementSibling.querySelector('i');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
 </body>
 
 </html>

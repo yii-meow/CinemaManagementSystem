@@ -3,6 +3,7 @@
 /**
  * Main Model trait
  */
+/** centralizes database operations like querying, inserting, updating, and deleting records.*/
 Trait Model
 {
 	use Database;

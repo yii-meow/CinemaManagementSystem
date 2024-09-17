@@ -1,40 +1,59 @@
 <?php
 
+namespace App\controllers;
+
+use App\core\Controller;
+use App\core\Database;
+
+
+use App\models\Cinema;
+use App\models\Movie;
+use App\models\MovieSchedule;
+use App\models\CinemaHall;
+
 class DetailSelection
 {
+
     use Controller;
 
+    private $entityManager;
+    private $movieRepository;
+    private $movieScheduleRepository;
+    private $cinemaHallRepository;
+    private $cinemaRepository;
 
-    //Main Method
+    public function __construct()
+    {
+        $this->entityManager = Database::getEntityManager();
+        //Get the Repository
+        $this->movieRepository = $this->entityManager->getRepository(Movie::class);
+        $this->movieScheduleRepository = $this->entityManager->getRepository(MovieSchedule::class);
+        $this->cinemaHallRepository = $this->entityManager->getRepository(CinemaHall::class);
+        $this->cinemaRepository = $this->entityManager->getRepository(Cinema::class);
+    }
+
     public function index()
     {
         //Get query string value
-        $movieId = $_GET['mid'];
+        $movieId = $_GET['mid']; //obtain the query string from in MovieDetails.view.php
         $_SESSION['movieId'] = $movieId;
 
-        //Get Movie Details
-        $model = new Movie();
-        $arr["movieId"] = $movieId;  //Parameter for SQL Query => ["Column Name"]
-        $result = $model->getMovieByMovieID($arr);
 
+        $resultMovie = $this->movieRepository->find($movieId);
         $dataMovieDetails = [];
-        if ($result) {
+        if ($resultMovie) {
             $dataMovieDetails = [
-                "movieId" => $result[0]->movieId,
-                "title" => $result[0]->title,
-                "duration" => $result[0]->duration,
-                "photo" => $result[0]->photo,
+                "movieId" => $resultMovie->getMovieId(),
+                "title" => $resultMovie->getTitle(),
+                "duration" => $resultMovie->getDuration(),
+                "photo" => $resultMovie->getPhoto(),
             ];
         }
 
 
-
         //Get Movie Schedule Date and Time
         $dataSchedule = [];
-
-        $modelSchedule = new MovieSchedule();
-        $arrSchedule["movieId"] = $movieId;
-        $resultSchedule = $modelSchedule->getMovieScheduleDate($arrSchedule);
+        $resultSchedule = $this->movieScheduleRepository->findByMovieScheduleDate($movieId);
 
         if ($resultSchedule) {
             foreach ($resultSchedule as $schedule) {
@@ -47,8 +66,8 @@ class DetailSelection
             'movies' => $dataMovieDetails,
             'schedules' => $dataSchedule,
         ];
-
-        //show($data);
+//
+//        show($data);
 
         //Please do use this only at the end of the operations
         $this->view('Customer/Selection/DetailSelection', $data);
@@ -64,23 +83,23 @@ class DetailSelection
             // Retrieve data from POST request
             $selectedDate = $_POST['selectedDate'] ?? '';
 
-            $modelHall = new CinemaHall();
-            $arr = [
-                "movieId" => $_SESSION['movieId'],
-                "startingTime" => $selectedDate
-            ];
-            $result = $modelHall->getCinemaHallOfMovie($arr);
+            //Doctrine Operation
+            $result = $this->movieScheduleRepository->findCinemaHallOfMovie($_SESSION['movieId'], $selectedDate);
 
-            if ($result) {
+            //Pass result back to view
+            if($result) {
                 // Respond with JSON
                 header('Content-Type: application/json');
                 echo json_encode(['data' => $result]);
                 exit;
             }
+
         }
     }
 
-    public function fetchCinemaAndTime(){
+
+    public function fetchCinemaAndTime()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Retrieve data from POST request
             $SelectedValues = $_POST['options-exp'] ?? '';
@@ -88,15 +107,10 @@ class DetailSelection
             $selectedExperience = $explodedValue[0];
             $selectedDate = $explodedValue[1];
 
-            $modelCinema = new Cinema();
-            $arr = [
-                "hallType" => $selectedExperience,
-                "startingTime" => $selectedDate,
-                "movieId" => $_SESSION['movieId'],
-            ];
-            $result = $modelCinema->getCinemaHallOfMovie($arr);
+            $result = $this->cinemaRepository->findCinemaHallOfMovie($selectedExperience ,$selectedDate, $_SESSION['movieId']);
 
-            if ($result) {
+            //Pass result back to view
+            if($result) {
                 // Respond with JSON
                 header('Content-Type: application/json');
                 echo json_encode(['data' => $result]);
@@ -104,5 +118,4 @@ class DetailSelection
             }
         }
     }
-
 }
