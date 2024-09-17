@@ -2,9 +2,10 @@
 
 namespace App\models;
 
+use App\repositories\UserRewardRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: UserRewardRepository::class)]
 #[ORM\Table(name: 'UserReward')]
 class UserReward
 {

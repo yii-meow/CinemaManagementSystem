@@ -41,34 +41,34 @@ class Payment
     public function index()
     {
         //Get Query String Values
-        $schedule = $_GET['scheduleId'] ?? '';
+        $schedule = (int) $_GET['scheduleId'] ?? '';
         $queryString['scheduleId'] = $schedule;
 
-        $seats = $_GET['seats'] ?? '';
+        $seats = (string) $_GET['seats'] ?? '';
         $queryString['seats'] = $seats;
 
-        $experience = $_GET['exp'] ?? '';
+        $experience = (string) $_GET['exp'] ?? '';
         $queryString['exp'] = $experience;
 
-        $date = $_GET['date'] ?? '';
+        $date = (string) $_GET['date'] ?? '';
         $queryString['date'] = $date;
 
-        $hallId = $_GET['hid'] ?? '';
+        $hallId = (int) $_GET['hid'] ?? '';
         $queryString['hid'] = $hallId;
 
-        $cinemaName = $_GET['cn'] ?? '';
+        $cinemaName = (string) $_GET['cn'] ?? '';
         $queryString['cn'] = $cinemaName;
 
-        $hallName = $_GET['hn'] ?? '';
+        $hallName = (string) $_GET['hn'] ?? '';
         $queryString['hn'] = $hallName;
 
 
         //Get Movie ID
-        $movieId = $_SESSION['movieId'];
+        $movieId = (int) $_SESSION['movieId'];
 
         //Get Movie Details
         $movieData = [];
-        $movieObj = $this->movieRepository->find($movieId);
+        $movieObj = $this->movieRepository->find((int)$movieId);
         if ($movieObj) {
             $movieData = [
                 "movieId" => $movieObj->getMovieId(),
@@ -90,7 +90,7 @@ class Payment
 
 
         //Price Calculation
-        $amount = $this->calculateTotalPrice($experience, $date, $seats);
+        $amount = $this->calculateTotalPrice((string)$experience,(string)$date, (string)$seats);
 
         //Preparing data to pass
         $data = [
@@ -116,13 +116,13 @@ class Payment
 
             //Get Payment Method from FORM
             //$selectedPaymentMethod = $this->test_input($_POST['payoption']);
-            $selectedPaymentMethod = isset($_POST['payoption']) ? $this->test_input($_POST['payoption']) : null;
+            $selectedPaymentMethod = isset($_POST['payoption']) ? $this->test_input((string)$_POST['payoption']) : null;
 
             //User Details
-            $firstName = $this->test_input($_POST['fName']);
-            $lastName = $this->test_input($_POST['lName']);
-            $email = $this->test_input($_POST['email']);
-            $phone = $this->test_input($_POST['phone']);
+            $firstName = $this->test_input((string)$_POST['fName']);
+            $lastName = $this->test_input((string)$_POST['lName']);
+            $email = $this->test_input((string)$_POST['email']);
+            $phone = $this->test_input((string)$_POST['phone']);
 
 
 
@@ -298,8 +298,8 @@ class Payment
 
     public function applyPromo(){
         //Check Promo Code Discount
-        $promoCode = $this->test_input($_POST['promoCode'] ?? '');
-        $discount = $this->checkPromoCodeForThatUser($promoCode);
+        $promoCode = $this->test_input((int)$_POST['promoCode'] ?? '');
+        $discount = $this->checkPromoCodeForThatUser((int)$promoCode);
 
         $data = [
             "promoCode" => $promoCode,
@@ -318,7 +318,7 @@ class Payment
         //$userId = $_SESSION['userId'];
         $userId = 6;
 
-        $userRewardObj = $this->userRewardRepository->findPromoCodeUserOwn($userId, $promoCode);
+        $userRewardObj = $this->userRewardRepository->findPromoCodeUserOwn((int)$userId, (int)$promoCode);
 
         if($userRewardObj){
             return 20.00;
