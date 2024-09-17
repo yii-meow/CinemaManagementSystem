@@ -61,21 +61,21 @@
                 <i class="fa fa-info-circle ms-3 fa-lg"></i>
             </div>
 
-            <div class="col-md-12 col-lg-12 mb-5">
-                <div class="card bg-secondary">
+            <div class="col-md-12 col-lg-12 mb-5 pb-5">
+                <div class="card">
                     <div class="card-body">
-                        <p class="card-text cinema-stat text-white">
+                        <p class="card-text cinema-stat text-secondary">
                             Operating Time: <?= htmlspecialchars($cinema->getOpeningHours()); ?>
                         </p>
 
-                        <p class="card-text cinema-stat text-white">
+                        <p class="card-text cinema-stat text-secondary">
                             Address: <?= htmlspecialchars($cinema->getAddress()); ?>
                             , <?= htmlspecialchars($cinema->getCity()); ?>
                             , <?= htmlspecialchars($cinema->getState()); ?>
                         </p>
                         <div class="mb-3 d-flex flex-row-reverse">
                             <button
-                                    class="btn btn-warning px-5 py-2"
+                                    class="btn btn-dark px-5 py-2"
                                     data-bs-toggle="modal"
                                     data-bs-target="#editCinemaModal"
                             >
@@ -86,7 +86,7 @@
                 </div>
             </div>
 
-            <h1>Hall List</h1>
+            <h1 class="mt-4">Hall List</h1>
 
             <div class="mb-3 d-flex flex-row-reverse">
                 <button
@@ -125,12 +125,10 @@
                     <?php endforeach;
                 } else {
                     echo "<div class='col-md-12 col-lg-12'>
-                            <div class='card bg-warning'>
-                                <div class='card-body text-light'>
+                                <div class='alert alert-danger' role='alert'>
                                     No cinema halls found!
                                     <a href='#' data-bs-toggle='modal' data-bs-target='#addCinemaModal'>Add Cinema Hall</a>
                                 </div>
-                            </div>
                         </div>";
                 }
                 ?>

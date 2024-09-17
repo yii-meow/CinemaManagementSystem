@@ -59,7 +59,7 @@
                 <i class="fa fa-info-circle ms-3 fa-lg"></i>
             </div>
             <div class="d-flex flex-row-reverse mb-3">
-                <a href="CinemaConfigurationLogs.html">
+                <a href="<?= ROOT ?>/HallConfiguration?hallId=<?= $cinemaInformation["hallId"] ?>">
                     <button class="btn btn-warning mb-3">
                         <i class="fa fa-cogs me-2" aria-hidden="true"></i>
                         Edit Hall Configuration
@@ -173,37 +173,6 @@
             movieSelect.appendChild(option);
         });
 
-        // Handle form submission
-        //document.getElementById('saveSchedule').addEventListener('click', function () {
-        //    const form = document.getElementById('addMovieScheduleForm');
-        //    if (form.checkValidity()) {
-        //        const formData = new FormData(form);
-        //        const cinemaHallId = formData.get('cinemaHallId');
-        //        const movieId = formData.get('movieId');
-        //        const startingTime = formData.get('startingTime');
-        //
-        //        fetch('<?//=ROOT?>///HallMovieSchedule/addHallMovieSchedule', {
-        //            method: 'POST',
-        //            body: formData
-        //        })
-        //            .then(response => response.json())
-        //            .then(data => {
-        //                console.log("here11111!")
-        //                // Close the modal and optionally refresh the page
-        //                var modal = bootstrap.Modal.getInstance(document.getElementById('addMovieScheduleModal'));
-        //                modal.hide();
-        //            })
-        //            .catch((error) => {
-        //                console.error("here222222")
-        //                console.error('Error:', error);
-        //            });
-        //
-        //        // Reset the form
-        //        form.reset();
-        //    } else {
-        //        form.reportValidity();
-        //    }
-        //});
         document.getElementById('addMovieScheduleForm').addEventListener('submit', function (e) {
             e.preventDefault();
             // Collect form data
