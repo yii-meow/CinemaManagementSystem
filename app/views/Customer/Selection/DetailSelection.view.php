@@ -1,3 +1,8 @@
+<?php
+
+use App\core\Encryption;
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,10 +35,10 @@
 
 <body>
 <!--Header-->
-<?php include "../app/views/header.php"?>
+<?php include "../app/views/header.php" ?>
 
 <!--Navigation Bar-->
-<?php include "../app/views/navigationBar.php"?>
+<?php include "../app/views/navigationBar.php" ?>
 
 
 <!--Main Contents-->
@@ -105,7 +110,8 @@
                             <input type="radio" class="btn-check" name="selectedDate"
                                    value="<?php echo htmlspecialchars($startingTime->format('Y-m-d H:i:s')); ?>"
                                    id="<?php echo htmlspecialchars($schedule["movieScheduleId"]) ?>" autocomplete="off">
-                            <label class="btn btn-outline-danger" for="<?php echo htmlspecialchars($schedule["movieScheduleId"]); ?>">
+                            <label class="btn btn-outline-danger"
+                                   for="<?php echo htmlspecialchars($schedule["movieScheduleId"]); ?>">
                                 <p name="day"><?php echo $dayOfWeek; ?></p>
                                 <p name="date"><?php echo $day; ?></p>
                                 <p name="month"><?php echo $monthName; ?></p>
@@ -234,7 +240,7 @@
 
 
 <!--Footer-->
-<?php include "../app/views/footer.php"?>
+<?php include "../app/views/footer.php" ?>
 
 
 <!--JavaScripts-->
@@ -254,8 +260,6 @@
     // Unbind any previous event handlers before attaching new ones
     $('#form1').off('change', 'input[name="selectedDate"]').on('change', 'input[name="selectedDate"]', fetchHallTypes);
     $('#form2').off('change', 'input[name="options-exp"]').on('change', 'input[name="options-exp"]', fetchCinema);
-
-
 
 
     function fetchHallTypes() {
@@ -315,10 +319,6 @@
             $(".exp-radio").html('<p>Please select a date.</p>');
         }
     }
-
-
-
-
 
 
     function fetchCinema() {
@@ -473,7 +473,7 @@
 
     function formatDateTime(dateTime) {
         const date = new Date(dateTime); // Assuming dateTime is a valid date string
-        const options = { weekday: 'short', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' };
+        const options = {weekday: 'short', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit'};
         let formattedDate = date.toLocaleString('en-GB', options);
 
         // Replace "at" with ","
@@ -492,7 +492,7 @@
     });
 
 
-    function selectSeat(){
+    function selectSeat() {
         //Prepare Value
         let selectedTimeInput = document.querySelector('input[name="time"]:checked');
 
@@ -502,18 +502,37 @@
         let hallName = selectedTimeInput.getAttribute('data-hallName');
 
         let dateTime = selectedTimeInput.getAttribute('data-date');
-        let combinedDateTime = formatDateTime(dateTime); //Mon 29 July, 10:30AM
 
         let hallId = selectedTimeInput.getAttribute('data-hallid');
         let cinemaId = selectedTimeInput.getAttribute('data-cinemaID');
         let scheduleId = selectedTimeInput.getAttribute('data-scheduleID')
 
-        location.href="<?=ROOT?>/SeatSelection?cin=" + cinema +"&exp=" + experience + "&date=" + dateTime + "&hid=" + hallId + "&cid=" + cinemaId + "&sce=" + scheduleId + "&hname=" + hallName;
+        let combinedString = [cinema, experience, hallName, dateTime, hallId, cinemaId, scheduleId].join('|');
+
+
+        $.ajax({
+            url: "<?=ROOT?>/DetailSelection/encryptQueryStringValue",
+            type: "POST",
+            contentType: "application/json", // Send data as JSON
+            data: JSON.stringify({data: combinedString}), // Send as JSON
+            success: function (response) {
+                if (response.success) {
+                    const url = response.redirectUrl;
+
+                    location.href = "<?=ROOT?>" + url;
+                } else {
+                    console.error('Server responded with an error:', response.message);
+                }
+            },
+            error: function (jXHR, textStatus, errorThrown) {
+                console.error("Error fetching hall types:", errorThrown);
+            }
+        });
+
+        // location.href = "<?=ROOT?>/SeatSelection?cin=" + cinema + "&exp=" + experience + "&date=" + dateTime + "&hid=" + hallId + "&cid=" + cinemaId + "&sce=" + scheduleId + "&hname=" + hallName;
     }
 
 </script>
-
-
 
 </body>
 
