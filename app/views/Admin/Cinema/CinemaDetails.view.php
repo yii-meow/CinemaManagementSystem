@@ -53,7 +53,6 @@
                 </button>
             </a>
             <div class="d-flex align-items-center mb-4">
-
                 <h1 class="mb-2">
                     Hall Details -
                     <?php if (isset($cinema))
@@ -61,8 +60,18 @@
                     ?></h1>
                 <i class="fa fa-info-circle ms-3 fa-lg"></i>
             </div>
+
+            <div class="mb-3 d-flex flex-row-reverse">
+                <button
+                        class="btn btn-primary px-4 py-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addCinemaModal"
+                >
+                    <i class="fa fa-plus me-3"></i>Add New Cinema Hall
+                </button>
+            </div>
             <div class="row g-5">
-                <?php if (isset($cinemaHalls))
+                <?php if (isset($cinemaHalls) && !empty($cinemaHalls[0])) {
                     foreach ($cinemaHalls as $hall): ?>
                         <div class="col-md-6 col-lg-4">
                             <div class="card">
@@ -85,7 +94,18 @@
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    <?php endforeach;
+                } else {
+                    echo "<div class='col-md-12 col-lg-12'>
+                            <div class='card bg-warning'>
+                                <div class='card-body text-light'>
+                                    No cinema found!
+                                    <a href='123'>Add Cinema Hall</a>
+                                </div>
+                                </div>
+                        </div>";
+                }
+                ?>
             </div>
         </main>
     </div>

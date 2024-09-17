@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="98ac0fb9-b989-4197-9520-c3a204a34188" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/HallMovieSchedule.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/HallMovieSchedule.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/functions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repositories/MovieRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/MovieRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaManagement.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/CinemaHall.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/CinemaHall.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaDetails.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaDetails.view.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +75,7 @@
       <option name="presentableId" value="Default" />
       <updated>1726490515333</updated>
       <workItem from="1726490517106" duration="8139000" />
-      <workItem from="1726555084736" duration="2161000" />
+      <workItem from="1726555084736" duration="3496000" />
     </task>
     <servers />
   </component>
