@@ -99,10 +99,10 @@
                     echo "<div class='col-md-12 col-lg-12'>
                             <div class='card bg-warning'>
                                 <div class='card-body text-light'>
-                                    No cinema found!
-                                    <a href='123'>Add Cinema Hall</a>
+                                    No cinema halls found!
+                                    <a href='#' data-bs-toggle='modal' data-bs-target='#addCinemaModal'>Add Cinema Hall</a>
                                 </div>
-                                </div>
+                            </div>
                         </div>";
                 }
                 ?>
@@ -110,7 +110,98 @@
         </main>
     </div>
 </div>
+<!-- Add Cinema Hall Modal -->
+<div class="modal fade" id="addCinemaModal" tabindex="-1" aria-labelledby="addCinemaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCinemaModalLabel">Add New Cinema Hall</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addCinemaHallForm">
+                    <input type="hidden" id="cinemaId" name="cinemaId" value="<?= $_GET['id'] ?? '' ?>">
 
+                    <div class="mb-3">
+                        <label for="hallName" class="form-label">Hall Name</label>
+                        <input type="text" class="form-control" id="hallName" name="hallName" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="capacity" class="form-label">Capacity</label>
+                        <select class="form-select" id="capacity" name="capacity" required>
+                            <option value="">Select capacity</option>
+                            <option value="48">48</option>
+                            <option value="60">60</option>
+                            <option value="108">108</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="hallType" class="form-label">Hall Type</label>
+                        <select class="form-select" id="hallType" name="hallType" required>
+                            <option value="">Select hall type</option>
+                            <option value="IMAX">IMAX</option>
+                            <option value="Deluxe">Deluxe</option>
+                            <option value="Atmos">Atmos</option>
+                            <option value="Benie">Benie</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Cinema Hall</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('addCinemaHallForm');
+        const hallNameInput = document.getElementById('hallName');
+
+        // Function to get the next hall name
+        async function getNextHallName() {
+            const cinemaId = document.getElementById('cinemaId').value;
+            const response = await fetch(`<?=ROOT?>/CinemaDetails/getNextHallName?cinemaId=${cinemaId}`);
+            const data = await response.json();
+            return data.nextHallName;
+        }
+
+        // Set the next hall name when the modal is opened
+        $('#addCinemaModal').on('show.bs.modal', async function () {
+            const nextHallName = await getNextHallName();
+            hallNameInput.value = nextHallName;
+        });
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            try {
+                const response = await fetch('<?=ROOT?>/CinemaDetails/addCinemaHall', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                console.log(result);
+
+                if (result.success) {
+                    alert('Cinema Hall added successfully!');
+                    $('#addCinemaModal').modal('hide');
+                    location.reload(); // Refresh the page to show the new hall
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while adding the cinema hall.');
+            }
+        });
+    });
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
