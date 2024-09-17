@@ -38,7 +38,7 @@ class UserView
 
         if (!$userId) {
             // Redirect or handle error if userId is not available
-            header('Location: UserManage');
+            $this->view('Customer/User/LoginStaff');
             exit();
         }
 
