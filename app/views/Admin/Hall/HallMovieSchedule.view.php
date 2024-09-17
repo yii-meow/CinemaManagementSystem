@@ -75,7 +75,7 @@
                 </div>
             </div>
             <div class="d-flex flex-column gap-4">
-                <?php if (isset($groupedSchedules)) foreach ($groupedSchedules as $date => $movieSchedules): ?>
+                <?php if (isset($groupedSchedules) && !empty($groupedSchedules)) foreach ($groupedSchedules as $date => $movieSchedules): ?>
                     <div>
                         <div class="date-header">
                             <h3><?= (new DateTime($date))->format('F d, Y') ?></h3>
@@ -113,7 +113,13 @@
                             <?php endforeach; ?>
                         </div>
                     </div>
-                <?php endforeach; ?>
+                <?php endforeach;
+                else {
+                    echo "
+                            <div class='alert alert-danger' role='alert'>No movie schedule found.
+                            <a href='#' data-bs-toggle='modal' data-bs-target='#addMovieScheduleModal'>Add new movie schedule</a>
+                            </div>";
+                } ?>
             </div>
         </main>
     </div>

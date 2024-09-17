@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8e39c91a-8add-4a2e-b975-469d370a7cba" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/CinemaDetails.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/CinemaDetails.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/App.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/App.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repositories/CinemaHallRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/CinemaHallRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaDetails.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaDetails.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +68,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "C:/xampp/htdocs/CinemaManagementSystem",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -81,11 +80,22 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1726560961485</updated>
-      <workItem from="1726560963140" duration="2277000" />
+      <workItem from="1726560963140" duration="5193000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
