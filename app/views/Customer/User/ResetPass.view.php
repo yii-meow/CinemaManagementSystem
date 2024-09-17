@@ -63,7 +63,7 @@
                         <br>
                         <br>
                         <h3>Reset Password</h3>
-                        <form class="row login_form" action="ForgotPasswordCustomerController" method="post"
+                        <form class="row login_form" action="ResetPass" method="post"
                               id="contactForm" novalidate="novalidate">
                             <div class="col-md-12 form-group">
                                 <input type="password" class="form-control" id="password" name="password"
