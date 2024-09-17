@@ -89,4 +89,42 @@ class CinemaDetails
             jsonResponse(['success' => false, 'message' => 'Invalid request method']);
         }
     }
+
+    public function editCinema(){
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            jsonResponse(['success' => false, 'message' => "here!"]);
+
+            $putData = file_get_contents("php://input");
+
+            // Decode the JSON data
+            $cinemaData = json_decode($putData, true);
+
+            if ($cinemaData === null && json_last_error() !== JSON_ERROR_NONE) {
+                // Handle JSON decoding error
+                http_response_code(400);
+                echo json_encode(['success' => false, 'message' => 'Invalid JSON data']);
+                exit;
+            }
+
+            $name = $cinemaData['name'] ?? '';
+            $address = $cinemaData['address'] ?? '';
+            $city = $cinemaData['city'] ?? '';
+            $state = $cinemaData['state'] ?? '';
+            $openingHours = $cinemaData['openingHours'] ?? '';
+            $cinemaId = $cinemaData["cinemaId"];
+
+            $cinema = new Cinema();
+            $cinema->setName($name);
+            $cinema->setAddress($address);
+            $cinema->setCity($city);
+            $cinema->setState($state);
+            $cinema->setOpeningHours($openingHours);
+
+            $cinemaHall = $this->cinemaHallRepository->findByCinemaId($cinemaId);
+
+            jsonResponse(['success' => false, 'message' => $cinemaHall]);
+        }else{
+
+        }
+    }
 }

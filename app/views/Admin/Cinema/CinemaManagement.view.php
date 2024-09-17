@@ -193,7 +193,6 @@
                                 <option value="Selangor">Selangor</option>
                                 <option value="Penang">Penang</option>
                                 <option value="Johor">Johor</option>
-                                <!-- Add more Malaysian states here -->
                             </select>
                         </div>
                     </div>
