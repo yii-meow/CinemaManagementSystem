@@ -38,6 +38,8 @@ class UserReward
         return $this->userRewardId;
     }
 
+
+
     public function setUser(?User $user): self
     {
         $this->user = $user;

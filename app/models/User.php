@@ -1,6 +1,7 @@
 <?php
 namespace App\models;
 
+use App\repositories\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -57,6 +58,22 @@ class User
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserReward::class)]
     private $users;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ticket::class, fetch: "EXTRA_LAZY")]
+    private $tickets;
+
+    public function getTickets()
+    {
+        return $this->tickets;
+    }
+
+    public function setTickets($tickets): void
+    {
+        $this->tickets = $tickets;
+    }
+
+
+
 
 
     // Getters and Setters

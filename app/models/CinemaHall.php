@@ -26,13 +26,33 @@ class CinemaHall
 
     #[ORM\ManyToOne(targetEntity: Cinema::class, inversedBy: 'cinemaHalls')]
     #[ORM\JoinColumn(name: 'cinemaId', referencedColumnName: 'cinemaId')]
-    private $cinema = null;
+    private $cinema;
+
+
+//    #[ORM\OneToMany(mappedBy: 'cinemaHall', targetEntity: MovieSchedule::class, fetch: "EXTRA_LAZY")]
+//    private $movieSchedules;
+//
+//    #[ORM\OneToMany(mappedBy: 'cinemaHall', targetEntity: Seat::class, fetch: "EXTRA_LAZY")]
+//    private $seats;
 
     #[ORM\OneToMany(mappedBy: 'cinemaHall', targetEntity: MovieSchedule::class, fetch: "EXTRA_LAZY")]
     private $movieSchedules;
 
-//    #[ORM\OneToMany(mappedBy: 'cinema', targetEntity: CinemaHall::class)]
-//    private $cinemaHalls;
+    #[ORM\OneToMany(mappedBy: 'cinemaHall', targetEntity: Seat::class, fetch: "EXTRA_LAZY")]
+    private $seats;
+
+
+    public function getSeats()
+    {
+        return $this->seats;
+    }
+
+    public function setSeats($seats): void
+    {
+        $this->seats = $seats;
+    }
+
+
 
     public function getHallId(): ?int
     {

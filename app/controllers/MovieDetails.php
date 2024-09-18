@@ -23,7 +23,13 @@ class MovieDetails
 
     public function index()
     {
-        //Gather SQL parameters
+//        //Gather SQL parameters
+//        //Get query string value
+//        $movieIdEncrypted = (string)$_GET['movieId'];
+//        //Decrypt the query string values
+//        $decryption = new Encryption();
+//        $movieID = $decryption->decrypt($movieIdEncrypted, $decryption->getKey());
+
         $movieID = 1; //test id
 
         //Get a specific record
