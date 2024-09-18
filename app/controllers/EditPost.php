@@ -1,55 +1,52 @@
 <?php
 namespace App\controllers;
 use App\core\Controller;
-class EditPost {
+use App\core\Database;
+use App\models\Post;
+
+class EditPost
+{
     use Controller;
 
-    public function index() {
-        // Check if the form is submitted to update a post
+    private $entityManager;
+    private $postRepository;
+
+    public function __construct()
+    {
+        $this->entityManager = Database::getEntityManager();
+        $this->postRepository = $this->entityManager->getRepository(Post::class);
+    }
+    public function index()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Get post data from POST request
-            $postId = filter_input(INPUT_POST, 'postID', FILTER_SANITIZE_NUMBER_INT);
-            $content = filter_input(INPUT_POST, 'editPostContent', FILTER_SANITIZE_STRING);
+            $postID = $_POST['postID'] ?? null;
+            $newContent = $_POST['editPostContent'] ?? null;
 
-            show("HERE   " . $postId);
-            // Load the Post model
-            $postModel = new Post();
+            if ($postID && $newContent) {
+                $post = $this->postRepository->find($postID);
 
-            // Prepare updated data
-            $updatedData = [
-                'content' => $content
-            ];
+                if ($post) {
+                    $post->setContent($newContent);
 
-            $result = $postModel->editPost($postId, $updatedData);
+                    try {
+                        $this->entityManager->flush();
 
-            // Update the post
-            if ($result) {
-                // Redirect or show success message
-                header('Location: ' . ROOT . '/MyPost');
-                exit();
+                        header("Location: " . ROOT . "/MyPost?edit=success");
+                        exit;
+                    } catch (\Exception $e) {
+                        header("Location: " . ROOT . "/MyPost?edit=error");
+                        exit;
+                    }
+                } else {
+                    header("Location: " . ROOT . "/MyPost?edit=error");
+
+                    exit;
+                }
             } else {
-                show($postId);
-                echo 'Failed to update post.';
-            }
-        } else {
-            // Display the edit form
-            $postId = filter_input(INPUT_GET, 'postID', FILTER_SANITIZE_NUMBER_INT);
-
-            // Load the Post model
-            $postModel = new Post();
-
-            // Fetch the post to edit
-            $post = $postModel->getPostById($postId);
-
-            if ($post) {
-                // Pass post data to the view
-                $data['post'] = $post;
-                $this->view('Customer/Forum/MyPost', $data);
-            } else {
-                echo 'Post not found.';
+                header("Location: " . ROOT . "/MyPost?edit=error");
+                exit;
             }
         }
     }
-
 }
 ?>

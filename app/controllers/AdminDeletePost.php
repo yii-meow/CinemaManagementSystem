@@ -10,7 +10,7 @@ use App\Models\Likes;
 use App\Models\Reply;
 use Doctrine\ORM\EntityManagerInterface;
 
-class DeletePost
+class AdminDeletePost
 {
     use Controller;
 
@@ -32,13 +32,16 @@ class DeletePost
     public function index()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $postID = $_POST['postID'] ?? null;
+            $postID = filter_input(INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT);
+
+            show($postID);
 
             if ($postID) {
                 // Find the post
                 $post = $this->postRepository->find($postID);
 
                 if ($post) {
+                    show("FDound");
                     try {
                         // Find and delete all related comments
                         $comments = $this->commentRepository->findBy(['post' => $post]);
@@ -50,6 +53,7 @@ class DeletePost
                             }
                             $this->entityManager->remove($comment);
                         }
+                        show("DLT C & R");
 
                         // Delete all related likes
                         $likes = $this->likeRepository->findBy(['post' => $post]);
@@ -57,26 +61,35 @@ class DeletePost
                             $this->entityManager->remove($like);
                         }
 
+
                         // Delete the post itself
                         $this->entityManager->remove($post);
+                        show("DLETE");
                         $this->entityManager->flush();
+                        show("ALLODNE");
 
                         // Redirect with success message
-                        header("Location: " . ROOT . "/MyPost?remove=success");
+                        header('Location: ' . ROOT . '/AdminForum?remove=success');
+                        //redirect("/AdminForum/index");
+
                         exit;
                     } catch (\Exception $e) {
+                        // Log the exception and redirect with error message
                         error_log($e->getMessage());
-                        header("Location: " . ROOT . "/MyPost?remove=error");
+                        header('Location: ' . ROOT . '/AdminForum?remove=error');
                         exit;
                     }
                 } else {
-                    // Post not found
-                    header("Location: " . ROOT . "/MyPost?remove=error");
+                    show("POST NOT FOUND");
+                    // Post not found, redirect with error message
+                   header('Location: ' . ROOT . '/AdminForum?remove=error');
                     exit;
                 }
             } else {
-                // Invalid post ID
-                header("Location: " . ROOT . "/MyPost?remove=error");
+                // Invalid post ID, redirect with error message
+                show("Invalid ID". $postID);
+
+                header('Location: ' . ROOT . '/AdminForum?remove=error');
                 exit;
             }
         }
