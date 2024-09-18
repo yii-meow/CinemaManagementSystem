@@ -22,12 +22,29 @@ class UserManage
 
     public function index()
     {
-        // Fetch all users from the database
-        $users = $this->userRepository->findAll();
+        $searchQuery = $_GET['search'] ?? null; // Get the search query from the URL
 
-        // Pass the list of users to the view
+        // If a search query is provided, filter users based on it
+        if ($searchQuery) {
+            // Create a query to search users by username, phone number, or email
+            $qb = $this->entityManager->createQueryBuilder();
+            $qb->select('u')
+                ->from(User::class, 'u')
+                ->where('u.userName LIKE :search')
+                ->orWhere('u.phoneNo LIKE :search')
+                ->orWhere('u.email LIKE :search')
+                ->setParameter('search', '%' . $searchQuery . '%');
+
+            $users = $qb->getQuery()->getResult();
+        } else {
+            // Fetch all users from the database if no search query is provided
+            $users = $this->userRepository->findAll();
+        }
+
+        // Pass the list of users and search query to the view
         $data = [
-            'users' => $users
+            'users' => $users,
+            'searchQuery' => $searchQuery
         ];
 
         // Render the UserManage view with the user data

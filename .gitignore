@@ -2,3 +2,5 @@ app/core/config.php
 app/core/App.php
 .idea/CinemaManagementSystem.iml
 .idea/php.xml
+.idea/workspace.xml
+.idea
