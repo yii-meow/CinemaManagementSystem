@@ -5,37 +5,39 @@ namespace App\controllers;
 use App\Core\Controller;
 use App\Core\Database;
 use App\Models\Post;
-use App\Models\User; // Assuming the User entity exists
+use App\Models\Likes;
 use Doctrine\ORM\EntityManagerInterface;
 
-class MyPost
+class ShowLikedPost
 {
     use Controller;
 
     private EntityManagerInterface $entityManager;
     private $postRepository;
+    private $likeRepository;
 
     public function __construct()
     {
         $this->entityManager = Database::getEntityManager();
         $this->postRepository = $this->entityManager->getRepository(Post::class);
+        $this->likeRepository = $this->entityManager->getRepository(Likes::class);
     }
 
-    // Method to fetch posts only for a particular user
     public function index()
     {
-        $userId = 1;// temporarily hard coded
-        // Fetch posts for the specific user with comments, likes, and replies
-        $posts = $this->postRepository->findBy(['user' => $userId]);
+        $userId = 4; // Temporarily hard-coded
 
-        // Check if posts were retrieved
-        if (!$posts) {
-            $this->view('Customer/Forum/MyPost', ['posts' => []]);
+        // Fetch posts liked by the specific user
+        $likedPosts = $this->likeRepository->findBy(['likedBy' => $userId]);
+
+        if (!$likedPosts) {
+            $this->view('Customer/Forum/LikedPost', ['posts' => []]);
             return;
         }
 
         $postData = [];
-        foreach ($posts as $post) {
+        foreach ($likedPosts as $like) {
+            $post = $like->getPost();
             $postData[] = [
                 'postID' => $post->getPostID(),
                 'userName' => $post->getUser()->getUserName(),
@@ -64,7 +66,6 @@ class MyPost
             ];
         }
 
-        // Render the view with the post data
-        $this->view('Customer/Forum/MyPost', ['posts' => $postData]);
+        $this->view('Customer/Forum/LikedPost', ['posts' => $postData]);
     }
 }

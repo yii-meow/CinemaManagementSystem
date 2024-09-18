@@ -5,19 +5,27 @@ namespace App\controllers;
 use App\models\User;
 use App\core\Controller;
 use App\core\Database;
+use App\session\SessionManagement;
 
-class Login
+class Login extends SessionManagement
 {
     use Controller;
 
     private $entityManager;
     private $userRepository;
+    private $sessionManager;
+
 
     public function __construct()
     {
+        parent::__construct(); // apply session timeout check
         // Initialize EntityManager and User repository
         $this->entityManager = Database::getEntityManager();
         $this->userRepository = $this->entityManager->getRepository(User::class);
+
+        //For Session Management
+        $this->sessionManager = new SessionManagement();
+
     }
 
     public function index()
@@ -42,7 +50,27 @@ class Login
 
                 // Check if user exists and password matches
                 if ($user && password_verify($password, $user->getPassword())) {
+                    // Destroy any previous session (S.C [Establish a new session after successful login])
+                    session_destroy();
+                    // Start a new session
+                    session_start();
+                    session_regenerate_id(true); // Generate a new session ID
+
+                    // S.C [Disallow concurrent logins with the same user ID]
+                    // Check if the user is already logged in from another device
+                    if ($user->getSessionId() && $user->getSessionId() !== session_id()) {
+                        // Another session is active; log out the previous session
+                        session_id($user->getSessionId());
+                        session_destroy();
+                        session_start();
+                    }
+
+
                     $_SESSION['userId'] = $user->getUserId();
+
+                    // Set last activity time for session management (S.C)
+                    $_SESSION['last_activity'] = time();
+
                     // Pass the user data to the profile view
                     $data['user'] = [
                         'userId' => $user->getUserId(),

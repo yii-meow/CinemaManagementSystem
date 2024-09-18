@@ -1,6 +1,7 @@
 <?php
 namespace App\models;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -38,15 +39,15 @@ class User
 
     // For foreign side
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'Post')]
-    private $posts;
+    private Collection $posts;
     #[ORM\OneToMany(mappedBy: 'commenter', targetEntity: 'Comment')]
-    private $commenters;
+    private Collection $commenters;
 
     #[ORM\OneToMany(mappedBy: 'userReply', targetEntity: 'Reply')]
-    private $reply;
+    private Collection $reply;
 
     #[ORM\OneToMany(mappedBy: 'likedBy', targetEntity: 'Likes')]
-    private $liker;
+    private Collection $liker;
 
 
     // Getters and Setters
@@ -143,6 +144,27 @@ class User
     {
         $this->gender = $gender;
         return $this;
+    }
+
+    //Forum side
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function getCommenters(): Collection
+    {
+        return $this->commenters;
+    }
+
+    public function getReply(): Collection
+    {
+        return $this->reply;
+    }
+
+    public function getLiker(): Collection
+    {
+        return $this->liker;
     }
 
 }

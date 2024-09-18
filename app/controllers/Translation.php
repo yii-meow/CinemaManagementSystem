@@ -1,26 +1,35 @@
 <?php
+namespace App\controllers;
+// Provide (REST API)
 
-/*require_once 'GoogleTranslateService.php';
+use App\core\Controller;
+use App\services\TranslationService;
 
-class TranslateController
+class Translation
 {
-    public function translate()
+    use Controller;
+    public function index()
     {
-        // Get the post content and target language from the request
-        $postContent = $_POST['content'] ?? '';
-        $targetLanguage = $_POST['language'] ?? 'en'; // Default to English
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $postContent = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 
-        // Use the GoogleTranslateService to translate the text
-        $translator = new GoogleTranslateService();
-        $translatedText = $translator->translateText($postContent, $targetLanguage);
+            // only translated to English
+            $targetLanguage = 'en';
 
-        // Return the translated text as a JSON response
-        echo json_encode(['translatedText' => $translatedText]);
+            try {
+                // Access the translate API
+                $translator = new TranslationService();
+                $translatedText = $translator->translate($postContent, $targetLanguage);
+
+                // Return translated text as a JSON response
+               echo json_encode(['translatedText' => $translatedText]);
+            } catch (\Exception $e) {
+                http_response_code(500);
+                echo json_encode(['error' => $e->getMessage()]);
+            }
+        } else {
+            http_response_code(405);
+            echo json_encode(['error' => 'Invalid content']);
+        }
     }
 }
-
-// Handle the request
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $controller = new TranslateController();
-    $controller->translate();
-}*/
