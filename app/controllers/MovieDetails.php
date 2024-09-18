@@ -27,7 +27,7 @@ class MovieDetails
         $movieID = 1; //test id
 
         //Get a specific record
-        $movieResult = $this->movieRepository->find($movieID);
+        $movieResult = $this->movieRepository->find((int) $movieID);
         $data = []; // this is associate array, to store the retrieved data
         if ($movieResult) {
             $data = [
@@ -48,6 +48,9 @@ class MovieDetails
                 "status" => $movieResult->getStatus(),
             ];
         }
+
+        // Close the EntityManager Database Connection after operations are done
+        $this->entityManager->close();
 
         //Route to the destinaiton page, with passing data from the Model
         $this->view('Customer/Movie/MovieDetails', $data); // the method from Controller

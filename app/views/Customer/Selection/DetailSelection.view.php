@@ -1,3 +1,8 @@
+<?php
+
+use App\core\Encryption;
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,10 +35,10 @@
 
 <body>
 <!--Header-->
-<?php include "../app/views/header.php"?>
+<?php include "../app/views/header.php" ?>
 
 <!--Navigation Bar-->
-<?php include "../app/views/navigationBar.php"?>
+<?php include "../app/views/navigationBar.php" ?>
 
 
 <!--Main Contents-->
@@ -46,7 +51,7 @@
         <div class="poster-box">
             <img src="
             <?php if (isset($data)) {
-                echo $data['movies']['photo'];
+                echo $data['movies']["photo"];
             } ?>" style="width: 60%;" draggable="false"/>
         </div>
         <div class="detail-box">
@@ -105,7 +110,8 @@
                             <input type="radio" class="btn-check" name="selectedDate"
                                    value="<?php echo htmlspecialchars($startingTime->format('Y-m-d H:i:s')); ?>"
                                    id="<?php echo htmlspecialchars($schedule["movieScheduleId"]) ?>" autocomplete="off">
-                            <label class="btn btn-outline-danger" for="<?php echo htmlspecialchars($schedule["movieScheduleId"]); ?>">
+                            <label class="btn btn-outline-danger"
+                                   for="<?php echo htmlspecialchars($schedule["movieScheduleId"]); ?>">
                                 <p name="day"><?php echo $dayOfWeek; ?></p>
                                 <p name="date"><?php echo $day; ?></p>
                                 <p name="month"><?php echo $monthName; ?></p>
@@ -234,7 +240,7 @@
 
 
 <!--Footer-->
-<?php include "../app/views/footer.php"?>
+<?php include "../app/views/footer.php" ?>
 
 
 <!--JavaScripts-->
@@ -254,8 +260,6 @@
     // Unbind any previous event handlers before attaching new ones
     $('#form1').off('change', 'input[name="selectedDate"]').on('change', 'input[name="selectedDate"]', fetchHallTypes);
     $('#form2').off('change', 'input[name="options-exp"]').on('change', 'input[name="options-exp"]', fetchCinema);
-
-
 
 
     function fetchHallTypes() {
@@ -283,7 +287,7 @@
                     //////Testing
                     //document.writeln(data)
                     //document.writeln(response)
-                    document.writeln(JSON.stringify(response.data));
+                    //document.writeln(JSON.stringify(response.data));
 
 
                     var innerHtml = '';
@@ -317,10 +321,6 @@
     }
 
 
-
-
-
-
     function fetchCinema() {
         var selectedHallExperience = $("input[name='options-exp']:checked").val();
 
@@ -337,6 +337,13 @@
                     var data = response.data;
                     var accordionHtml = '';
                     var cinemas = {};
+
+
+                    //////Testing
+                    //document.writeln(data)
+                    // document.writeln(response)
+                    // document.writeln(JSON.stringify(response.data));
+
 
                     // Organize data by cinema
                     data.forEach(function (item) {
@@ -362,12 +369,14 @@
 
                         // Add time slot
                         cinemas[cinemaId].halls[hallId].times.push({
-                            startingTime: item.startingTime,
+                            movieScheduleId: item.movieScheduleId,
+                            startingTime: item.startingTime.date,
                             movieTitle: item.movieTitle,
                             duration: item.duration,
                             language: item.language,
                             description: item.description
                         });
+
                     });
 
                     // Generate accordion HTML
@@ -388,6 +397,7 @@
 
 
                             for (var hallId in cinema.halls) {
+
                                 if (cinema.halls.hasOwnProperty(hallId)) {
                                     var hall = cinema.halls[hallId];
                                     accordionHtml += `<div class="time-radio" style="max-width: fit-content;">`;
@@ -401,8 +411,8 @@
                                         accordionHtml += `
                                         <div class="radio-wrapper" style="max-width: fit-content;">
                                             <input type="radio" value="${formattedTime}" class="btn-check" name="time" id="${timeId}" autocomplete="off"
-                                                data-cinema="${cinema.name}" data-cinemaID="${cinemaId}" data-date="${time.startingTime}" data-hallid="${hallId}" data-experience="${selectedHallExperience}"
-                                                data-movie-title="${time.movieTitle}">
+                                                data-cinema="${cinema.name}" data-cinemaID="${cinemaId}" data-scheduleID="${time.movieScheduleId}" data-date="${time.startingTime}" data-hallid="${hallId}" data-experience="${selectedHallExperience}"
+                                                data-movie-title="${time.movieTitle} " data-hallName="${hall.name}">
                                             <label class="btn btn-outline-danger" for="${timeId}">
                                                 <div class="hall-info" style="font-size: 14px;">
                                                     ${hall.name} | ${hall.type}
@@ -463,7 +473,7 @@
 
     function formatDateTime(dateTime) {
         const date = new Date(dateTime); // Assuming dateTime is a valid date string
-        const options = { weekday: 'short', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' };
+        const options = {weekday: 'short', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit'};
         let formattedDate = date.toLocaleString('en-GB', options);
 
         // Replace "at" with ","
@@ -482,26 +492,47 @@
     });
 
 
-    function selectSeat(){
+    function selectSeat() {
         //Prepare Value
         let selectedTimeInput = document.querySelector('input[name="time"]:checked');
 
         let cinema = selectedTimeInput.getAttribute('data-cinema');
         let experiencePure = selectedTimeInput.getAttribute('data-experience');
         let experience = experiencePure.split("|")[0];
+        let hallName = selectedTimeInput.getAttribute('data-hallName');
 
         let dateTime = selectedTimeInput.getAttribute('data-date');
-        let combinedDateTime = formatDateTime(dateTime); //Mon 29 July, 10:30AM
 
         let hallId = selectedTimeInput.getAttribute('data-hallid');
         let cinemaId = selectedTimeInput.getAttribute('data-cinemaID');
+        let scheduleId = selectedTimeInput.getAttribute('data-scheduleID')
 
-        location.href="<?=ROOT?>/SeatSelection?cin=" + cinema +"&exp=" + experience + "&date=" + dateTime + "&hid=" + hallId + "&cid=" + cinemaId;
+        let combinedString = [cinema, experience, hallName, dateTime, hallId, cinemaId, scheduleId].join('|');
+
+
+        $.ajax({
+            url: "<?=ROOT?>/DetailSelection/encryptQueryStringValue",
+            type: "POST",
+            contentType: "application/json", // Send data as JSON
+            data: JSON.stringify({data: combinedString}), // Send as JSON
+            success: function (response) {
+                if (response.success) {
+                    const url = response.redirectUrl;
+
+                    location.href = "<?=ROOT?>" + url;
+                } else {
+                    console.error('Server responded with an error:', response.message);
+                }
+            },
+            error: function (jXHR, textStatus, errorThrown) {
+                console.error("Error fetching hall types:", errorThrown);
+            }
+        });
+
+        // location.href = "<?=ROOT?>/SeatSelection?cin=" + cinema + "&exp=" + experience + "&date=" + dateTime + "&hid=" + hallId + "&cid=" + cinemaId + "&sce=" + scheduleId + "&hname=" + hallName;
     }
 
 </script>
-
-
 
 </body>
 

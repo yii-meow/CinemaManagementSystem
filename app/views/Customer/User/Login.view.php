@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/login.css" />
-    <title>Categories</title>
+    <title>Login</title>
 
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
     <style>
@@ -88,7 +88,7 @@
                         <br>
                         <h3>Log in to enter</h3>
                         <?php if (isset($data['error'])): ?>
-                            <div style="width: fit-content;margin: auto" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <div style="width: fit-content; margin: auto;" class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <strong>Error!</strong> <?= htmlspecialchars($data['error']) ?>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
@@ -106,7 +106,7 @@
                             <br>
                             <br>
                             <br>
-
+                            <input type="hidden" name="userType" value="customer">
                             <div class="col-md-12 form-group">
                                 <button type="submit" value="submit" class="primary-btn">Log In</button>
                                 <a href="ForgetPassVerify">Forgot Password?</a>

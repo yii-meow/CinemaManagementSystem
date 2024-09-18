@@ -4,7 +4,7 @@ namespace App\controllers;
 
 use App\models\User;
 use App\models\UserReward;
-use App\models\Reward; // Import the Reward entity
+use App\models\Reward;
 use App\core\Controller;
 use App\core\Database;
 
@@ -15,7 +15,7 @@ class MyReward
     private $entityManager;
     private $userRepository;
     private $userRewardRepository;
-    private $rewardRepository; // Add Reward repository
+    private $rewardRepository;
 
     public function __construct()
     {
@@ -23,7 +23,7 @@ class MyReward
         $this->entityManager = Database::getEntityManager();
         $this->userRepository = $this->entityManager->getRepository(User::class);
         $this->userRewardRepository = $this->entityManager->getRepository(UserReward::class);
-        $this->rewardRepository = $this->entityManager->getRepository(Reward::class); // Initialize Reward repository
+        $this->rewardRepository = $this->entityManager->getRepository(Reward::class);
     }
 
     public function index()
@@ -36,7 +36,7 @@ class MyReward
         // Check if userId is set in the session
         if (!isset($_SESSION['userId'])) {
             // Redirect to login if userId is not set
-            header('Location: ' . ROOT . '/Login');
+            $this->view('Customer/User/Login');
             exit();
         }
 
@@ -50,16 +50,9 @@ class MyReward
             exit();
         }
 
-        // Fetch rewards for the user
-        $userRewards = $this->userRewardRepository->findBy(['userId' => $userId]);
+        // Fetch user rewards with related reward details
+        $userRewards = $this->userRewardRepository->findBy(['user' => $user]);
 
-        // Fetch additional details for each reward
-        foreach ($userRewards as $userReward) {
-            $reward = $this->rewardRepository->find($userReward->getRewardId());
-            $userReward->reward = $reward; // Add the reward to the userReward object
-        }
-
-        // Pass the user data and user rewards to the view
         $data['user'] = [
             'userId' => $user->getUserId(),
             'profileImg' => $user->getProfileImg(),
@@ -70,7 +63,8 @@ class MyReward
             'birthDate' => $user->getBirthDate(),
             'coins' => $user->getCoins()
         ];
-        $data['userRewards'] = $userRewards;
+
+        $data['userRewards'] = $userRewards;  // Passing the user rewards directly
 
         // Render the MyReward view
         $this->view('Customer/User/MyReward', $data);

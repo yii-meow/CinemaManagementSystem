@@ -1,6 +1,9 @@
 <?php
+
 namespace App\controllers;
+
 use App\core\Controller;
+
 class LoginStaff
 {
     use Controller;
@@ -8,7 +11,8 @@ class LoginStaff
     public function index()
     {
 
-        //Please do use this only at the end of the operations
+        // Render the login view
         $this->view('Customer/User/LoginStaff');
     }
+
 }

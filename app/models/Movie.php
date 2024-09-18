@@ -53,12 +53,28 @@ class Movie
     #[ORM\Column(type: 'string', length: 255)]
     private $status;
 
-    #[ORM\OneToMany(mappedBy: 'movie', targetEntity: MovieSchedule::class)]
-    private $schedules;
+    #[ORM\OneToMany(mappedBy: 'movie', targetEntity: MovieSchedule::class, fetch: "EXTRA_LAZY")]
+    private $movieSchedules;
 
     public function getMovieId(): ?int
     {
         return $this->movieId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovieSchedules()
+    {
+        return $this->movieSchedules;
+    }
+
+    /**
+     * @param mixed $movieSchedules
+     */
+    public function setMovieSchedules($movieSchedules): void
+    {
+        $this->movieSchedules = $movieSchedules;
     }
 
     public function getTitle(): string

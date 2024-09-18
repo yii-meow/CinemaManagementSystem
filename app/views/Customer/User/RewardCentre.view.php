@@ -2,31 +2,10 @@
 <html lang="en">
 
 <?php include '../app/views/user_header.php' ?>
+
+
 <style>
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        padding-top: 100px; /* Location of the box */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        align-content: center;
-    }
-
-    .modal-content {
-        background-color: #fefefe;
-        color: black;
-        margin: auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-    }
-
+    /* Center the reward header (title and image) */
     .reward-header {
         display: flex;
         flex-direction: column;
@@ -35,30 +14,14 @@
     }
 
     .reward-header h2 {
-        text-align: center;
-        margin: 0;
-        padding: 10px 0;
+        margin-bottom: 10px;
     }
 
     .reward-header img {
-        margin-top: 10px;
-    }
-
-    .close-btn {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .close-btn:hover,
-    .close-btn:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
+        max-width: 100px;
+        height: auto;
     }
 </style>
-
 <body>
 
 <?php
@@ -90,6 +53,7 @@ if (isset($data['user']) && isset($data['rewards'])) {
                 <div class="reward-list">
                     <?php foreach ($rewards as $reward): ?>
                         <div class="reward-item" data-category="<?= $reward->getCategory() ?>"
+                             data-reward-id="<?= $reward->getRewardId() ?>"
                              onclick="openRewardDetail(
                                      '<?= $reward->getRewardTitle() ?>',
                                      '<?= $reward->getCategory() ?>',
@@ -105,7 +69,7 @@ if (isset($data['user']) && isset($data['rewards'])) {
                                 <p><?= $reward->getDescription() ?></p>
                                 <p>Quantity: <?= $reward->getQty() ?></p>
                                 <p>Needed Coins: <?= $reward->getNeededCoins() ?></p>
-                                <button class="btn-redeem" data-reward-id="<?= $reward->getRewardId() ?>">Redeem</button>
+                                <button class="btn-redeem">Redeem</button>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -117,10 +81,10 @@ if (isset($data['user']) && isset($data['rewards'])) {
             <div class="modal-content">
                 <span class="close-btn" onclick="closeRewardDetail()">&times;</span>
 
-                <!-- Add a container for centering title and image -->
+                <!-- Centered reward header with title and image -->
                 <div class="reward-header">
                     <h2 id="reward-title">Reward Title</h2>
-                    <img id="reward-img" src="" alt="Reward Image" style="width:100px; height:auto;">
+                    <img id="reward-img" src="" alt="Reward Image">
                 </div>
 
                 <p id="reward-category">Category: </p>
@@ -132,7 +96,6 @@ if (isset($data['user']) && isset($data['rewards'])) {
         </div>
 
         <?php include '../app/views/footer.php' ?>
-    </div>
 
     <?php
 } else {
@@ -140,6 +103,7 @@ if (isset($data['user']) && isset($data['rewards'])) {
     exit();
 }
 ?>
+    </div>
 
 <script>
     function filterRewards(category) {
@@ -160,6 +124,29 @@ if (isset($data['user']) && isset($data['rewards'])) {
     }
 
     filterRewards('all');
+
+    function redeemReward(event, rewardId) {
+        event.stopPropagation(); // Prevent the click event from propagating to parent elements
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "RewardCentre/redeemReward/", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                alert(xhr.responseText);
+                location.reload(); // Reload the page to reflect changes
+            } else {
+                alert("Error redeeming reward.");
+            }
+        };
+        xhr.send("rewardId=" + rewardId);
+    }
+
+    document.querySelectorAll('.btn-redeem').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            var rewardId = this.closest('.reward-item').dataset.rewardId;
+            redeemReward(event, rewardId); // Pass the event to redeemReward
+        });
+    });
 
     function openRewardDetail(title, category, description, details, qty, neededCoins, imgSrc) {
         document.getElementById('reward-title').textContent = title;
@@ -184,35 +171,6 @@ if (isset($data['user']) && isset($data['rewards'])) {
             modal.style.display = 'none';
         }
     }
-
-    document.querySelectorAll('.btn-redeem').forEach(function (button) {
-        button.addEventListener('click', function (event) {
-            // Stop the click event from propagating to the parent element (reward item)
-            event.stopPropagation();
-
-            const rewardId = this.getAttribute('data-reward-id');
-
-            // Make an AJAX request to redeem the reward
-            fetch('<?= ROOT ?>/RewardCentre/redeemReward/' + rewardId, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        alert('Reward redeemed successfully');
-                        location.reload(); // Reload the page to update the reward list and user coins
-                    } else {
-                        alert(data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
-    });
 </script>
 
 </body>

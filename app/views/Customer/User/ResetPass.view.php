@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/login.css" />
-    <title>Categories</title>
+    <title>Reset Password</title>
 
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
 </head>
@@ -63,7 +63,7 @@
                         <br>
                         <br>
                         <h3>Reset Password</h3>
-                        <form class="row login_form" action="ForgotPasswordCustomerController" method="post"
+                        <form class="row login_form" action="ResetPass" method="post"
                               id="contactForm" novalidate="novalidate">
                             <div class="col-md-12 form-group">
                                 <input type="password" class="form-control" id="password" name="password"

@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/login.css" />
-    <title>Categories</title>
+    <title>Login Staff</title>
 
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
     <style>
@@ -87,7 +87,7 @@
                         <br>
                         <br>
                         <h3>Log in to enter</h3>
-                        <form class="row login_form" action="" method="post" id="contactForm">
+                        <form class="row login_form" action="Login" method="post" id="contactForm">
                             <div class="col-md-12 form-group">
                                 <input type="tel" class="form-control" id="phoneNo" name="phoneNo"
                                        placeholder="Mobile Number" onfocus="this.placeholder = ''"
@@ -100,7 +100,7 @@
                             <br>
                             <br>
                             <br>
-
+                            <input type="hidden" name="userType" value="admin">
                             <div class="col-md-12 form-group">
                                 <button type="submit" value="submit" class="primary-btn">Log In</button>
                             </div>

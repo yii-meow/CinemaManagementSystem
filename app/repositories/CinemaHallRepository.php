@@ -9,23 +9,33 @@ use Doctrine\ORM\EntityRepository;
 
 class CinemaHallRepository extends EntityRepository
 {
-    public function findCinemaHallOfMovie($movieId, $selectedDate)
+    public function findByHallId($hallId)
     {
-//        return $this->createQueryBuilder('c')
-//            ->select('ms.startingTime, c.hallId, c.hallName, c.capacity, c.hallType, c.cinema')
-//            ->innerJoin('App\models\MovieSchedule', 'ms', 'WITH', 'ms.cinemaHall = c.hallId')
-//            ->innerJoin('App\models\Movie', 'm', 'WITH', 'm.movieId = ms.movie')
-//            ->where('m.movieId = :movieId')
-//            ->andWhere('ms.startingTime = :selectedDate')
-//            ->setParameter('movieId', $movieId)
-//            ->setParameter('selectedDate', $selectedDate)
-//            ->orderBy('ms.startingTime', 'ASC')
-//            ->getQuery()
-//            ->getResult();
-
-        return $this->createQueryBuilder('c')
-            ->select('c.hallId')
+        return $this->createQueryBuilder('ch')
+            ->leftJoin('ch.cinema', 'c')
+            ->addSelect('c')
+            ->where('ch.hallId = :hallId')
+            ->setParameter('hallId', $hallId)
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
+    }
+
+    public function getNextHallName($cinemaId)
+    {
+        $query = $this->createQueryBuilder('ch')
+            ->select('MAX(ch.hallName) as maxHallName')
+            ->where('ch.cinema = :cinemaId')
+            ->setParameter('cinemaId', $cinemaId)
+            ->getQuery();
+
+        $result = $query->getOneOrNullResult();
+
+        if (!$result || $result['maxHallName'] === null) {
+            return 'H01';
+        }
+
+        $currentNumber = intval(substr($result['maxHallName'], 1));
+        $nextNumber = $currentNumber + 1;
+        return 'H' . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
     }
 }
