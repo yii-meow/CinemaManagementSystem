@@ -120,6 +120,11 @@ class CinemaFacade
         return $hall;
     }
 
+    public function getCinemaHallDetails($hallId)
+    {
+        return $this->cinemaHallRepository->findByHallId($hallId);
+    }
+
     // Movie Schedule Management
     public function getUpcomingSchedulesByHall($hallId)
     {
@@ -146,5 +151,9 @@ class CinemaFacade
         return $movieSchedule;
     }
 
-    // Additional helper methods can be added here as needed
+    // Movie Management
+    public function getAllMovies()
+    {
+        return $this->movieRepository->findAll();
+    }
 }

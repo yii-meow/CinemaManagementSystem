@@ -3,32 +3,23 @@
 namespace App\controllers;
 
 use App\core\Controller;
-use App\core\Database;
-use App\models\CinemaHall;
-use App\models\Movie;
-use App\models\MovieSchedule;
+use App\Facade\CinemaFacade;
 
 class HallMovieSchedule
 {
     use Controller;
 
-    private $entityManager;
-    private $cinemaRepository;
-    private $movieRepository;
-    private $movieScheduleRepository;
+    private $cinemaFacade;
 
     public function __construct()
     {
-        $this->entityManager = Database::getEntityManager();
-        $this->movieScheduleRepository = $this->entityManager->getRepository(MovieSchedule::class);
-        $this->movieRepository = $this->entityManager->getRepository(Movie::class);
-        $this->cinemaHallRepository = $this->entityManager->getRepository(CinemaHall::class);
+        $this->cinemaFacade = new CinemaFacade();
     }
 
     public function index()
     {
         $hallId = isset($_GET['hallId']) ? $_GET['hallId'] : null;
-        $cinemaHall = $this->cinemaHallRepository->findByHallId($hallId);
+        $cinemaHall = $this->cinemaFacade->getCinemaHallDetails($hallId);
 
         $cinemaInformation = null;
         if ($cinemaHall && $cinemaHall->getCinema()) {
@@ -39,7 +30,7 @@ class HallMovieSchedule
             ];
         }
 
-        $showtimes = $this->movieScheduleRepository->findUpcomingSchedulesByHall($hallId);
+        $showtimes = $this->cinemaFacade->getUpcomingSchedulesByHall($hallId);
         $groupedSchedules = [];
         foreach ($showtimes as $showtime) {
             $date = $showtime->getStartingTime()->format('Y-m-d');
@@ -48,7 +39,7 @@ class HallMovieSchedule
             $groupedSchedules[$date][$movieId]['times'][] = $showtime->getStartingTime();
         }
 
-        $movies = $this->movieRepository->findAll();
+        $movies = $this->cinemaFacade->getAllMovies();
         $movieArray = array_map(function ($movie) {
             return [
                 'id' => $movie->getMovieId(),
@@ -71,35 +62,15 @@ class HallMovieSchedule
             $startingTime = $_POST['startingTime'] ?? '';
 
             if (empty($cinemaHallId) || empty($movieId) || empty($startingTime)) {
-                echo 'Please fill in all required fields.';
-                exit();
-            } else {
-                try {
-                    // Fetch the related entities
-                    $movie = $this->movieRepository->find($movieId);
-                    $cinemaHall = $this->cinemaHallRepository->find($cinemaHallId);
-                    if (!$movie || !$cinemaHall) {
-                        jsonResponse(['success' => false, 'message' => 'Invalid movie or cinema hall.']);
-                        return;
-                    }
+                jsonResponse(['success' => false, 'message' => 'Please fill in all required fields.']);
+                return;
+            }
 
-                    // Create a new MovieSchedule entity
-                    $movieSchedule = new MovieSchedule();
-
-                    // Set the properties based on the POST data
-                    $movieSchedule->setStartingTime(new \DateTime($startingTime));
-                    $movieSchedule->setMovie($movie);
-                    $movieSchedule->setCinemaHall($cinemaHall);
-
-                    // Persist the entity
-                    $this->entityManager->persist($movieSchedule);
-
-                    // Flush changes to the database
-                    $this->entityManager->flush();
-                    jsonResponse(['success' => true, 'message' => 'Cinema added successfully']);
-                } catch (\Exception $e) {
-                    jsonResponse(['success' => false, 'message' => 'An error occurred while adding the movie schedule']);
-                }
+            try {
+                $this->cinemaFacade->addMovieSchedule($cinemaHallId, $movieId, $startingTime);
+                jsonResponse(['success' => true, 'message' => 'Movie schedule added successfully']);
+            } catch (\Exception $e) {
+                jsonResponse(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()]);
             }
         } else {
             jsonResponse(['success' => false, 'message' => 'Invalid request method']);
