@@ -19,18 +19,8 @@ class HallConfiguration
     public function index()
     {
         $hallId = isset($_GET['hallId']) ? $_GET['hallId'] : null;
-        $cinemaHall = $this->cinemaFacade->getCinemaHallDetails($hallId);
+        $cinemaInformation = $this->cinemaFacade->getFormattedCinemaHallDetails($hallId);
 
-        $cinemaInformation = null;
-        if ($cinemaHall && $cinemaHall->getCinema()) {
-            $cinemaInformation = [
-                'cinemaName' => $cinemaHall->getCinema()->getName(),
-                'hallName' => $cinemaHall->getHallName(),
-                'hallId' => $cinemaHall->getHallId(),
-                'capacity' => $cinemaHall->getCapacity(),
-                'hallType' => $cinemaHall->getHallType()
-            ];
-        }
         return $this->view("Admin/Hall/HallConfiguration", ['cinemaInformation' => $cinemaInformation]);
     }
 

@@ -19,39 +19,9 @@ class HallMovieSchedule
     public function index()
     {
         $hallId = isset($_GET['hallId']) ? $_GET['hallId'] : null;
-        $cinemaHall = $this->cinemaFacade->getCinemaHallDetails($hallId);
+        $scheduleData = $this->cinemaFacade->getHallScheduleData($hallId);
 
-        $cinemaInformation = null;
-        if ($cinemaHall && $cinemaHall->getCinema()) {
-            $cinemaInformation = [
-                'name' => $cinemaHall->getCinema()->getName(),
-                'hallName' => $cinemaHall->getHallName(),
-                'hallId' => $cinemaHall->getHallId()
-            ];
-        }
-
-        $showtimes = $this->cinemaFacade->getUpcomingSchedulesByHall($hallId);
-        $groupedSchedules = [];
-        foreach ($showtimes as $showtime) {
-            $date = $showtime->getStartingTime()->format('Y-m-d');
-            $movieId = $showtime->getMovie()->getMovieId();
-            $groupedSchedules[$date][$movieId]['movie'] = $showtime->getMovie();
-            $groupedSchedules[$date][$movieId]['times'][] = $showtime->getStartingTime();
-        }
-
-        $movies = $this->cinemaFacade->getAllMovies();
-        $movieArray = array_map(function ($movie) {
-            return [
-                'id' => $movie->getMovieId(),
-                'title' => $movie->getTitle()
-            ];
-        }, $movies);
-
-        return $this->view('Admin/Hall/HallMovieSchedule', [
-            'groupedSchedules' => $groupedSchedules,
-            'movies' => $movieArray,
-            'cinemaInformation' => $cinemaInformation
-        ]);
+        return $this->view('Admin/Hall/HallMovieSchedule', $scheduleData);
     }
 
     public function addHallMovieSchedule()

@@ -25,16 +25,12 @@ class CinemaDetails
             return;
         }
 
-        $cinema = $this->cinemaFacade->getCinemaDetails($cinemaId);
-
-        if (!$cinema) {
-            echo "Cinema not found";
-            return;
+        try {
+            $cinemaData = $this->cinemaFacade->getCinemaWithHalls($cinemaId);
+            $this->view('Admin/Cinema/CinemaDetails', $cinemaData);
+        } catch (\Exception $e) {
+            jsonResponse(['success' => false, 'message' => $e->getMessage()]);
         }
-
-        $cinemaHalls = $cinema->getCinemaHalls();
-
-        $this->view('Admin/Cinema/CinemaDetails', ['cinema' => $cinema, 'cinemaHalls' => $cinemaHalls]);
     }
 
     public function getNextHallName()
@@ -45,8 +41,12 @@ class CinemaDetails
             return;
         }
 
-        $nextHallName = $this->cinemaFacade->getNextHallName($cinemaId);
-        jsonResponse(['success' => true, 'nextHallName' => $nextHallName]);
+        try {
+            $nextHallName = $this->cinemaFacade->getNextHallName($cinemaId);
+            jsonResponse(['success' => true, 'nextHallName' => $nextHallName]);
+        } catch (\Exception $e) {
+            jsonResponse(['success' => false, 'message' => $e->getMessage()]);
+        }
     }
 
     public function addCinemaHall()

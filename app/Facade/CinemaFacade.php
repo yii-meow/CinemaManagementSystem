@@ -7,6 +7,7 @@ use App\models\Cinema;
 use App\models\CinemaHall;
 use App\models\MovieSchedule;
 use App\models\Movie;
+use DateTime;
 
 class CinemaFacade
 {
@@ -26,9 +27,111 @@ class CinemaFacade
     }
 
     // Cinema Management
-    public function getAllCinemas()
+    public function getFormattedCinemas()
     {
-        return $this->cinemaRepository->getCinemaHallNumber();
+        $cinemaEntities = $this->cinemaRepository->getCinemaHallNumber();
+
+        return array_map(function ($cinema) {
+            return [
+                'cinemaId' => $cinema["cinemaId"],
+                'name' => $cinema["name"],
+                'city' => $cinema['city'],
+                'state' => $cinema["state"],
+                'openingHours' => formatOpeningHours($cinema["openingHours"]),
+                'hallCount' => $cinema["hallCount"]
+            ];
+        }, $cinemaEntities);
+    }
+
+    public function getFormattedCinemaHallDetails($hallId)
+    {
+        $cinemaHall = $this->cinemaHallRepository->findByHallId($hallId);
+
+        if (!$cinemaHall || !$cinemaHall->getCinema()) {
+            return null;
+        }
+
+        return [
+            'cinemaName' => $cinemaHall->getCinema()->getName(),
+            'hallName' => $cinemaHall->getHallName(),
+            'hallId' => $cinemaHall->getHallId(),
+            'capacity' => $cinemaHall->getCapacity(),
+            'hallType' => $cinemaHall->getHallType()
+        ];
+    }
+
+    public function getCinemaWithHalls($cinemaId)
+    {
+        $cinema = $this->cinemaRepository->find($cinemaId);
+
+        if (!$cinema) {
+            throw new \Exception("Cinema not found");
+        }
+
+        $cinemaHalls = $cinema->getCinemaHalls();
+
+        return [
+            'cinema' => $cinema,
+            'cinemaHalls' => $cinemaHalls
+        ];
+    }
+
+    // Cinema Hall Management
+    public function getNextHallName($cinemaId)
+    {
+        return $this->cinemaHallRepository->getNextHallName($cinemaId);
+    }
+
+    // Movie Schedule Management
+    public function getHallScheduleData($hallId)
+    {
+        $cinemaHall = $this->cinemaHallRepository->findByHallId($hallId);
+
+        $cinemaInformation = null;
+        if ($cinemaHall && $cinemaHall->getCinema()) {
+            $cinemaInformation = [
+                'name' => $cinemaHall->getCinema()->getName(),
+                'hallName' => $cinemaHall->getHallName(),
+                'hallId' => $cinemaHall->getHallId()
+            ];
+        }
+
+        $showtimes = $this->movieScheduleRepository->findUpcomingSchedulesByHall($hallId);
+        $groupedSchedules = [];
+        foreach ($showtimes as $showtime) {
+            $date = $showtime->getStartingTime()->format('Y-m-d');
+            $movieId = $showtime->getMovie()->getMovieId();
+            $groupedSchedules[$date][$movieId]['movie'] = $showtime->getMovie();
+            $groupedSchedules[$date][$movieId]['times'][] = $showtime->getStartingTime();
+        }
+
+        $movies = $this->movieRepository->findAll();
+        $movieArray = array_map(function ($movie) {
+            return [
+                'id' => $movie->getMovieId(),
+                'title' => $movie->getTitle()
+            ];
+        }, $movies);
+
+        return [
+            'groupedSchedules' => $groupedSchedules,
+            'movies' => $movieArray,
+            'cinemaInformation' => $cinemaInformation
+        ];
+    }
+
+    public function getCinemaHallWithDetails($hallId)
+    {
+        $cinemaHall = $this->cinemaHallRepository->findByHallId($hallId);
+
+        if (!$cinemaHall || !$cinemaHall->getCinema()) {
+            return null;
+        }
+
+        return [
+            'cinema' => $cinemaHall->getCinema(),
+            'hall' => $cinemaHall
+        ];
     }
 
     public function addCinema($name, $address, $city, $state, $openingHours)
@@ -46,11 +149,6 @@ class CinemaFacade
         return $cinema;
     }
 
-    public function getCinemaDetails($cinemaId)
-    {
-        return $this->cinemaRepository->find($cinemaId);
-    }
-
     public function updateCinema($cinemaId, $data)
     {
         $cinema = $this->cinemaRepository->find($cinemaId);
@@ -66,12 +164,6 @@ class CinemaFacade
 
         $this->entityManager->flush();
         return $cinema;
-    }
-
-    // Cinema Hall Management
-    public function getNextHallName($cinemaId)
-    {
-        return $this->cinemaHallRepository->getNextHallName($cinemaId);
     }
 
     public function addCinemaHall($cinemaId, $hallName, $capacity, $hallType)
@@ -120,17 +212,6 @@ class CinemaFacade
         return $hall;
     }
 
-    public function getCinemaHallDetails($hallId)
-    {
-        return $this->cinemaHallRepository->findByHallId($hallId);
-    }
-
-    // Movie Schedule Management
-    public function getUpcomingSchedulesByHall($hallId)
-    {
-        return $this->movieScheduleRepository->findUpcomingSchedulesByHall($hallId);
-    }
-
     public function addMovieSchedule($cinemaHallId, $movieId, $startingTime)
     {
         $movie = $this->movieRepository->find($movieId);
@@ -141,7 +222,7 @@ class CinemaFacade
         }
 
         $movieSchedule = new MovieSchedule();
-        $movieSchedule->setStartingTime(new \DateTime($startingTime));
+        $movieSchedule->setStartingTime(new DateTime($startingTime));
         $movieSchedule->setMovie($movie);
         $movieSchedule->setCinemaHall($cinemaHall);
 
@@ -149,11 +230,5 @@ class CinemaFacade
         $this->entityManager->flush();
 
         return $movieSchedule;
-    }
-
-    // Movie Management
-    public function getAllMovies()
-    {
-        return $this->movieRepository->findAll();
     }
 }

@@ -18,28 +18,8 @@ class CinemaManagement
 
     public function index()
     {
-        $cinemaEntities = $this->cinemaFacade->getAllCinemas();
-
-        $cinemas = array_map(function ($cinema) {
-            return [
-                'cinemaId' => $cinema["cinemaId"],
-                'name' => $cinema["name"],
-                'city' => $cinema['city'],
-                'state' => $cinema["state"],
-                'openingHours' => formatOpeningHours($cinema["openingHours"]),
-                'hallCount' => $cinema["hallCount"]
-            ];
-        }, $cinemaEntities);
-
-        $data['cinemas'] = $cinemas;
-        $this->view('Admin/Cinema/CinemaManagement', $data);
-    }
-
-    public function getCinemaHallOfMovie($hallType, $startingTime, $movieId)
-    {
-        // This method needs to be implemented in CinemaFacade
-        $results = $this->cinemaFacade->getCinemaHallOfMovie($hallType, $startingTime, $movieId);
-        // Process results...
+        $cinemas = $this->cinemaFacade->getFormattedCinemas();
+        $this->view('Admin/Cinema/CinemaManagement', ['cinemas' => $cinemas]);
     }
 
     public function addCinema()
