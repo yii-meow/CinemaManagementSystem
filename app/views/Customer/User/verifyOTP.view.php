@@ -47,6 +47,22 @@
                         <br>
                         <br>
                         <h3>Verify OTP</h3>
+
+                        <!-- Display success message if it exists -->
+                        <?php if (isset($_SESSION['success_message'])): ?>
+                            <div class="alert alert-success" role="alert">
+                                <?= htmlspecialchars($_SESSION['success_message']); ?>
+                            </div>
+                            <?php unset($_SESSION['success_message']); // Clear message after displaying ?>
+                        <?php endif; ?>
+
+                        <!-- Display error message if it exists -->
+                        <?php if (isset($error) && !empty($error)): ?>
+                            <div class="alert alert-danger" role="alert">
+                                <?= htmlspecialchars($error); ?>
+                            </div>
+                        <?php endif; ?>
+
                         <form id="otpVerifyForm" class="row login_form" action="verifyOTP" method="post">
                             <div class="col-md-12 form-group">
                                 <input type="tel" class="form-control" id="otpCode" name="otpCode"
@@ -59,6 +75,14 @@
                             </div>
                             <div id="responseMessage" class="col-md-12 form-group"></div>
                         </form>
+                        <br>
+                        <br>
+                        <!-- Option to request a new OTP if the previous one expired -->
+                        <?php if (isset($error) && $error === 'OTP has expired. Please request a new one.'): ?>
+                            <form method="post" action="ForgetPassVerify">
+                                <button type="submit" class="btn btn-secondary">Request New OTP</button>
+                            </form>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

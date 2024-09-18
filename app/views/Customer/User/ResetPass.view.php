@@ -63,8 +63,24 @@
                         <br>
                         <br>
                         <h3>Reset Password</h3>
+                        <!-- Display success message if it exists -->
+                        <?php if (isset($data['success_message'])): ?>
+                            <div class="alert alert-success" role="alert">
+                                <?= htmlspecialchars($data['success_message']); ?>
+                            </div>
+                            <?php unset($data['success_message']); // Clear message after displaying ?>
+                        <?php endif; ?>
+                        <!-- Display error message if it exists -->
+                        <?php if (isset($data['error'])): ?>
+                            <div class="alert alert-danger" role="alert">
+                                <?= htmlspecialchars($data['error']); ?>
+                            </div>
+                        <?php endif; ?>
                         <form class="row login_form" action="ResetPass" method="post"
                               id="contactForm" novalidate="novalidate">
+                            <!-- Hidden field to carry phoneNo -->
+                            <input type="hidden" name="phoneNo" value="<?php echo htmlspecialchars($_SESSION['phoneNo']); ?>">
+
                             <div class="col-md-12 form-group">
                                 <input type="password" class="form-control" id="password" name="password"
                                        placeholder="New Password" onfocus="this.placeholder = ''"
@@ -74,7 +90,7 @@
                                 <input type="password" class="form-control" id="cpassword" name="cpassword"
                                        placeholder="Confirm Password" onfocus="this.placeholder = ''"
                                        onblur="this.placeholder = 'Confirm Password'">
-                                <br>
+                                <input type="checkbox" id="showPassword"> Show Password
                             </div>
                             <div class="col-md-12 form-group">
                                 <button type="submit" value="submit" class="primary-btn">Change
@@ -102,6 +118,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+        // JavaScript to toggle password visibility
+        document.getElementById('showPassword').addEventListener('change', function() {
+            var passwordField = document.getElementById('password');
+            var confirmPasswordField = document.getElementById('cpassword');
+            if (this.checked) {
+                passwordField.type = 'text';
+                confirmPasswordField.type = 'text';
+            } else {
+                passwordField.type = 'password';
+                confirmPasswordField.type = 'password';
+            }
+        });
+    </script>
 </body>
 
 </html>
