@@ -1,6 +1,7 @@
 <?php
+
 /*
- * Handling Payment Request
+ * The Client Handling Payment Request
  * */
 
 namespace App\Strategy;
@@ -9,10 +10,10 @@ namespace App\Strategy;
 use App\Strategy\PaymentStrategy;
 
 //Concrete Strategy
-use App\Strategy\GrabPayStrategy;
+use App\Strategy\CardStrategy;
 
 //Concrete Strategy
-use App\Strategy\TouchNGoStrategy;
+use App\Strategy\EWalletStrategy;
 
 //Concrete Strategy
 use App\Strategy\CashStrategy;
@@ -24,16 +25,16 @@ class PaymentStrategyContext
     public function __construct(string $paymentMethod)
     {
         $this->paymentStrategy = match ($paymentMethod) {
+            'wallet' => new EWalletStrategy(),
+            'card' => new CardStrategy(),
             'cash' => new CashStrategy(),
-            'tng' => new TouchNGoStrategy(),
-            'grab' => new GrabPayStrategy(),
             default => throw new \InvalidArgumentException("Payment method {$paymentMethod} is not supported"),
         };
     }
 
-    public function pay($amount)
+    public function pay(array $paymentData)
     {
-        return $this->paymentStrategy->pay($amount);
+        return $this->paymentStrategy->pay($paymentData);
     }
 
 }

@@ -23,6 +23,7 @@ class Encryption
             throw new \Exception("Encryption failed.");
         }
         return base64_encode($encrypted . '::' . base64_encode($iv));
+
     }
 
     // Decrypt Data
@@ -42,12 +43,12 @@ class Encryption
         return $decrypted;
     }
 
-    public function getKey(): string
+    public function getKey()
     {
         return $this->key;
     }
 
-    public function setKey(string $key): void
+    public function setKey(string $key)
     {
         $this->key = $key;
     }

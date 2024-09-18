@@ -181,11 +181,13 @@
         </div>
     </div>
     <!--A set of values for controller-->
-    <input type="hidden" name="scheduleId" id="scheduleId" value="<?php if(isset($data)){echo $data["qs"]["movieScheduleId"];}?>"/>
+    <input type="hidden" name="scheduleId" id="scheduleId" value="<?php if (isset($data)) {
+        echo $data["qs"]["movieScheduleId"];
+    } ?>"/>
     <input type="hidden" name="listOfSeat" id="hiddenListOfSeat"/>
 
     <?php
-    if(isset($data)) {
+    if (isset($data)) {
         foreach ($data["qs"] as $key => $value) {
             echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
         }
@@ -231,14 +233,34 @@
                 ]
             };
 
+            <?php
+            // Assuming $data['occupiedSeat'] contains the array of seat numbers that are occupied (like 'A1', 'B2', etc.)
+            $occupiedSeatNumbers = array_map(function ($seat) {
+                return $seat['seatNo'];
+            }, $data['occupiedSeat']);
+            $occupiedSeatsJson = json_encode($occupiedSeatNumbers);
+            ?>
+            var occupiedSeats = <?php echo $occupiedSeatsJson; ?>;
+
+            //alert(occupiedSeats)
+
             function generateSeats(rows) {
                 $('#seats').empty();
                 rows.forEach(row => {
                     var rowHtml = `<div class="row" data-row="${row.label}">`;
                     rowHtml += `<div class="seatrowtitle">${row.label}</div>`;
+
                     for (var j = 0; j < row.seats; j++) {
-                        rowHtml += `<div class="seat"></div>`;
+                        var seatNumber = row.label + (j + 1); // Generate seat number (e.g., A1, A2)
+
+                        // Check if the seat number exists in the occupiedSeats array
+                        if (occupiedSeats.includes(seatNumber)) {
+                            rowHtml += `<div class="seat occupied"></div>`; // Occupied seats without number
+                        } else {
+                            rowHtml += `<div class="seat">${j + 1}</div>`; // Available seats with number
+                        }
                     }
+
                     rowHtml += `</div>`;
                     $('#seats').append(rowHtml);
                 });

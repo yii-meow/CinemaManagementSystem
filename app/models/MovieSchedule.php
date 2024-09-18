@@ -27,6 +27,24 @@ class MovieSchedule
     #[ORM\JoinColumn(name: 'cinemaHallId', referencedColumnName: 'hallId')]
     private $cinemaHall = null;
 
+
+    #[ORM\OneToMany(mappedBy: 'movieSchedule', targetEntity: Ticket::class, fetch: "EXTRA_LAZY")]
+    private $tickets;
+
+
+    public function getTickets()
+    {
+        return $this->tickets;
+    }
+
+    public function setTickets($tickets): void
+    {
+        $this->tickets = $tickets;
+    }
+
+
+
+
     public function getMovieScheduleId(): ?int
     {
         return $this->movieScheduleId;
