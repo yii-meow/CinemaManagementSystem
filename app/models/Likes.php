@@ -2,10 +2,11 @@
 namespace App\models;
 
 use Doctrine\ORM\Mapping as ORM;
+use SplSubject;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'Likes')]
-class Likes
+class Likes implements SplSubject
 {
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
@@ -64,6 +65,22 @@ class Likes
         return $this;
     }
 
+    public function attach(\SplObserver $observer)
+    {
+        $this->observers[] = $observer;
+    }
 
+    public function detach(\SplObserver $observer)
+    {
+        $this->observers = array_filter($this->observers, function($obs) use ($observer) {
+            return $obs !== $observer;
+        });
+    }
 
+    public function notify()
+    {
+        foreach ($this->observers as $observer) {
+            $observer->update($this);
+        }
+    }
 }

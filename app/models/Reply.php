@@ -2,10 +2,11 @@
 namespace App\models;
 
 use Doctrine\ORM\Mapping as ORM;
+use SplSubject;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'Reply')]
-class Reply
+class Reply implements SplSubject
 {
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
@@ -13,15 +14,14 @@ class Reply
     private $replyID;
 
     //Foreign key
-    #[ORM\ManyToOne(inversedBy: 'replies')]
+    #[ORM\ManyToOne(inversedBy: '$comment')]
     #[ORM\JoinColumn(name: 'commentID', referencedColumnName: 'commentID', nullable: false)]
     private Comment $comment;
-
 
     #[ORM\Column(type: 'string', length: 255)]
     private $replyText;
 
-    #[ORM\ManyToOne(inversedBy: 'reply')]
+    #[ORM\ManyToOne(inversedBy: '$reply')]
     #[ORM\JoinColumn(name: 'replyUserID', referencedColumnName: 'userId', nullable: false)]
     private User $userReply;
 
@@ -54,15 +54,33 @@ class Reply
         return $this;
     }
 
-    public function getUserReply()
+    public function getReplyUser(): ?User
     {
-        return $this->userReply;
+        return $this->replyUser;
     }
 
-    public function setUserReply($userReply): self
+    public function setReplyUser(User $replyUser): self
     {
-         $this->userReply = $userReply;
-         return $this;
+        $this->replyUser = $replyUser;
+        return $this;
     }
 
+    public function attach(\SplObserver $observer)
+    {
+        $this->observers[] = $observer;
+    }
+
+    public function detach(\SplObserver $observer)
+    {
+        $this->observers = array_filter($this->observers, function($obs) use ($observer) {
+            return $obs !== $observer;
+        });
+    }
+
+    public function notify()
+    {
+        foreach ($this->observers as $observer) {
+            $observer->update($this);
+        }
+    }
 }

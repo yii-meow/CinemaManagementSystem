@@ -1,10 +1,8 @@
 <?php
 namespace App\models;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use SplSubject;
-//Concrete Subject in Observer Design Pattern
 
 #[ORM\Entity]
 #[ORM\Table(name: 'Comment')]
@@ -20,12 +18,12 @@ class Comment implements SplSubject
     #[ORM\JoinColumn(name: 'postID', referencedColumnName: 'postID', nullable: false)]
     private Post $post;
 
-    #[ORM\ManyToOne(inversedBy: 'commenters')]
+    #[ORM\ManyToOne(inversedBy: '$commenters')]
     #[ORM\JoinColumn(name: 'commenterID', referencedColumnName: 'userId', nullable: false)]
     private User $commenter;
 
-    #[ORM\OneToMany(mappedBy: 'comment', targetEntity: Reply::class)]
-    private Collection $replies;
+    #[ORM\OneToMany(mappedBy: '$comment', targetEntity: 'Reply')]
+    private $comment;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $commentText;
@@ -69,13 +67,6 @@ class Comment implements SplSubject
         $this->commentText = $commentText;
         return $this;
     }
-
-    public function getReplies(): Collection
-    {
-        return $this->replies;
-    }
-
-    // Observer Design pattern
 
     public function attach(\SplObserver $observer)
     {

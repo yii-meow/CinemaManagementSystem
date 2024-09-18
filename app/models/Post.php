@@ -1,7 +1,6 @@
 <?php
 namespace App\models;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\repositories\PostRepository;
 
@@ -22,13 +21,13 @@ class Post
 
     //Foreign side
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: 'Comment')]
-    private Collection $comments;
+    private $comments;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: 'Likes')]
-    private Collection $likes;
+    private $likes;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: 'ReportRequest')]
-    private Collection $reportPost;
+    private $reportPost;
 
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -103,24 +102,5 @@ class Post
         $this->status = $status;
         return $this;
     }
-
-    public function getLikes(): ?Collection{
-        return $this->likes;
-    }
-
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-    public function getReportPost(): Collection
-    {
-        return $this->reportPost;
-    }
-    public function setReportPost(Collection $reportPost): self
-    {
-        $this->reportPost = $reportPost;
-        return $this;
-    }
-
 
 }

@@ -140,32 +140,6 @@
     color: #f03351;
 }
 
-.like-button {
-    font-size: 24px;
-    cursor: pointer;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.like-button.liked {
-    color: #f03351;
-    transform: scale(1.2);
-}
-
-.like-button.unliked {
-    color: #ccc;
-    transform: scale(1);
-}
-
-.like-button:active {
-    transform: scale(1.5); /* Slight bounce on click */
-}
-
-.like-count {
-    margin-left: 10px;
-    font-size: 18px;
-}
-
-
 /*For user comment section*/
 .comment-section {
     margin-top: 10px;
@@ -193,7 +167,7 @@
 
 .post-image {
     margin-bottom: 10px;
-    margin-left: 40px;
+    margin-left: 20px;
 }
 
 .posted-image {
@@ -573,19 +547,4 @@
 .reply-input:focus {
     border-color: #f03351;
     outline: none;
-}
-.searchTitle {
-    font-size: 2.2em;
-    font-weight: bold;
-    text-align: center;
-    color: white;
-}
-.btn-primary {
-    background-color: #f03351;
-    border-color: #f03351;
-}
-
-.btn-primary:hover {
-    background-color: #e02940;
-    border-color: #e02940;
 }

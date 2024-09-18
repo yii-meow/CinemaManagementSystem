@@ -7,8 +7,6 @@
   "require": {
     "doctrine/orm": "^2.19",
     "symfony/cache": "^6.0",
-    "doctrine/dbal": "^3.9",
-    "ext-curl": "*",
-    "ext-fileinfo": "*"
+    "doctrine/dbal": "^3.9"
   }
 }

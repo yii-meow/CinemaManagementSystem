@@ -26,6 +26,7 @@
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png"/>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         // Function to get query parameters
         function getQueryParam(param) {
@@ -287,11 +288,6 @@
                                 <input class="form-control" type="file" id="postImage" name="contentImg"
                                        accept=".jpg, .jpeg, .png" onchange="previewImage(event)">
                                 <!--Only accept these file type-->
-                                <div id="fileError" class="text-danger mt-2">
-                                    <?php if (isset($errorMessage)): ?>
-                                        <?php echo htmlspecialchars($errorMessage); ?>
-                                    <?php endif; ?>
-                                </div>
                             </div>
                             <!-- Image Preview Section -->
                             <div class="mb-3">

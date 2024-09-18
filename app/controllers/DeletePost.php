@@ -1,84 +1,58 @@
 <?php
-
 namespace App\controllers;
-
-use App\Core\Controller;
-use App\Core\Database;
-use App\Models\Post;
-use App\Models\Comment;
-use App\Models\Likes;
-use App\Models\Reply;
-use Doctrine\ORM\EntityManagerInterface;
+use App\core\Controller;
 
 class DeletePost
 {
     use Controller;
 
-    private EntityManagerInterface $entityManager;
-    private $postRepository;
-    private $commentRepository;
-    private $likeRepository;
-    private $replyRepository;
-
-    public function __construct()
-    {
-        $this->entityManager = Database::getEntityManager();
-        $this->postRepository = $this->entityManager->getRepository(Post::class);
-        $this->commentRepository = $this->entityManager->getRepository(Comment::class);
-        $this->likeRepository = $this->entityManager->getRepository(Likes::class);
-        $this->replyRepository = $this->entityManager->getRepository(Reply::class);
-    }
-
     public function index()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $postID = $_POST['postID'] ?? null;
+            $postId = filter_input(INPUT_POST, 'postID', FILTER_SANITIZE_NUMBER_INT);
 
-            if ($postID) {
-                // Find the post
-                $post = $this->postRepository->find($postID);
+            // Instantiate models
+            $postModel = new Post();
+            $commentModel = new Comment();
+            $replyModel = new Reply();
+            $likeModel = new Likes(); // Added model to handle likes
 
-                if ($post) {
-                    try {
-                        // Find and delete all related comments
-                        $comments = $this->commentRepository->findBy(['post' => $post]);
-                        foreach ($comments as $comment) {
-                            // Find and delete all related replies
-                            $replies = $this->replyRepository->findBy(['comment' => $comment]);
-                            foreach ($replies as $reply) {
-                                $this->entityManager->remove($reply);
-                            }
-                            $this->entityManager->remove($comment);
-                        }
+            try {
+                // Delete likes related to the post
+                $likeModel->deleteLikesByPostID($postId);
 
-                        // Delete all related likes
-                        $likes = $this->likeRepository->findBy(['post' => $post]);
-                        foreach ($likes as $like) {
-                            $this->entityManager->remove($like);
-                        }
+                // Retrieve comments related to the post
+                $comments = $commentModel->getCommentByPostID($postId);
 
-                        // Delete the post itself
-                        $this->entityManager->remove($post);
-                        $this->entityManager->flush();
-
-                        // Redirect with success message
-                        header("Location: " . ROOT . "/MyPost?remove=success");
-                        exit;
-                    } catch (\Exception $e) {
-                        error_log($e->getMessage());
-                        header("Location: " . ROOT . "/MyPost?remove=error");
-                        exit;
+                // Ensure $comments is an array or object before iterating
+                if (is_array($comments) || is_object($comments)) {
+                    // Delete replies related to each comment
+                    foreach ($comments as $comment) {
+                        $replyModel->deleteReplyByCommentID($comment->commentID);
                     }
                 } else {
-                    // Post not found
-                    header("Location: " . ROOT . "/MyPost?remove=error");
-                    exit;
+                    // Handle case where $comments is not an array
+                    throw new Exception('Error retrieving comments.');
                 }
-            } else {
-                // Invalid post ID
-                header("Location: " . ROOT . "/MyPost?remove=error");
-                exit;
+
+                // Delete comments related to the post
+                $commentModel->deleteCommentByPostID($postId);
+
+                // Delete the post itself
+                $result = $postModel->deletePost($postId);
+
+                if ($result) {
+                    header('Location: ' . ROOT . '/MyPost');
+                    exit();
+                } else {
+                    echo 'Failed to delete post.';
+                }
+            } catch (Exception $e) {
+                echo 'An error occurred: ' . $e->getMessage();
             }
+        } else {
+            echo 'Invalid request.';
         }
     }
 }
+?>

@@ -3,9 +3,8 @@
 namespace App\controllers;
 
 use App\core\Controller;
-use App\controllers\SessionManagement;
 
-class Logout extends SessionManagement
+class Logout
 {
     use Controller;
 

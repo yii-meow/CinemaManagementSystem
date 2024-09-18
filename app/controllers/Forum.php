@@ -1,47 +1,52 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Core\Database;
 use App\Models\Post;
 use Doctrine\ORM\EntityManagerInterface;
-use App\controllers\SessionManagement;
 
 class Forum
 {
     use Controller;
 
-    private EntityManagerInterface $entityManager;
+    private $entityManager;
     private $postRepository;
 
     public function __construct()
     {
         $this->entityManager = Database::getEntityManager();
         $this->postRepository = $this->entityManager->getRepository(Post::class);
-        // Initialize session management
-        $this->sessionManager = new SessionManagement();
-
-        // Call session timeout check at the start of every request
-       $this->sessionManager->sessionTimeout();
     }
 
     public function index()
     {
-        // Fetch all posts with comments, likes, and replies
-        $posts = $this->postRepository->findAllPostsWithCommentsLikes();
 
-        if (!$posts) {
-            $this->view('Customer/Forum/Forum', ['posts' => []]);
-            return;
+
+        // Fetch all posts without comments, likes, and replies
+        $posts = $this->postRepository->findAll();
+
+        // Prepare the data for the view
+        $postData = [];
+        foreach ($posts as $post) {
+            $postData[] = [
+                'content' => $post->getContent(),
+                'postDate' => $post->getPostDate()->format('Y-m-d H:i:s'),
+                'contentImg' => $post->getContentImg(),
+                'status' => $post->getStatus()
+            ];
         }
+       /* // Fetch all posts with comments, likes, and replies
+        $posts = $this->postRepository->findAllPostsWithRelations();
 
+        // Prepare the data for the view
         $postData = [];
         foreach ($posts as $post) {
             $postData[] = [
                 'postID' => $post->getPostID(),
-                'userName' => $post->getUser()->getUserName(),
-                'profileImg' => $post->getUser()->getProfileImg(),
+                'userName' => $post->getUser()->getUserName(), // Assuming getUserName() exists
+                'profileImg' => $post->getUser()->getProfileImg(), // Assuming getProfileImg() exists
                 'content' => $post->getContent(),
                 'postDate' => $post->getPostDate()->format('Y-m-d H:i:s'),
                 'contentImg' => $post->getContentImg(),
@@ -51,21 +56,22 @@ class Forum
                     return [
                         'commentID' => $comment->getCommentID(),
                         'commentText' => $comment->getCommentText(),
-                        'userName' => $comment->getCommenter()->getUserName(),
-                        'profileImg' => $comment->getCommenter()->getProfileImg(),
+                        'userName' => $comment->getCommenter()->getUserName(), // Assuming getUserName() exists
+                        'profileImg' => $comment->getCommenter()->getProfileImg(), // Assuming getProfileImg() exists
                         'replies' => array_map(function ($reply) {
                             return [
                                 'replyID' => $reply->getReplyID(),
                                 'replyText' => $reply->getReplyText(),
-                                'userName' => $reply->getUserReply()->getUserName(),
-                                'profileImg' => $reply->getUserReply()->getProfileImg(),
+                                'userName' => $reply->getReplyUser()->getUserName(), // Assuming getUserName() exists
+                                'profileImg' => $reply->getReplyUser()->getProfileImg(), // Assuming getProfileImg() exists
                             ];
                         }, $comment->getReplies()->toArray())
                     ];
                 }, $post->getComments()->toArray())
             ];
         }
-
+*/
+        // Render the view with the post data
         $this->view('Customer/Forum/Forum', ['posts' => $postData]);
     }
 }
