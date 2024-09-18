@@ -1,9 +1,10 @@
 <?php
 namespace App\models;
+use App\repositories\ReportRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
-#[ORM\Table(name: 'Reply')]
+#[ORM\Entity(repositoryClass:ReportRepository::class)]
+#[ORM\Table(name: 'ReportRequest')]
 
 class ReportRequest{
     #[ORM\Id]
@@ -19,11 +20,10 @@ class ReportRequest{
     #[ORM\Column(type: 'datetime')]
     private $reportDate;
 
-
     #[ORM\Column(type: 'string', length: 255)]
     private $reportStatus;
 
-    #[ORM\Column(type:'integer')]
+    #[ORM\Column(type:'string',length:50)]
     private $reason;
 
     public function getReportID(): ?int
@@ -37,14 +37,14 @@ class ReportRequest{
         return $this;
     }
 
-    public function getPostID(): int
+    public function getPost(): ?Post
     {
-        return $this->postID;
+        return $this->post;
     }
 
-    public function setPostID(int $postID): self
+    public function setPost(Post $post): self
     {
-        $this->postID = $postID;
+        $this->post = $post;
         return $this;
     }
 
@@ -70,12 +70,12 @@ class ReportRequest{
         return $this;
     }
 
-    public function getReason(): int
+    public function getReason(): string
     {
         return $this->reason;
     }
 
-    public function setReason(int $reason): self
+    public function setReason(string $reason): self
     {
         $this->reason = $reason;
         return $this;

@@ -1,6 +1,7 @@
 <?php
 namespace App\models;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -36,27 +37,17 @@ class User
     #[ORM\Column(type: 'string', length: 1)]
     private $gender;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    private $status;
-
     // For foreign side
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserReward::class)]
-    private $userRewards;
-
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'Post')]
-    private $posts;
+    private Collection $posts;
     #[ORM\OneToMany(mappedBy: 'commenter', targetEntity: 'Comment')]
-    private $commenters;
+    private Collection $commenters;
 
     #[ORM\OneToMany(mappedBy: 'userReply', targetEntity: 'Reply')]
-    private $reply;
+    private Collection $reply;
 
     #[ORM\OneToMany(mappedBy: 'likedBy', targetEntity: 'Likes')]
-    private $liker;
-
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserReward::class)]
-    private $users;
+    private Collection $liker;
 
 
     // Getters and Setters
@@ -155,15 +146,25 @@ class User
         return $this;
     }
 
-    public function getStatus(): string
+    //Forum side
+    public function getPosts(): Collection
     {
-        return $this->status;
+        return $this->posts;
     }
 
-    public function setStatus(string $status): self
+    public function getCommenters(): Collection
     {
-        $this->status = $status;
-        return $this;
+        return $this->commenters;
+    }
+
+    public function getReply(): Collection
+    {
+        return $this->reply;
+    }
+
+    public function getLiker(): Collection
+    {
+        return $this->liker;
     }
 
 }

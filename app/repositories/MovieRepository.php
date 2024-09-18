@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityRepository;
 
 class MovieRepository extends EntityRepository
 {
-
     public function findComingSoonMovies()
     {
         return $this->createQueryBuilder('m')
@@ -15,5 +14,10 @@ class MovieRepository extends EntityRepository
             ->orderBy('m.releaseDate', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findByMovieId($movieId)
+    {
+        return $this->findOne(['movieId' => $movieId]);
     }
 }
