@@ -149,8 +149,15 @@
                 $minutes = $duration % 60;
                 $durationFormatted = "{$hours} hours and {$minutes} minutes";
                 ?>
+
+                <?php
+                    //Perform Encryption
+                    $encryption = new \App\core\Encryption();
+                    $movieId = $movie['movieId'];
+                    $encryptedMovieId = $encryption->encrypt($movieId, $encryption->getKey());
+                ?>
                 <div class="w-100">
-                    <a href="<?= ROOT ?>/MovieDetails?movieId=<?= $movie['movieId'] ?>">
+                    <a href="<?= ROOT ?>/MovieDetails?movieId=<?= $encryptedMovieId ?>">
                         <div class="movie-result w-100">
                             <img src="<?= htmlspecialchars($movie['photo']) ?>"
                                  alt="<?= htmlspecialchars($movie['title']) ?>"

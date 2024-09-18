@@ -10,17 +10,18 @@ use App\models\Cinema;
 use App\models\CinemaHall;
 use App\models\Movie;
 use App\models\MovieSchedule;
+use App\models\Payment;
 use App\models\Seat;
 use App\models\Ticket;
 use App\models\TicketPricing;
 use App\models\User;
-use App\models\Payment;
 use App\models\UserReward;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\ORMException;
 
-class CashStrategy implements PaymentStrategy
+class CardStrategy implements PaymentStrategy
 {
+
     private $entityManager;
     private $movieScheduleRepository;
     private $cinemaHallRepository;
@@ -41,20 +42,24 @@ class CashStrategy implements PaymentStrategy
     public function pay(array $paymentData)
     {
         //Gather all info needed
-        //Basic - Cash only has basic
-        $amount = (float)$paymentData['amount'];
-        $custInfo = (string)$paymentData['custInfo'];
-        $hallId = (int)$paymentData['hallId'];
-        $scheduleId = (int)$paymentData['scheduleId'];
-        $seats = (string)$paymentData['seats'];
-        $userId = (int)$paymentData['userId'];
-        $date = (string)$paymentData['date'];
+        //Basic
+        $amount = $paymentData['amount'];
+        $custInfo = $paymentData['custInfo'];
+        $hallId = $paymentData['hallId'];
+        $scheduleId = $paymentData['scheduleId'];
+        $seats = $paymentData['seats'];
+        $userId = $paymentData['userId'];
+        $date = $paymentData['date'];
         $paymentMethod = (string)$paymentData['paymentMethod'];
 
+        //Card
+        $cardType = $paymentData['cardType'];
+        $cardNumber = $paymentData['cardNumber'];
+        $expiryDate = $paymentData['expiryDate'];
+        $cvv = $paymentData['cvv'];
 
+        //DATABASE PROCESSING
         try {
-
-            //DATABASE PROCESSING
             //Store into Ticket
             $ticket = new Ticket();
             $ticket->setMovieSchedule($this->movieScheduleRepository->find($scheduleId));
@@ -79,12 +84,14 @@ class CashStrategy implements PaymentStrategy
 
             //Store into Payment
             $encryption = new Encryption();
+            //Prepare Card Details
+            $info = $cardType . '|' . $cardNumber . '|' . $expiryDate . '|' . $cvv;
             $payment = new Payment();
             $payment->setTotalPrice($amount);
             $payment->setPaymentMethod($paymentMethod);
             $payment->setCustInfo($custInfo);
-            $payment->setPaymentStatus("Unpaid");
-            $payment->setPaymentInfo($encryption->encrypt("Cash Payment", $encryption->getKey()));
+            $payment->setPaymentStatus("Paid");
+            $payment->setPaymentInfo($encryption->encrypt($info, $encryption->getKey()));
             $payment->setTicket($insertedTicket);
             $this->entityManager->persist($payment);
 
@@ -102,6 +109,8 @@ class CashStrategy implements PaymentStrategy
             error_log('ORM error: ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
             throw new \RuntimeException($e);
         }
+
+
     }
 
 }

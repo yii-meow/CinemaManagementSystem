@@ -3,22 +3,17 @@
 namespace App\controllers;
 
 use App\core\Controller;
-use App\core\Database;
-use App\models\Cinema;
-use App\models\CinemaHall;
+use App\Facade\CinemaFacade;
 
 class CinemaDetails
 {
     use Controller;
 
-    private $entityManager;
-    private $cinemaRepository;
+    private $cinemaFacade;
 
     public function __construct()
     {
-        $this->entityManager = Database::getEntityManager();
-        $this->cinemaRepository = $this->entityManager->getRepository(Cinema::class);
-        $this->cinemaHallRepository = $this->entityManager->getRepository(CinemaHall::class);
+        $this->cinemaFacade = new CinemaFacade();
     }
 
     public function index()
@@ -26,21 +21,16 @@ class CinemaDetails
         $cinemaId = isset($_GET['id']) ? $_GET['id'] : null;
 
         if ($cinemaId === null || !is_numeric($cinemaId)) {
-            // Handle error - perhaps redirect or show an error message
             echo "Invalid or missing cinema ID";
             return;
         }
 
-        $cinema = $this->cinemaRepository->find($cinemaId);
-
-        if (!$cinema) {
-            echo "Cinema not found";
-            return;
+        try {
+            $cinemaData = $this->cinemaFacade->getCinemaWithHalls($cinemaId);
+            $this->view('Admin/Cinema/CinemaDetails', $cinemaData);
+        } catch (\Exception $e) {
+            jsonResponse(['success' => false, 'message' => $e->getMessage()]);
         }
-
-        $cinemaHalls = $cinema->getCinemaHalls();
-
-        $this->view('Admin/Cinema/CinemaDetails', ['cinema' => $cinema, 'cinemaHalls' => $cinemaHalls]);
     }
 
     public function getNextHallName()
@@ -51,8 +41,12 @@ class CinemaDetails
             return;
         }
 
-        $nextHallName = $this->cinemaHallRepository->getNextHallName($cinemaId);
-        jsonResponse(['success' => true, 'nextHallName' => $nextHallName]);
+        try {
+            $nextHallName = $this->cinemaFacade->getNextHallName($cinemaId);
+            jsonResponse(['success' => true, 'nextHallName' => $nextHallName]);
+        } catch (\Exception $e) {
+            jsonResponse(['success' => false, 'message' => $e->getMessage()]);
+        }
     }
 
     public function addCinemaHall()
@@ -69,21 +63,10 @@ class CinemaDetails
             }
 
             try {
-                $cinema = $this->cinemaRepository->find($cinemaId);
-                if (!$cinema) {
-                    jsonResponse(['success' => false, 'message' => 'Invalid cinema']);
-                    return;
-                }
-                $cinemaHall = new CinemaHall();
-                $cinemaHall->setHallName($hallName);
-                $cinemaHall->setCapacity((int)$capacity);
-                $cinemaHall->setHallType($hallType);
-                $cinemaHall->setCinema($cinema);
-                $this->entityManager->persist($cinemaHall);
-                $this->entityManager->flush();
+                $this->cinemaFacade->addCinemaHall($cinemaId, $hallName, $capacity, $hallType);
                 jsonResponse(['success' => true, 'message' => 'Cinema hall added successfully']);
             } catch (\Exception $e) {
-                jsonResponse(['success' => false, 'message' => 'An error occurred while adding the cinema hall']);
+                jsonResponse(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()]);
             }
         } else {
             jsonResponse(['success' => false, 'message' => 'Invalid request method']);
@@ -93,48 +76,29 @@ class CinemaDetails
     public function editCinema()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-            $putData = file_get_contents("php://input");
+            $putData = json_decode(file_get_contents("php://input"), true);
 
-            // Decode the JSON data
-            $cinemaData = json_decode($putData, true);
-
-            if ($cinemaData === null && json_last_error() !== JSON_ERROR_NONE) {
-                // Handle JSON decoding error
+            if ($putData === null && json_last_error() !== JSON_ERROR_NONE) {
                 http_response_code(400);
                 echo json_encode(['success' => false, 'message' => 'Invalid JSON data']);
                 exit;
             }
 
-            $cinemaId = $cinemaData["cinemaId"] ?? null;
+            $cinemaId = $putData["cinemaId"] ?? null;
 
             if (!$cinemaId) {
                 jsonResponse(['success' => false, 'message' => 'Cinema ID is required']);
                 return;
             }
 
-            $cinema = $this->cinemaRepository->find($cinemaId);
-
-            if (!$cinema) {
-                jsonResponse(['success' => false, 'message' => 'Cinema not found']);
-                return;
-            }
-
-            // Update the cinema properties
-            $cinema->setName($cinemaData['name'] ?? $cinema->getName());
-            $cinema->setAddress($cinemaData['address'] ?? $cinema->getAddress());
-            $cinema->setCity($cinemaData['city'] ?? $cinema->getCity());
-            $cinema->setState($cinemaData['state'] ?? $cinema->getState());
-            $cinema->setOpeningHours($cinemaData['openingHours'] ?? $cinema->getOpeningHours());
-
             try {
-                // Persist the changes
-                $this->entityManager->flush();
+                $this->cinemaFacade->updateCinema($cinemaId, $putData);
                 jsonResponse(['success' => true, 'message' => 'Cinema updated successfully']);
             } catch (\Exception $e) {
                 jsonResponse(['success' => false, 'message' => 'Error updating cinema: ' . $e->getMessage()]);
             }
         } else {
-            $this->jsonResponse(['success' => false, 'message' => 'Method Not Allowed']);
+            jsonResponse(['success' => false, 'message' => 'Method Not Allowed']);
         }
     }
 }

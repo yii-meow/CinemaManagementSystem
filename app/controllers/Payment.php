@@ -12,6 +12,7 @@ use App\models\Movie;
 use App\models\MovieSchedule;
 use App\models\CinemaHall;
 use App\models\TicketPricing;
+use App\models\User;
 use App\models\UserReward;
 use App\Strategy\PaymentStrategyContext;
 
@@ -26,6 +27,7 @@ class Payment
     private $cinemaRepository;
     private $ticketPricingRepository;
     private $userRewardRepository;
+    private $userRepository;
 
     public function __construct()
     {
@@ -37,9 +39,11 @@ class Payment
         $this->cinemaRepository = $this->entityManager->getRepository(Cinema::class);
         $this->ticketPricingRepository = $this->entityManager->getRepository(TicketPricing::class);
         $this->userRewardRepository = $this->entityManager->getRepository(UserReward::class);
+        $this->userRepository = $this->entityManager->getRepository(User::class);
     }
 
-    public function decryptParam($param, $decryption) {
+    public function decryptParam($param, $decryption)
+    {
         return isset($_GET[$param]) ? $decryption->decrypt($_GET[$param], $decryption->getKey()) : '';
     }
 
@@ -48,10 +52,10 @@ class Payment
         $decryption = new Encryption();
 
         $queryString = [
-            'scheduleId' => (int) $this->decryptParam('scheduleId', $decryption),
-            'seats'      => $this->decryptParam('seats', $decryption),
-            'date'       => $this->decryptParam('date', $decryption),
-            'hid'        => (int) $this->decryptParam('hid', $decryption),
+            'scheduleId' => (int)$this->decryptParam('scheduleId', $decryption),
+            'seats' => $this->decryptParam('seats', $decryption),
+            'date' => $this->decryptParam('date', $decryption),
+            'hid' => (int)$this->decryptParam('hid', $decryption),
         ];
 
         //Get Movie ID
@@ -83,7 +87,7 @@ class Payment
         //Get Hall Details
         $hallData = [];
         $hallObj = $this->cinemaHallRepository->find((int)$queryString["hid"]);
-        if($hallObj){
+        if ($hallObj) {
             $cinemaObj = $hallObj->getCinema();
 
             $hallData = [
@@ -91,16 +95,12 @@ class Payment
                 "hallName" => $hallObj->getHallName(),
                 "hallType" => $hallObj->getHallType(),
                 //Get Cinema Name
-                "cinema" => $cinemaObj ?  [
-                        "cinemaName" => $cinemaObj->getName(),
-                    ]: null,
+                "cinema" => $cinemaObj ? [
+                    "cinemaName" => $cinemaObj->getName(),
+                ] : null,
             ];
 
         }
-
-
-
-
 
 
         //Price Calculation
@@ -125,29 +125,25 @@ class Payment
     public function processPayment()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
             //Store error message
             $errors = [];
             $userName = "";
 
             //Get Payment Method from FORM
-            //$selectedPaymentMethod = $this->test_input($_POST['payoption']);
             $selectedPaymentMethod = isset($_POST['payoption']) ? $this->test_input((string)$_POST['payoption']) : null;
 
             //User Details
             $firstName = $this->test_input((string)$_POST['fName']);
             $lastName = $this->test_input((string)$_POST['lName']);
             $email = $this->test_input((string)$_POST['email']);
-            $phone = $this->test_input((string)$_POST['phone']);
-
 
             //VALIDATION
-            //Payment Method
-            $validPaymentMethods = ['cash', 'tng', 'grab'];
+            //Basic Information
+            $validPaymentMethods = ['cash', 'card', 'wallet'];
             if (empty($selectedPaymentMethod)) {
                 $errors["paymentMethod"] = "Payment method is empty.";
             } else if (!in_array($selectedPaymentMethod, $validPaymentMethods)) {
-                $errors["paymentMethod"] = "Payment Method ${$selectedPaymentMethod} is not valid";
+                $errors["paymentMethod"] = "Payment Method {$selectedPaymentMethod} is not valid";
             }
 
             //FirstName
@@ -176,13 +172,55 @@ class Payment
                 $errors["email"] = "Invalid email address.";
             }
 
-            //Phone
-            if (empty($phone)) {
-                $errors["phone"] = "Phone number cannot be empty.";
-            } else if (!preg_match('/^01[0-9]{8,9}$/', $phone)) {
-                $errors["phone"] = "Invalid phone number.";
+            //If Card is chosen
+            $cardType = "";
+            $cardNumber = "";
+            $expiryDate = "";
+            $cvv = "";
+            if ($selectedPaymentMethod === 'card') {
+                $cardType = $this->test_input((string)$_POST['cardType']);
+                $cardNumber = $this->test_input((string)$_POST['cardNumber']);
+                $expiryDate = $this->test_input((string)$_POST['expiryDate']);
+                $cvv = $this->test_input((string)$_POST['cvv']);
+
+                if (empty($cardNumber)) {
+                    $errors["cardNumber"] = "Card number is required.";
+                } elseif (!preg_match('/^[0-9]{16}$/', $cardNumber)) {
+                    $errors["cardNumber"] = "Invalid card number. Must be 16 digits.";
+                }
+
+                if (empty($expiryDate)) {
+                    $errors["expiryDate"] = "Expiry date is required.";
+                } elseif (!preg_match('/^(0[1-9]|1[0-2])\/[0-9]{2}$/', $expiryDate)) {
+                    $errors["expiryDate"] = "Invalid expiry date. Format should be MM/YY.";
+                }
+
+                if (empty($cvv)) {
+                    $errors["cvv"] = "CVV is required.";
+                } elseif (!preg_match('/^[0-9]{3,4}$/', $cvv)) {
+                    $errors["cvv"] = "Invalid CVV. Must be 3 or 4 digits.";
+                }
             }
 
+            // If E-wallet is chosen
+            $walletPhone = "";
+            $walletPassword = "";
+            if ($selectedPaymentMethod === 'wallet') {
+                $walletPhone = $this->test_input((string)$_POST['phone']);
+                $walletPassword = $this->test_input((string)$_POST['txtEwalletPassword']);
+
+                if (empty($walletPhone)) {
+                    $errors["walletPhone"] = "E-Wallet phone number is required.";
+                } elseif (!preg_match('/^01[0-9]{8,9}$/', $walletPhone)) {
+                    $errors["walletPhone"] = "Invalid E-Wallet phone number.";
+                }
+
+                if (empty($walletPassword)) {
+                    $errors["walletPassword"] = "E-Wallet password is required.";
+                } elseif (strlen($walletPassword) < 6) {
+                    $errors["walletPassword"] = "E-Wallet password must be at least 6 characters long.";
+                }
+            }
 
             // If there are errors, re-render the view with errors and form data
             if (!empty($errors)) {
@@ -194,35 +232,110 @@ class Payment
                 header('Content-Type: application/json');
                 echo json_encode(['data' => $data]);
                 exit;
-
             } else {
-                //PROCESSING - if no errors
-                //Get Total Price ($amount)
-                $amount = $_POST['finalPrice'] ?? '';  //Returned Value
-
 
                 ///////DESIGN PATTERN - STRATEGY
-                //Initialize PaymentStrategyContext with the selected payment method
+                //Preparing Data To Pass
+                $amount = (double)$_POST['finalPrice'] ?? '';
+                $custInfo = (string)$userName . "|" . $email;
+                $hallId = (int)$_POST['hallId'] ?? '';
+                $seats = (string)$_POST['seatsNo'] ?? '';
+                $userId = 6;  //Test ID
+                //$userId = (int)$_SESSION['userId'];
+                $scheduleId = (int)$_POST['scheduleId'] ?? '';
+                $date = (string)$_POST['selectedDateTime'];
+                //paymentMethod got already => $selectedPaymentMethod
+
+                $paymentData = [
+                    //Basic info
+                    "amount" => $amount,
+                    "custInfo" => $custInfo,
+                    "hallId" => $hallId,
+                    "seats" => $seats,
+                    "userId" => $userId,
+                    "scheduleId" => $scheduleId,
+                    "date" => $date,
+                    "paymentMethod" => $selectedPaymentMethod,
+                    //Card
+                    "cardType" => $cardType,
+                    "cardNumber" => $cardNumber,
+                    "expiryDate" => $expiryDate,
+                    "cvv" => $cvv,
+                    //E-wallet
+                    "walletPhone" => $walletPhone,
+                    "walletPassword" => $walletPassword,
+                ];
+
+                //Initialize PaymentStrategyContext with the selected payment method and data
                 $paymentContext = new PaymentStrategyContext($selectedPaymentMethod);
+                $result = $paymentContext->pay($paymentData);  //Process the payment
 
-                //Process the payment
-                $result = $paymentContext->pay($amount);
 
+                //If the Concrete Strategy returns ticketId
                 if ($result) {
-                    // Payment was successful
-                    echo "Payment successful";
+                    //Process Query String Encryption
+                    $encryption = new Encryption();
+                    $encryptedTicketId = $encryption->encrypt($result, $encryption->getKey());
 
-                    // Redirect or handle successful payment here
+                    //Successful Adding Update Coin and PromoCode Use
+                    $this->updateUserCoin((int)$userId, (int)$amount);
+
+                    $promoCodePass = $_POST["promoCodePass"] ?? '';
+                    if ($promoCodePass != "-") {
+                        // Update promo code status
+                        $this->updatePromoCodeStatus((int)$userId, (int)$promoCodePass);
+                    }
+
+                    //Success, return encrypted ticketId
+                    header('Content-Type: application/json');
+                    echo json_encode(['redirect' => $encryptedTicketId]);
+                    exit();
+
                 } else {
-                    // Payment failed
-                    echo "Payment failed";
-
-                    // Redirect or handle failed payment here
+                    //Else, return an indicator of error
+                    header('Content-Type: application/json');
+                    echo json_encode(['redirect' => "Err"]);
+                    exit();
                 }
+
             }
 
-            // Close the EntityManager Database Connection after operations are done
-            $this->entityManager->close();
+        } else {
+            // Not a POST request
+            echo json_encode(['success' => false, 'message' => 'Invalid request method']);
+        }
+
+    }
+
+
+    //Update Coin - Correct
+    function updateUserCoin($userId, $amount)
+    {
+        $coinEarned = (int)($amount * 0.05);
+        $user = $this->userRepository->find((int)$userId);
+
+        //Update
+        if ($user) {
+            $userCoin = (int)$user->getCoins();
+            $newCoin = $userCoin + $coinEarned;
+            $user->setCoins($newCoin);
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+        }
+    }
+
+    //Update Promo Code Status
+    function updatePromoCodeStatus(int $userId, int $promoCode)
+    {
+        $promoCodeEntity = $this->entityManager->getRepository(UserReward::class)->findOneBy(['promoCode' => $promoCode]);
+
+        if ($promoCodeEntity) {
+            // Update the status
+            $promoCodeEntity->setRewardCondition('used'); // Assuming 'status' is a field in your PromoCode entity
+
+            // Persist changes
+            $this->entityManager->persist($promoCodeEntity);
+            $this->entityManager->flush();
         }
     }
 
@@ -327,7 +440,8 @@ class Payment
         exit;
     }
 
-    public function checkPromoCodeForThatUser($promoCode): float
+    public
+    function checkPromoCodeForThatUser($promoCode): float
     {
         //Test User ID
         //$userId = $_SESSION['userId'];
@@ -340,8 +454,6 @@ class Payment
         } else {
             return 0.0;
         }
-
-
     }
 
 

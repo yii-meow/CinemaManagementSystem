@@ -43,6 +43,15 @@ select:-webkit-autofill:focus {
 }
 
 
+.spinner-grow{
+    position: fixed;
+    top:50%;
+    right:50%;
+    width: 3rem;
+    height: 3rem;
+}
+
+
 /*left box*/
 .all-container {
     display: flex;
@@ -152,7 +161,6 @@ label {
     height: 100%;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: space-between;
 }
 
 .check-box {

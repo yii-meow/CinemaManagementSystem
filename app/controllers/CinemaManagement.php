@@ -2,47 +2,24 @@
 
 namespace App\controllers;
 
-use App\models\Cinema;
 use App\core\Controller;
-use App\core\Database;
+use App\Facade\CinemaFacade;
 
 class CinemaManagement
 {
     use Controller;
 
-    private $entityManager;
-    private $cinemaRepository;
+    private $cinemaFacade;
 
     public function __construct()
     {
-        $this->entityManager = Database::getEntityManager();
-        $this->cinemaRepository = $this->entityManager->getRepository(Cinema::class);
+        $this->cinemaFacade = new CinemaFacade();
     }
 
     public function index()
     {
-        $cinemaEntities = $this->cinemaRepository->getCinemaHallNumber();
-
-        $cinemas = array_map(function ($cinema) {
-            return [
-                'cinemaId' => $cinema["cinemaId"],
-                'name' => $cinema["name"],
-                'city' => $cinema['city'],
-                'state' => $cinema["state"],
-                'openingHours' => formatOpeningHours($cinema["openingHours"]),
-                'hallCount' => $cinema["hallCount"]
-            ];
-        }, $cinemaEntities);
-
-        $data['cinemas'] = $cinemas;
-        $this->view('Admin/Cinema/CinemaManagement', $data);
-    }
-
-    public function getCinemaHallOfMovie($hallType, $startingTime, $movieId)
-    {
-        // need to define in cinema repository
-//        $results = $this->cinemaRepository->getCinemaHallOfMovie($hallType, $startingTime, $movieId);
-        // Process results...
+        $cinemas = $this->cinemaFacade->getFormattedCinemas();
+        $this->view('Admin/Cinema/CinemaManagement', ['cinemas' => $cinemas]);
     }
 
     public function addCinema()
@@ -55,30 +32,15 @@ class CinemaManagement
             $openingHours = $_POST['openingHours'] ?? '';
 
             if (empty($name) || empty($address) || empty($city) || empty($state) || empty($openingHours)) {
-                echo 'Please fill in all required fields.';
-                exit();
-            } else {
-                // Create a new Cinema entity
-                $cinema = new Cinema();
-                // Set the properties based on the POST data
-                $cinema->setName($name);
-                $cinema->setAddress($address);
-                $cinema->setCity($city);
-                $cinema->setState($state);
-                $cinema->setOpeningHours($openingHours);
+                jsonResponse(['success' => false, 'message' => 'Please fill in all required fields.']);
+                return;
+            }
 
-                // Persist the entity
-                $this->entityManager->persist($cinema);
-
-                try {
-                    // Flush changes to the database
-                    $this->entityManager->flush();
-                    jsonResponse(['success' => true, 'message' => 'Cinema added successfully']);
-                } catch (\Exception $e) {
-                    // Log the error (you should implement proper error logging)
-                    error_log($e->getMessage());
-                    jsonResponse(['success' => false, 'message' => 'An error occurred while adding the cinema']);
-                }
+            try {
+                $this->cinemaFacade->addCinema($name, $address, $city, $state, $openingHours);
+                jsonResponse(['success' => true, 'message' => 'Cinema added successfully']);
+            } catch (\Exception $e) {
+                jsonResponse(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()]);
             }
         } else {
             jsonResponse(['success' => false, 'message' => 'Invalid request method']);

@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/controllers/AddMovie.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/MovieManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/HallSeatLayout.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/App.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/App.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaManagement.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Movie/AddMovie.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Movie/AddMovie.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Movie/MovieManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Movie/MovieManagement.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/MovieDetails.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MovieDetails.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Customer/Movie/Homepage.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Movie/Homepage.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Customer/Payment/Payment.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Payment/Payment.view.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,16 +71,12 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/xampp/htdocs/CinemaManagementSystem",
+    "node.js.selected.package.tslint": "(autodetect)",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration default="true" type="ComposerRunConfigurationType" factoryName="Composer Script">
-      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <method v="2" />
-    </configuration>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
