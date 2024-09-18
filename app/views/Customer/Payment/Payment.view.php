@@ -410,9 +410,13 @@
             document.getElementById("pcode-no").innerHTML = "-";
 
             //Get the final price and update
-            document.getElementById("alltotal").innerHTML = <?php if (isset($data)) {
-                echo number_format($data["amount"]["finalPrice"], 2);
+            //955145
+            <?php if (isset($data)) {
+                $finalPrice = isset($data) ? number_format($data["amount"]["finalPrice"], 2, '.', '') : '0.00';
             } ?>;
+
+            document.getElementById("alltotal").innerHTML = "<?php echo $finalPrice; ?>";
+
 
             promoApplied = false
             document.getElementById("voucher").readOnly = false;

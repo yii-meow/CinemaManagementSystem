@@ -4,6 +4,7 @@ namespace App\controllers;
 
 use App\core\Controller;
 use App\core\Database;
+use App\core\Encryption;
 use App\models\Movie;
 
 class MovieDetails
@@ -23,14 +24,14 @@ class MovieDetails
 
     public function index()
     {
-//        //Gather SQL parameters
-//        //Get query string value
-//        $movieIdEncrypted = (string)$_GET['movieId'];
-//        //Decrypt the query string values
-//        $decryption = new Encryption();
-//        $movieID = $decryption->decrypt($movieIdEncrypted, $decryption->getKey());
+        //Gather SQL parameters
+        //Get query string value
+        $movieIdEncrypted = (string)$_GET['movieId'];
+        //Decrypt the query string values
+        $decryption = new Encryption();
+        $movieID = $decryption->decrypt($movieIdEncrypted, $decryption->getKey());
 
-        $movieID = 1; //test id
+        //$movieID = 1; //test id
 
         //Get a specific record
         $movieResult = $this->movieRepository->find((int) $movieID);
