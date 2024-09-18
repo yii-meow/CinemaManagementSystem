@@ -1,29 +1,17 @@
 <?php
 namespace App\models;
 
+use App\Factory\UserType;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'User')]
-class User
+class User extends UserType
 {
-    #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private $userId;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $userName;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $birthDate;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $phoneNo;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $password;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $email;
@@ -43,6 +31,7 @@ class User
     // For foreign side
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'Post')]
     private Collection $posts;
+
     #[ORM\OneToMany(mappedBy: 'commenter', targetEntity: 'Comment')]
     private Collection $commenters;
 
@@ -52,26 +41,7 @@ class User
     #[ORM\OneToMany(mappedBy: 'likedBy', targetEntity: 'Likes')]
     private Collection $liker;
 
-
-    // Getters and Setters
-
-    public function getUserId(): ?int
-    {
-        return $this->userId;
-    }
-
-    public function getUserName(): string
-    {
-        return $this->userName;
-    }
-
-
-    public function setUserName(string $userName): self
-    {
-        $this->userName = $userName;
-        return $this;
-    }
-
+    // Getters and Setters for additional fields
     public function getBirthDate(): string
     {
         return $this->birthDate;
@@ -80,28 +50,6 @@ class User
     public function setBirthDate(string $birthDate): self
     {
         $this->birthDate = $birthDate;
-        return $this;
-    }
-
-    public function getPhoneNo(): string
-    {
-        return $this->phoneNo;
-    }
-
-    public function setPhoneNo(string $phoneNo): self
-    {
-        $this->phoneNo = $phoneNo;
-        return $this;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
         return $this;
     }
 
@@ -160,7 +108,6 @@ class User
         return $this;
     }
 
-    //Forum side
     public function getPosts(): Collection
     {
         return $this->posts;
@@ -180,5 +127,4 @@ class User
     {
         return $this->liker;
     }
-
 }

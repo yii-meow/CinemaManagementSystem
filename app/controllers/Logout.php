@@ -11,11 +11,6 @@ class Logout extends SessionManagement
 
     public function index()
     {
-        // Start session if it's not already started
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-
         // Clear the session array
         $_SESSION = [];
 
