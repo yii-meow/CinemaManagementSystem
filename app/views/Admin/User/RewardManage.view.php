@@ -47,10 +47,13 @@
             </div>
             <div class="row mb-4">
                 <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Search reward..." />
-                    </div>
+                    <form method="get" action="RewardManage">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" class="form-control" name="search" placeholder="Search reward..."
+                                   value="<?= htmlspecialchars($search ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                        </div>
+                    </form>
                 </div>
             </div>
 

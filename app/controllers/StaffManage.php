@@ -23,6 +23,8 @@ class StaffManage
     public function index()
     {
         $error = null; // Initialize an error message variable
+        $searchQuery = $_GET['search'] ?? null; // Get the search query from the URL
+
 
         // Check if form is submitted via POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -62,13 +64,24 @@ class StaffManage
             }
         }
 
-        // Fetch all staff members (Admin users) from the database
-        $staff = $this->adminRepository->findAll();
+        // Fetch staff members based on the search query
+        if ($searchQuery) {
+            // Search staff by name or phone number
+            $staff = $this->adminRepository->createQueryBuilder('a')
+                ->where('a.userName LIKE :searchQuery OR a.phoneNo LIKE :searchQuery')
+                ->setParameter('searchQuery', '%' . $searchQuery . '%')
+                ->getQuery()
+                ->getResult();
+        } else {
+            // Fetch all staff members (Admin users) from the database if no search query
+            $staff = $this->adminRepository->findAll();
+        }
 
         // Pass the list of staff and the error message (if any) to the view
         $data = [
             'staff' => $staff,
-            'error' => $error
+            'error' => $error,
+            'searchQuery' => $searchQuery
         ];
 
         // Render the StaffManage view with the staff data and potential error message

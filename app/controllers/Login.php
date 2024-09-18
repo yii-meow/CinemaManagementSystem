@@ -2,10 +2,11 @@
 
 namespace App\controllers;
 
+use App\models\Admin;
 use App\models\User;
 use App\core\Controller;
 use App\core\Database;
-use App\session\SessionManagement;
+use App\controllers\SessionManagement;
 
 class Login extends SessionManagement
 {
@@ -13,7 +14,9 @@ class Login extends SessionManagement
 
     private $entityManager;
     private $userRepository;
+    private $adminRepository;
     private $sessionManager;
+
 
 
     public function __construct()
@@ -22,6 +25,8 @@ class Login extends SessionManagement
         // Initialize EntityManager and User repository
         $this->entityManager = Database::getEntityManager();
         $this->userRepository = $this->entityManager->getRepository(User::class);
+        $this->adminRepository = $this->entityManager->getRepository(Admin::class);
+
 
         //For Session Management
         $this->sessionManager = new SessionManagement();
@@ -36,6 +41,7 @@ class Login extends SessionManagement
         }
 
         $data = ['error' => null];
+        $userType = $_POST['userType'] ?? 'user';  // Default to 'user' if not provided
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $phoneNo = $_POST['phoneNo'] ?? null;
@@ -45,53 +51,63 @@ class Login extends SessionManagement
             if (empty($phoneNo) || empty($password)) {
                 $data['error'] = "Please provide both phone number and password.";
             } else {
-                // Fetch the user from the repository by phone number
-                $user = $this->userRepository->findOneBy(['phoneNo' => $phoneNo]);
+                // Handle user or admin login based on userType
+                if ($userType === 'admin') {
+                    // Admin login logic
+                    $admin = $this->adminRepository->findOneBy(['phoneNo' => $phoneNo]);
 
-                // Check if user exists and password matches
-                if ($user && password_verify($password, $user->getPassword())) {
-                    // Destroy any previous session (S.C [Establish a new session after successful login])
-                    session_destroy();
-                    // Start a new session
-                    session_start();
-                    session_regenerate_id(true); // Generate a new session ID
-
-                    // S.C [Disallow concurrent logins with the same user ID]
-                    // Check if the user is already logged in from another device
-                    if ($user->getSessionId() && $user->getSessionId() !== session_id()) {
-                        // Another session is active; log out the previous session
-                        session_id($user->getSessionId());
-                        session_destroy();
-                        session_start();
+                    if ($admin && password_verify($password, $admin->getPassword())) {
+                        $_SESSION['admin'] = [
+                            'userId' => $admin->getUserId(),
+                            'userName' => $admin->getUserName(),
+                            'role' => $admin->getRole(),
+                        ];
+                        // Redirect to AdminProfile
+                        $admin = $this->adminRepository->find($admin->getUserId());
+                        $data = ['admin' => $admin];
+                        $this->view('Admin/User/AdminProfile', $data);
+                        exit();
+                    } else {
+                        $data['error'] = "Invalid phone number or password for admin.";
                     }
-
-
-                    $_SESSION['userId'] = $user->getUserId();
-
-                    // Set last activity time for session management (S.C)
-                    $_SESSION['last_activity'] = time();
-
-                    // Pass the user data to the profile view
-                    $data['user'] = [
-                        'userId' => $user->getUserId(),
-                        'profileImg' => $user->getProfileImg(),
-                        'userName' => $user->getUserName(),
-                        'phoneNo' => $user->getPhoneNo(),
-                        'email' => $user->getEmail(),
-                        'gender' => $user->getGender(),
-                        'birthDate' => $user->getBirthDate(),
-                        'coins' => $user->getCoins()
-                    ];
-                    // Redirect to the profile page
-                    $this->view('Customer/User/Profile', $data);
-                    exit();
                 } else {
-                    $data['error'] = "Invalid phone number or password.";
+                    // User login logic
+                    $user = $this->userRepository->findOneBy(['phoneNo' => $phoneNo]);
+
+                    if ($user) {
+                        // Check if user is active
+                        if ($user->getStatus() === 'deactive') {
+                            $data['error'] = "Your account is deactivated. Please contact support.";
+                        } else if (password_verify($password, $user->getPassword())) {
+                            $_SESSION['userId'] = $user->getUserId();
+                            $data['user'] = [
+                                'userId' => $user->getUserId(),
+                                'profileImg' => $user->getProfileImg(),
+                                'userName' => $user->getUserName(),
+                                'phoneNo' => $user->getPhoneNo(),
+                                'email' => $user->getEmail(),
+                                'gender' => $user->getGender(),
+                                'birthDate' => $user->getBirthDate(),
+                                'coins' => $user->getCoins()
+                            ];
+                            // Redirect to the user profile page
+                            $this->view('Customer/User/Profile', $data);
+                            exit();
+                        } else {
+                            $data['error'] = "Invalid phone number or password for user.";
+                        }
+                    } else {
+                        $data['error'] = "User not found.";
+                    }
                 }
             }
         }
 
-        // Render the login view
-        $this->view('Customer/User/Login', $data);
+        // Render the appropriate login view based on userType
+        if ($userType === 'admin') {
+            $this->view('Customer/User/LoginStaff', $data);
+        } else {
+            $this->view('Customer/User/Login', $data);
+        }
     }
 }

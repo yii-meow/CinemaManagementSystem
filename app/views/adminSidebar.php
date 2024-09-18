@@ -51,13 +51,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="AdminForum.html">
+                    <a class="nav-link" href="AdminForum">
                         <i class="fa fa-users me-4 fa-lg"></i>
                         Forum
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Feedback.html">
+                    <a class="nav-link" href="Feedback">
                         <i class="fa fa-comment-dots me-4 fa-lg"></i>
                         Feedback
                     </a>
