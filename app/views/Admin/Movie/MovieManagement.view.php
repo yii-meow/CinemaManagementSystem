@@ -105,7 +105,7 @@
                     <div class="col">
                         <div class="card movie-card">
                             <img
-                                    src="<?php echo htmlspecialchars($movie->getPhoto()); ?>"
+                                    src="<?php echo htmlspecialchars(ROOT . $movie->getPhoto()); ?>"
                                     class="card-img-top"
                                     alt="<?php echo htmlspecialchars($movie->getTitle()); ?>"
                             />

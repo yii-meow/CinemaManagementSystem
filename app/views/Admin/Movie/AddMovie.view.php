@@ -72,15 +72,6 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="trailerLink" class="form-label"><i class="fas fa-video me-2"></i>Trailer Link</label>
-                    <div class="input-group">
-                        <input type="url" class="form-control" id="trailerLink" name="trailerLink" readonly/>
-                        <button type="button" class="btn btn-outline-secondary" id="fetchTrailerBtn">Fetch Trailer
-                        </button>
-                    </div>
-                </div>
-
-                <div class="mb-3">
                     <label for="duration" class="form-label"><i class="fas fa-clock me-2"></i>Duration (minutes)</label>
                     <input type="number" class="form-control" id="duration" name="duration" min="1" required/>
                 </div>
@@ -161,7 +152,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const addMovieForm = document.getElementById('addMovieForm');
-        const fetchTrailerBtn = document.getElementById('fetchTrailerBtn');
 
         addMovieForm.addEventListener('submit', function (e) {
             e.preventDefault();
@@ -186,12 +176,6 @@
                     console.error('Error:', error);
                     alert('An error occurred while adding the movie.');
                 });
-        });
-
-        fetchTrailerBtn.addEventListener('click', function () {
-            // Placeholder for the trailer fetching functionality
-            alert('Trailer fetching functionality will be implemented here.');
-            // You can implement the API call to fetch the trailer link here
         });
     });
 
