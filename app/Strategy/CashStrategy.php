@@ -16,6 +16,7 @@ use App\models\TicketPricing;
 use App\models\User;
 use App\models\Payment;
 use App\models\UserReward;
+use App\services\QRCodeGenerator;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\ORMException;
 
@@ -65,6 +66,14 @@ class CashStrategy implements PaymentStrategy
             //After inserted Ticket, the ID is returned after flush
             $this->entityManager->flush();
             $ticketId = $ticket->getTicketId();
+
+            //API
+            $qrCodeGenerator = new QRCodeGenerator();
+            $qrCodeUrl = $qrCodeGenerator->generateQRCode($ticketId);
+            $ticket->setQrCodeURL($qrCodeUrl);
+            $this->entityManager->persist($ticket);
+            //END OF API
+
             $insertedTicket = $this->ticketRepository->find($ticketId);
 
             //Store into Seat = Seat may have multiple for one purchase
@@ -101,6 +110,8 @@ class CashStrategy implements PaymentStrategy
         } catch (ORMException $e) {
             error_log('ORM error: ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
             throw new \RuntimeException($e);
+        } catch (\Exception $e) {
+            throw new \Exception($e);
         }
     }
 

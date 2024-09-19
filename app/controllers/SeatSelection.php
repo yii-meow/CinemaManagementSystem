@@ -39,6 +39,13 @@ class SeatSelection
     public function index()
     {
 
+
+        // Check if userId is set in the session
+        if (!isset($_SESSION['userId'])) {
+            $this->view('Customer/User/Login');
+            exit();
+        }
+
         //MovieID
         $movieId = (int) $_SESSION['movieId'];
 

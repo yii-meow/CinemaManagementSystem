@@ -3,10 +3,11 @@
 namespace App\models;
 
 
+use App\repositories\TicketRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: TicketRepository::class)]
 #[ORM\Table(name: 'Ticket')]
 class Ticket
 {
@@ -15,8 +16,12 @@ class Ticket
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $ticketId;
 
-    #[ORM\Column(type: 'string', length: 10)]
+    #[ORM\Column(type: 'string', length: 255)]
     private $ticketStatus;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $qrCodeURL;
+
 
     #[ORM\ManyToOne(targetEntity: MovieSchedule::class, inversedBy: 'tickets')]
     #[ORM\JoinColumn(name: 'movieScheduleId', referencedColumnName: 'movieScheduleId')]
@@ -33,6 +38,16 @@ class Ticket
 
     #[ORM\OneToMany(mappedBy: 'ticket', targetEntity: Payment::class, fetch: "EXTRA_LAZY")]
     private $payment;
+
+    public function getQrCodeURL()
+    {
+        return $this->qrCodeURL;
+    }
+
+    public function setQrCodeURL($qrCodeURL): void
+    {
+        $this->qrCodeURL = $qrCodeURL;
+    }
 
 
     public function getTicketId()

@@ -16,6 +16,7 @@ use App\models\Ticket;
 use App\models\TicketPricing;
 use App\models\User;
 use App\models\UserReward;
+use App\services\QRCodeGenerator;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\ORMException;
 
@@ -69,6 +70,16 @@ class EWalletStrategy implements PaymentStrategy
             //After inserted Ticket, the ID is returned after flush
             $this->entityManager->flush();
             $ticketId = $ticket->getTicketId();
+
+
+            //API
+            $qrCodeGenerator = new QRCodeGenerator();
+            $qrCodeUrl = $qrCodeGenerator->generateQRCode($ticketId);
+            $ticket->setQrCodeURL($qrCodeUrl);
+            $this->entityManager->persist($ticket);
+            //END OF API
+
+
             $insertedTicket = $this->ticketRepository->find($ticketId);
 
             //Store into Seat = Seat may have multiple for one purchase

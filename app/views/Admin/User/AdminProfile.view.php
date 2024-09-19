@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"></script>
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/UserManage.css" />
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/AdminCinemaManagement.css"/>
     <title>Admin Profile</title>
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png" />
 </head>
@@ -113,8 +114,11 @@
                 <?php endif; ?>
             </form>
         </main>
+
     </div>
+
 </div>
+
 
 <script>
     // Toggle password visibility
