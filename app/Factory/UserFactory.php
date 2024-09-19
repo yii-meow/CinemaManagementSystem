@@ -106,4 +106,26 @@ class UserFactory {
 
 
     }
+
+    public function changePassword($user, $currentPass, $newPass, $confirmPass)
+    {
+        // Validate current password
+        if (!password_verify($currentPass, $user->getPassword())) {
+            $_SESSION['error'] = 'Current password is incorrect';
+        } elseif ($newPass !== $confirmPass) {
+            // Check if new passwords match
+            $_SESSION['error'] = 'New passwords do not match';
+        } else {
+            // Update password
+            $user->setPassword(password_hash($newPass, PASSWORD_BCRYPT));
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
+            $_SESSION['success_message'] = 'Password successfully changed';
+            return true; // Password change successful
+        }
+
+        return false; // Password change failed
+    }
+
 }
