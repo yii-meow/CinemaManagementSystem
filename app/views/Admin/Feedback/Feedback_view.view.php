@@ -1,3 +1,7 @@
+<?php
+use App\constant\feedback_status;
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -37,7 +41,7 @@
                 <div class="mb-3">
                     <label for="feedback" class="form-label">Feedback</label>
                     <textarea class="form-control" id="feedback" rows="5" required
-                              disabled><?= $data[0]->getContent() ?></textarea>
+                              disabled><?= htmlspecialchars($data[0]->getContent(), ENT_QUOTES, 'UTF-8') ?></textarea>
                 </div>
 
                 <div class="mb-3">
@@ -57,10 +61,10 @@
                 <div class="mb-3">
                     <label for="status" class="form-label">Status</label>
                     <select class="form-select" id="status" required disabled>
-                        <option value="pending" <?php if($data[0]->getStatus() == "pending"){ echo "selected"; } ?>>Pending Review</option>
-                        <option value="inProgress" <?php if($data[0]->getStatus() == "inProgress"){ echo "selected"; } ?>>In Progress</option>
-                        <option value="resolved" <?php if($data[0]->getStatus() == "resolved"){ echo "selected"; } ?>>Resolved</option>
-                        <option value="compensationOffered" <?php if($data[0]->getStatus() == "compensationOffered"){ echo "selected"; } ?>>Compensation Offered</option>
+                        <option value="<?= feedback_status::PENDING ?>" <?php if($data[0]->getStatus() == feedback_status::PENDING){ echo "selected"; } ?>>Pending Review</option>
+                        <option value="<?= feedback_status::IN_PROGRESS ?>" <?php if($data[0]->getStatus() == feedback_status::IN_PROGRESS){ echo "selected"; } ?>>In Progress</option>
+                        <option value="<?= feedback_status::RESOLVED ?>" <?php if($data[0]->getStatus() == feedback_status::RESOLVED){ echo "selected"; } ?>>Resolved</option>
+                        <option value="<?= feedback_status::COMPENSATION_OFFERED ?>" <?php if($data[0]->getStatus() == feedback_status::COMPENSATION_OFFERED){ echo "selected"; } ?>>Compensation Offered</option>
                     </select>
                 </div>
 

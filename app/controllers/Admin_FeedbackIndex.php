@@ -31,5 +31,23 @@ class Admin_FeedbackIndex
         //Route to the destinaiton page, with passing data from the Model
         $this->view('Admin/Feedback/Feedback_index', $data);
     }
+
+    public function search()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Retrieve form data using the $_POST superglobal array
+
+            $rating = $_POST['filter_rating'];
+            $status = $_POST['filter_status'];
+
+            //get record by keyword provided
+            $feedback = $this->feedbackRepository->findAll();
+
+            $data = $feedback;
+        }
+
+        //Route to the destinaiton page, with passing data from the Model
+        $this->view('Admin/Feedback/Feedback_index', $data);
+    }
 }
 

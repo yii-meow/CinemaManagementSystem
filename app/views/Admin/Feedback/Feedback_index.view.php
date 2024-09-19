@@ -1,3 +1,7 @@
+<?php
+use App\constant\feedback_status;
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -39,29 +43,35 @@
                         <input type="text" class="form-control" placeholder="Search Feedback..." />
                     </div>
                 </div>
-                <div class="col-md-4 mt-3" style="width: 50%;">
-                    <label for="rating">Rating</label>
-                    <div class="input-group">
-                        <select class="form-select" id="rating" required>
-                            <option value="5" selected>5 Stars</option>
-                            <option value="4" >4 Stars</option>
-                            <option value="3" >3 Stars</option>
-                            <option value="2" >2 Stars</option>
-                            <option value="1" >1 Star</option>
-                        </select>
+
+                <form method="post" action="Admin_FeedbackIndex\Search">
+                    <div class="col-md-4 mt-3" style="width: 50%;">
+                        <label for="rating">Rating</label>
+                        <div class="input-group">
+                            <select class="form-select" id="rating" name="filter_rating" required>
+                                <option value="all" selected>All</option>
+                                <option value="5" >5 Stars</option>
+                                <option value="4" >4 Stars</option>
+                                <option value="3" >3 Stars</option>
+                                <option value="2" >2 Stars</option>
+                                <option value="1" >1 Star</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-4 mt-3" style="width: 50%;">
-                    <label for="status">Status</label>
-                    <div class="input-group">
-                        <select class="form-select" id="status" required>
-                            <option value="pending" selected>Pending Review</option>
-                            <option value="inProgress" >In Progress</option>
-                            <option value="resolved" >Resolved</option>
-                            <option value="compensationOffered" >Compensation Offered</option>
-                        </select>
+                    <div class="col-md-4 mt-3" style="width: 50%;">
+                        <label for="status">Status</label>
+                        <div class="input-group">
+                            <select class="form-select" id="status" name="filter_status" required>
+                                <option value="all" selected>All</option>
+                                <option value="<?= feedback_status::PENDING ?>"><?= feedback_status::PENDING ?></option>
+                                <option value="<?= feedback_status::IN_PROGRESS ?>" ><?= feedback_status::IN_PROGRESS ?></option>
+                                <option value="<?= feedback_status::RESOLVED ?>" ><?= feedback_status::RESOLVED ?></option>
+                                <option value="<?= feedback_status::COMPENSATION_OFFERED ?>" ><?= feedback_status::COMPENSATION_OFFERED ?></option>
+                            </select>
+                        </div>
                     </div>
-                </div>
+                    <button type="submit">Search</button>
+                </form>
 
 
 
@@ -72,39 +82,61 @@
                 <thead class="thead-dark" style="background-color: rgb(39, 37, 37); color:white">
                 <tr>
                     <th scope="col" style="width: 5%;">No.</th>
-                    <th scope="col" style="width: 25%;">Username</th>
-                    <th scope="col" style="width: 25%;">Rating</th>
-                    <th scope="col" style="width: 20%;">Date</th>
-                    <th scope="col" style="width: 10%;">Status</th>
-                    <th scope="col" style="width: 15%;">Action</th>
+                    <th scope="col" style="width: 20%;">Username</th>
+                    <th scope="col" style="width: 15%;">Rating</th>
+                    <th scope="col" style="width: 15%;">Date</th>
+                    <th scope="col" style="width: 25%;">Status</th>
+                    <th scope="col" style="width: 25%;">Action</th>
 
                 </tr>
                 </thead>
                 <tbody>
-                <?php if(!empty($data)){ foreach ($data as $index => $feedback){ ?>
-                <tr>
-                    <th scope="row"><?= $index+1 ?></th>
-                    <td><?= $feedback->getUser()->getUserName() ?></td>
-                    <td>
-                        <div>
-                            <?php for ($i = 1; $i <= 5; $i++){?>
-                                <span class="fa fa-star  <?php if($feedback->getRating() >= $i) { echo "checked"; } ?>"></span>
-                            <?php } ?>
-                        </div>
-                    </td>
-                    <td><?= $feedback->getCreatedAt()->format('Y-m-d') ?></td>
-                    <td><?= strtoupper($feedback->getStatus()) ?></td>
-                    <td><a href="Admin_FeedbackView?feedbackID=<?= $feedback->getFeedbackId() ?>"><button class="btn btn-md btn-outline-primary me-2">
-                                <i class="fas fa-exclamation-circle me-1"></i>View
-                            </button></a>
-                        <a href="Admin_FeedbackEdit?feedbackID=<?= $feedback->getFeedbackId() ?>">
-                            <button class="btn btn-md btn-outline-primary me-2">
-                                <i class="fas fa-edit me-1"></i>Edit
-                            </button>
-                        </a>
-                    </td>
-                </tr>
-                <?php }} ?>
+                <?php if(!empty($data)) {
+                    foreach ($data as $index => $feedback) { ?>
+                        <tr>
+                            <th scope="row"><?= $index + 1 ?></th>
+                            <td><?= $feedback->getUser()->getUserName() ?></td>
+                            <td>
+                                <div>
+                                    <?php for ($i = 1; $i <= 5; $i++) { ?>
+                                        <span class="fa fa-star  <?php if ($feedback->getRating() >= $i) {
+                                            echo "checked";
+                                        } ?>"></span>
+                                    <?php } ?>
+                                </div>
+                            </td>
+                            <td><?= $feedback->getCreatedAt()->format('Y-m-d') ?></td>
+                            <td class="<?php switch($feedback->getStatus()) {
+                                case feedback_status::PENDING:
+                                    echo "pending";
+                                    break;
+                                case feedback_status::IN_PROGRESS:
+                                    echo "inProgress";
+                                    break;
+                                case feedback_status::RESOLVED:
+                                    echo "resolved";
+                                    break;
+                                case feedback_status::COMPENSATION_OFFERED:
+                                    echo "compensationOffered";
+                                    break;
+                                default:
+                                    echo "compensationOffered";
+                                    break;
+                            } ?>"><?= strtoupper($feedback->getStatus()) ?></td>
+                            <td><a href="Admin_FeedbackView?feedbackID=<?= urldecode($feedback->getFeedbackId()) ?>">
+                                    <button class="btn btn-md btn-outline-primary me-2">
+                                        <i class="fas fa-exclamation-circle me-1"></i>View
+                                    </button>
+                                </a>
+                                <a href="Admin_FeedbackEdit?feedbackID=<?= urldecode($feedback->getFeedbackId()) ?>">
+                                    <button class="btn btn-md btn-outline-primary me-2">
+                                        <i class="fas fa-edit me-1"></i>Edit
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php }
+                } ?>
 
                 </tbody>
             </table>
@@ -112,63 +144,29 @@
 
         </main>
 
-        <!--To enlarge the image-->>
-        <div id="enlargeImg" class="ImageModal">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <img class="modal-content" id="img">
-        </div>
-
-        <!-- Modal to view the Report Request -->
-        <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="reportModalLabel">Report Request</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="reportContent">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success">Accept</button>
-                        <button type="button" class="btn btn-danger">Reject</button>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
     </div>
 </div>
 
-<!--JavaScripts-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
-
-<script type="text/javascript">
-    //To view report content
-    function setReportContent(content) {
-        document.getElementById('reportContent').innerText = content;
-    }
-
-    //To enlarge image
-    var ImageModal = document.getElementById("enlargeImg");
-    var modalImg = document.getElementById("img");
-
-    function openModal(element) {
-        ImageModal.style.display = "block";
-        modalImg.src = element.src;
-    }
-    var span = document.getElementsByClassName("close")[0];
-    function closeModal() {
-        ImageModal.style.display = "none";
-    }
-
-
-</script>
 </body>
 
 
 </html>
+<style>
+    .pending {
+        color: orange;
+    }
+
+    .inProgress {
+        color: #005eff;
+    }
+
+    .resolved {
+        color: #27aa80;
+    }
+
+    .compensationOffered {
+        color: #44b253;
+    }
+</style>

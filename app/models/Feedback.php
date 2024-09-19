@@ -3,6 +3,7 @@ namespace App\models;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\repositories\FeedbackRepository;
+use App\State\FeedbackState;
 
 
 #[ORM\Table(name: 'Feedback')]
@@ -37,6 +38,9 @@ class Feedback
     #[ORM\Column(type: 'datetime')]
     private $created_at;
 
+    public function __construct(FeedbackState $state) {
+        $this->setStatus($state);
+    }
 
     public function getFeedbackID(): ?int
     {
@@ -125,6 +129,18 @@ class Feedback
     }
 
     // Getters and setters
+    public function proceed(Feedback $feedback) {
+        return $this->status->proceed($feedback);
+    }
+
+    public function problemSolved(Feedback $feedback) {
+        echo "Cannot offer compensation. Feedback is still being worked on.\n";
+        return $this->status->problemSolved($feedback);
+    }
+
+    public function offerCompensation(Feedback $feedback) {
+        return $this->status->offerCompensation($feedback);
+    }
 
 
 }

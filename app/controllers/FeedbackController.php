@@ -5,6 +5,8 @@ use App\models\User;
 use App\core\Controller;
 use App\core\Database;
 use App\models\Feedback;
+use App\constant\feedback_status;
+use App\State\PendingState;
 
 class FeedbackController
 {
@@ -49,9 +51,9 @@ class FeedbackController
             $userID = 1;
             $content = $_POST['content'];
             $rating =  $_POST['stars'];
-            $status = "pending";
+            $status = feedback_status::PENDING;
 
-            $feedback = new Feedback();
+            $feedback = new Feedback(new PendingState());
             $feedback->setUser($this->entityManager->getRepository(User::class)->find($userID))->setContent($content)->setRating($rating)->setStatus($status)->setCreatedAt(new \DateTime());
             $feedback->setReply(null)->setCoinCompensation(null);
 
@@ -61,8 +63,7 @@ class FeedbackController
 
                 //$this->sendEmail();
 
-                $data = null;
-                $this->view('Customer/Feedback/Feedback', $data);
+                header('Location: ' . ROOT . '/FeedbackController');
                 exit;
             } catch (\Exception $e) {
                 error_log($e->getMessage());
