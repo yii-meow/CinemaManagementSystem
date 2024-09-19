@@ -54,7 +54,7 @@
     <PhoneNo>01155011079</PhoneNo>
     <Email>kl@gmail.com</Email>
     <Gender>F</Gender>
-    <Status>avtive</Status>
+    <Status>active</Status>
   </User>
   <User>
     <UserID>8</UserID>
@@ -63,14 +63,6 @@
     <Email>angeline@gmail.com</Email>
     <Gender>F</Gender>
     <Status>active</Status>
-  </User>
-  <User>
-    <UserID>9</UserID>
-    <UserName>Chong Kah Yan</UserName>
-    <PhoneNo>0129736473</PhoneNo>
-    <Email>kahyanchong0803@gmail.com</Email>
-    <Gender>F</Gender>
-    <Status>deactive</Status>
   </User>
   <User>
     <UserID>10</UserID>
