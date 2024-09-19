@@ -2,6 +2,7 @@
 
 namespace App\controllers;
 
+use App\Factory\UserFactory;
 use App\models\User;
 use App\core\Controller;
 use App\core\Database;
@@ -12,12 +13,16 @@ class ChangePass
 
     private $entityManager;
     private $userRepository;
+    private $userFactory;
+
 
     public function __construct()
     {
         // Initialize EntityManager and User repository
         $this->entityManager = Database::getEntityManager();
         $this->userRepository = $this->entityManager->getRepository(User::class);
+        $this->userFactory = new UserFactory();
+
     }
 
     public function index()
@@ -47,24 +52,15 @@ class ChangePass
             $newPass = $_POST['newPass'];
             $confirmPass = $_POST['confirmPass'];
 
-            // Validate current password
-            if (!password_verify($currentPass, $user->getPassword())) {
-                $_SESSION['error'] = 'Current password is incorrect';
-            } elseif ($newPass !== $confirmPass) {
-                // Check if new passwords match
-                $_SESSION['error'] = 'New passwords do not match';
-            } else {
-                // Update password
-                $user->setPassword(password_hash($newPass, PASSWORD_BCRYPT));
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
+            $passwordChanged = $this->userFactory->changePassword($user, $currentPass, $newPass, $confirmPass);
 
+            if ($passwordChanged) {
                 $_SESSION['success_message'] = 'Password successfully changed';
-                header('Location: ' . ROOT . '/ChangePass');
-                exit();
+            } else {
+                // The error messages are already set inside changePassword()
             }
 
-            // Redirect back with error message
+            // Redirect back with success or error message
             header('Location: ' . ROOT . '/ChangePass');
             exit();
         }
