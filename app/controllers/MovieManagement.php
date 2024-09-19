@@ -29,7 +29,7 @@ class MovieManagement
 
             // Handle file upload
             if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
-                $uploadDir = ROOT . '/assets/images/movies/';
+                $uploadDir = SITE_ROOT . '/assets/images/movies/';
                 $fileExtension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
                 $fileName = uniqid() . '.' . $fileExtension;
                 $uploadFile = $uploadDir . $fileName;
@@ -38,12 +38,13 @@ class MovieManagement
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
                 }
-                jsonResponse($uploadFile);
 
                 if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
                     // Store the URL path in the database
                     $movieData['photo'] = '/assets/images/movies/' . $fileName;
+                    error_log("File uploaded successfully to: " . $uploadFile);
                 } else {
+                    error_log("Failed to upload file. Error: " . print_r(error_get_last(), true));
                     jsonResponse([
                         'success' => false,
                         'message' => 'Failed to upload image.',
@@ -59,7 +60,6 @@ class MovieManagement
                 ]);
                 return;
             }
-
             try {
                 $this->cinemaFacade->addMovie($movieData);
                 jsonResponse(['success' => true, 'message' => 'Movie added successfully']);

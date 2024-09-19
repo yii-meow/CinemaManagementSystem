@@ -56,7 +56,8 @@
             <h1 class="mb-4"><i class="fas fa-film me-2"></i>Add New Movie</h1>
 
             <form id="addMovieForm" class="main-content p-4 mt-3"
-                  style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                  style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);"
+                  enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="title" class="form-label"><i class="fas fa-heading me-2"></i>Title</label>
                     <input type="text" class="form-control" id="title" name="title" required/>
@@ -175,7 +176,7 @@
                     console.log(data);
                     if (data.success) {
                         alert("Movie added successfully!");
-                        location.reload();
+                        // location.reload();
                     } else {
                         alert('Error: ' + data.message);
                         console.error('Detailed error:', data.error);

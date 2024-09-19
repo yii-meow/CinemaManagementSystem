@@ -250,7 +250,6 @@ class CinemaFacade
 
     private function setMovieData(Movie $movie, array $data)
     {
-        jsonResponse($data);
         if (isset($data['title'])) $movie->setTitle($data['title']);
         if (isset($data['photo'])) $movie->setPhoto($data['photo']);
         if (isset($data['trailerLink'])) $movie->setTrailerLink($data['trailerLink']);

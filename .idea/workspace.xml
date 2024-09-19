@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/MovieDetails.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MovieDetails.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Movie/Homepage.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Movie/Homepage.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Payment/Payment.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Payment/Payment.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/MovieManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MovieManagement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/core/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Movie/AddMovie.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Movie/AddMovie.view.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,9 +28,7 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
-      <path value="$PROJECT_DIR$/vendor/graham-campbell/result-type" />
       <path value="$PROJECT_DIR$/vendor/composer" />
-      <path value="$PROJECT_DIR$/vendor/beberlei/doctrineextensions" />
       <path value="$PROJECT_DIR$/vendor/doctrine/persistence" />
       <path value="$PROJECT_DIR$/vendor/doctrine/orm" />
       <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
@@ -42,23 +41,25 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/collections" />
       <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
       <path value="$PROJECT_DIR$/vendor/symfony/var-exporter" />
-      <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
       <path value="$PROJECT_DIR$/vendor/symfony/string" />
       <path value="$PROJECT_DIR$/vendor/symfony/service-contracts" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
-      <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-normalizer" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-grapheme" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
-      <path value="$PROJECT_DIR$/vendor/twilio/sdk" />
       <path value="$PROJECT_DIR$/vendor/symfony/console" />
       <path value="$PROJECT_DIR$/vendor/symfony/cache-contracts" />
       <path value="$PROJECT_DIR$/vendor/symfony/cache" />
       <path value="$PROJECT_DIR$/vendor/psr/log" />
       <path value="$PROJECT_DIR$/vendor/psr/container" />
       <path value="$PROJECT_DIR$/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/vendor/beberlei/doctrineextensions" />
       <path value="$PROJECT_DIR$/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/vendor/graham-campbell/result-type" />
+      <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/vendor/twilio/sdk" />
     </include_path>
   </component>
   <component name="ProjectId" id="2mD07DSvhyqnapRD7cEQBwGSjMA" />
@@ -74,6 +75,7 @@
     "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/xampp/htdocs/CinemaManagementSystem",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
