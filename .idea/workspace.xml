@@ -5,25 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/controllers/PurchaseHistory.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/UserPurchasedTicket.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/repositories/TicketRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/services/QRCodeGenerator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/Admin/Ticket/UserPurchasedTicket.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Strategy/CardStrategy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Strategy/CardStrategy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Strategy/CashStrategy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Strategy/CashStrategy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Strategy/EWalletStrategy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Strategy/EWalletStrategy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/DetailSelection.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/DetailSelection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/Payment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Payment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/SeatSelection.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/SeatSelection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/Ticket.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Ticket.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Payment/Payment.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Payment/Payment.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Payment/PurchaseConfirm.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Payment/PurchaseConfirm.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Payment/PurchaseHistory.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Payment/PurchaseHistory.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/ProfileNav.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/ProfileNav.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/UserPurchasedTicket.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/UserPurchasedTicket.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Ticket/UserPurchasedTicket.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Ticket/UserPurchasedTicket.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/adminSidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/adminSidebar.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +101,7 @@
       <option name="presentableId" value="Default" />
       <updated>1726595669913</updated>
       <workItem from="1726595671211" duration="372000" />
-      <workItem from="1726708376464" duration="23551000" />
+      <workItem from="1726708376464" duration="28008000" />
     </task>
     <servers />
   </component>
