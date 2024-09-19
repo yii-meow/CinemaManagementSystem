@@ -99,7 +99,8 @@ class User extends UserType
 
     public function getStatus(): string
     {
-        return $this->status;
+        // Return a default value if status is null
+        return $this->status ?? 'Unknown';
     }
 
     public function setStatus(string $status): self

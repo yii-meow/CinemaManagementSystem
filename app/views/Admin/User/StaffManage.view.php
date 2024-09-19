@@ -19,6 +19,7 @@
     <!-- <link rel="stylesheet" href="../reset.css" /> -->
 
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/UserManage.css" />
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/AdminCinemaManagement.css"/>
     <title>Staff Management</title>
 
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png" />

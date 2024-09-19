@@ -18,6 +18,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"></script>
 
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/UserManage.css" />
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/AdminCinemaManagement.css"/>
     <title>User Management</title>
 
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png" />
