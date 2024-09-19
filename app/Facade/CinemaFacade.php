@@ -242,8 +242,8 @@ class CinemaFacade
         $movie = new Movie();
         $this->setMovieData($movie, $movieData);
 
-//        $this->entityManager->persist($movie);
-//        $this->entityManager->flush();
+        $this->entityManager->persist($movie);
+        $this->entityManager->flush();
 
         return $movie;
     }
