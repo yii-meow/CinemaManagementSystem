@@ -33,7 +33,7 @@ class StaffManage
                 // Get data from the form submission
                 $staffName = $_POST['staffName'] ?? null;
                 $phoneNo = $_POST['phoneNo'] ?? null;
-                $defaultPassword = 'staffpass';  // Default password
+                $defaultPassword = '@Bc123';  // Default password
                 $role = 'Staff';  // Default role
 
                 // Validate the form data (basic validation)

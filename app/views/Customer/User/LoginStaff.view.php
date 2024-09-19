@@ -97,10 +97,15 @@
                             <div class="col-md-12 form-group">
                                 <input type="tel" class="form-control" id="phoneNo" name="phoneNo"
                                        placeholder="Mobile Number" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Mobile Number'">
+                                       onblur="this.placeholder = 'Mobile Number'"
+                                       pattern="[0-9]{10}" title="Please enter a 10-digit mobile number" required>
                             </div>
                             <div class="col-md-12 form-group password-group">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                                <input type="password" class="form-control" id="password" name="password"
+                                       placeholder="Password" onfocus="this.placeholder = ''"
+                                       onblur="this.placeholder = 'Password'"
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                                       title="Password must be at least 6 characters long and include at least one number, one uppercase letter, and one lowercase letter." required>
                                 <span class="fa fa-eye password-toggle" onclick="togglePassword()"></span>
                             </div>
                             <br>

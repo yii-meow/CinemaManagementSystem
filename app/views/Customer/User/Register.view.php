@@ -78,45 +78,58 @@
                         <?php endif; ?>
 
                         <form class="row login_form" action="Register" method="post" id="contactForm">
+                            <!-- Username -->
                             <div class="col-md-12 form-group">
                                 <input type="text" class="form-control" id="name" name="name"
                                        placeholder="Username" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Username'" required>
+                                       onblur="this.placeholder = 'Username'" pattern="^[a-zA-Z0-9_]{3,20}$" title="Username must be 3-20 characters and can only contain letters, numbers, and underscores." required>
                             </div>
+
+                            <!-- Email -->
                             <div class="col-md-12 form-group">
                                 <input type="email" class="form-control" id="email" name="email"
                                        placeholder="Email" onfocus="this.placeholder = ''"
                                        onblur="this.placeholder = 'Email'" required>
                             </div>
+
+                            <!-- Phone Number -->
                             <div class="col-md-12 form-group">
                                 <input type="tel" class="form-control" id="phoneNo" name="phoneNo"
                                        placeholder="Contact Number" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Contact Number'" required>
+                                       onblur="this.placeholder = 'Contact Number'" pattern="^\d{10,15}$" title="Phone number must be between 10 and 15 digits." required>
                             </div>
-                            <!-- Password Field with Toggle -->
+
+                            <!-- Password -->
                             <div class="col-md-12 form-group">
-                                <input type="password" minlength="8" class="form-control" id="password"
+                                <input type="password" minlength="6" class="form-control" id="password"
                                        name="password" placeholder="Password" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Password'" required>
+                                       onblur="this.placeholder = 'Password'"
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}"
+                                       title="Password must be at least 6 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character." required>
                                 <i class="fa fa-eye" id="togglePassword"></i>
                             </div>
-                            <!-- Confirm Password Field with Toggle -->
+
+                            <!-- Confirm Password -->
                             <div class="col-md-12 form-group">
-                                <input type="password" minlength="8" class="form-control" id="cpassword"
+                                <input type="password" minlength="6" class="form-control" id="cpassword"
                                        name="cpassword" placeholder="Confirm Password" onfocus="this.placeholder = ''"
                                        onblur="this.placeholder = 'Confirm Password'" required>
                                 <i class="fa fa-eye" id="toggleCPassword"></i>
                             </div>
+
+                            <!-- Birthday -->
                             <div class="col-md-12 form-group">
                                 <input type="date" class="form-control" id="birthday" name="birthday"
                                        placeholder="Date of Birth" onfocus="this.placeholder = ''"
                                        onblur="this.placeholder = 'Date of Birth'" required>
                             </div>
+
+                            <!-- Gender -->
                             <div class="col-md-12 form-group" style="margin-bottom: 30px;text-align: left;">
                                 <label for="gender" style="margin-right: 30px;">Gender:</label>
-                                <input type="radio" id="female" name="gender" value="Female">
+                                <input type="radio" id="female" name="gender" value="Female" required>
                                 <label for="female" style="margin-right: 30px;">Female</label>
-                                <input type="radio" id="male" name="gender" value="Male">
+                                <input type="radio" id="male" name="gender" value="Male" required>
                                 <label for="male">Male</label>
                             </div>
 

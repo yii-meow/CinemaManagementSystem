@@ -22,7 +22,6 @@ class ResetPass
 
     public function index()
     {
-
         $data = ['error' => null, 'success_message' => null];
 
         // Ensure phoneNo exists in session from the OTP verification step
@@ -43,10 +42,11 @@ class ResetPass
                 $data['error'] = "Please fill in both password fields.";
             } elseif ($newPassword !== $confirmPassword) {
                 $data['error'] = "Passwords do not match.";
+            } elseif (!preg_match('/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}/', $newPassword)) {
+                $data['error'] = "Password must be at least 6 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character.";
             } else {
                 // Fetch the user by phoneNo
                 $user = $this->userRepository->findOneBy(['phoneNo' => $phoneNo]);
-                show($phoneNo);
 
                 if ($user) {
                     // Hash the new password
