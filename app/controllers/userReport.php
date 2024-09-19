@@ -1,11 +1,12 @@
 <?php
 
 namespace App\controllers;
+require_once __DIR__ . '/../../vendor/fpdf/fpdf.php';
 
 use App\core\Controller;
 use App\core\Database;
 use App\models\User;
-use TCPDF;
+use FPDF; // Make sure this is properly autoloaded by Composer
 
 class userReport
 {
@@ -24,49 +25,48 @@ class userReport
     public function index()
     {
         if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
-
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $status = $_POST['status'] ?? 'Both'; // Get the selected status or default to 'Both'
+                $status = $_POST['status'] ?? 'Both'; // Get the selected status or default to 'Both'
 
-            // Generate XML file from database
-            $this->generateXML($status);
+                // Generate XML file from database
+                $this->generateXML($status);
 
-            // Define the correct paths to your XML and XSL files
-            $xmlPath = 'C:\xampp\htdocs\CinemaManagementSystem\app\xml\userData';
-            $xslPath = 'C:\xampp\htdocs\CinemaManagementSystem\app\xml\UserReport';
+                // Define paths to XML and XSL files
+                $xmlPath = 'C:/xampp/htdocs/CinemaManagementSystem/app/xml/userData';
+                $xslPath = 'C:/xampp/htdocs/CinemaManagementSystem/app/xml/UserReport';
 
-            // Check if files exist
-            if (!file_exists($xmlPath)) {
-                die("Error: XML file not found at $xmlPath");
+                // Check if files exist
+                if (!file_exists($xmlPath)) {
+                    die("Error: XML file not found at $xmlPath");
+                }
+                if (!file_exists($xslPath)) {
+                    die("Error: XSL file not found at $xslPath");
+                }
+
+                // Load XML
+                $xml = new \DOMDocument;
+                $xml->load($xmlPath);
+
+                // Load XSL
+                $xsl = new \DOMDocument;
+                $xsl->load($xslPath);
+
+                // Create XSLTProcessor
+                $proc = new \XSLTProcessor;
+                $proc->importStylesheet($xsl);
+
+                // Set the parameter for XSLT
+                $proc->setParameter('', 'selectedStatus', $status);
+
+                // Transform XML
+                $html = $proc->transformToXML($xml);
+
+                // Output the result
+                echo $html;
+            } else {
+                // Show the form if the request method is not POST
+                $this->view('Admin/User/userReport'); // Load the form view
             }
-            if (!file_exists($xslPath)) {
-                die("Error: XSL file not found at $xslPath");
-            }
-
-            // Load XML
-            $xml = new \DOMDocument;
-            $xml->load($xmlPath); // Load your XML data file
-
-            // Load XSL
-            $xsl = new \DOMDocument;
-            $xsl->load($xslPath); // Load your XSL stylesheet
-
-            // Create XSLTProcessor
-            $proc = new \XSLTProcessor;
-            $proc->importStylesheet($xsl); // Import the XSL stylesheet
-
-            // Set the parameter for XSLT
-            $proc->setParameter('', 'selectedStatus', $status);
-
-            // Transform XML
-            $html = $proc->transformToXML($xml);
-
-            // Output the result
-            echo $html; // Display the transformed XML (e.g., as HTML)
-        } else {
-            // Show the form if the request method is not POST
-            $this->view('Admin/User/userReport'); // Load the form view
-        }
         } else {
             // Redirect to permission denied page if user is not a SuperAdmin
             $this->view("Admin/403PermissionDenied");
@@ -104,46 +104,41 @@ class userReport
             }
 
             fclose($output);
-            exit;
+            exit();
         } elseif ($type === 'pdf') {
             // Export to PDF
-            $pdf = new TCPDF();
+            $pdf = new FPDF();
             $pdf->AddPage();
-            $pdf->SetFont('helvetica', '', 12);
+            $pdf->SetFont('Arial', '', 12);
 
-            $html = '<h1>User Management Report</h1>';
-            $html .= '<table border="1" cellpadding="4">';
-            $html .= '<thead>
-                        <tr>
-                            <th>UserID</th>
-                            <th>UserName</th>
-                            <th>PhoneNo</th>
-                            <th>Email</th>
-                            <th>Gender</th>
-                            <th>Status</th>
-                        </tr>
-                      </thead>';
-            $html .= '<tbody>';
+            // Set title
+            $pdf->Cell(0, 10, 'User Management Report', 0, 1, 'C');
 
+            // Add table header with adjusted column widths
+            $pdf->Cell(30, 10, 'UserID', 1, 0, 'C');
+            $pdf->Cell(30, 10, 'UserName', 1, 0, 'C');
+            $pdf->Cell(30, 10, 'PhoneNo', 1, 0, 'C');
+            $pdf->Cell(60, 10, 'Email', 1, 0, 'C');
+            $pdf->Cell(15, 10, 'Gender', 1, 0, 'C');
+            $pdf->Cell(25, 10, 'Status', 1, 1, 'C'); // Move to next line
+
+            // Add table data
             foreach ($users as $user) {
-                $html .= '<tr>
-                            <td>' . $user->getUserID() . '</td>
-                            <td>' . $user->getUserName() . '</td>
-                            <td>' . $user->getPhoneNo() . '</td>
-                            <td>' . $user->getEmail() . '</td>
-                            <td>' . $user->getGender() . '</td>
-                            <td>' . $user->getStatus() . '</td>
-                          </tr>';
+                $pdf->Cell(30, 10, $user->getUserID(), 1);
+                $pdf->Cell(30, 10, $user->getUserName(), 1);
+                $pdf->Cell(30, 10, $user->getPhoneNo(), 1);
+                $pdf->Cell(60, 10, $user->getEmail(), 1);
+                $pdf->Cell(15, 10, $user->getGender(), 1);
+                $pdf->Cell(25, 10, $user->getStatus(), 1);
+                $pdf->Ln();
             }
 
-            $html .= '</tbody></table>';
-            $pdf->writeHTML($html);
-
+            // Output the PDF
             header('Content-Type: application/pdf');
             header('Content-Disposition: attachment;filename="user_report.pdf"');
 
             $pdf->Output('php://output', 'I');
-            exit;
+            exit();
         }
     }
 
@@ -192,5 +187,4 @@ class userReport
         // Save XML to file
         $xml->save('C:/xampp/htdocs/CinemaManagementSystem/app/xml/userData');
     }
-
 }
