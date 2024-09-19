@@ -49,7 +49,7 @@
                     <i class="fas fa-user me-2"></i> User Report
                 </a>
                 <a href="AdminProfile" class="list-group-item list-group-item-action">
-                    <i class="fas fa-user-alt me-2"></i> Back to Profile
+                    <i class="fas fa-backward me-2"></i> Back to Profile
                 </a>
             </div>
         </nav>

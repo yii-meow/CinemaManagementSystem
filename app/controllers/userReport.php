@@ -2,8 +2,6 @@
 
 namespace App\controllers;
 
-use \DOMDocument;
-use \XSLTProcessor;
 use App\core\Controller;
 use App\core\Database;
 use App\models\User;
