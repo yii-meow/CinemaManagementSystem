@@ -57,12 +57,12 @@
             <table class="table">
                 <thead class="thead-dark" style="background-color: rgb(39, 37, 37); color:white">
                 <tr>
-                    <th scope="col" style="width: 3%;">No.</th>
-                    <th scope="col" style="width: 5%;">Profile Image</th>
-                    <th scope="col" style="width: 10%;">Username</th>
-                    <th scope="col" style="width: 10%;">Phone</th>
-                    <th scope="col" style="width: 15%;">Email</th>
-                    <th scope="col" style="width: 10%;">Action</th>
+                    <th scope="col">No.</th>
+                    <th scope="col">Profile Image</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
