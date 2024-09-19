@@ -22,10 +22,6 @@ class Profile
 
     public function index()
     {
-        // Start session if not started already
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
 
         // Check if userId is set in the session
         if (!isset($_SESSION['userId'])) {

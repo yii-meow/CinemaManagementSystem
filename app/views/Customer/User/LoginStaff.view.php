@@ -87,6 +87,12 @@
                         <br>
                         <br>
                         <h3>Log in to enter</h3>
+                        <?php if (isset($data['error'])): ?>
+                            <div style="width: fit-content; margin: auto;" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong> <?= htmlspecialchars($data['error']) ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php endif; ?>
                         <form class="row login_form" action="Login" method="post" id="contactForm">
                             <div class="col-md-12 form-group">
                                 <input type="tel" class="form-control" id="phoneNo" name="phoneNo"

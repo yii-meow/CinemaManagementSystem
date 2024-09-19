@@ -19,6 +19,7 @@
     <!-- <link rel="stylesheet" href="../reset.css" /> -->
 
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/UserManage.css" />
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/AdminCinemaManagement.css"/>
     <title>User Management</title>
 
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png" />
@@ -35,17 +36,20 @@
             <div
                 class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
                 <h1 class="h2">
-                    <i class="fas fa-film me-2"></i>User Manage
+                    <i class="fas fa-user me-2"></i>User Manage
                 </h1>
             </div>
 
             <!-- Filters and Sorting -->
             <div class="row mb-4">
                 <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Search user..." />
-                    </div>
+                    <form method="GET" action="<?= ROOT ?>/UserManage">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" class="form-control" name="search" placeholder="Search user..."
+                                   value="<?= htmlspecialchars($searchQuery ?? '', ENT_QUOTES, 'UTF-8'); ?>" />
+                        </div>
+                    </form>
                 </div>
             </div>
 

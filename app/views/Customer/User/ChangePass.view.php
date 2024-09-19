@@ -95,8 +95,18 @@ $user = $data['user'];
         <!-- Right Content -->
         <div class="right-box">
             <h2>Change Password</h2>
+            <?php if (isset($data['success_message'])): ?>
+                <div class="alert alert-success">
+                    <?= htmlspecialchars($data['success_message']); ?>
+                </div>
+            <?php endif; ?>
+            <?php if (isset($data['error'])): ?>
+                <div class="alert alert-danger">
+                    <?= htmlspecialchars($data['error']); ?>
+                </div>
+            <?php endif; ?>
             <!-- Change Password Form -->
-            <form action="<?= ROOT ?>/ChangePass/updatePassword" method="POST">
+            <form action="ChangePass" method="POST">
                 <div class="form-group">
                     <label for="currentPass">Current Password</label>
                     <div class="password-wrapper">

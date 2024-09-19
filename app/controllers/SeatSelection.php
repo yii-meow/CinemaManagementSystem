@@ -6,10 +6,12 @@ use App\core\Controller;
 use App\core\Database;
 
 
+use App\core\Encryption;
 use App\models\Cinema;
 use App\models\Movie;
 use App\models\MovieSchedule;
 use App\models\CinemaHall;
+use App\models\Seat;
 
 class SeatSelection
 {
@@ -21,6 +23,8 @@ class SeatSelection
     private $cinemaHallRepository;
     private $cinemaRepository;
 
+    private $seatRepository;
+
     public function __construct()
     {
         $this->entityManager = Database::getEntityManager();
@@ -29,22 +33,41 @@ class SeatSelection
         $this->movieScheduleRepository = $this->entityManager->getRepository(MovieSchedule::class);
         $this->cinemaHallRepository = $this->entityManager->getRepository(CinemaHall::class);
         $this->cinemaRepository = $this->entityManager->getRepository(Cinema::class);
+        $this->seatRepository = $this->entityManager->getRepository(Seat::class);
     }
 
     public function index()
     {
 
+
+        // Check if userId is set in the session
+        if (!isset($_SESSION['userId'])) {
+            $this->view('Customer/User/Login');
+            exit();
+        }
+
         //MovieID
         $movieId = (int) $_SESSION['movieId'];
 
         //Query String Details
-        $queryString["cinema"] = (string) $_GET["cin"];
-        $queryString["experience"] = (string) $_GET["exp"];
-        $queryString["date"] = (string) $_GET["date"];
-        $queryString["hallId"] = (int) $_GET["hid"];
-        $queryString["cinemaId"] = (int) $_GET["cid"];
-        $queryString["movieScheduleId"] = (int) $_GET["sce"];
-        $queryString["hallName"] = (string) $_GET["hname"];
+        $decryption = new Encryption();
+
+        $cinema = $decryption->decrypt((string) $_GET["cin"], $decryption->getKey());
+        $experience = $decryption->decrypt((string) $_GET["exp"], $decryption->getKey());
+        $date = $decryption->decrypt((string) $_GET["date"], $decryption->getKey());
+        $hallId = (int) $decryption->decrypt((string) $_GET["hid"], $decryption->getKey());
+        $cinemaId = (int) $decryption->decrypt((string) $_GET["cid"], $decryption->getKey());
+        $movieScheduleId = (int) $decryption->decrypt((string) $_GET["sce"], $decryption->getKey());
+        $hallName = $decryption->decrypt((string) $_GET["hname"], $decryption->getKey());
+
+        //Prepare Query String Value to Display
+        $queryString["cinema"] = (string) $cinema;
+        $queryString["experience"] = (string) $experience;
+        $queryString["date"] = (string) $date;
+        $queryString["hallId"] = (string) $hallId;
+        $queryString["cinemaId"] = (int) $cinemaId;
+        $queryString["movieScheduleId"] = $movieScheduleId;;
+        $queryString["hallName"] = (string) $hallName;
 
 
 
@@ -72,7 +95,7 @@ class SeatSelection
 
         //Seat Details
         $hallData = [];
-        $hallObj = $this->cinemaRepository->findCinemaHallDetails((int) $queryString["cinemaId"], (string) $queryString["date"]);
+        $hallObj = $this->cinemaRepository->findCinemaHallDetails((int)$cinemaId, (string) $date);
 
         if ($hallObj) {
             $hallData = [
@@ -81,13 +104,30 @@ class SeatSelection
             ];
         }
 
+        //Find Occupied Seats
+        $occupiedSeat = [];
+        $seats = $this->seatRepository->findAllSeatsOfTheMovieOfTheDateTime((int)$movieId, (string)$date);
+        if ($seats) {
+            foreach ($seats as $seat) {
+                $occupiedSeat[] = $seat;
+            }
+        }
+
+
+
 
         //Preparing data to pass
         $data = [
             "movie" => $movieData,
             "hall" => $hallObj,
             "qs" => $queryString,
+            "occupiedSeat" => $occupiedSeat,
         ];
+
+        //show($data);
+
+        // Close the EntityManager Database Connection after operations are done
+        $this->entityManager->close();
 
         //Render VIew
         $this->view('Customer/Selection/SeatSelection', $data);
@@ -102,6 +142,7 @@ class SeatSelection
 
         // Check if the request is POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
             // Get the values from the form
             $listOfSelectedSeat = $_POST['listOfSeat'] ?? '';
             $scheduleId = $_POST['scheduleId'] ?? '';
@@ -110,18 +151,28 @@ class SeatSelection
             $date = $_POST['date'] ?? '';
             $hallId = $_POST['hallId'] ?? '';
             $hallName = $_POST['hallName'] ?? '';
-            $listOfSelectedSeat = $_POST['listOfSeat'] ?? '';
+
+            // Encrypt each parameter
+            $encryption = new Encryption();
+
+            $encryptedSeats = $encryption->encrypt($listOfSelectedSeat, $encryption->getKey());
+            $encryptedScheduleId = $encryption->encrypt($scheduleId, $encryption->getKey());
+            $encryptedDate = $encryption->encrypt($date, $encryption->getKey());
+            $encryptedHallId = $encryption->encrypt($hallId, $encryption->getKey()); //Used to get Hall Name, Hall Experience, Cinema ID FOR NAME
 
             // Check if the user selected seats
             if ($listOfSelectedSeat) {
                 // If seats are selected, prepare the data to pass to the Payment view
-                header("Location:". ROOT . " /Payment?seats=". $listOfSelectedSeat . "&scheduleId=". $scheduleId . "&exp=" . $experience . "&date=" . $date . "&hid=" . $hallId . "&cn=" . $cinemaName . "&hn=" . $hallName);
+                header("Location:" . ROOT . "/Payment?seats=$encryptedSeats&scheduleId=$encryptedScheduleId&date=$encryptedDate&hid=$encryptedHallId");
             } else {
                 if(isset($_REQUEST["destination"])){
                     header("Location: {$_REQUEST["destination"]}");
                 }
             }
 
+
+            // Close the EntityManager Database Connection after operations are done
+            $this->entityManager->close();
         }
 
 

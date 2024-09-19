@@ -4,6 +4,7 @@ namespace App\controllers;
 
 use App\core\Controller;
 use App\core\Database;
+use App\core\Encryption;
 use App\models\Movie;
 
 class MovieDetails
@@ -24,7 +25,13 @@ class MovieDetails
     public function index()
     {
         //Gather SQL parameters
-        $movieID = 1; //test id
+        //Get query string value
+        $movieIdEncrypted = (string)$_GET['movieId'];
+        //Decrypt the query string values
+        $decryption = new Encryption();
+        $movieID = $decryption->decrypt($movieIdEncrypted, $decryption->getKey());
+
+        //$movieID = 1; //test id
 
         //Get a specific record
         $movieResult = $this->movieRepository->find((int) $movieID);
@@ -48,6 +55,9 @@ class MovieDetails
                 "status" => $movieResult->getStatus(),
             ];
         }
+
+        // Close the EntityManager Database Connection after operations are done
+        $this->entityManager->close();
 
         //Route to the destinaiton page, with passing data from the Model
         $this->view('Customer/Movie/MovieDetails', $data); // the method from Controller

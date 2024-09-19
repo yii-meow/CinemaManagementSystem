@@ -12,6 +12,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/UserManage.css" />
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/AdminCinemaManagement.css"/>
     <title>Reward Details</title>
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png" />
 </head>

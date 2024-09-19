@@ -2,48 +2,48 @@
 
 namespace App\controllers;
 
-use App\models\Cinema;
 use App\core\Controller;
-use App\core\Database;
+use App\Facade\CinemaFacade;
 
 class CinemaManagement
 {
     use Controller;
 
-    private $entityManager;
-    private $cinemaRepository;
+    private $cinemaFacade;
 
     public function __construct()
     {
-        $this->entityManager = Database::getEntityManager();
-        $this->cinemaRepository = $this->entityManager->getRepository(Cinema::class);
+        $this->cinemaFacade = new CinemaFacade();
     }
 
     public function index()
     {
-        $cinemaEntities = $this->cinemaRepository->findAll();
-        $cinemas = array_map(function ($cinema) {
-            return [
-                'cinemaId' => $cinema->getCinemaId(),
-                'name' => $cinema->getName(),
-                'address' => $cinema->getAddress(),
-                'city' => $cinema->getCity(),
-                'state' => $cinema->getState(),
-                'openingHours' => $cinema->getOpeningHours()
-            ];
-        }, $cinemaEntities);
-
-        $testingEntities = $this->cinemaRepository->findByState("Kuala Lumpur");
-
-        $data['cinemas'] = $cinemas;
-        $this->view('Admin/Cinema/CinemaManagement', $data);
+        $cinemas = $this->cinemaFacade->getFormattedCinemas();
+        $this->view('Admin/Cinema/CinemaManagement', ['cinemas' => $cinemas]);
     }
 
-
-    public function getCinemaHallOfMovie($hallType, $startingTime, $movieId)
+    public function addCinema()
     {
-        // need to define in cinema repository
-//        $results = $this->cinemaRepository->getCinemaHallOfMovie($hallType, $startingTime, $movieId);
-        // Process results...
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'] ?? '';
+            $address = $_POST['address'] ?? '';
+            $city = $_POST['city'] ?? '';
+            $state = $_POST['state'] ?? '';
+            $openingHours = $_POST['openingHours'] ?? '';
+
+            if (empty($name) || empty($address) || empty($city) || empty($state) || empty($openingHours)) {
+                jsonResponse(['success' => false, 'message' => 'Please fill in all required fields.']);
+                return;
+            }
+
+            try {
+                $this->cinemaFacade->addCinema($name, $address, $city, $state, $openingHours);
+                jsonResponse(['success' => true, 'message' => 'Cinema added successfully']);
+            } catch (\Exception $e) {
+                jsonResponse(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()]);
+            }
+        } else {
+            jsonResponse(['success' => false, 'message' => 'Invalid request method']);
+        }
     }
 }

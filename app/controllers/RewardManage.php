@@ -22,7 +22,9 @@ class RewardManage
 
     public function index()
     {
-        // Check if the request method is POST to handle the form submission
+        if (isset($_SESSION['admin'])){
+
+            // Check if the request method is POST to handle the form submission
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'addReward') {
             // Retrieve form data
             $rewardTitle = $_POST['rewardTitle'];
@@ -62,15 +64,40 @@ class RewardManage
             $this->entityManager->flush();
         }
 
-        // Fetch all rewards from the database
-        $rewards = $this->rewardRepository->findAll();
+        // Check if a search query is provided
+        $search = $_GET['search'] ?? '';
+
+        if ($search) {
+            // Filter rewards based on the search query
+            $qb = $this->entityManager->createQueryBuilder();
+            $qb->select('r')
+                ->from(Reward::class, 'r')
+                ->where($qb->expr()->orX(
+                    $qb->expr()->like('r.rewardTitle', ':search'),
+                    $qb->expr()->like('r.category', ':search'),
+                    $qb->expr()->like('r.details', ':search'),
+                    $qb->expr()->like('r.description', ':search')
+                ))
+                ->setParameter('search', '%' . $search . '%');
+            $rewards = $qb->getQuery()->getResult();
+        } else {
+            // Fetch all rewards from the database
+            $rewards = $this->rewardRepository->findAll();
+        }
 
         // Pass the list of rewards to the view
         $data = [
-            'rewards' => $rewards
+            'rewards' => $rewards,
+            'search' => $search  // To keep search input visible after search
         ];
 
         // Render the RewardManage view with the reward data
         $this->view('Admin/User/RewardManage', $data);
+
+        }else {
+            // Redirect to permission denied page if user is not a SuperAdmin
+            $this->view("Admin/403PermissionDenied");
+        }
+
     }
 }

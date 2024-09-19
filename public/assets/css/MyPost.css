@@ -162,7 +162,7 @@
 
 .post-image {
     margin-bottom: 10px;
-    margin-left: 20px;
+    margin-left: 40px;
 }
 
 .posted-image {
@@ -542,12 +542,3 @@ textarea.form-control {
     resize: none;
 }
 
-.btn-primary {
-    background-color: #f03351;
-    border-color: #f03351;
-}
-
-.btn-primary:hover {
-    background-color: #e02940;
-    border-color: #e02940;
-}

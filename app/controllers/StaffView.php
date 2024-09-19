@@ -22,7 +22,9 @@ class StaffView
 
     public function index()
     {
-        $staffId = $_GET['staffId'] ?? null;
+        if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
+
+            $staffId = $_GET['staffId'] ?? null;
 
         if ($staffId) {
             // Fetch the specific staff from the database
@@ -53,11 +55,16 @@ class StaffView
                         $response['success'] = 'Staff details updated successfully.';
                     }
                 } elseif (isset($_POST['delete'])) {
-                    // Handle deletion
-                    $this->entityManager->remove($staff);
-                    $this->entityManager->flush();
+                    // Check if the user has a "SuperAdmin" role
+                    if ($staff->getRole() === 'SuperAdmin') {
+                        $response['error'] = 'You cannot delete a SuperAdmin.';
+                    } else {
+                        // Handle deletion for non-SuperAdmin
+                        $this->entityManager->remove($staff);
+                        $this->entityManager->flush();
 
-                    $response['success'] = 'Staff deleted successfully.';
+                        $response['success'] = 'Staff deleted successfully.';
+                    }
                 } else {
                     $response['error'] = 'Invalid form submission.';
                 }
@@ -79,6 +86,11 @@ class StaffView
             }
         } else {
             echo "No staff ID provided.";
+        }
+
+        }else {
+            // Redirect to permission denied page if user is not a SuperAdmin
+            $this->view("Admin/403PermissionDenied");
         }
     }
 }

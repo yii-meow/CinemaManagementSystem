@@ -19,6 +19,7 @@
     <!-- <link rel="stylesheet" href="../reset.css" /> -->
 
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/UserManage.css" />
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/AdminCinemaManagement.css"/>
     <title>Reward Management</title>
 
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png" />
@@ -47,10 +48,13 @@
             </div>
             <div class="row mb-4">
                 <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Search reward..." />
-                    </div>
+                    <form method="get" action="RewardManage">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" class="form-control" name="search" placeholder="Search reward..."
+                                   value="<?= htmlspecialchars($search ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                        </div>
+                    </form>
                 </div>
             </div>
 

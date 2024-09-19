@@ -1,3 +1,8 @@
+<?php
+
+use App\core\Encryption;
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,11 +37,11 @@
 <div id="Customer">
 
     <!--Header-->
-    <?php include "../app/views/header.php"?>
+    <?php include "../app/views/header.php" ?>
 
 
     <!--Navigation Bar-->
-    <?php include "../app/views/navigationBar.php"?>
+    <?php include "../app/views/navigationBar.php" ?>
 
 
     <!--Main Contents-->
@@ -226,7 +231,20 @@
 
     <!--Click this button back to top of the page-->
     <div class="toTop" id="toTop">
-        <button onclick="location.href='<?= ROOT ?>/DetailSelection?mid=<?php if(isset($movieId)){echo $movieId;} ?>'" id="top">
+
+        <?php
+        //Encrypt the Query String Key and Value
+        $encryption = new Encryption();
+        if (isset($movieId)) {
+            $encryptedValue = $encryption->encrypt($movieId, $encryption->getKey());
+        }
+        ?>
+
+        <button
+                onclick="location.href='<?= ROOT ?>/DetailSelection?mid=<?php if (isset($encryptedValue)) {
+                    echo urlencode($encryptedValue);
+                } ?>'"
+                id="top">
             <i class="fa-solid fa-cart-shopping"></i>&nbsp;Buy Now
         </button>
     </div>
@@ -289,7 +307,7 @@
 
 
     <!--Footer-->
-    <?php include "../app/views/footer.php"?>
+    <?php include "../app/views/footer.php" ?>
 
 
     <!--JavaScripts-->

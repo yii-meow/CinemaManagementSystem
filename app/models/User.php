@@ -1,28 +1,17 @@
 <?php
 namespace App\models;
 
+use App\Factory\UserType;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'User')]
-class User
+class User extends UserType
 {
-    #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private $userId;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $userName;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $birthDate;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $phoneNo;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $password;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $email;
@@ -40,44 +29,19 @@ class User
     private $status;
 
     // For foreign side
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserReward::class)]
-    private $userRewards;
-
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'Post')]
-    private $posts;
+    private Collection $posts;
+
     #[ORM\OneToMany(mappedBy: 'commenter', targetEntity: 'Comment')]
-    private $commenters;
+    private Collection $commenters;
 
     #[ORM\OneToMany(mappedBy: 'userReply', targetEntity: 'Reply')]
-    private $reply;
+    private Collection $reply;
 
     #[ORM\OneToMany(mappedBy: 'likedBy', targetEntity: 'Likes')]
-    private $liker;
+    private Collection $liker;
 
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserReward::class)]
-    private $users;
-
-
-    // Getters and Setters
-
-    public function getUserId(): ?int
-    {
-        return $this->userId;
-    }
-
-    public function getUserName(): string
-    {
-        return $this->userName;
-    }
-
-
-    public function setUserName(string $userName): self
-    {
-        $this->userName = $userName;
-        return $this;
-    }
-
+    // Getters and Setters for additional fields
     public function getBirthDate(): string
     {
         return $this->birthDate;
@@ -86,28 +50,6 @@ class User
     public function setBirthDate(string $birthDate): self
     {
         $this->birthDate = $birthDate;
-        return $this;
-    }
-
-    public function getPhoneNo(): string
-    {
-        return $this->phoneNo;
-    }
-
-    public function setPhoneNo(string $phoneNo): self
-    {
-        $this->phoneNo = $phoneNo;
-        return $this;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
         return $this;
     }
 
@@ -157,7 +99,8 @@ class User
 
     public function getStatus(): string
     {
-        return $this->status;
+        // Return a default value if status is null
+        return $this->status ?? 'Unknown';
     }
 
     public function setStatus(string $status): self
@@ -166,4 +109,23 @@ class User
         return $this;
     }
 
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function getCommenters(): Collection
+    {
+        return $this->commenters;
+    }
+
+    public function getReply(): Collection
+    {
+        return $this->reply;
+    }
+
+    public function getLiker(): Collection
+    {
+        return $this->liker;
+    }
 }

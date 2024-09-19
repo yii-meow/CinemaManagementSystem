@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MovieScheduleRepository::class)]
 #[ORM\Table(name: 'MovieSchedule')]
+#[ORM\Index(columns: ["movieId"], name: "idx_movie")]
+#[ORM\Index(columns: ["cinemaHallId"], name: "idx_cinema_hall")]
 class MovieSchedule
 {
     #[ORM\Id]
@@ -17,13 +19,31 @@ class MovieSchedule
     #[ORM\Column(type: 'datetime')]
     private $startingTime;
 
-    #[ORM\ManyToOne(targetEntity: Movie::class)]
+    #[ORM\ManyToOne(targetEntity: Movie::class, inversedBy: 'movieSchedules')]
     #[ORM\JoinColumn(name: 'movieId', referencedColumnName: 'movieId', nullable: false)]
-    private $movie;
+    private $movie = null;
 
-    #[ORM\ManyToOne(targetEntity: CinemaHall::class)]
+    #[ORM\ManyToOne(targetEntity: CinemaHall::class, inversedBy: 'movieSchedules')]
     #[ORM\JoinColumn(name: 'cinemaHallId', referencedColumnName: 'hallId')]
-    private $cinemaHall;
+    private $cinemaHall = null;
+
+
+    #[ORM\OneToMany(mappedBy: 'movieSchedule', targetEntity: Ticket::class, fetch: "EXTRA_LAZY")]
+    private $tickets;
+
+
+    public function getTickets()
+    {
+        return $this->tickets;
+    }
+
+    public function setTickets($tickets): void
+    {
+        $this->tickets = $tickets;
+    }
+
+
+
 
     public function getMovieScheduleId(): ?int
     {

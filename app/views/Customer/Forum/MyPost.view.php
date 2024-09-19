@@ -17,6 +17,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css"/>
 
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css"/>
@@ -38,20 +40,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-if (isset($_SESSION['delete_success']) && $_SESSION['delete_success']): ?>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        Swal.fire({
-            title: 'Deleted!',
-            text: 'Your post has been deleted successfully.',
-            icon: 'success',
-            confirmButtonText: 'OK'
-        });
-    });
-</script>
-<?php unset($_SESSION['delete_success']); ?>
-<?php endif; ?>
 ?>
+<?php if (isset($_GET['message'])): ?>
+    <div class="notification" style="background-color: #dff0d8; padding: 10px; border-radius: 5px;">
+        <?php if ($_GET['message'] === 'comment_success'): ?>
+            <p>Your comment was successfully added!</p>
+        <?php elseif ($_GET['message'] === 'reply_success'): ?>
+            <p>Your reply was successfully added!</p>
+        <?php elseif ($_GET['message'] === 'comment_fail'): ?>
+            <p>Your comment not added!</p>
+        <?php elseif ($_GET['message'] === 'reply_fail'): ?>
+            <p>Your reply was not added!</p>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
+
+<script>
+    // Function to get query parameters
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    window.onload = function () {
+        const edit = getQueryParam('edit');
+        const remove = getQueryParam('remove');
+
+        if (edit === 'success') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Post Edited',
+                text: 'Your post has been successfully edited!',
+                confirmButtonText: 'OK'
+            });
+        } else if (edit === 'error') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Post Edit Failed',
+                text: 'There was an issue editing your post. Please try again.',
+                confirmButtonText: 'OK'
+            });
+        }else if (remove === 'success') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Post Deleted',
+                text: 'Your post has been successfully deleted!',
+                confirmButtonText: 'OK'
+            });
+        }else if (remove === 'error') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Post Edit Failed',
+                text: 'There was an issue deleting your post. Please try again.',
+                confirmButtonText: 'OK'
+            });
+        }
+    };
+
+
+</script>
+
         <div id="Customer">
 
             <!--Header-->
@@ -257,9 +305,10 @@ if (isset($_SESSION['delete_success']) && $_SESSION['delete_success']): ?>
                                 </p>
                                 <ul class="nav nav-pills">
                                     <li class="nav-item">
-                                        <form class="form-inline d-flex">
+                                        <form class="form-inline d-flex" method="POST" action="<?=ROOT?>/SearchPost/index">
+                                            <input type="hidden" name="searchType" value="myPost">
                                             <div class="searchInput-wrapper">
-                                                <input class="form-control" type="content" placeholder="Search post"
+                                                <input class="form-control" type="text" name="content" placeholder="Search post"
                                                     aria-label="content" style="font-size: 0.7em;">
                                                 <button class="send-btn" type="submit"><i
                                                         class="fas fa-search search-icon"></i></button>
@@ -267,43 +316,58 @@ if (isset($_SESSION['delete_success']) && $_SESSION['delete_success']): ?>
                                         </form>
                                     </li>
                                     <li>
-                                        <div class="filter-section mt-3">
-                                            <h5>Filter By:</h5><br>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="filterOptions"
-                                                    id="latestPost" value="latestPost" checked>
-                                                <label class="form-check-label" for="latestPost">
-                                                    Latest Post
-                                                </label>
+                                        <form method="POST" action="<?=ROOT?>/FilterPost/index" method="POST">
+                                            <input type="hidden" name="filterType" value="myPosts">
+                                            <div class="filter-section mt-3">
+                                                <h5>Filter By:</h5><br>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="filterOptions" id="latestPost" value="latestPost" checked>
+                                                    <label class="form-check-label" for="latestPost">
+                                                        Latest Post
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="filterOptions" id="oldestPost" value="oldestPost">
+                                                    <label class="form-check-label" for="oldestPost">
+                                                        Oldest Post
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="filterOptions" id="highestLikes" value="highestLikes">
+                                                    <label class="form-check-label" for="highestLikes">
+                                                        Highest Likes
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="filterOptions" id="lowestLikes" value="lowestLikes">
+                                                    <label class="form-check-label" for="lowestLikes">
+                                                        Lowest Likes
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="filterOptions"
-                                                    id="highestLikes" value="highestLikes">
-                                                <label class="form-check-label" for="highestLikes">
-                                                    Highest Likes
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="filterOptions"
-                                                    id="oldestPost" value="oldestPost">
-                                                <label class="form-check-label" for="oldestPost">
-                                                    Oldest Post
-                                                </label>
-                                            </div>
-                                        </div>
+                                            <button type="submit" class="btn btn-primary mt-3" style="font-size: 0.8em; background-color: #0066cc">Apply</button>
+                                        </form>
+
                                     </li>
                                 </ul>
 
                             </div>
                         </div>
                         <div class="centered-container">
-                            <div class="MyPostTitle">
-                                My Post<br>
-                                <button class="activity-btn" onclick="window.location.href='<?=ROOT?>/PostActivity/viewActivity'">
-                                    <i class="fa fa-eye"></i>&nbsp;View Activity
-                                </button>
-                                <br><br>
-                            </div>
+                            <?php if (!empty($keyword)) : ?>
+                                <div class="MyPostTitle">
+                                    Searched Result: <?php echo htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8'); ?>
+                                </div>
+                            <?php else : ?>
+                                <div class="MyPostTitle">
+                                    My Post<br>
+                                    <button class="activity-btn" onclick="window.location.href='<?=ROOT?>/PostActivity/viewActivity'">
+                                        <i class="fa fa-eye"></i>&nbsp;View Activity
+                                    </button>
+                                    <br><br>
+                                </div>
+                            <?php endif; ?>
+
                             <!--<div class="viewYear">
                                 2024
                             </div>
@@ -313,6 +377,7 @@ if (isset($_SESSION['delete_success']) && $_SESSION['delete_success']): ?>
                             <br>
                             <?php if (!empty($posts)) : ?>
                                 <?php foreach ($posts as $postItem) : ?>
+                                <br><br>
                                     <div class="inner-container">
                                         <div class="Mypost-header">
                                             <div class="post-options">
@@ -321,12 +386,12 @@ if (isset($_SESSION['delete_success']) && $_SESSION['delete_success']): ?>
                                                 </button>
                                                 <div class="dropdown-menu">
                                                     <!-- Edit Post -->
-                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editPostModal" onclick="setEditPostID(<?php echo htmlspecialchars($postItem->postID, ENT_QUOTES, 'UTF-8'); ?>)">
+                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editPostModal" onclick="setEditPostID(<?php echo htmlspecialchars($postItem['postID'], ENT_QUOTES, 'UTF-8'); ?>)">
                                                         <i class="fas fa-edit"></i>&nbsp;&nbsp;Edit Post<br>
                                                     </button>
 
                                                     <!-- Delete Post -->
-                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deletePostModal" onclick="setDeletePostID(<?php echo htmlspecialchars($postItem->postID, ENT_QUOTES, 'UTF-8'); ?>)">
+                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deletePostModal" onclick="setDeletePostID(<?php echo htmlspecialchars($postItem['postID'], ENT_QUOTES, 'UTF-8'); ?>)">
                                                             <i class="fas fa-trash-alt me-1"></i>&nbsp;&nbsp;Delete Post<br>
                                                     </button>
                                                 </div>
@@ -380,53 +445,56 @@ if (isset($_SESSION['delete_success']) && $_SESSION['delete_success']): ?>
                                                 </div>
                                             </div>
                                         </div>
-                                        <?php if ($postItem->contentImg): ?>
+                                        <?php if ($postItem['contentImg']): ?>
                                             <div class="post-image">
-                                                <img src="<?= ROOT ?>/assets/contentImg/<?php echo htmlspecialchars($postItem->contentImg, ENT_QUOTES, 'UTF-8'); ?>" class="posted-image" onclick="openModal(this)" />
+                                                <img src="<?php echo ROOT . htmlspecialchars($postItem['contentImg']); ?>" class="posted-image" onclick="openModal(this)"/>
                                             </div>
                                         <?php endif; ?>
                                         <div class="post-content">
-                                            <p><?php echo htmlspecialchars($postItem->content, ENT_QUOTES, 'UTF-8'); ?></p>
+                                            <p style="margin-left: 20px;"><?php echo htmlspecialchars($postItem['content'], ENT_QUOTES, 'UTF-8'); ?></p>
                                             <div class="post-details">
-                                                <span><?php echo htmlspecialchars($postItem->postDate, ENT_QUOTES, 'UTF-8'); ?></span>
+                                                <span><?php echo htmlspecialchars($postItem['postDate'], ENT_QUOTES, 'UTF-8'); ?></span>
                                                 <button class="action-button translate-button">Translate</button>
                                             </div>
 
                                             <div class="action-container">
                                                 <div class="action-item">
                                                     <i class="fa fa-heart-o"></i>
-                                                    <p class="like-count">10</p> <!-- Replace with dynamic like count if available -->
+                                                    <p class="like-count"><?php echo htmlspecialchars($postItem['likeCount'], ENT_QUOTES, 'UTF-8'); ?></p>
                                                 </div>
                                                 <button class="action-button viewComment-button" onclick="toggleComments(event)" style="margin-top: -6px;">View Comment</button>
                                             </div>
 
                                             <!-- Comment Section -->
 
+                                            <?php $post_id = $postItem['postID']; ?>
                                             <div class="display-comment" style="display: none;">
                                                 <p style="color: gray; font-size: 0.7em; margin-left: 20px;">
-                                                    <?php echo $postItem->comments ? count($postItem->comments) . " Comment(s)" : "0 Comment(s)"; ?>
+                                                    <?php echo $postItem['comments'] ? count($postItem['comments']) . " Comment(s)" : "0 Comment(s)"; ?>
                                                 </p>
 
                                                 <div class="comment-section">
                                                     <div class="input-wrapper">
-                                                        <form method="POST" action="<?= ROOT ?>/public/index.php">
-                                                            <input type="hidden" name="action" value="createComment" />
-                                                            <textarea class="comment-input" style="font-size: 0.8em;" name="commentText" placeholder="Write a comment..." required></textarea>
-                                                            <button class="send-comment" type="submit"><i class="fas fa-paper-plane"></i></button>
+                                                        <form method="POST" action="<?= ROOT ?>/AddCommentReply/index">
+                                                            <input type="hidden" name="action" value="comment" />
+                                                            <input type="hidden" name="postID" value="<?php echo htmlspecialchars($post_id, ENT_QUOTES, 'UTF-8'); ?>" />
+                                                            <input class="comment-input" style="font-size: 0.8em;" name="commentText" placeholder="Write a comment..." required>
+                                                            <button class="send-comment" type="submit"><i class="fas fa-paper-plane" ></i></button>
                                                         </form>
                                                     </div>
 
-                                                    <?php if (isset($postItem->comments)): ?>
-                                                        <?php foreach ($postItem->comments as $comment): ?>
+
+                                                    <?php if (isset($postItem['comments'])): ?>
+                                                        <?php foreach ($postItem['comments'] as $comment): ?>
                                                             <div class="user-comment">
                                                                 <div class="profile-container mr-3">
                                                                     <button class="btn header-font">
-                                                                        <img src="<?= ROOT ?>/assets/images/<?php echo htmlspecialchars($comment->profileImg, ENT_QUOTES, 'UTF-8'); ?>" draggable="false" id="topImage" style="width: 30px; height: 30px;" />
+                                                                        <img src="<?= ROOT ?>/assets/images/<?php echo htmlspecialchars($comment['profileImg'], ENT_QUOTES, 'UTF-8'); ?>" draggable="false" id="topImage" style="width: 30px; height: 30px;" />
                                                                     </button>
                                                                 </div>
                                                                 <div class="comment-body">
-                                                                    <span class="uname-cmt"><?php echo htmlspecialchars($comment->userName, ENT_QUOTES, 'UTF-8'); ?></span>
-                                                                    <div class="comment-text"><?php echo htmlspecialchars($comment->CommentText, ENT_QUOTES, 'UTF-8'); ?></div>
+                                                                    <span class="uname-cmt"><?php echo htmlspecialchars($comment['userName']); ?></span>
+                                                                    <div class="comment-text"><?php echo htmlspecialchars($comment['commentText']); ?></div>
                                                                     <div class="comment-actions">
                                                                         <button class="action-button reply-button" onclick="showReplyBox(event)">Reply</button>
                                                                         <button class="action-button translate-button">Translate</button>
@@ -434,31 +502,29 @@ if (isset($_SESSION['delete_success']) && $_SESSION['delete_success']): ?>
 
                                                                     <!-- Reply Section -->
                                                                     <div class="reply-wrapper" style="display:none;">
-                                                                        <input type="text" class="reply-input" placeholder="Write your reply here..." style="font-size: 0.8em;" />
-                                                                        <button class="send-reply" type="submit" onclick="sendReply(event)"><i class="fas fa-paper-plane"></i></button>
+                                                                        <form method="POST" action="<?= ROOT ?>/AddCommentReply/index">
+                                                                            <input type="hidden" name="action" value="reply" />
+                                                                            <input type="hidden" name="commentID" value="<?php echo htmlspecialchars($comment['commentID'], ENT_QUOTES, 'UTF-8'); ?>" />
+                                                                            <input type="hidden" name="postID" value="<?php echo htmlspecialchars($post_id, ENT_QUOTES, 'UTF-8'); ?>" />
+                                                                            <input type="text" class="reply-input" name="replyText" placeholder="Write your reply here..." style="font-size: 0.8em;" required />
+                                                                            <button class="send-reply" type="submit"><i class="fas fa-paper-plane"></i></button>
+                                                                        </form>
                                                                     </div>
 
-                                                                    <?php $comment_id = $comment->commentID; ?>
-                                                                    <?php $replies = $comment->replies ?? []; ?>
+                                                                    <?php $comment_id = $comment['commentID']; ?>
+                                                                    <?php $replies = $comment['replies'] ?? []; ?>
+
                                                                     <?php if ($replies): ?>
                                                                         <?php foreach ($replies as $reply): ?>
                                                                             <div class="user-reply">
                                                                                 <div class="profile-container mr-3">
                                                                                     <button class="btn header-font">
-                                                                                        <img src="<?= ROOT ?>/assets/images/<?php echo htmlspecialchars($reply->profileImg, ENT_QUOTES, 'UTF-8'); ?>" draggable="false" id="topImage" style="width: 20px; height: 20px;" />
+                                                                                        <img src="<?= ROOT ?>/assets/images/<?php echo htmlspecialchars($reply['profileImg'], ENT_QUOTES, 'UTF-8'); ?>" draggable="false" id="topImage" style="width: 20px; height: 20px;" />
                                                                                     </button>
                                                                                 </div>
                                                                                 <div class="reply-body">
-                                                                                    <span class="uname-rpl"><?php echo htmlspecialchars($reply->userName, ENT_QUOTES, 'UTF-8'); ?></span>
-                                                                                    <div class="reply-text"><p style="color: #005eff; display: inline;">@<?php echo htmlspecialchars($reply->userName, ENT_QUOTES, 'UTF-8'); ?></p> <?php echo htmlspecialchars($reply->replyText, ENT_QUOTES, 'UTF-8'); ?></div>
-                                                                                    <div class="reply-actions">
-                                                                                        <button class="action-button reply-button" onclick="showSubReplyBox(event)">Reply</button>
-                                                                                        <button class="action-button translate-button">Translate</button>
-                                                                                    </div>
-                                                                                    <div class="reply-wrapper" style="display:none; width: 380px;">
-                                                                                        <input type="text" class="reply-input" placeholder="Write your reply here..." style="font-size: 0.8em;" />
-                                                                                        <button class="send-reply" type="submit" onclick="sendReply(event)"><i class="fas fa-paper-plane"></i></button>
-                                                                                    </div>
+                                                                                    <span class="uname-rpl"><?php echo htmlspecialchars($reply['userName'], ENT_QUOTES, 'UTF-8'); ?></span>
+                                                                                    <div class="reply-text"><?php echo htmlspecialchars($reply['replyText'], ENT_QUOTES, 'UTF-8'); ?></div>
                                                                                 </div>
                                                                             </div>
                                                                         <?php endforeach; ?>
@@ -471,10 +537,13 @@ if (isset($_SESSION['delete_success']) && $_SESSION['delete_success']): ?>
                                             </div>
                                         </div>
                                     </div>
-                                    <br>
                                 <?php endforeach; ?>
                             <?php else: ?>
-                                <p>Currently no posts from users.</p>
+                                <?php if (!empty($keyword)) : ?>
+                                    <p style="color: #f03351">No Result Found</p>
+                                <?php else : ?>
+                                    <p style="color: #f03351">No posts available</p>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </div>
                     </div>

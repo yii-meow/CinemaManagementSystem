@@ -3,18 +3,14 @@
 namespace App\controllers;
 
 use App\core\Controller;
+use App\controllers\SessionManagement;
 
-class Logout
+class Logout extends SessionManagement
 {
     use Controller;
 
     public function index()
     {
-        // Start session if it's not already started
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-
         // Clear the session array
         $_SESSION = [];
 

@@ -4,6 +4,7 @@ namespace App\controllers;
 
 use App\core\Controller;
 use App\core\Database;
+use App\Factory\UserFactory;
 use App\models\User;
 
 class Register
@@ -12,12 +13,13 @@ class Register
 
     private $entityManager;
     private $userRepository;
-
+    private $userFactory;
     public function __construct()
     {
         // Initialize entityManager and repository
         $this->entityManager = Database::getEntityManager();
         $this->userRepository = $this->entityManager->getRepository(User::class);
+        $this->userFactory = new UserFactory();
     }
 
     public function index()
@@ -48,8 +50,8 @@ class Register
                 } else {
                     // Hash the password
                     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-                    // Create new user
+//
+//                    // Create new user
                     $user = new User();
                     $user->setUserName($name)
                         ->setEmail($email)
@@ -57,14 +59,16 @@ class Register
                         ->setGender($gender)
                         ->setPhoneNo($phoneNo)
                         ->setPassword($hashedPassword) // Store hashed password
-                        ->setCoins(0);
+                        ->setCoins(0)
+                        ->setStatus('active');
 
-                    // Persist user data
-                    $this->entityManager->persist($user);
-                    $this->entityManager->flush();
-
-                    // Redirect to login page or success page
-                    $data['success'] = 'Registration successful. Please log in.';
+                    $data['success'] = $this->userFactory->register($user);
+//                    // Persist user data
+//                    $this->entityManager->persist($user);
+//                    $this->entityManager->flush();
+//
+//                    // Redirect to login page or success page
+//                    $data['success'] = 'Registration successful. Please log in.';
                     $this->view('Customer/User/Login', $data);
                     exit();
                 }

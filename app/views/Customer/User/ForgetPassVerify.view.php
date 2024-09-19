@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/Main.css" />
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/login.css" />
-    <script src="<?= ROOT ?>/assets/js/webotp.js" defer></script>
     <title>Forgot Password</title>
 
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
@@ -62,15 +61,23 @@
                         <br>
                         <br>
                         <h3>Forget Password</h3>
-                        <form class="row login_form" action="ResetPass" method="post" id="contactForm">
+                        <?php if (isset($error)): ?>
+                            <div class="alert alert-danger">
+                                <?= htmlspecialchars($error); ?>
+                            </div>
+                        <?php endif; ?>
+                        <form class="row login_form" method="post" action="RequestOTP" id="contactForm">
                             <div class="col-md-12 form-group">
-                                <input type="tel" class="form-control" id="phoneNo" name="phoneNo"
-                                       placeholder="Mobile Number" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Mobile Number'">
+                                <div class="input-group">
+                                    <span class="input-group-text">+60</span> <!-- Fixed prefix -->
+                                    <input type="tel" class="form-control" id="phoneNo" name="phoneNo"
+                                           placeholder="Enter number" onfocus="this.placeholder = ''"
+                                           onblur="this.placeholder = 'Enter number'" required>
+                                </div>
                                 <br>
                             </div>
                             <div class="col-md-12 form-group">
-                                <button type="submit" value="submit" class="primary-btn">Verify</button>
+                                <button type="submit" value="submit" class="primary-btn">Request OTP</button>
                             </div>
                             <div class="col-md-12 form-group">
                                 <a href="Login">Go Back to Login</a>
@@ -90,6 +97,24 @@
     <script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Prevent non-numeric input and dashes
+        document.getElementById("phoneNo").addEventListener("input", function() {
+            // Remove any non-digit characters (including -)
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // Add validation on form submission
+        document.getElementById("contactForm").addEventListener("submit", function(e) {
+            const phoneNo = document.getElementById("phoneNo").value;
+
+            // Check if phone number contains only numbers
+            if (!/^\d+$/.test(phoneNo)) {
+                e.preventDefault(); // Prevent form submission
+                alert("Please enter a valid phone number without any dashes or letters.");
+            }
+        });
+    </script>
 
 </body>
 
