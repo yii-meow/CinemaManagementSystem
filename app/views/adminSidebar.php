@@ -10,7 +10,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="MovieManagement">
                         <i class="fas fa-film me-4 fa-lg"></i>
                         Movies
                     </a>

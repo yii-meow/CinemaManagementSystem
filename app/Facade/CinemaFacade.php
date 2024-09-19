@@ -231,4 +231,38 @@ class CinemaFacade
 
         return $movieSchedule;
     }
+
+    public function getAllMovies()
+    {
+        return $this->movieRepository->findAll();
+    }
+
+    public function addMovie($movieData)
+    {
+        $movie = new Movie();
+        $this->setMovieData($movie, $movieData);
+
+//        $this->entityManager->persist($movie);
+//        $this->entityManager->flush();
+
+        return $movie;
+    }
+
+    private function setMovieData(Movie $movie, array $data)
+    {
+        jsonResponse($data);
+        if (isset($data['title'])) $movie->setTitle($data['title']);
+        if (isset($data['photo'])) $movie->setPhoto($data['photo']);
+        if (isset($data['trailerLink'])) $movie->setTrailerLink($data['trailerLink']);
+        if (isset($data['duration'])) $movie->setDuration($data['duration']);
+        if (isset($data['catagory'])) $movie->setCatagory($data['catagory']);
+        if (isset($data['releaseDate'])) $movie->setReleaseDate(new DateTime($data['releaseDate']));
+        if (isset($data['language'])) $movie->setLanguage($data['language']);
+        if (isset($data['subtitles'])) $movie->setSubtitles($data['subtitles']);
+        if (isset($data['director'])) $movie->setDirector($data['director']);
+        if (isset($data['casts'])) $movie->setCasts($data['casts']);
+        if (isset($data['description'])) $movie->setDescription($data['description']);
+        if (isset($data['classification'])) $movie->setClassification($data['classification']);
+        if (isset($data['status'])) $movie->setStatus($data['status']);
+    }
 }
