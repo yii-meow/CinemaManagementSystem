@@ -77,12 +77,13 @@
                         </form>
                         <br>
                         <br>
-                        <!-- Option to request a new OTP if the previous one expired -->
-                        <?php if (isset($error) && $error === 'OTP has expired. Please request a new one.'): ?>
-                            <form method="post" action="ForgetPassVerify">
-                                <button type="submit" class="btn btn-secondary">Request New OTP</button>
-                            </form>
-                        <?php endif; ?>
+                        <!-- Timer display -->
+                        <p id="timer" style="color: red; font-size: 18px; font-weight: bold;"></p>
+
+                        <!-- Request New OTP button (Initially hidden) -->
+                        <form id="requestOtpForm" method="post" action="ForgetPassVerify" style="display: none;">
+                            <button type="submit" class="btn btn-secondary">Request New OTP</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -95,6 +96,34 @@
     <!--JavaScripts-->
     <script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Set expiry time in seconds (e.g., 60 seconds for 1 minute)
+        let expiryTime = <?= isset($_SESSION['otp_expiry']) ? $_SESSION['otp_expiry'] - time() : 0; ?>;
+
+        // Function to start the countdown
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            const requestOtpForm = document.getElementById('requestOtpForm');
+            let timer = expiryTime;
+
+            const countdown = setInterval(function() {
+                if (timer <= 0) {
+                    clearInterval(countdown);
+                    timerElement.innerHTML = 'OTP expired!';
+                    requestOtpForm.style.display = 'block'; // Show the request OTP button
+                } else {
+                    const minutes = Math.floor(timer / 60);
+                    const seconds = timer % 60;
+                    timerElement.innerHTML = `OTP expires in ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                    timer--;
+                }
+            }, 1000);
+        }
+
+        // Start the timer when the page loads
+        window.onload = startTimer;
+    </script>
 
 </body>
 

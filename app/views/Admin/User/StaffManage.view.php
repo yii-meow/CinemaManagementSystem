@@ -139,7 +139,7 @@
                         <label for="staffPass" class="form-label">
                             <i class="fas fa-lock me-2"></i>Password <sup style="color: red">*Set Default*</sup>
                         </label>
-                        <input type="text" class="form-control" id="staffPass" value="staffpass" disabled/>
+                        <input type="text" class="form-control" id="staffPass" value="@Bc123" disabled/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">

@@ -104,10 +104,17 @@
                             <div class="col-md-12 form-group">
                                 <input type="tel" class="form-control" id="phoneNo" name="phoneNo"
                                        placeholder="Mobile Number" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Mobile Number'">
+                                       onblur="this.placeholder = 'Mobile Number'"
+                                       pattern="^\d{10,15}$"
+                                       title="Please enter a valid mobile number (10-15 digits)"
+                                       required>
                             </div>
                             <div class="col-md-12 form-group password-group">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                                <input type="password" class="form-control" id="password" name="password"
+                                       placeholder="Password" onfocus="this.placeholder = ''"
+                                       onblur="this.placeholder = 'Password'"
+                                       title="Password must be at least 6 characters, include at least one uppercase letter, one lowercase letter, one number, and one special character."
+                                       required>
                                 <span class="fa fa-eye password-toggle" onclick="togglePassword()"></span>
                             </div>
                             <br>
