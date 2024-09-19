@@ -26,8 +26,10 @@ class UserTicketView
 
     public function index()
     {
+        if (isset($_SESSION['admin'])){
 
-        //Decryption Process
+
+            //Decryption Process
         $decryption = new Encryption();
         $ticketId = (int)$decryption->decrypt($_GET['ticketId'], $decryption->getKey());
 
@@ -46,6 +48,10 @@ class UserTicketView
         // show($data);
 
         $this->view("Admin/Ticket/UserTicketView", $data);
+        }else {
+            // Redirect to permission denied page if user is not a SuperAdmin
+            $this->view("Admin/403PermissionDenied");
+        }
     }
 
 

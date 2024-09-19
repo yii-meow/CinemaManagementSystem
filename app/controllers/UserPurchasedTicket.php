@@ -28,7 +28,9 @@ class UserPurchasedTicket
 
     public function index()
     {
-        //Create XML Root
+        if (isset($_SESSION['admin'])){
+
+            //Create XML Root
         $xml = new SimpleXMLElement('<?xml version="1.0"?><tickets></tickets>');
 
         //Find all user ticket
@@ -54,6 +56,7 @@ class UserPurchasedTicket
             //Store the XML as file
             $filePath = 'C:\xampp\htdocs\CinemaManagementSystem\app\xml\ticket.xml';
             $xml->asXML($filePath);
+
         }
 
         //Return result to view
@@ -63,6 +66,10 @@ class UserPurchasedTicket
 
         //Render view
         $this->view("Admin/Ticket/UserPurchasedTicket", $data);
+        }else {
+            // Redirect to permission denied page if user is not a SuperAdmin
+            $this->view("Admin/403PermissionDenied");
+        }
     }
 
 
