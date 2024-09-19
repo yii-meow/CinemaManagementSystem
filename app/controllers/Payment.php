@@ -228,6 +228,7 @@ class Payment
                     "errors" => $errors,
                 ];
 
+
                 //Pass back Error result to view via AJAX
                 header('Content-Type: application/json');
                 echo json_encode(['data' => $data]);
@@ -240,8 +241,8 @@ class Payment
                 $custInfo = (string)$userName . "|" . $email;
                 $hallId = (int)$_POST['hallId'] ?? '';
                 $seats = (string)$_POST['seatsNo'] ?? '';
-                $userId = 6;  //Test ID
-                //$userId = (int)$_SESSION['userId'];
+                //$userId = 6;  //Test ID
+                $userId = (int)$_SESSION['userId'];
                 $scheduleId = (int)$_POST['scheduleId'] ?? '';
                 $date = (string)$_POST['selectedDateTime'];
                 //paymentMethod got already => $selectedPaymentMethod
@@ -444,8 +445,8 @@ class Payment
     function checkPromoCodeForThatUser($promoCode): float
     {
         //Test User ID
-        //$userId = $_SESSION['userId'];
-        $userId = 6;
+        $userId = $_SESSION['userId'];
+        //$userId = 6;
 
         $userRewardObj = $this->userRewardRepository->findPromoCodeUserOwn((int)$userId, (int)$promoCode);
 

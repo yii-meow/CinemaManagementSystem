@@ -31,6 +31,26 @@
             -webkit-appearance: none;
             margin: 0;
         }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+        }
+
+        .overlay-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 20px;
+        }
     </style>
 </head>
 
@@ -387,7 +407,6 @@
 </form>
 
 
-
 <script type="text/javascript">
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
@@ -459,15 +478,15 @@
         paymentOptions.forEach(option => {
             option.addEventListener('change', handlePaymentSelection);
         });
-
         // Call the function once on page load to set the initial state
         handlePaymentSelection();
     });
 
 </script>
 
-
 <script>
+
+
     $.ajaxSetup({
         cache: false
     });
@@ -527,11 +546,12 @@
                         if (response.redirect && response.redirect !== "Err") {
 
                             //Testing
-                            //document.writeln(response);
+                            document.writeln(response)
 
                             //Redirection
                             location.href = "<?=ROOT?>/PurchaseConfirm?ticketId=" + response["redirect"];
                         } else {
+                            document.writeln(response)
                             alert("Something went wrong.")
                         }
                     }
@@ -600,9 +620,11 @@
                     document.getElementById("pcode-no").innerHTML = "-";
 
                     // Get the final price and update
-                    document.getElementById("alltotal").innerHTML = <?php if (isset($data)) {
-                        echo number_format($data["amount"]["finalPrice"], 2);
+                    <?php if (isset($data)) {
+                        $finalPrice = isset($data) ? number_format($data["amount"]["finalPrice"], 2, '.', '') : '0.00';
                     } ?>;
+
+                    document.getElementById("alltotal").innerHTML = "<?php echo $finalPrice; ?>";
 
                     promoApplied = false
                     document.getElementById("voucher").readOnly = false

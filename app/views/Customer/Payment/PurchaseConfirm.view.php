@@ -222,7 +222,7 @@
             </div>
             <div class="btn-container">
                 <div class="view-order">
-                    <button id="btnCheckOrderStatus" class="btn border btn-view" onclick="location.href='<?=ROOT?>/Profile'">VIEW TICKET</button>
+                    <button id="btnCheckOrderStatus" class="btn border btn-view" onclick="location.href='<?=ROOT?>/PurchaseHistory'">VIEW TICKET</button>
                 </div>
                 <div class="continue">
                     <button class="btn continue-btn" onclick="location.href='<?=ROOT?>/Homepage'">BACK TO
