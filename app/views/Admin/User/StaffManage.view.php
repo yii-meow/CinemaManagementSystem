@@ -46,9 +46,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
-            <?php if (isset($_GET['success'])): ?>
+
+            <?php if (isset($success) && $success): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <?= htmlspecialchars($_GET['success'], ENT_QUOTES, 'UTF-8'); ?>
+                    <?= htmlspecialchars($success, ENT_QUOTES, 'UTF-8'); ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>

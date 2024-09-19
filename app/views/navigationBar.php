@@ -70,10 +70,10 @@
             FORUM
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/Forum/Forum.html">Community Forum</a></li>
-            <li><a class="dropdown-item" href="/Forum/AddPost.html">Create Post</a></li>
-            <li><a class="dropdown-item" href="/Forum/MyPost.html">My Post</a></li>
-            <li><a class="dropdown-item" href="/Forum/LikedPost.html">Liked Post</a></li>
+            <li><a class="dropdown-item" href="Forum">Community Forum</a></li>
+            <li><a class="dropdown-item" href="AddPost">Create Post</a></li>
+            <li><a class="dropdown-item" href="MyPost">My Post</a></li>
+            <li><a class="dropdown-item" href="LikedPost">Liked Post</a></li>
         </ul>
     </div>
 </div>

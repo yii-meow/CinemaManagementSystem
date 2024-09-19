@@ -16,6 +16,5 @@
         <a href="MyReward">My Rewards</a>
         <a href="RewardCentre">Rewards Centre</a>
         <a href="ChangePass">Change Password</a>
-        <a href="#">Delete Account</a>
     </div>
 </div>
