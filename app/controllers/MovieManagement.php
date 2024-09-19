@@ -2,6 +2,7 @@
 
 namespace App\controllers;
 
+use App\xml\MovieXMLGenerator;
 use App\core\Controller;
 use App\Facade\CinemaFacade;
 
@@ -103,5 +104,11 @@ class MovieManagement
         } else {
             jsonResponse(['success' => false, 'message' => 'Invalid request method']);
         }
+    }
+
+    public function exportMovieToXML()
+    {
+        $xmlGenerator = new MovieXMLGenerator();
+        $xmlGenerator->generateMovieXML();
     }
 }
