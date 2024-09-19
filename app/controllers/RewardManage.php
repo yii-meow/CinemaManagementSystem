@@ -22,7 +22,9 @@ class RewardManage
 
     public function index()
     {
-        // Check if the request method is POST to handle the form submission
+        if (isset($_SESSION['admin'])){
+
+            // Check if the request method is POST to handle the form submission
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'addReward') {
             // Retrieve form data
             $rewardTitle = $_POST['rewardTitle'];
@@ -91,6 +93,11 @@ class RewardManage
 
         // Render the RewardManage view with the reward data
         $this->view('Admin/User/RewardManage', $data);
+
+        }else {
+            // Redirect to permission denied page if user is not a SuperAdmin
+            $this->view("Admin/403PermissionDenied");
+        }
 
     }
 }

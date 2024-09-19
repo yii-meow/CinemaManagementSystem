@@ -28,6 +28,8 @@ class UserView
 
     public function index()
     {
+        if (isset($_SESSION['admin'])){
+
         // Start the session if it's not already started
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -69,6 +71,10 @@ class UserView
 
         // Render the UserView view with user and reward data
         $this->view('Admin/User/UserView', $data);
+        }else {
+            // Redirect to permission denied page if user is not a SuperAdmin
+            $this->view("Admin/403PermissionDenied");
+        }
     }
 
     public function updateStatus()

@@ -21,7 +21,9 @@ class RewardView
 
     public function index()
     {
-        $action = $_POST['action'] ?? null;
+        if (isset($_SESSION['admin'])){
+
+            $action = $_POST['action'] ?? null;
         $rewardId = $_GET['rewardId'] ?? $_POST['rewardId'] ?? null;
 
         if ($action === 'update') {
@@ -30,6 +32,11 @@ class RewardView
             $this->deleteReward($rewardId);
         } else {
             $this->viewReward($rewardId);
+        }
+
+        }else {
+            // Redirect to permission denied page if user is not a SuperAdmin
+            $this->view("Admin/403PermissionDenied");
         }
     }
 

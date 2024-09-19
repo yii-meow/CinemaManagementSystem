@@ -22,7 +22,9 @@ class UserManage
 
     public function index()
     {
-        $searchQuery = $_GET['search'] ?? null; // Get the search query from the URL
+        if (isset($_SESSION['admin'])){
+
+            $searchQuery = $_GET['search'] ?? null; // Get the search query from the URL
 
         // If a search query is provided, filter users based on it
         if ($searchQuery) {
@@ -49,5 +51,10 @@ class UserManage
 
         // Render the UserManage view with the user data
         $this->view('Admin/User/UserManage', $data);
+
+        }else {
+            // Redirect to permission denied page if user is not a SuperAdmin
+            $this->view("Admin/403PermissionDenied");
+        }
     }
 }
