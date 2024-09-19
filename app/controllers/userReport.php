@@ -5,6 +5,7 @@ namespace App\controllers;
 use App\core\Controller;
 use App\core\Database;
 use App\models\User;
+use TCPDF;
 
 class userReport
 {
@@ -72,6 +73,80 @@ class userReport
         }
     }
 
+    public function export()
+    {
+        $type = $_GET['type'] ?? 'csv'; // Default to 'csv' if not provided
+
+        if (!in_array($type, ['csv', 'pdf'])) {
+            die('Invalid export type');
+        }
+
+        // Fetch user data
+        $users = $this->userRepository->findAll();
+
+        if ($type === 'csv') {
+            // Export to CSV
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment;filename="user_report.csv"');
+
+            $output = fopen('php://output', 'w');
+            fputcsv($output, ['UserID', 'UserName', 'PhoneNo', 'Email', 'Gender', 'Status']); // CSV headers
+
+            foreach ($users as $user) {
+                fputcsv($output, [
+                    $user->getUserID(),
+                    $user->getUserName(),
+                    $user->getPhoneNo(),
+                    $user->getEmail(),
+                    $user->getGender(),
+                    $user->getStatus()
+                ]);
+            }
+
+            fclose($output);
+            exit;
+        } elseif ($type === 'pdf') {
+            // Export to PDF
+            $pdf = new TCPDF();
+            $pdf->AddPage();
+            $pdf->SetFont('helvetica', '', 12);
+
+            $html = '<h1>User Management Report</h1>';
+            $html .= '<table border="1" cellpadding="4">';
+            $html .= '<thead>
+                        <tr>
+                            <th>UserID</th>
+                            <th>UserName</th>
+                            <th>PhoneNo</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>Status</th>
+                        </tr>
+                      </thead>';
+            $html .= '<tbody>';
+
+            foreach ($users as $user) {
+                $html .= '<tr>
+                            <td>' . $user->getUserID() . '</td>
+                            <td>' . $user->getUserName() . '</td>
+                            <td>' . $user->getPhoneNo() . '</td>
+                            <td>' . $user->getEmail() . '</td>
+                            <td>' . $user->getGender() . '</td>
+                            <td>' . $user->getStatus() . '</td>
+                          </tr>';
+            }
+
+            $html .= '</tbody></table>';
+            $pdf->writeHTML($html);
+
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment;filename="user_report.pdf"');
+
+            $pdf->Output('php://output', 'I');
+            exit;
+        }
+    }
+
     private function generateXML($status)
     {
         // Adjust query to retrieve user data based on status
@@ -115,6 +190,7 @@ class userReport
         }
 
         // Save XML to file
-        $xml->save('C:\xampp\htdocs\CinemaManagementSystem\app\xml\userData');
+        $xml->save('C:/xampp/htdocs/CinemaManagementSystem/app/xml/userData');
     }
+
 }

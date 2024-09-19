@@ -69,6 +69,17 @@
                     </div>
                 </div>
                 <div class="container">
+                    <!-- Export Buttons -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <a href="userReport/export?type=csv" class="btn btn-primary">
+                                <i class="fas fa-file-csv"></i> Export to CSV
+                            </a>
+                            <a href="userReport/export?type=pdf" class="btn btn-danger">
+                                <i class="fas fa-file-pdf"></i> Export to PDF
+                            </a>
+                        </div>
+                    </div>
                     <!-- Display the Report -->
                     <div class="row">
                         <div class="col-12">
