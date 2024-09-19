@@ -57,14 +57,18 @@
             </div>
 
             <!-- Filters and Sorting -->
-            <div class="mb-3 d-flex flex-row-reverse">
-                <a href="<?= ROOT ?>/AddMovie">
-                    <button
-                            class="btn btn-primary px-4 py-2"
-                    >
+            <div class="mb-4 d-flex flex-row-reverse">
+                <a href="<?= ROOT ?>/AddMovie" class="w-25">
+                    <button class="btn btn-primary px-4 py-2 w-100">
                         <i class="fa fa-plus me-3"></i>Add New Movie
                     </button>
                 </a>
+            </div>
+            <div class="mb-5 d-flex flex-row-reverse">
+                <button id="exportMovieXmlButton" class="btn btn-success px-4 py-2 w-25">
+                    <i class="fa fa-download me-3"></i>
+                    Export Movie Data to XML
+                </button>
             </div>
             <div class="row mb-4">
                 <div class="col-md-4">
@@ -101,283 +105,77 @@
 
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
                 <!-- Movie Card 1 -->
-                <div class="col">
-                    <div class="card">
-                        <img
-                                src="../../Media/Image/mainMovie_1.jpg"
-                                class="card-img-top"
-                                alt="Movie 1"
-                        />
-                        <div class="card-body">
-                            <h5 class="movie-card-title">Deadpool</h5>
-                            <p class="card-text text-secondary mt-4">
-                                Director: John Doe
-                            </p>
-                            <p class="card-text text-secondary">Duration: 120 mins</p>
-                            <p class="card-text text-secondary">Classification: PG-13</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-outline-primary">
-                                    Edit
-                                </button>
-                                <button type="button" class="btn btn-outline-danger">
-                                    Remove
-                                </button>
+                <?php if (isset($movies)) foreach ($movies as $movie): ?>
+                    <div class="col">
+                        <div class="card movie-card">
+                            <img
+                                    src="<?php echo htmlspecialchars(ROOT . $movie->getPhoto()); ?>"
+                                    class="card-img-top"
+                                    alt="<?php echo htmlspecialchars($movie->getTitle()); ?>"
+                            />
+                            <div class="card-body">
+                                <h5 class="movie-card-title"><?php echo htmlspecialchars($movie->getTitle()); ?></h5>
+                                <p class="card-text text-secondary">
+                                    Category: <?php echo htmlspecialchars($movie->getCatagory()); ?>
+                                </p>
+                                <p class="card-text text-secondary mt-4">
+                                    Director: <?php echo htmlspecialchars($movie->getDirector()); ?>
+                                </p>
+                                <p class="card-text text-secondary">Duration: <?php echo $movie->getDuration(); ?>
+                                    mins</p>
+                                <p class="card-text text-secondary">
+                                    Classification: <?php echo htmlspecialchars($movie->getClassification()); ?></p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-outline-primary edit-movie"
+                                            data-movie-id="<?php echo $movie->getMovieId(); ?>">
+                                        Edit
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger remove-movie"
+                                            data-movie-id="<?php echo $movie->getMovieId(); ?>">
+                                        Remove
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-
-                <!-- Movie Card 1 -->
-                <div class="col">
-                    <div class="card">
-                        <img
-                                src="../../Media/Image/mainMovie_1.jpg"
-                                class="card-img-top"
-                                alt="Movie 1"
-                        />
-                        <div class="card-body">
-                            <h5 class="movie-card-title">Deadpool</h5>
-                            <p class="card-text text-secondary mt-4">
-                                Director: John Doe
-                            </p>
-                            <p class="card-text text-secondary">Duration: 120 mins</p>
-                            <p class="card-text text-secondary">Classification: PG-13</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-outline-primary">
-                                    Edit
-                                </button>
-                                <button type="button" class="btn btn-outline-danger">
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- Movie Card 1 -->
-                <div class="col">
-                    <div class="card">
-                        <img
-                                src="../../Media/Image/mainMovie_1.jpg"
-                                class="card-img-top"
-                                alt="Movie 1"
-                        />
-                        <div class="card-body">
-                            <h5 class="movie-card-title">Deadpool</h5>
-                            <p class="card-text text-secondary mt-4">
-                                Director: John Doe
-                            </p>
-                            <p class="card-text text-secondary">Duration: 120 mins</p>
-                            <p class="card-text text-secondary">Classification: PG-13</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-outline-primary">
-                                    Edit
-                                </button>
-                                <button type="button" class="btn btn-outline-danger">
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- Movie Card 1 -->
-                <div class="col">
-                    <div class="card">
-                        <img
-                                src="../../Media/Image/mainMovie_1.jpg"
-                                class="card-img-top"
-                                alt="Movie 1"
-                        />
-                        <div class="card-body">
-                            <h5 class="movie-card-title">Deadpool</h5>
-                            <p class="card-text text-secondary mt-4">
-                                Director: John Doe
-                            </p>
-                            <p class="card-text text-secondary">Duration: 120 mins</p>
-                            <p class="card-text text-secondary">Classification: PG-13</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-outline-primary">
-                                    Edit
-                                </button>
-                                <button type="button" class="btn btn-outline-danger">
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- Movie Card 1 -->
-                <div class="col">
-                    <div class="card">
-                        <img
-                                src="../../Media/Image/mainMovie_1.jpg"
-                                class="card-img-top"
-                                alt="Movie 1"
-                        />
-                        <div class="card-body">
-                            <h5 class="movie-card-title">Deadpool</h5>
-                            <p class="card-text text-secondary mt-4">
-                                Director: John Doe
-                            </p>
-                            <p class="card-text text-secondary">Duration: 120 mins</p>
-                            <p class="card-text text-secondary">Classification: PG-13</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-outline-primary">
-                                    Edit
-                                </button>
-                                <button type="button" class="btn btn-outline-danger">
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- Movie Card 1 -->
-                <div class="col">
-                    <div class="card">
-                        <img
-                                src="../../Media/Image/mainMovie_1.jpg"
-                                class="card-img-top"
-                                alt="Movie 1"
-                        />
-                        <div class="card-body">
-                            <h5 class="movie-card-title">Deadpool</h5>
-                            <p class="card-text text-secondary mt-4">
-                                Director: John Doe
-                            </p>
-                            <p class="card-text text-secondary">Duration: 120 mins</p>
-                            <p class="card-text text-secondary">Classification: PG-13</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-outline-primary">
-                                    Edit
-                                </button>
-                                <button type="button" class="btn btn-outline-danger">
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- Movie Card 1 -->
-                <div class="col">
-                    <div class="card">
-                        <img
-                                src="../../Media/Image/mainMovie_1.jpg"
-                                class="card-img-top"
-                                alt="Movie 1"
-                        />
-                        <div class="card-body">
-                            <h5 class="movie-card-title">Deadpool</h5>
-                            <p class="card-text text-secondary mt-4">
-                                Director: John Doe
-                            </p>
-                            <p class="card-text text-secondary">Duration: 120 mins</p>
-                            <p class="card-text text-secondary">Classification: PG-13</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-outline-primary">
-                                    Edit
-                                </button>
-                                <button type="button" class="btn btn-outline-danger">
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- Movie Card 1 -->
-                <div class="col">
-                    <div class="card">
-                        <img
-                                src="../../Media/Image/mainMovie_1.jpg"
-                                class="card-img-top"
-                                alt="Movie 1"
-                        />
-                        <div class="card-body">
-                            <h5 class="movie-card-title">Deadpool</h5>
-                            <p class="card-text text-secondary mt-4">
-                                Director: John Doe
-                            </p>
-                            <p class="card-text text-secondary">Duration: 120 mins</p>
-                            <p class="card-text text-secondary">Classification: PG-13</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-outline-primary">
-                                    Edit
-                                </button>
-                                <button type="button" class="btn btn-outline-danger">
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- Movie Card 1 -->
-                <div class="col">
-                    <div class="card">
-                        <img
-                                src="../../Media/Image/mainMovie_1.jpg"
-                                class="card-img-top"
-                                alt="Movie 1"
-                        />
-                        <div class="card-body">
-                            <h5 class="movie-card-title">Deadpool</h5>
-                            <p class="card-text text-secondary mt-4">
-                                Director: John Doe
-                            </p>
-                            <p class="card-text text-secondary">Duration: 120 mins</p>
-                            <p class="card-text text-secondary">Classification: PG-13</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-outline-primary">
-                                    Edit
-                                </button>
-                                <button type="button" class="btn btn-outline-danger">
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- Movie Card 1 -->
-                <div class="col">
-                    <div class="card">
-                        <img
-                                src="../../Media/Image/mainMovie_1.jpg"
-                                class="card-img-top"
-                                alt="Movie 1"
-                        />
-                        <div class="card-body">
-                            <h5 class="movie-card-title">Deadpool</h5>
-                            <p class="card-text text-secondary mt-4">
-                                Director: John Doe
-                            </p>
-                            <p class="card-text text-secondary">Duration: 120 mins</p>
-                            <p class="card-text text-secondary">Classification: PG-13</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-outline-primary">
-                                    Edit
-                                </button>
-                                <button type="button" class="btn btn-outline-danger">
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
+            </div>
         </main>
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('exportMovieXmlButton').addEventListener('click', function () {
+            fetch('<?=ROOT?>/MovieManagement/exportMovieToXML', {
+                method: 'GET',
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    // Download the xml file
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'movies.xml';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while exporting the movies to XML.');
+                });
+        });
+    });
+</script>
 </body>
 </html>
