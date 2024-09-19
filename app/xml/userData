@@ -38,11 +38,11 @@
     <PhoneNo>01376783627</PhoneNo>
     <Email>hi@gmail.com</Email>
     <Gender>M</Gender>
-    <Status>active</Status>
+    <Status>deactive</Status>
   </User>
   <User>
     <UserID>6</UserID>
-    <UserName>kyan</UserName>
+    <UserName>kyann</UserName>
     <PhoneNo>0143551931</PhoneNo>
     <Email>xx@gmail.com</Email>
     <Gender>F</Gender>
@@ -65,11 +65,35 @@
     <Status>active</Status>
   </User>
   <User>
+    <UserID>9</UserID>
+    <UserName>Chong Kah Yan</UserName>
+    <PhoneNo>0129736473</PhoneNo>
+    <Email>kahyanchong0803@gmail.com</Email>
+    <Gender>F</Gender>
+    <Status>deactive</Status>
+  </User>
+  <User>
     <UserID>10</UserID>
     <UserName>Christine</UserName>
     <PhoneNo>01091912837</PhoneNo>
     <Email>chris@gmail.com</Email>
     <Gender>F</Gender>
+    <Status>active</Status>
+  </User>
+  <User>
+    <UserID>11</UserID>
+    <UserName>CHh</UserName>
+    <PhoneNo>0143551934</PhoneNo>
+    <Email>kahyanchong0803@gmail.com</Email>
+    <Gender>M</Gender>
+    <Status>active</Status>
+  </User>
+  <User>
+    <UserID>12</UserID>
+    <UserName>Chong</UserName>
+    <PhoneNo>0143551935</PhoneNo>
+    <Email>kahyanchong0803@gmail.com</Email>
+    <Gender>M</Gender>
     <Status>active</Status>
   </User>
 </UsersReport>

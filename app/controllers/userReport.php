@@ -22,7 +22,9 @@ class userReport
 
     public function index()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
+
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $status = $_POST['status'] ?? 'Both'; // Get the selected status or default to 'Both'
 
             // Generate XML file from database
@@ -63,6 +65,10 @@ class userReport
         } else {
             // Show the form if the request method is not POST
             $this->view('Admin/User/userReport'); // Load the form view
+        }
+        } else {
+            // Redirect to permission denied page if user is not a SuperAdmin
+            $this->view("Admin/403PermissionDenied");
         }
     }
 

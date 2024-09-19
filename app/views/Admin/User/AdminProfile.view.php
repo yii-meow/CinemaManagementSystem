@@ -67,7 +67,7 @@
                         <label for="adminPhoneNo" class="form-label">
                             <i class="fas fa-phone me-2"></i>Phone Number
                         </label>
-                        <input type="text" class="form-control" id="adminPhoneNo" name="adminPhoneNo" value="<?= htmlspecialchars($data['admin']->getPhoneNo(), ENT_QUOTES, 'UTF-8'); ?>" required disabled />
+                        <input type="tel" class="form-control" id="adminPhoneNo" name="adminPhoneNo" value="<?= htmlspecialchars($data['admin']->getPhoneNo(), ENT_QUOTES, 'UTF-8'); ?>" pattern="^\d{10,15}$" title="Phone number should be in international format, e.g., +01234567890" required disabled />
                     </div>
 
                     <div class="mb-3">
@@ -87,7 +87,10 @@
                             <i class="fas fa-lock me-2"></i>New Password
                         </label>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="adminPassword" name="adminPassword" placeholder="Enter new password" disabled />
+                            <input type="password" class="form-control" id="adminPassword" name="adminPassword"
+                                   placeholder="Enter new password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}"
+                                   title="New password must be at least 6 characters long and include at least one number, one lowercase letter, one uppercase letter, and one special character"
+                                   disabled />
                             <button type="button" class="btn btn-outline-secondary" id="toggleNewPassword">
                                 <i class="fas fa-eye" id="eyeNewPassword"></i>
                             </button>
