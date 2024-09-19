@@ -57,4 +57,103 @@ class TicketRepository extends EntityRepository
         return $groupedTickets;
     }
 
+
+    public function findAllTickets()
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->select([
+                't.ticketId',
+                'u.userName AS customerName',
+                't.ticketStatus',
+                'ms.startingTime',
+                'm.title AS movieTitle',
+                'ch.hallName',
+                'ch.hallType',
+                'p.paymentStatus',
+                'p.totalPrice',
+                'p.custInfo',
+                's.seatNo'
+            ])
+            ->innerJoin('t.user', 'u')              // Join User
+            ->innerJoin('t.movieSchedule', 'ms')    // Join MovieSchedule
+            ->innerJoin('ms.movie', 'm')            // Join Movie
+            ->innerJoin('t.seats', 's')             // Join Seat
+            ->innerJoin('s.cinemaHall', 'ch')       // Join CinemaHall
+            ->leftJoin('t.payment', 'p')            // Left join Payment
+            ->orderBy('t.ticketId', 'ASC');         // Order by ticket ID
+
+        $tickets = $qb->getQuery()->getResult();
+        $groupedTickets = [];
+
+        // Group seats by ticketId
+        foreach ($tickets as $ticket) {
+            $ticketId = $ticket['ticketId'];
+
+            if (!isset($groupedTickets[$ticketId])) {
+                $groupedTickets[$ticketId] = $ticket;
+                $groupedTickets[$ticketId]['seats'] = [];
+            }
+
+            // Add the seat number to the seats array for this ticket
+            $groupedTickets[$ticketId]['seats'][] = $ticket['seatNo'];
+        }
+
+        // Concatenate seat numbers into a single string
+        foreach ($groupedTickets as &$ticket) {
+            $ticket['seatNo'] = implode(', ', $ticket['seats']);
+        }
+
+        return $groupedTickets;
+    }
+
+
+    public function findTicketById($ticketId)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->select([
+                't.ticketId',
+                'u.userName AS customerName',
+                't.ticketStatus',
+                'ms.startingTime',
+                'm.title AS movieTitle',
+                'ch.hallName',
+                'ch.hallType',
+                'p.paymentStatus',
+                'p.totalPrice',
+                's.seatNo'
+            ])
+            ->innerJoin('t.user', 'u')              // Join User
+            ->innerJoin('t.movieSchedule', 'ms')    // Join MovieSchedule
+            ->innerJoin('ms.movie', 'm')            // Join Movie
+            ->innerJoin('t.seats', 's')             // Join Seat
+            ->innerJoin('s.cinemaHall', 'ch')       // Join CinemaHall
+            ->leftJoin('t.payment', 'p')            // Left join Payment
+            ->where('t.ticketId = :ticketId')       // Filter by specific ticket ID
+            ->setParameter('ticketId', $ticketId)   // Bind the ticket ID parameter
+            ->orderBy('t.ticketId', 'ASC');         // Order by ticket ID
+
+        $tickets = $qb->getQuery()->getArrayResult();
+        $groupedTickets = [];
+
+        // Group seats by ticketId
+        foreach ($tickets as $ticket) {
+            $ticketId = $ticket['ticketId'];
+
+            if (!isset($groupedTickets[$ticketId])) {
+                $groupedTickets[$ticketId] = $ticket;
+                $groupedTickets[$ticketId]['seats'] = [];
+            }
+
+            // Add the seat number to the seats array for this ticket
+            $groupedTickets[$ticketId]['seats'][] = $ticket['seatNo'];
+        }
+
+        // Concatenate seat numbers into a single string
+        foreach ($groupedTickets as &$ticket) {
+            $ticket['seatNo'] = implode(', ', $ticket['seats']);
+        }
+
+        return array_values($groupedTickets);
+    }
+
 }
