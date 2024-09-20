@@ -70,7 +70,7 @@ class Login extends SessionManagement
                         exit();
                     }else{
                         $data['user'] = $result['user'];
-                        $this->view('Customer/User/Profile', $data);
+                        $this->view('Customer/Movie/Homepage', $data);
                         exit();
                     }
 
