@@ -27,6 +27,11 @@ class CinemaFacade
         $this->movieRepository = $this->entityManager->getRepository(Movie::class);
     }
 
+    public function getAllCinemas()
+    {
+        return $this->cinemaRepository->findAll();
+    }
+
     // Cinema Management
     public function getFormattedCinemas()
     {
@@ -213,6 +218,11 @@ class CinemaFacade
         return $hall;
     }
 
+    public function getMovieSchedules()
+    {
+        return $this->movieScheduleRepository->findMovieSchedule();
+    }
+
     public function addMovieSchedule($cinemaHallId, $movieId, $startingTime)
     {
         $movie = $this->movieRepository->find($movieId);
@@ -236,6 +246,11 @@ class CinemaFacade
     public function getAllMovies()
     {
         return $this->movieRepository->findAll();
+    }
+
+    public function getComingSoonMovies()
+    {
+        return $this->movieRepository->findComingSoonMovies();
     }
 
     public function searchMovies($search = '', $category = '')

@@ -3,40 +3,29 @@
 namespace App\controllers;
 
 use App\core\Controller;
-use App\core\Database;
-use App\models\Cinema;
-use App\models\Movie;
-use App\models\MovieSchedule;
+use App\Facade\CinemaFacade;
 
 class Homepage
 {
     use Controller;
 
-    private $entityManager;
-    private $cinemaRepository;
-    private $movieScheduleRepository;
-    private $movieRepository;
+    private $cinemaFacade;
 
     public function __construct()
     {
-        $this->entityManager = Database::getEntityManager();
-        $this->cinemaRepository = $this->entityManager->getRepository(Cinema::class);
-        $this->movieScheduleRepository = $this->entityManager->getRepository(MovieSchedule::class);
-        $this->movieRepository = $this->entityManager->getRepository(Movie::class);
+        $this->cinemaFacade = new CinemaFacade();
     }
 
     public function index()
     {
-        $cinemas = $this->cinemaRepository->findAll();
-        $showtimes = $this->movieScheduleRepository->findMovieSchedule();
-        $comingSoonMovies = $this->movieRepository->findComingSoonMovies();
-        //Please do use this only at the end of the operations
+        $cinemas = $this->cinemaFacade->getAllCinemas();
+        $showtimes = $this->cinemaFacade->getMovieSchedules();
+        $comingSoonMovies = $this->cinemaFacade->getComingSoonMovies();
 
         $this->view('Customer/Movie/Homepage', [
-                'cinemas' => $cinemas,
-                'moviesWithGroupedSchedules' => $showtimes,
-                "comingSoonMovies" => $comingSoonMovies
-            ]
-        );
+            'cinemas' => $cinemas,
+            'moviesWithGroupedSchedules' => $showtimes,
+            "comingSoonMovies" => $comingSoonMovies
+        ]);
     }
 }

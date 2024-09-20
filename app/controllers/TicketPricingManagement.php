@@ -10,6 +10,10 @@ class TicketPricingManagement
 
     public function index()
     {
-        $this->view('Admin/Ticket/TicketPricingManagement');
+        if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
+            $this->view('Admin/Ticket/TicketPricingManagement');
+        } else {
+            $this->view("Admin/403PermissionDenied");
+        }
     }
 }

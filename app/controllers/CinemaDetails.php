@@ -18,18 +18,22 @@ class CinemaDetails
 
     public function index()
     {
-        $cinemaId = isset($_GET['id']) ? $_GET['id'] : null;
+        if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
+            $cinemaId = isset($_GET['id']) ? $_GET['id'] : null;
 
-        if ($cinemaId === null || !is_numeric($cinemaId)) {
-            echo "Invalid or missing cinema ID";
-            return;
-        }
+            if ($cinemaId === null || !is_numeric($cinemaId)) {
+                echo "Invalid or missing cinema ID";
+                return;
+            }
 
-        try {
-            $cinemaData = $this->cinemaFacade->getCinemaWithHalls($cinemaId);
-            $this->view('Admin/Cinema/CinemaDetails', $cinemaData);
-        } catch (\Exception $e) {
-            jsonResponse(['success' => false, 'message' => $e->getMessage()]);
+            try {
+                $cinemaData = $this->cinemaFacade->getCinemaWithHalls($cinemaId);
+                $this->view('Admin/Cinema/CinemaDetails', $cinemaData);
+            } catch (\Exception $e) {
+                jsonResponse(['success' => false, 'message' => $e->getMessage()]);
+            }
+        } else {
+            $this->view("Admin/403PermissionDenied");
         }
     }
 
