@@ -31,7 +31,7 @@
         <div class="img-box">
             <img draggable="false" src="<?php
             if (isset($data)) {
-                echo $data["movie"]["photo"];
+                echo ROOT . $data["movie"]["photo"];
             }
             ?>"/>
         </div>

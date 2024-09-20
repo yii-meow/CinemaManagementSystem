@@ -51,7 +51,7 @@ use App\core\Encryption;
         <div class="poster-box">
             <img src="
             <?php if (isset($data)) {
-                echo $data['movies']["photo"];
+                echo ROOT . $data['movies']["photo"];
             } ?>" style="width: 60%;" draggable="false"/>
         </div>
         <div class="detail-box">
@@ -167,7 +167,7 @@ use App\core\Encryption;
             <div class="modal-body">
                 <div class="modal-image" style="text-align: center;">
                     <img src="<?php if (isset($data)) {
-                        echo $data['movies']['photo'];
+                        echo  ROOT . $data['movies']['photo'];
                     } ?>" style="width:30%;" draggable="false"/>
                     <div
                             style="color:white; font-size: 18px; font-weight: 600; margin-top: 15px; margin-bottom:8px;">

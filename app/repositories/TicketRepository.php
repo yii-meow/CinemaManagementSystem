@@ -15,6 +15,7 @@ class TicketRepository extends EntityRepository
             ->select([
                 't.ticketId',
                 't.ticketStatus',
+                't.qrCodeURL',
                 'ms.startingTime',
                 'm.title AS movieTitle',
                 'm.duration AS movieDuration',
