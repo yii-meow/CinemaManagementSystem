@@ -12,6 +12,7 @@ use App\models\Movie;
 use App\models\MovieSchedule;
 use App\models\CinemaHall;
 use App\models\Seat;
+use App\models\Ticket;
 
 class SeatSelection
 {
@@ -25,6 +26,8 @@ class SeatSelection
 
     private $seatRepository;
 
+    private $ticketRepository;
+
     public function __construct()
     {
         $this->entityManager = Database::getEntityManager();
@@ -34,6 +37,7 @@ class SeatSelection
         $this->cinemaHallRepository = $this->entityManager->getRepository(CinemaHall::class);
         $this->cinemaRepository = $this->entityManager->getRepository(Cinema::class);
         $this->seatRepository = $this->entityManager->getRepository(Seat::class);
+        $this->ticketRepository = $this->entityManager->getRepository(Ticket::class);
     }
 
     public function index()
@@ -68,7 +72,6 @@ class SeatSelection
         $queryString["cinemaId"] = (int) $cinemaId;
         $queryString["movieScheduleId"] = $movieScheduleId;;
         $queryString["hallName"] = (string) $hallName;
-
 
 
         //MovieDetails
@@ -106,14 +109,12 @@ class SeatSelection
 
         //Find Occupied Seats
         $occupiedSeat = [];
-        $seats = $this->seatRepository->findAllSeatsOfTheMovieOfTheDateTime((int)$movieId, (string)$date);
+        $seats = $this->seatRepository->findAllSeatsOfTheMovieOfTheDateTime((int)$movieId, (string)$date, (int)$movieScheduleId);
         if ($seats) {
             foreach ($seats as $seat) {
                 $occupiedSeat[] = $seat;
             }
         }
-
-
 
 
         //Preparing data to pass
@@ -124,7 +125,7 @@ class SeatSelection
             "occupiedSeat" => $occupiedSeat,
         ];
 
-        //show($data);
+       // show($data);
 
         // Close the EntityManager Database Connection after operations are done
         $this->entityManager->close();
