@@ -62,7 +62,7 @@
                 <!-- User is logged in -->
                 <div class="profile-container action" id="profile">
                     <div style="margin-top: auto; margin-bottom: auto;">
-                        <button onclick="window.location.href='Profile'" class="btn header-font"
+                        <button onclick="window.location.href='<?=ROOT?>/Profile'" class="btn header-font"
                                 style="padding:10px; width: 160px; font-size: 17px; display: flex; color: #f03351;">
                             <div style="margin-top: -3px; border-radius: 150px; width: 30px; height: 30px; overflow: hidden;">
                                 <img src="<?= ROOT ?>/assets/images/<?= !empty($user['profileImg']) ? htmlspecialchars($user['profileImg']) : '../../../public/assets/images/profile4.jpg' ?>"

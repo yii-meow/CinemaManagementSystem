@@ -61,7 +61,7 @@ use App\core\Encryption;
                                    value="<?= htmlspecialchars($searchQuery ?? '', ENT_QUOTES, 'UTF-8'); ?>"/>
                         </div>
                         <div class="exportButton" style="display:flex; flex-flow: row nowrap; gap:10px;">
-                            <button onclick="location.href='<?= ROOT ?>/UserPurchasedTicket/exportPDF'" type="button"
+                            <button onclick="location.href='<?= ROOT ?>/UserPurchasedTicket/showXSLT'" type="button"
                                     class="btn btn-primary">Show XSLT
                             </button>
                             <button onclick="location.href='<?= ROOT ?>/UserPurchasedTicket/exportCSV'" type="button"

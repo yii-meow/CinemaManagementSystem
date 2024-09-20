@@ -6,19 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Export/CSV/ticket.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Export/PDF/ticket.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/UserPurchasedTicket.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/UserPurchasedTicket.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/App.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/App.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repositories/TicketRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/TicketRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Movie/Homepage.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Movie/Homepage.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Movie/MovieDetails.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Movie/MovieDetails.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Payment/Payment.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Payment/Payment.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Payment/PurchaseHistory.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Payment/PurchaseHistory.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Selection/DetailSelection.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Selection/DetailSelection.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Selection/SeatSelection.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Selection/SeatSelection.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/ticket.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/ticket.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/repositories/MovieScheduleRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/MovieScheduleRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Ticket/UserPurchasedTicket.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Ticket/UserPurchasedTicket.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/header.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +114,7 @@
       <workItem from="1726595671211" duration="372000" />
       <workItem from="1726708376464" duration="48262000" />
       <workItem from="1726799035313" duration="3304000" />
-      <workItem from="1726805195568" duration="4272000" />
+      <workItem from="1726805195568" duration="5838000" />
     </task>
     <servers />
   </component>
