@@ -46,6 +46,12 @@ class MovieXMLGenerator
                 $movieElement->addChild('status', htmlspecialchars($movie->getStatus()));
             }
 
+            // Save raw movies XML
+            $xmlPath = $this->xmlDirectory . '/movies_raw.xml';
+            if (file_put_contents($xmlPath, $xml->asXML()) === false) {
+                throw new \Exception("Failed to save XML file: " . $xmlPath);
+            }
+
             // Perform XPath queries
             $xpathResults = $this->performXPathQueriesSimpleXML($xml);
 
@@ -66,6 +72,7 @@ class MovieXMLGenerator
             }
 
             $xmlString = $xml->asXML();
+
 
             // Transform XML to HTML using XSLT
             $xsltProcessor = new \XSLTProcessor();
@@ -114,6 +121,29 @@ class MovieXMLGenerator
             $longMoviesList[] = (string)$movie;
         }
         $results['long_movies'] = $longMoviesList;
+
+        // Count movies by language
+//        $languages = $xml->xpath('//movie/language');
+//        $languageCounts = [];
+//        foreach ($languages as $language) {
+//            $languageName = $language->nodeValue;
+//            $languageCounts[$languageName] = isset($languageCounts[$languageName]) ? $languageCounts[$languageName] + 1 : 1;
+//        }
+//        $results['language_counts'] = $languageCounts;
+
+        // Find movies released in the last year
+        $oneYearAgo = date('Y-m-d', strtotime('-1 year'));
+        $recentMovies = $xml->xpath("//movie[releaseDate >= '$oneYearAgo']/title");
+        $recentMoviesList = [];
+        foreach ($recentMovies as $movie) {
+            $recentMoviesList[] = $movie->nodeValue;
+        }
+        $results['recent_movies'] = $recentMoviesList;
+
+//         Find the average duration of movies
+        $totalDuration = $xml->xpath->evaluate('sum(//movie/duration)');
+        $movieCount = $xml->xpath->evaluate('count(//movie)');
+        $results['average_duration'] = $movieCount > 0 ? $totalDuration / $movieCount : 0;
 
         return $results;
     }

@@ -6,10 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/MovieManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MovieManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Movie/MovieManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Movie/MovieManagement.view.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/xml/Movie/MovieXMLGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/Movie/MovieXMLGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/Movie/movies_summary.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/Movie/movies_summary.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/Movie/movies_raw.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/Movie/movies_raw.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/Movie/xpath_results.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/Movie/xpath_summary.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/Movie/xpath_summary.xsl" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
