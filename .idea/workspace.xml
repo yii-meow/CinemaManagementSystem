@@ -5,8 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/xml/ticket.xsl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/QRCodeGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/QRCodeGenerator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Export/CSV/ticket.csv" beforeDir="false" afterPath="$PROJECT_DIR$/app/Export/CSV/ticket.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Export/PDF/ticket.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/app/Export/PDF/ticket.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/UserPurchasedTicket.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/UserPurchasedTicket.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/ticket.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/ticket.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +83,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/xampp/htdocs/CinemaManagementSystem",
+    "last_opened_file_path": "C:/xampp/htdocs/CinemaManagementSystem/app/xslt",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -88,7 +93,11 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\CinemaManagementSystem\app\xslt" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\CinemaManagementSystem\app\xml" />
       <recent name="C:\xampp\htdocs\CinemaManagementSystem\app\xml\Movie" />
       <recent name="C:\xampp\htdocs\CinemaManagementSystem\vendor" />
     </key>
@@ -113,7 +122,7 @@
       <workItem from="1726708376464" duration="48262000" />
       <workItem from="1726799035313" duration="3304000" />
       <workItem from="1726805195568" duration="6931000" />
-      <workItem from="1726815957773" duration="10630000" />
+      <workItem from="1726815957773" duration="13932000" />
     </task>
     <servers />
   </component>
