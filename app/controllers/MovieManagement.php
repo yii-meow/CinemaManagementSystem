@@ -2,9 +2,9 @@
 
 namespace App\controllers;
 
-use App\xml\MovieXMLGenerator;
 use App\core\Controller;
 use App\Facade\CinemaFacade;
+use App\xml\Movie\MovieXMLGenerator;
 
 class MovieManagement
 {

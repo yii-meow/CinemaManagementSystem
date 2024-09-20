@@ -1,6 +1,6 @@
 <?php
 
-namespace App\xml;
+namespace App\xml\Movie;
 
 use App\core\Controller;
 use App\Facade\CinemaFacade;
@@ -10,17 +10,17 @@ class MovieXMLGenerator
     use Controller;
 
     private $cinemaFacade;
+    private $xmlDirectory;
 
     public function __construct()
     {
         $this->cinemaFacade = new CinemaFacade();
+        $this->xmlDirectory = dirname(__DIR__) . '/Movie/';
     }
 
     public function generateMovieXML()
     {
         try {
-            $xmlDirectory = dirname(__DIR__) . '/xml';
-
             $movies = $this->cinemaFacade->getAllMovies();
 
             if (empty($movies)) {
@@ -44,28 +44,68 @@ class MovieXMLGenerator
 
             $xmlString = $xml->asXML();
 
-            if (!is_dir($xmlDirectory)) {
-                if (!mkdir($xmlDirectory, 0755, true)) {
+            if (!is_dir($this->xmlDirectory)) {
+                if (!mkdir($this->xmlDirectory, 0755, true)) {
                     throw new \Exception("Failed to create directory: " . $this->xmlDirectory);
                 }
             }
 
             // Check if directory is writable
-            if (!is_writable($xmlDirectory)) {
+            if (!is_writable($this->xmlDirectory)) {
                 throw new \Exception("Directory is not writable: " . $this->xmlDirectory);
             }
 
-            $filePath = $xmlDirectory . '/movies.xml';
+            $rawXmlPath = $this->xmlDirectory . '/movies_raw.xml';
 
             // Save XML to file
-            if (file_put_contents($filePath, $xmlString) === false) {
+            if (file_put_contents($rawXmlPath, $xmlString) === false) {
                 throw new \Exception("Failed to save XML file: " . $filePath);
             }
 
-            // Output XML
-            header('Content-Type: application/xml');
-            header('Content-Disposition: attachment; filename="movies.xml"');
-            echo $xmlString;
+            $xsl = new \DOMDocument();
+            $xsl->load($this->xmlDirectory . '/movie_summary.xsl');
+
+            // Configure the transformer
+            $proc = new \XSLTProcessor;
+            $proc->importStyleSheet($xsl);
+
+            // Transform XML to HTML
+            $xmlDoc = new \DOMDocument();
+            $xmlDoc->loadXML($xmlString);
+            $htmlOutput = $proc->transformToXML($xmlDoc);
+
+            // Save transformed HTML
+            $htmlPath = $this->xmlDirectory . '/movies_summary.html';
+            file_put_contents($htmlPath, $htmlOutput);
+
+            // XPath example: Count movies by category
+            $xpath = new \DOMXPath($xmlDoc);
+            $categories = $xpath->query('//movie/category');
+            $categoryCounts = [];
+            foreach ($categories as $category) {
+                $categoryName = $category->nodeValue;
+                $categoryCounts[$categoryName] = isset($categoryCounts[$categoryName]) ? $categoryCounts[$categoryName] + 1 : 1;
+            }
+
+            // XPath example: Find movies longer than 120 minutes
+            $longMovies = $xpath->query('//movie[duration > 120]/title');
+            $longMoviesList = [];
+            foreach ($longMovies as $movie) {
+                $longMoviesList[] = $movie->nodeValue;
+            }
+
+            // Prepare response
+            $response = [
+                'message' => 'XML generated and transformed successfully',
+                'raw_xml_path' => $rawXmlPath,
+                'html_summary_path' => $htmlPath,
+                'category_counts' => $categoryCounts,
+                'long_movies' => $longMoviesList
+            ];
+
+            // Output response
+            jsonResponse($response);
+
         } catch (\Exception $e) {
             error_log("Error in generateMovieXML: " . $e->getMessage());
             jsonResponse(["error" => $e->getMessage()]);
