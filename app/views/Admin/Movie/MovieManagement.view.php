@@ -160,7 +160,6 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data);
                     if (data.error) {
                         throw new Error(data.error);
                     } else {
@@ -174,12 +173,11 @@
                             htmlLink.click();
                             window.URL.revokeObjectURL(htmlUrl);
                         }
-
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while exporting the movies: ' + error.message);
+                    console.error('Error:', error.message);
+                    // alert('An error occurred while exporting the movies: ' + error.message);
                 });
         });
     });

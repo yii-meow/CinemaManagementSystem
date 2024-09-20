@@ -4,6 +4,8 @@ namespace App\xml\Movie;
 
 use App\core\Controller;
 use App\Facade\CinemaFacade;
+use DOMDocument;
+use DOMXPath;
 
 class MovieXMLGenerator
 {
@@ -11,11 +13,13 @@ class MovieXMLGenerator
 
     private $cinemaFacade;
     private $xmlDirectory;
+    private $xmlFilePath;
 
     public function __construct()
     {
         $this->cinemaFacade = new CinemaFacade();
         $this->xmlDirectory = dirname(__DIR__) . '/Movie/';
+        $this->xmlFilePath = $this->xmlDirectory . 'movies_summary.xml';
     }
 
     public function generateMovieXML()
@@ -28,11 +32,10 @@ class MovieXMLGenerator
             }
 
             // Generate main XML
-            $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="movie_summary.xsl"?><root></root>');
+            $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="movie_summary.xsl"?><root><movies></movies></root>');
 
-            $moviesElement = $xml->addChild('movies');
             foreach ($movies as $movie) {
-                $movieElement = $moviesElement->addChild('movie');
+                $movieElement = $xml->movies->addChild('movie');
                 $movieElement->addChild('title', htmlspecialchars($movie->getTitle()));
                 $movieElement->addChild('director', htmlspecialchars($movie->getDirector()));
                 $movieElement->addChild('duration', $movie->getDuration());
@@ -43,56 +46,40 @@ class MovieXMLGenerator
                 $movieElement->addChild('status', htmlspecialchars($movie->getStatus()));
             }
 
-            // XPath results
-            $xpathResults = $xml->addChild('xpath_results');
+            // Perform XPath queries
+            $xpathResults = $this->performXPathQueriesSimpleXML($xml);
 
-            // XPath: Count total number of movies
-            $totalMovies = count($movies);
-            $xpathResults->addChild('total_movies', $totalMovies);
+            // Add XPath results to XML
+            $resultsElement = $xml->addChild('xpath_results');
+            $resultsElement->addChild('total_movies', $xpathResults['total_movies']);
 
-            // XPath: Count movies by category
-            $categoryCounts = [];
-            foreach ($movies as $movie) {
-                $category = $movie->getCatagory();
-                $categoryCounts[$category] = isset($categoryCounts[$category]) ? $categoryCounts[$category] + 1 : 1;
-            }
-
-            $categoriesElement = $xpathResults->addChild('category_counts');
-            foreach ($categoryCounts as $category => $count) {
-                $categoryElement = $categoriesElement->addChild('category');
+            $categoryCounts = $resultsElement->addChild('category_counts');
+            foreach ($xpathResults['category_counts'] as $category => $count) {
+                $categoryElement = $categoryCounts->addChild('category');
                 $categoryElement->addChild('name', htmlspecialchars($category));
                 $categoryElement->addChild('count', $count);
             }
 
-            // XPath: Find movies longer than 120 minutes
-            $longMoviesElement = $xpathResults->addChild('long_movies');
-            foreach ($movies as $movie) {
-                if ($movie->getDuration() > 120) {
-                    $longMoviesElement->addChild('movie', htmlspecialchars($movie->getTitle()));
-                }
+            $longMovies = $resultsElement->addChild('long_movies');
+            foreach ($xpathResults['long_movies'] as $movie) {
+                $longMovies->addChild('movie', htmlspecialchars($movie));
             }
 
             $xmlString = $xml->asXML();
 
-            // Save XML to file
-            $xmlPath = $this->xmlDirectory . '/movies_summary.xml';
-            if (file_put_contents($xmlPath, $xmlString) === false) {
-                throw new \Exception("Failed to save XML file: " . $xmlPath);
+            // Transform XML to HTML using XSLT
+            $xsltProcessor = new \XSLTProcessor();
+            $xsltDoc = new \DOMDocument();
+            $xsltDoc->load($this->xmlDirectory . 'movie_summary.xsl');
+            $xsltProcessor->importStylesheet($xsltDoc);
+
+            $xmlDoc = new \DOMDocument();
+            $xmlDoc->loadXML($xmlString);
+            $htmlOutput = $xsltProcessor->transformToXML($xmlDoc);
+
+            if ($htmlOutput === false) {
+                throw new \Exception("XSLT transformation failed");
             }
-
-            // Transform XML to HTML
-            $xsl = new \DOMDocument();
-            $xsl->load($this->xmlDirectory . '/movie_summary.xsl');
-            $proc = new \XSLTProcessor;
-            $proc->importStyleSheet($xsl);
-            $xmlDom = new \DOMDocument();
-            $xmlDom->loadXML($xmlString);
-            $htmlOutput = $proc->transformToXML($xmlDom);
-
-            // Save transformed HTML
-            $htmlPath = $this->xmlDirectory . '/movies_summary.html';
-            file_put_contents($htmlPath, $htmlOutput);
-
             return [
                 'xml' => $xmlString,
                 'html' => $htmlOutput
@@ -102,5 +89,32 @@ class MovieXMLGenerator
             error_log("Error in generateMovieXML: " . $e->getMessage());
             return ["error" => $e->getMessage()];
         }
+    }
+
+    private function performXPathQueriesSimpleXML($xml)
+    {
+        $results = [];
+
+        // Count total number of movies
+        $results['total_movies'] = count($xml->xpath('//movie'));
+
+        // Count movies by category
+        $categories = $xml->xpath('//movie/category');
+        $categoryCounts = [];
+        foreach ($categories as $category) {
+            $categoryName = (string)$category;
+            $categoryCounts[$categoryName] = isset($categoryCounts[$categoryName]) ? $categoryCounts[$categoryName] + 1 : 1;
+        }
+        $results['category_counts'] = $categoryCounts;
+
+        // Find movies longer than 120 minutes
+        $longMovies = $xml->xpath('//movie[duration > 120]/title');
+        $longMoviesList = [];
+        foreach ($longMovies as $movie) {
+            $longMoviesList[] = (string)$movie;
+        }
+        $results['long_movies'] = $longMoviesList;
+
+        return $results;
     }
 }

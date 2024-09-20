@@ -118,8 +118,8 @@ class MovieManagement
                 'html' => base64_encode($result['html']),
             ];
             jsonResponse($response);
+            exit;
         } catch (\Exception $e) {
-            error_log("Error in exportMovieToXML: " . $e->getMessage());
             jsonResponse(["error" => $e->getMessage()]);
         }
     }
