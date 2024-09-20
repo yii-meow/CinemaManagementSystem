@@ -77,7 +77,7 @@
                     <br>
 
                     <div class="d-md-block justify-content-between">
-                        <a href="StaffManage" class="btn btn-primary">Back</a>
+                        <a href="<?= ROOT ?>/StaffManage" class="btn btn-primary">Back</a>
                         <button type="button" class="btn btn-secondary" id="editButton">Edit</button>
                         <button type="submit" class="btn btn-success d-none" id="saveButton">Save</button>
                         <button type="submit" class="btn btn-danger" id="deleteButton" name="delete" value="1">Delete</button>
