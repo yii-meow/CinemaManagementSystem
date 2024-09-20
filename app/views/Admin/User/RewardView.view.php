@@ -33,7 +33,7 @@
                         background-color: #ffffff;
                         border-radius: 8px;
                         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                    " action="RewardView" method="post" enctype="multipart/form-data">
+                    " action="<?= ROOT ?>/RewardView" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="rewardId" value="<?= htmlspecialchars($reward->getRewardId(), ENT_QUOTES, 'UTF-8'); ?>" />
 
                     <div class="mb-3">
@@ -83,7 +83,7 @@
                     <br>
 
                     <div class="d-md-block justify-content-between">
-                        <a href="RewardManage" class="btn btn-primary">Back</a>
+                        <a href="<?= ROOT ?>/RewardManage" class="btn btn-primary">Back</a>
                         <button type="button" class="btn btn-secondary" id="editButton">Edit</button>
                         <button type="submit" class="btn btn-success d-none" id="saveButton" name="action" value="update">Save</button>
                         <button type="submit" class="btn btn-danger" id="deleteButton" name="action" value="delete">Delete</button>

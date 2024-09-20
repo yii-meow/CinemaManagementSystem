@@ -91,7 +91,7 @@
                             <td><?= htmlspecialchars($member->getPhoneNo(), ENT_QUOTES, 'UTF-8'); ?></td>
                             <td><?= htmlspecialchars($member->getRole(), ENT_QUOTES, 'UTF-8'); ?></td>
                             <td>
-                                <a href="StaffView?staffId=<?= htmlspecialchars($member->getUserId(), ENT_QUOTES, 'UTF-8'); ?>">
+                                <a href="<?= ROOT ?>/StaffView?staffId=<?= htmlspecialchars($member->getUserId(), ENT_QUOTES, 'UTF-8'); ?>">
                                     <button class="btn btn-md btn-outline-primary me-2">
                                         <i class="fas fa-eye me-1"></i>View
                                     </button>

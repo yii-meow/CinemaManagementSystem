@@ -1,5 +1,6 @@
 "Ticket ID","Customer Name","Ticket Status","Payment Status","Movie Title","Starting Time","Seats No","Total Price"
-1,kyann,Past,Paid,"Beetlejuice Beetlejuice","2024-09-19 23:30:00","H9, I9",38.70
+1,kyann,Past,Unpaid,"Beetlejuice Beetlejuice","2024-09-19 23:30:00","H9, I9",38.70
 2,kyann,Past,Unpaid,"Twilight of the Warriors: Walled In","2024-09-15 03:45:00","H4, H5",42.57
-3,nicole01,Upcoming,Unpaid,"Beetlejuice Beetlejuice","2024-09-19 23:30:00",A12,21.29
+3,nicole01,Upcoming,Paid,"Beetlejuice Beetlejuice","2024-09-19 23:30:00",A12,21.29
 4,kyann,Past,Unpaid,"Beetlejuice Beetlejuice","2024-09-19 23:30:00",E11,21.29
+5,kyann,Upcoming,Paid,"BLUE LOCK THE MOVIE -EPISODE NAGI-","2024-09-20 14:00:00","C8, D3, D4, D7, E3, E4, E6, F4, G5",174.15

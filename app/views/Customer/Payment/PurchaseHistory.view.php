@@ -122,7 +122,9 @@
                                 </div>
                                 <div class="right-info">
                                     <div class="qrcode">
-                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=<?= htmlspecialchars($record['ticketId']) ?>"
+                                        <img style="width: 250px; height: 250px;" src="<?php
+                                            echo $record["qrCodeURL"];
+                                        ?>"
                                              alt="QR Code"/>
                                     </div>
                                 </div>

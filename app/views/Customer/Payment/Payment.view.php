@@ -546,7 +546,7 @@
                         if (response.redirect && response.redirect !== "Err") {
 
                             //Testing
-                            document.writeln(response)
+                            // document.writeln(response)
 
                             //Redirection
                             location.href = "<?=ROOT?>/PurchaseConfirm?ticketId=" + response["redirect"];
