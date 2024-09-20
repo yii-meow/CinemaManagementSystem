@@ -97,7 +97,7 @@
                 <br>
 
                 <div class="d-md-block justify-content-between">
-                    <a href="UserManage" class="btn btn-primary">Back</a>
+                    <a href="<?= ROOT ?>/UserManage" class="btn btn-primary">Back</a>
                     <button type="button" style="background-color: green" class="btn btn-secondary" id="statusButton">Set Status</button>
                 </div>
 
@@ -122,7 +122,7 @@
                                         <th scope="row"><?= $index + 1 ?></th>
                                         <td><?= htmlspecialchars($reward['rewardTitle'], ENT_QUOTES, 'UTF-8'); ?></td>
                                         <td><?= htmlspecialchars($reward['category'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td><img src="<?= ROOT ?>/assets/images/<?= htmlspecialchars($reward['rewardImg'] ?? 'default.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="Reward Image" class="img-thumbnail" style="width: 100px; height: 100px;" /></td>
+                                        <td><img src="<?= ROOT ?>/assets/images/<?= htmlspecialchars(isset($reward['rewardImg']) ? $reward['rewardImg'] : 'icon.png', ENT_QUOTES, 'UTF-8'); ?>" alt="Reward Image" class="img-thumbnail" style="width: 100px; height: 100px;" /></td>
                                         <td style="<?= $reward['rewardCondition'] === 'used' ? 'color: red;' : 'color: green;' ?>"><b><?= htmlspecialchars($reward['rewardCondition'], ENT_QUOTES, 'UTF-8'); ?></b></td>
                                     </tr>
                                 <?php endforeach; ?>
