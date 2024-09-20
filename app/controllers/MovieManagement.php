@@ -19,12 +19,12 @@ class MovieManagement
 
     public function index()
     {
-        if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
+//        if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
             $movies = $this->cinemaFacade->getAllMovies();
             return $this->view("Admin/Movie/MovieManagement", ['movies' => $movies]);
-        } else {
-            $this->view("Admin/403PermissionDenied");
-        }
+//        } else {
+//            $this->view("Admin/403PermissionDenied");
+//        }
     }
 
     public function addMovie()

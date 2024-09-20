@@ -7,18 +7,9 @@
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/AddMovie.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/AddMovie.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/CinemaDetails.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/CinemaDetails.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/CinemaManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/CinemaManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/HallConfiguration.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/HallConfiguration.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/HallMovieSchedule.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/HallMovieSchedule.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/Homepage.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Homepage.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/MovieManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MovieManagement.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/TicketPricingManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/TicketPricingManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/403PermissionDenied.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/403PermissionDenied.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Movie/MovieResult.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Movie/MovieResult.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Movie/MovieSearch.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Movie/MovieSearch.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Ticket/TicketPricingManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Ticket/TicketPricingManagement.view.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
