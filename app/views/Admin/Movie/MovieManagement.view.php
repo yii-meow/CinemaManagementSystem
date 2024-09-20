@@ -226,6 +226,12 @@
                 const button = event.target.classList.contains('edit-movie') ? event.target : event.target.closest('.edit-movie');
                 const movieCard = button.closest('.movie-card');
                 populateModalAndOpen(movieCard);
+            } else if (event.target.classList.contains('remove-movie') || event.target.closest('.remove-movie')) {
+                const button = event.target.classList.contains('remove-movie') ? event.target : event.target.closest('.remove-movie');
+                const movieCard = button.closest('.movie-card');
+                const movieId = movieCard.dataset.movieId;
+                const movieTitle = movieCard.querySelector('.movie-card-title').textContent.trim();
+                confirmAndRemoveMovie(movieId, movieTitle);
             }
         });
 
@@ -273,6 +279,31 @@
                     alert('An error occurred while updating the movie.');
                 });
         });
+
+        function confirmAndRemoveMovie(movieId, movieTitle) {
+            if (confirm(`Are you sure you want to remove the movie "${movieTitle}"?`)) {
+                fetch(`<?=ROOT?>/MovieManagement/removeMovie`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({movieId: movieId})
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.message);
+                            location.reload()
+                        } else {
+                            alert('Error: ' + data.message);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('An error occurred while removing the movie.');
+                    });
+            }
+        }
     });
 </script>
 </body>

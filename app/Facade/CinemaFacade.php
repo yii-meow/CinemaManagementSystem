@@ -361,7 +361,7 @@ class CinemaFacade
 
     public function updateMovie($movieId, $movieData)
     {
-        $movie = $this->entityManager->getRepository(Movie::class)->find($movieId);
+        $movie = $this->movieRepository->find($movieId);
 
         if (!$movie) {
             throw new \Exception("Movie not found");
@@ -384,6 +384,25 @@ class CinemaFacade
         // if (isset($movieData['photo'])) $movie->setPhoto($movieData['photo']);
 
         try {
+            $this->entityManager->flush();
+            return true;
+        } catch (\Exception $e) {
+            // Log the error
+            error_log($e->getMessage());
+            throw $e;
+        }
+    }
+
+    public function removeMovie($movieId)
+    {
+        $movie = $this->movieRepository->find($movieId);
+
+        if (!$movie) {
+            return false;
+        }
+
+        try {
+            $this->entityManager->remove($movie);
             $this->entityManager->flush();
             return true;
         } catch (\Exception $e) {
