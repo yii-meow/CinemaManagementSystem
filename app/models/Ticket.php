@@ -32,7 +32,6 @@ class Ticket
     private $user;
 
 
-
     #[ORM\OneToMany(mappedBy: 'ticket', targetEntity: Seat::class, fetch: "EXTRA_LAZY")]
     private $seats;
 
