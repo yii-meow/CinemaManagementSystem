@@ -167,7 +167,7 @@ use App\core\Encryption;
             <div class="modal-body">
                 <div class="modal-image" style="text-align: center;">
                     <img src="<?php if (isset($data)) {
-                        echo  ROOT . $data['movies']['photo'];
+                        echo ROOT . $data['movies']['photo'];
                     } ?>" style="width:30%;" draggable="false"/>
                     <div
                             style="color:white; font-size: 18px; font-weight: 600; margin-top: 15px; margin-bottom:8px;">
@@ -393,35 +393,34 @@ use App\core\Encryption;
                                     </button>
                                 </h2>
                                 <div id="cinema-${cinemaId}" class="accordion-collapse collapse">
-                                    <div class="accordion-body" style="display: flex; flex-flow: row wrap; gap: 10px;">`;
+                                    <div class="accordion-body" style="display: flex; flex-flow: row wrap; gap: 10px; justify-content: flex-start;">`;
 
+                                    for (var hallId in cinema.halls) {
+                                        if (cinema.halls.hasOwnProperty(hallId)) {
+                                            var hall = cinema.halls[hallId];
+                                            accordionHtml += `
+                                                          <div class="time-radio" style="display: flex; flex-flow: row  wrap; gap: 10px; margin-bottom: 10px;">`; <!-- Adjust width (fixed width) -->
 
-                            for (var hallId in cinema.halls) {
-
-                                if (cinema.halls.hasOwnProperty(hallId)) {
-                                    var hall = cinema.halls[hallId];
-                                    accordionHtml += `<div class="time-radio" style="max-width: fit-content;">`;
-
-                                    hall.times.forEach(function (time, index) {
-                                        var timeId = `cinema-${cinemaId}_hall-${hallId}_time-${index}`;
-                                        var formattedTime = new Date(time.startingTime).toLocaleTimeString([], {
-                                            hour: '2-digit',
-                                            minute: '2-digit'
-                                        });
-                                        accordionHtml += `
-                                        <div class="radio-wrapper" style="max-width: fit-content;">
-                                            <input type="radio" value="${formattedTime}" class="btn-check" name="time" id="${timeId}" autocomplete="off"
-                                                data-cinema="${cinema.name}" data-cinemaID="${cinemaId}" data-scheduleID="${time.movieScheduleId}" data-date="${time.startingTime}" data-hallid="${hallId}" data-experience="${selectedHallExperience}"
-                                                data-movie-title="${time.movieTitle} " data-hallName="${hall.name}">
-                                            <label class="btn btn-outline-danger" for="${timeId}">
-                                                <div class="hall-info" style="font-size: 14px;">
-                                                    ${hall.name} | ${hall.type}
-                                                </div>
-                                                <div class="time-info" style="font-size: 18px;">
-                                                    <i class="fa-regular fa-clock"></i>&nbsp;${formattedTime}
-                                                </div>
-                                            </label>
-                                        </div>`;
+                                                            hall.times.forEach(function (time, index) {
+                                                                var timeId = `cinema-${cinemaId}_hall-${hallId}_time-${index}`;
+                                                                var formattedTime = new Date(time.startingTime).toLocaleTimeString([], {
+                                                                    hour: '2-digit',
+                                                                    minute: '2-digit'
+                                                                });
+                                                                accordionHtml += `
+                                                    <div class="radio-wrapper"> <!-- Ensure full width -->
+                                                        <input type="radio" value="${formattedTime}" class="btn-check" name="time" id="${timeId}" autocomplete="off"
+                                                            data-cinema="${cinema.name}" data-cinemaID="${cinemaId}" data-scheduleID="${time.movieScheduleId}" data-date="${time.startingTime}" data-hallid="${hallId}" data-experience="${selectedHallExperience}"
+                                                            data-movie-title="${time.movieTitle} " data-hallName="${hall.name}">
+                                                        <label class="btn btn-outline-danger" for="${timeId}" style="width: 100%; display: block; padding: 10px; text-align: center;">
+                                                            <div class="hall-info" style="font-size: 14px;">
+                                                                ${hall.name} | ${hall.type}
+                                                            </div>
+                                                            <div class="time-info" style="font-size: 18px;">
+                                                                <i class="fa-regular fa-clock"></i>&nbsp;${formattedTime}
+                                                            </div>
+                                                        </label>
+                                                    </div>`;
                                     });
 
                                     accordionHtml += `</div>`;
@@ -431,6 +430,7 @@ use App\core\Encryption;
                             accordionHtml += `</div></div></div>`;
                         }
                     }
+
 
                     // Inject the generated HTML into the accordion container
                     $('#accordion-container').html(accordionHtml);

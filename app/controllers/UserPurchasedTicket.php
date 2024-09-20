@@ -9,8 +9,10 @@ use App\core\Database;
 use App\models\Ticket;
 use App\repositories\TicketRepository;
 use Doctrine\ORM\EntityRepository;
+use DOMDocument;
 use FPDF;
 use SimpleXMLElement;
+use XSLTProcessor;
 
 class UserPurchasedTicket
 {
@@ -209,7 +211,26 @@ class UserPurchasedTicket
     }
 
     public function showXSLT(){
+        //Call XML File
+        $xmlFilePath = __DIR__ . "/../xml/ticket.xml";
+        $xml = @simplexml_load_file($xmlFilePath);
 
+        //Load the XSLT File
+        $xslFilePath = __DIR__ . "/../xml/ticket.xsl";
+        $xslt = new XSLTProcessor();
+        $xsl = new DOMDocument;
+        $xsl->load($xslFilePath);
+        $xslt->importStylesheet($xsl);
+
+        // Transform the XML
+        $result = $xslt->transformToXML($xml);
+
+        if ($result) {
+            header('Content-Type: text/html');
+            echo $result;
+        } else {
+            echo 'Transformation failed.';
+        }
     }
 
 }

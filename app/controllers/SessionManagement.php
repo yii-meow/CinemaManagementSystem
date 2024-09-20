@@ -23,7 +23,7 @@ class SessionManagement
             // Last request was more than 10 minutes ago
             session_unset(); // Clear session data
             session_destroy(); // Destroy session
-            $this->view('Customer/User/Login');
+            header('Location: ' . ROOT . '/Login?timeout=true');
             exit();
         }
 

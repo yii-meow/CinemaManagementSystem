@@ -63,7 +63,7 @@
                             </div>
                         <?php endif; ?>
 
-                        <form id="otpVerifyForm" class="row login_form" action="<?= ROOT ?>/verifyOTP" method="post">
+                        <form id="otpVerifyForm" class="row login_form" action="verifyOTP" method="post">
                             <div class="col-md-12 form-group">
                                 <input type="tel" class="form-control" id="otpCode" name="otpCode"
                                        placeholder="Enter OTP Code" onfocus="this.placeholder = ''"

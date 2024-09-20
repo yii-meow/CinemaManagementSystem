@@ -9,7 +9,7 @@ class QRCodeGenerator
     public function generateQRCode($ticketId)
     {
         $url = 'http://localhost:3000/generate-qr-code';
-        $data = array('data' => $ticketId);
+        $data = array('data' => (string) $ticketId);
 
         error_log("Attempting to generate QR code for ticket ID: $ticketId");
         error_log("Sending request to: $url");
@@ -19,7 +19,12 @@ class QRCodeGenerator
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Accept: application/json'
+        ));
+        curl_setopt($ch, CURLOPT_VERBOSE, true); // Enable verbose output for debugging
+        curl_setopt($ch, CURLOPT_FAILONERROR, true); // Fail on HTTP errors
 
         try {
             $result = curl_exec($ch);

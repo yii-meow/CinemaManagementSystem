@@ -10,6 +10,8 @@
     "doctrine/dbal": "^3.9",
     "ext-curl": "*",
     "ext-fileinfo": "*",
-    "ext-simplexml": "*"
+    "ext-simplexml": "*",
+    "ext-xsl": "*",
+    "ext-dom": "*"
   }
 }
