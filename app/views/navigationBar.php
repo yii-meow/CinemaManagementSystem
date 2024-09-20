@@ -1,79 +1,155 @@
 <!--Navigation Bar-->
-<div class="dropdowns" style="display: flex; flex-flow: row nowrap;">
-    <div class="drop">
-        <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-            NEW MOVIES
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="">New Action</a></li>
-            <li><a class="dropdown-item" href="">New Horror</a></li>
-            <li><a class="dropdown-item" href="">New Animation</a></li>
-            <li><a class="dropdown-item" href="">New Romance</a></li>
-        </ul>
+<div class="dropdowns">
+    <div class="category-container">
+        <div class="drop">
+            <a href="<?= ROOT ?>/MovieResult?category=Action">
+                <button class="btn dropbtn" type="button">
+                    ACTION
+                </button>
+            </a>
+        </div>
+        <div class="drop">
+            <a href="<?= ROOT ?>/MovieResult?category=Animation">
+                <button class="btn dropbtn" type="button">
+                    ANIMATION
+                </button>
+            </a>
+        </div>
+        <div class="drop">
+            <a href="<?= ROOT ?>/MovieResult?category=Comedy">
+                <button class="btn dropbtn" type="button">
+                    COMEDY
+                </button>
+            </a>
+        </div>
+        <div class="drop">
+            <a href="<?= ROOT ?>/MovieResult?category=Adventure">
+                <button class="btn dropbtn" type="button">
+                    ADVENTURE
+                </button>
+            </a>
+        </div>
+        <div class="drop">
+            <a href="<?= ROOT ?>/MovieResult?category=Fantasy">
+                <button class="btn dropbtn" type="button">
+                    FANTASY
+                </button>
+            </a>
+        </div>
+        <div class="drop">
+            <a href="<?= ROOT ?>/MovieResult?category=Horror">
+                <button class="btn dropbtn" type="button">
+                    HORROR
+                </button>
+            </a>
+        </div>
+        <div class="drop">
+            <a href="<?= ROOT ?>/MovieResult?category=Romance">
+                <button class="btn dropbtn" type="button">
+                    ROMANCE
+                </button>
+            </a>
+        </div>
+        <div class="drop">
+            <a href="<?= ROOT ?>/MovieResult?category=All">
+                <button class="btn dropbtn" type="button">
+                    ALL MOVIES
+                </button>
+            </a>
+        </div>
     </div>
-    <div class="drop">
-        <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-            ACTION
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="">Superhero</a></li>
-            <li><a class="dropdown-item" href="">War</a></li>
-            <li><a class="dropdown-item" href="">Adventure</a></li>
-        </ul>
-    </div>
-    <div class="drop">
-        <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-            HORROR
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="">Supernatural Horror</a></li>
-            <li><a class="dropdown-item" href="">Zombie</a></li>
-        </ul>
-    </div>
-    <div class="drop">
-        <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-            ANIMATION
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="">2D Animation</a></li>
-            <li><a class="dropdown-item" href="">3D Animation</a></li>
-            <li><a class="dropdown-item" href="">Anime</a></li>
-        </ul>
-    </div>
-    <div class="drop">
-        <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-            ROMANCE
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="">Romantic Comedy</a></li>
-            <li><a class="dropdown-item" href="">Romantic Drama</a></li>
-        </ul>
-    </div>
-    <ul class="nav-item dropdown">
-        <button class="btn dropbtn" type="button" aria-expanded="false">
-            <a href="" style="text-decoration: none;"> NOW SHOWING</a>
-        </button>
-    </ul>
-    <ul class="nav-item dropdown">
-        <button class="btn dropbtn" type="button" aria-expanded="false">
-            <a href="" style="text-decoration: none;"> COMING SOON</a>
-        </button>
-    </ul>
-    <div class="drop">
-        <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-            FORUM
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="<?=ROOT?>/Forum/index">Community Forum</a></li>
-            <li><a class="dropdown-item" href="<?=ROOT?>/AddPost/index">Create Post</a></li>
-            <li><a class="dropdown-item" href="<?=ROOT?>/MyPost/index">My Post</a></li>
-            <li><a class="dropdown-item" href="<?=ROOT?>/ShowLikedPost/index">Liked Post</a></li>
-        </ul>
+    <div class="forum-container mr-2">
+        <div class="drop">
+            <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                FORUM
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="<?= ROOT ?>/Forum/index">Community Forum</a></li>
+                <li><a class="dropdown-item" href="<?= ROOT ?>/AddPost/index">Create Post</a></li>
+                <li><a class="dropdown-item" href="<?= ROOT ?>/MyPost/index">My Post</a></li>
+                <li><a class="dropdown-item" href="<?= ROOT ?>/ShowLikedPost/index">Liked Post</a></li>
+            </ul>
+        </div>
     </div>
 </div>
+
+<style>
+    .dropdowns {
+        background-color: #f03351;
+        padding: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .category-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        flex-grow: 1;
+    }
+
+    .forum-container {
+        flex-shrink: 0;
+    }
+
+    .drop {
+        margin: 0 30px;
+    }
+
+    .dropbtn {
+        border: 0 !important;
+        box-shadow: none;
+        color: white;
+        margin: 0;
+        transition: all 0.3s ease;
+    }
+
+    .dropbtn:hover {
+        background-color: #fff;
+        color: #f03351;
+    }
+
+    .dropdown-menu {
+        background-color: #fff;
+        border: none;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .dropdown-item {
+        color: #f03351;
+    }
+
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+        color: #d62b49;
+    }
+
+    @media (max-width: 768px) {
+        .dropdowns {
+            flex-direction: column;
+        }
+
+        .category-container {
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .forum-container {
+            width: 100%;
+            margin-top: 10px;
+            margin-right: 100px;
+        }
+
+        .drop {
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        .dropbtn {
+            width: 100%;
+        }
+    }
+</style>

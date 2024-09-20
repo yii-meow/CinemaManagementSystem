@@ -1,16 +1,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Movie Summary</title>
+<title>Movie Summary and XPath Results</title>
 <style>
-                    body { font-family: Arial, sans-serif; }
-                    table { border-collapse: collapse; width: 100%; }
+                    body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+                    h1, h2 { color: #333; }
+                    table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
                     th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
                     th { background-color: #f2f2f2; }
+                    .xpath-results { background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-top: 30px; }
                 </style>
 </head>
 <body>
-<h1>Movie Summary</h1>
+<h1>Movie Summary and XPath Results</h1>
+<h2>Movie List</h2>
 <table>
 <tr>
 <th>Title</th>
@@ -19,6 +22,8 @@
 <th>Category</th>
 <th>Classification</th>
 <th>Release Date</th>
+<th>Language</th>
+<th>Status</th>
 </tr>
 <tr>
 <td>Twilight of the Warriors: Walled In</td>
@@ -27,6 +32,8 @@
 <td>Action, Adventure, Crime, Thriller</td>
 <td>PG</td>
 <td>2024-04-23</td>
+<td>cn</td>
+<td>Coming Soon</td>
 </tr>
 <tr>
 <td>Inside Out 2</td>
@@ -35,6 +42,8 @@
 <td>Animation, Family, Adventure, Comedy</td>
 <td>PG</td>
 <td>2024-06-11</td>
+<td>en</td>
+<td>Released</td>
 </tr>
 <tr>
 <td>Borderlands</td>
@@ -43,6 +52,8 @@
 <td>Action, Science Fiction, Comedy, Adventure, Thriller</td>
 <td>PG</td>
 <td>2024-08-07</td>
+<td>en</td>
+<td>Coming Soon</td>
 </tr>
 <tr>
 <td>Despicable Me 4</td>
@@ -51,6 +62,8 @@
 <td>Animation, Family, Comedy, Action</td>
 <td>PG</td>
 <td>2024-06-20</td>
+<td>en</td>
+<td>Coming Soon</td>
 </tr>
 <tr>
 <td>Beetlejuice Beetlejuice</td>
@@ -59,6 +72,8 @@
 <td>Comedy, Horror, Fantasy, Mystery</td>
 <td>PG</td>
 <td>2024-09-04</td>
+<td>en</td>
+<td>Released</td>
 </tr>
 <tr>
 <td>Trap</td>
@@ -67,6 +82,8 @@
 <td>Crime, Thriller</td>
 <td>PG</td>
 <td>2024-07-31</td>
+<td>en</td>
+<td>Released</td>
 </tr>
 <tr>
 <td>Twisters</td>
@@ -75,6 +92,8 @@
 <td>Action, Adventure, Thriller</td>
 <td>PG</td>
 <td>2024-07-10</td>
+<td>en</td>
+<td>Released</td>
 </tr>
 <tr>
 <td>Beetlejuice</td>
@@ -83,6 +102,8 @@
 <td>Fantasy, Comedy</td>
 <td>PG</td>
 <td>1988-03-30</td>
+<td>en</td>
+<td>Released</td>
 </tr>
 <tr>
 <td>The Union</td>
@@ -91,6 +112,8 @@
 <td>Action, Comedy</td>
 <td>PG</td>
 <td>2024-08-15</td>
+<td>en</td>
+<td>Coming Soon</td>
 </tr>
 <tr>
 <td>The Killer</td>
@@ -99,6 +122,8 @@
 <td>Action, Thriller, Crime</td>
 <td>PG</td>
 <td>2024-08-22</td>
+<td>en</td>
+<td>Released</td>
 </tr>
 <tr>
 <td>Kill</td>
@@ -107,6 +132,8 @@
 <td>Action, Crime</td>
 <td>PG</td>
 <td>2024-07-03</td>
+<td>hi</td>
+<td>Released</td>
 </tr>
 <tr>
 <td>Gunner</td>
@@ -115,6 +142,8 @@
 <td>Action, Thriller, Crime</td>
 <td>PG</td>
 <td>2024-08-16</td>
+<td>en</td>
+<td>Coming Soon</td>
 </tr>
 <tr>
 <td>Alien: Romulus</td>
@@ -123,6 +152,8 @@
 <td>Horror, Science Fiction</td>
 <td>PG</td>
 <td>2024-08-13</td>
+<td>en</td>
+<td>Released</td>
 </tr>
 <tr>
 <td>It Ends with Us</td>
@@ -131,6 +162,8 @@
 <td>Romance, Drama</td>
 <td>PG</td>
 <td>2024-08-07</td>
+<td>en</td>
+<td>Released</td>
 </tr>
 <tr>
 <td>Longlegs</td>
@@ -139,6 +172,8 @@
 <td>Crime, Horror, Thriller</td>
 <td>PG</td>
 <td>2024-07-10</td>
+<td>en</td>
+<td>Released</td>
 </tr>
 <tr>
 <td>Harold and the Purple Crayon</td>
@@ -147,6 +182,8 @@
 <td>Adventure, Family, Fantasy, Comedy</td>
 <td>PG</td>
 <td>2024-07-31</td>
+<td>en</td>
+<td>Released</td>
 </tr>
 <tr>
 <td>Jackpot!</td>
@@ -155,6 +192,8 @@
 <td>Comedy, Science Fiction</td>
 <td>PG</td>
 <td>2024-08-13</td>
+<td>en</td>
+<td>Released</td>
 </tr>
 <tr>
 <td>Saving Bikini Bottom: The Sandy Cheeks Movie</td>
@@ -163,6 +202,8 @@
 <td>Animation, Comedy, Adventure, Family</td>
 <td>PG</td>
 <td>2024-08-01</td>
+<td>en</td>
+<td>Coming Soon</td>
 </tr>
 <tr>
 <td>Untamed Royals</td>
@@ -171,6 +212,8 @@
 <td>Thriller, Crime, Drama</td>
 <td>PG</td>
 <td>2024-08-27</td>
+<td>es</td>
+<td>Coming Soon</td>
 </tr>
 <tr>
 <td>The Garfield Movie</td>
@@ -179,6 +222,8 @@
 <td>Animation, Comedy, Family, Adventure, Action</td>
 <td>PG</td>
 <td>2024-04-30</td>
+<td>en</td>
+<td>Released</td>
 </tr>
 <tr>
 <td>TRAPEZIUM</td>
@@ -187,6 +232,8 @@
 <td>Animation</td>
 <td>P12</td>
 <td>2024-04-19</td>
+<td>jp</td>
+<td>Coming Soon</td>
 </tr>
 <tr>
 <td>BLUE LOCK THE MOVIE -EPISODE NAGI-</td>
@@ -195,6 +242,8 @@
 <td>Animation</td>
 <td>P13</td>
 <td>2024-08-01</td>
+<td>jp</td>
+<td>Release</td>
 </tr>
 <tr>
 <td>BOCCHI THE ROCK! RECAP PART 1</td>
@@ -203,6 +252,8 @@
 <td>Animation</td>
 <td>P12</td>
 <td>2024-08-08</td>
+<td>jp</td>
+<td>Release</td>
 </tr>
 <tr>
 <td>Maidens of the Ripples</td>
@@ -211,6 +262,8 @@
 <td>Animation</td>
 <td>P12</td>
 <td>2024-09-10</td>
+<td>jp</td>
+<td>Coming Soon</td>
 </tr>
 <tr>
 <td>Suzume</td>
@@ -219,6 +272,8 @@
 <td>Animation</td>
 <td>P12</td>
 <td>2022-11-11</td>
+<td>jp</td>
+<td>Release</td>
 </tr>
 <tr>
 <td>Avenger</td>
@@ -227,7 +282,127 @@
 <td>Fantasy</td>
 <td>PG-13</td>
 <td>2024-09-18</td>
+<td>en</td>
+<td>Now Showing</td>
+</tr>
+<tr>
+<td>Takluk: Lahad Datu</td>
+<td>Zulkarnain Azhar</td>
+<td>120 min</td>
+<td>War</td>
+<td>PG-13</td>
+<td>2024-08-22</td>
+<td>bm</td>
+<td>Now Showing</td>
 </tr>
 </table>
+<div class="xpath-results">
+<h2>XPath Query Results</h2>
+<h3>Total Movies</h3>
+<p>27</p>
+<h3>Category Counts</h3>
+<table>
+<tr>
+<th>Category</th>
+<th>Count</th>
+</tr>
+<tr>
+<td>Action, Adventure, Crime, Thriller</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Animation, Family, Adventure, Comedy</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Action, Science Fiction, Comedy, Adventure, Thriller</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Animation, Family, Comedy, Action</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Comedy, Horror, Fantasy, Mystery</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Crime, Thriller</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Action, Adventure, Thriller</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Fantasy, Comedy</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Action, Comedy</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Action, Thriller, Crime</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Action, Crime</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Horror, Science Fiction</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Romance, Drama</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Crime, Horror, Thriller</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Adventure, Family, Fantasy, Comedy</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Comedy, Science Fiction</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Animation, Comedy, Adventure, Family</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Thriller, Crime, Drama</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Animation, Comedy, Family, Adventure, Action</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Animation</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Fantasy</td>
+<td>1</td>
+</tr>
+<tr>
+<td>War</td>
+<td>1</td>
+</tr>
+</table>
+<h3>Movies Longer Than 120 Minutes</h3>
+<ul>
+<li>Twilight of the Warriors: Walled In</li>
+<li>Twisters</li>
+<li>The Killer</li>
+<li>It Ends with Us</li>
+<li>Suzume</li>
+</ul>
+</div>
 </body>
 </html>

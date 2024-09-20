@@ -18,10 +18,14 @@ class HallMovieSchedule
 
     public function index()
     {
-        $hallId = isset($_GET['hallId']) ? $_GET['hallId'] : null;
-        $scheduleData = $this->cinemaFacade->getHallScheduleData($hallId);
+        if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
+            $hallId = isset($_GET['hallId']) ? $_GET['hallId'] : null;
+            $scheduleData = $this->cinemaFacade->getHallScheduleData($hallId);
 
-        return $this->view('Admin/Hall/HallMovieSchedule', $scheduleData);
+            return $this->view('Admin/Hall/HallMovieSchedule', $scheduleData);
+        } else {
+            $this->view("Admin/403PermissionDenied");
+        }
     }
 
     public function addHallMovieSchedule()

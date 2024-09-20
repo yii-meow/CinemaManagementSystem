@@ -85,7 +85,7 @@
                                 <?php $movie = $movieData['movie']; ?>
                                 <div class="movie-item d-flex gap-4">
                                     <div>
-                                        <img src="<?= htmlspecialchars($movie->getPhoto()) ?>"
+                                        <img src="<?= ROOT . htmlspecialchars($movie->getPhoto()) ?>"
                                              class="movie-schedule-img"/>
                                     </div>
                                     <div>
