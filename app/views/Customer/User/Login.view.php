@@ -136,6 +136,7 @@
                                 <input type="password" class="form-control" id="password" name="password"
                                        placeholder="Password" onfocus="this.placeholder = ''"
                                        onblur="this.placeholder = 'Password'"
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
                                        title="Password must be at least 6 characters, include at least one uppercase letter, one lowercase letter, one number, and one special character."
                                        required>
                                 <span class="fa fa-eye password-toggle" onclick="togglePassword()"></span>
