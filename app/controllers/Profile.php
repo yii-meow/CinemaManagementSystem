@@ -14,6 +14,7 @@ class Profile
 
     private $entityManager;
     private $userRepository;
+    private $sessionManager;
 
     public function __construct()
     {
