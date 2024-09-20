@@ -5,35 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/controllers/Admin_FeedbackEdit_Submit.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/Admin_FeedbackIndex_Search.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/Admin_TicketTrackingEdit.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/Admin_TicketTrackingIndex.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/Admin_TicketTrackingView.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/feedbackReport.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/services/ExtractKeywordAPI/TestingTopicTagging.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/services/ExtractKeywordAPI/TopicTaggingService.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/services/ExtractKeywordAPI/requestTopicTaggingAPI.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/Admin/Feedback/Feedback_report.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/Admin/TicketTracking/TicketTracking_edit.view.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/Admin/TicketTracking/TicketTracking_index.view.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/Admin/TicketTracking/TicketTracking_view.view.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/assets/css/AdminTicketTracking.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/State/InProgressState.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/State/InProgressState.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/State/PendingState.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/State/PendingState.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/State/ResolvedState.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/State/ResolvedState.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/Admin_FeedbackEdit.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Admin_FeedbackEdit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/Admin_FeedbackIndex.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Admin_FeedbackIndex.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/Admin_FeedbackView.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Admin_FeedbackView.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/App.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/App.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/Feedback.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Feedback.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Feedback/Feedback_edit.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Feedback/Feedback_edit.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Feedback/Feedback_index.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Feedback/Feedback_index.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Feedback/Feedback_view.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Feedback/Feedback_view.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Report/ReportManage.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Report/ReportManage.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/adminSidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/adminSidebar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/MovieManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MovieManagement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/TicketPricingManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/TicketPricingManagement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Ticket/TicketPricingManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Ticket/TicketPricingManagement.view.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,9 +71,6 @@
   &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="2mD07DSvhyqnapRD7cEQBwGSjMA" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />

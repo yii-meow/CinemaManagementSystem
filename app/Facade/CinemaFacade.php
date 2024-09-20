@@ -7,6 +7,7 @@ use App\models\Cinema;
 use App\models\CinemaHall;
 use App\models\MovieSchedule;
 use App\models\Movie;
+use App\models\TicketPricing;
 use DateTime;
 use App\services\YoutubeAPI\TrailerLinkGenerator;
 
@@ -356,5 +357,56 @@ class CinemaFacade
     {
         $movieTrailer = new TrailerLinkGenerator();
         return $movieTrailer->fetchTrailer($movieTitle);
+    }
+
+    public function getTicketPricing()
+    {
+        $ticketPricing = $this->entityManager->getRepository(TicketPricing::class)->find(1);
+        return $ticketPricing;
+    }
+
+    public function updateTicketPricing($data)
+    {
+        $ticketPricing = $this->getTicketPricing();
+
+        // Update only the properties that are present in the $data array
+        if (isset($data['baseTicketIMAX'])) {
+            $ticketPricing->setBaseTicketIMAX($data['baseTicketIMAX']);
+        }
+        if (isset($data['baseTicketDeluxe'])) {
+            $ticketPricing->setBaseTicketDeluxe($data['baseTicketDeluxe']);
+        }
+        if (isset($data['baseTicketAtmos'])) {
+            $ticketPricing->setBaseTicketAtmos($data['baseTicketAtmos']);
+        }
+        if (isset($data['baseTicketBenie'])) {
+            $ticketPricing->setBaseTicketBenie($data['baseTicketBenie']);
+        }
+
+        if (isset($data['timeBasedWeekdayBefore12'])) {
+            $ticketPricing->setTimeBasedWeekdayBefore12($data['timeBasedWeekdayBefore12']);
+        }
+        if (isset($data['timeBasedWeekdayAfter12'])) {
+            $ticketPricing->setTimeBasedWeekdayAfter12($data['timeBasedWeekdayAfter12']);
+        }
+        if (isset($data['timeBasedWeekend'])) {
+            $ticketPricing->setTimeBasedWeekend($data['timeBasedWeekend']);
+        }
+        if (isset($data['timeBasedMidnight'])) {
+            $ticketPricing->setTimeBasedMidnight($data['timeBasedMidnight']);
+        }
+
+        if (isset($data['commissionFee'])) {
+            $ticketPricing->setCommissionFee($data['commissionFee']);
+        }
+
+        try {
+            $this->entityManager->flush();
+            return true;
+        } catch (\Exception $e) {
+            // Log the error
+            error_log($e->getMessage());
+            return false;
+        }
     }
 }
