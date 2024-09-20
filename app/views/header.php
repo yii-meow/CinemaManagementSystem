@@ -62,7 +62,7 @@
                 <!-- User is logged in -->
                 <div class="profile-container action" id="profile">
                     <div style="margin-top: auto; margin-bottom: auto;">
-                        <button onclick="window.location.href='Profile'" class="btn header-font"
+                        <button onclick="window.location.href='<?=ROOT?>/Profile'" class="btn header-font"
                                 style="padding:10px; width: 160px; font-size: 17px; display: flex; color: #f03351;">
                             <i class="fa-solid fa-user" style="margin-right: 5px; font-size: 20px;"></i>
                             User Profile

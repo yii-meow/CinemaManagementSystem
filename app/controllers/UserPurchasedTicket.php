@@ -208,4 +208,8 @@ class UserPurchasedTicket
         exit();
     }
 
+    public function showXSLT(){
+
+    }
+
 }
