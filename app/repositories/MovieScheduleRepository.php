@@ -106,21 +106,6 @@ class MovieScheduleRepository extends EntityRepository
 
     public function findCinemaHallOfMovie(int $movieId, string $selectedDate) //string be ensured converted to \DateTime
     {
-//        $date = new \DateTime($selectedDate, new \DateTimeZone('Asia/Kuala_Lumpur'));
-//        $qb = $this->createQueryBuilder('ms')
-//            ->select('ch.hallType', 'ch.hallName', 'ch.capacity', 'ch.hallId', 'ms.startingTime')
-//            ->join('ms.cinemaHall', 'ch')
-//            ->where('ms.movie = :movieId')
-//            ->andWhere('ms.startingTime >= :date_start')
-//            ->andWhere('ms.startingTime <= :date_end')
-//            ->setParameter('movieId', $movieId)
-//            ->setParameter('date_start', $date->format('Y-m-d 00:00:00'))  //Get a specific date
-//            ->setParameter('date_end', $date->format('Y-m-d 23:59:59'));  //Get a specific date
-//
-//        return $qb->getQuery()->getResult();
-
-
-
         $date = new \DateTime($selectedDate, new \DateTimeZone('Asia/Kuala_Lumpur'));
         $qb = $this->createQueryBuilder('ms')
             ->select('ch.hallType', 'ch.hallName', 'ch.capacity', 'ch.hallId', 'ms.startingTime')
@@ -132,39 +117,54 @@ class MovieScheduleRepository extends EntityRepository
             ->setParameter('date_start', $date->format('Y-m-d 00:00:00'))  //Get a specific date
             ->setParameter('date_end', $date->format('Y-m-d 23:59:59'));  //Get a specific date
 
-        $results = $qb->getQuery()->getResult();
+        return $qb->getQuery()->getResult();
 
-        // Group the results by movie and cinema
-        $groupedResults = [];
-        foreach ($results as $result) {
-            $movieId = $result['movieId'];
-            $cinemaId = $result['cinemaId'];
-            if (!isset($groupedResults[$movieId])) {
-                $groupedResults[$movieId] = [
-                    'movieId' => $movieId,
-                    'category' => $result["catagory"],
-                    'photo' => $result['photo'],
-                    'title' => $result['title'],
-                    'duration' => $result['duration'],
-                    'language' => $result['language'],
-                    'classification' => $result['classification'],
-                    'cinemas' => []
-                ];
-            }
-            if (!isset($groupedResults[$movieId]['cinemas'][$cinemaId])) {
-                $groupedResults[$movieId]['cinemas'][$cinemaId] = [
-                    'id' => $cinemaId,
-                    'name' => $result['cinemaName'],
-                    'showtimes' => []
-                ];
-            }
-            $groupedResults[$movieId]['cinemas'][$cinemaId]['showtimes'][] = [
-                'time' => $result['startingTime'],
-                'hallType' => $result['hallType'],
-                'scheduleId' => $result['movieScheduleId']
-            ];
-        }
 
-        return array_values($groupedResults);
+
+//        $date = new \DateTime($selectedDate, new \DateTimeZone('Asia/Kuala_Lumpur'));
+//        $qb = $this->createQueryBuilder('ms')
+//            ->select('ch.hallType', 'ch.hallName', 'ch.capacity', 'ch.hallId', 'ms.startingTime')
+//            ->join('ms.cinemaHall', 'ch')
+//            ->where('ms.movie = :movieId')
+//            ->andWhere('ms.startingTime >= :date_start')
+//            ->andWhere('ms.startingTime <= :date_end')
+//            ->setParameter('movieId', $movieId)
+//            ->setParameter('date_start', $date->format('Y-m-d 00:00:00'))  //Get a specific date
+//            ->setParameter('date_end', $date->format('Y-m-d 23:59:59'));  //Get a specific date
+//
+//        $results = $qb->getQuery()->getResult();
+//
+//        // Group the results by movie and cinema
+//        $groupedResults = [];
+//        foreach ($results as $result) {
+//            $movieId = $result['movieId'];
+//            $cinemaId = $result['cinemaId'];
+//            if (!isset($groupedResults[$movieId])) {
+//                $groupedResults[$movieId] = [
+//                    'movieId' => $movieId,
+//                    'category' => $result["catagory"],
+//                    'photo' => $result['photo'],
+//                    'title' => $result['title'],
+//                    'duration' => $result['duration'],
+//                    'language' => $result['language'],
+//                    'classification' => $result['classification'],
+//                    'cinemas' => []
+//                ];
+//            }
+//            if (!isset($groupedResults[$movieId]['cinemas'][$cinemaId])) {
+//                $groupedResults[$movieId]['cinemas'][$cinemaId] = [
+//                    'id' => $cinemaId,
+//                    'name' => $result['cinemaName'],
+//                    'showtimes' => []
+//                ];
+//            }
+//            $groupedResults[$movieId]['cinemas'][$cinemaId]['showtimes'][] = [
+//                'time' => $result['startingTime'],
+//                'hallType' => $result['hallType'],
+//                'scheduleId' => $result['movieScheduleId']
+//            ];
+//        }
+//
+//        return array_values($groupedResults);
     }
 }
