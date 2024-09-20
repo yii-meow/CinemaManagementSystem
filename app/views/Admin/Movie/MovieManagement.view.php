@@ -157,22 +157,27 @@
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
-                    return response.blob();
+                    return response.json();
                 })
-                .then(blob => {
-                    // Download the xml file
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    a.download = 'movies.xml';
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
+                .then(data => {
+                    if (data.error) {
+                        throw new Error(data.error);
+                    } else {
+                        if (confirm("Are you sure to export XML for movie data ?")) {
+                            // Download the XML file
+                            const xmlBlob = new Blob([atob(data.xml)], {type: 'application/xml'});
+                            const xmlUrl = window.URL.createObjectURL(xmlBlob);
+                            const xmlLink = document.createElement('a');
+                            xmlLink.href = xmlUrl;
+                            xmlLink.download = 'movies.xml';
+                            xmlLink.click();
+                            window.URL.revokeObjectURL(xmlUrl);
+                        }
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while exporting the movies to XML.');
+                    alert('An error occurred while exporting the movies: ' + error.message);
                 });
         });
     });

@@ -27,7 +27,12 @@ class MovieXMLGenerator
                 throw new \Exception("No movies found");
             }
 
-            $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="movie_summary.xsl"?><movies></movies>');
+            $xml = new \SimpleXMLElement(
+                '<?xml version="1.0" encoding="UTF-8"?>
+                    <?xml-stylesheet type="text/xsl" 
+                    href="movie_summary.xsl"?>
+                    <movies></movies>
+                    ');
 
             foreach ($movies as $movie) {
                 $movieElement = $xml->addChild('movie');
@@ -37,14 +42,15 @@ class MovieXMLGenerator
                 $movieElement->addChild('category', htmlspecialchars($movie->getCatagory()));
                 $movieElement->addChild('classification', htmlspecialchars($movie->getClassification()));
                 $movieElement->addChild('releaseDate', $movie->getReleaseDate()->format('Y-m-d'));
-                $movieElement->addChild('description', htmlspecialchars($movie->getDescription()));
                 $movieElement->addChild('language', htmlspecialchars($movie->getLanguage()));
                 $movieElement->addChild('status', htmlspecialchars($movie->getStatus()));
             }
 
             $xmlString = $xml->asXML();
 
+            // Validate for existing directory
             if (!is_dir($this->xmlDirectory)) {
+                // create new directory
                 if (!mkdir($this->xmlDirectory, 0755, true)) {
                     throw new \Exception("Failed to create directory: " . $this->xmlDirectory);
                 }
@@ -59,7 +65,7 @@ class MovieXMLGenerator
 
             // Save XML to file
             if (file_put_contents($rawXmlPath, $xmlString) === false) {
-                throw new \Exception("Failed to save XML file: " . $filePath);
+                throw new \Exception("Failed to save XML file: " . $this->xmlDirectory);
             }
 
             $xsl = new \DOMDocument();
@@ -78,6 +84,7 @@ class MovieXMLGenerator
             $htmlPath = $this->xmlDirectory . '/movies_summary.html';
             file_put_contents($htmlPath, $htmlOutput);
 
+
             // XPath example: Count movies by category
             $xpath = new \DOMXPath($xmlDoc);
             $categories = $xpath->query('//movie/category');
@@ -95,16 +102,14 @@ class MovieXMLGenerator
             }
 
             // Prepare response
-            $response = [
-                'message' => 'XML generated and transformed successfully',
-                'raw_xml_path' => $rawXmlPath,
-                'html_summary_path' => $htmlPath,
+            $xpathResults = [
                 'category_counts' => $categoryCounts,
                 'long_movies' => $longMoviesList
             ];
 
-            // Output response
-            jsonResponse($response);
+            return [
+                'xml' => $xmlString,
+            ];
 
         } catch (\Exception $e) {
             error_log("Error in generateMovieXML: " . $e->getMessage());

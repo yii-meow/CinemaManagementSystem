@@ -23,6 +23,8 @@
                         <th>Category</th>
                         <th>Classification</th>
                         <th>Release Date</th>
+                        <th>Language</th>
+                        <th>Status</th>
                     </tr>
                     <xsl:apply-templates select="movies/movie"/>
                 </table>
@@ -32,12 +34,30 @@
 
     <xsl:template match="movie">
         <tr>
-            <td><xsl:value-of select="title"/></td>
-            <td><xsl:value-of select="director"/></td>
-            <td><xsl:value-of select="duration"/> min</td>
-            <td><xsl:value-of select="category"/></td>
-            <td><xsl:value-of select="classification"/></td>
-            <td><xsl:value-of select="releaseDate"/></td>
+            <td>
+                <xsl:value-of select="title"/>
+            </td>
+            <td>
+                <xsl:value-of select="director"/>
+            </td>
+            <td>
+                <xsl:value-of select="duration"/> min
+            </td>
+            <td>
+                <xsl:value-of select="category"/>
+            </td>
+            <td>
+                <xsl:value-of select="classification"/>
+            </td>
+            <td>
+                <xsl:value-of select="releaseDate"/>
+            </td>
+            <td>
+                <xsl:value-of select="language"/>
+            </td>
+            <td>
+                <xsl:value-of select="status"/>
+            </td>
         </tr>
     </xsl:template>
 </xsl:stylesheet>

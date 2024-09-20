@@ -108,7 +108,19 @@ class MovieManagement
 
     public function exportMovieToXML()
     {
-        $xmlGenerator = new MovieXMLGenerator();
-        $xmlGenerator->generateMovieXML();
+        try {
+            $xmlGenerator = new MovieXMLGenerator();
+            $result = $xmlGenerator->generateMovieXML();
+
+            // Prepare the response
+            $response = [
+                'xml' => base64_encode($result['xml'])
+            ];
+
+            jsonResponse($response);
+        } catch (\Exception $e) {
+            error_log("Error in exportMovieToXML: " . $e->getMessage());
+            jsonResponse(["error" => $e->getMessage()]);
+        }
     }
 }
