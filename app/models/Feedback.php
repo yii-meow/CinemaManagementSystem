@@ -38,6 +38,15 @@ class Feedback
     #[ORM\Column(type: 'datetime')]
     private $created_at;
 
+    #[ORM\Column(type: 'datetime')]
+    private $inProgress_at;
+
+    #[ORM\Column(type: 'datetime')]
+    private $resolved_at;
+
+    #[ORM\Column(type: 'datetime')]
+    private $compensationOffered_at;
+
     public function __construct(FeedbackState $state) {
         $this->setStatus($state);
     }
@@ -127,6 +136,49 @@ class Feedback
         $this->created_at = $created_at;
         return $this;
     }
+
+    public function getInProgressAt(): ?\DateTimeInterface
+    {
+        return $this->inProgress_at;
+    }
+
+    /**
+     * @param mixed $inProgress_at
+     */
+    public function setInProgressAt(\DateTimeInterface $inProgress_at): self
+    {
+        $this->inProgress_at = $inProgress_at;
+        return $this;
+    }
+
+    public function getResolvedAt(): ?\DateTimeInterface
+    {
+        return $this->resolved_at;
+    }
+
+    /**
+     * @param mixed $resolved_at
+     */
+    public function setResolvedAt(\DateTimeInterface $resolved_at): self
+    {
+        $this->resolved_at = $resolved_at;
+        return $this;
+    }
+
+    public function getCompensationOfferedAt(): ?\DateTimeInterface
+    {
+        return $this->compensationOffered_at;
+    }
+
+    /**
+     * @param mixed $compensationOffered_at
+     */
+    public function setCompensationOfferedAt(\DateTimeInterface $compensationOffered_at): self
+    {
+        $this->compensationOffered_at = $compensationOffered_at;
+        return $this;
+    }
+
 
     // Getters and setters
     public function proceed(Feedback $feedback) {

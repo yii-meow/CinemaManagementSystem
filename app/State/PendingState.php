@@ -11,6 +11,7 @@ class PendingState implements FeedbackState {
         //set to in progress
         if($feedback->getStatus() == feedback_status::PENDING){
             $feedback->setStatus(feedback_status::IN_PROGRESS);
+            $feedback->setInProgressAt(new \DateTime());
         }else{
             return false;
             //$feedback->setStatus(new InProgressState());

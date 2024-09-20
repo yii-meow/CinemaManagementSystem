@@ -1,11 +1,11 @@
 <?php
 namespace App\controllers;
 
-
 use App\models\User;
 use App\core\Controller;
 use App\core\Database;
 use App\models\Feedback;
+use App\services\ExtractKeywordAPI\requestTopicTaggingAPI;
 
 class Admin_FeedbackIndex
 {
@@ -23,10 +23,20 @@ class Admin_FeedbackIndex
     {
         $feedback = $this->feedbackRepository->findAll();
 
-        $data = $feedback;
+        $data['feedback'] = $feedback;
 
-        //print_r(count($feedback)) ;
-        //die();
+        //for each feedback array and store keyword in another array and put into $data
+        $keyword = new requestTopicTaggingAPI();
+
+        $arr = [];
+
+        foreach ($data['feedback'] as $feedback){
+
+            $keyword_array = json_decode($keyword->requestAPI($feedback->getContent()), true);
+            $arr[] = $keyword_array;
+        }
+
+        $data['keyword'] = $arr;
 
         //Route to the destinaiton page, with passing data from the Model
         $this->view('Admin/Feedback/Feedback_index', $data);

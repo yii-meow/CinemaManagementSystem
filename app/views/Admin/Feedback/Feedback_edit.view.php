@@ -32,7 +32,7 @@ use App\constant\feedback_status;
                       background-color: #ffffff;
                       border-radius: 8px;
                       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                    " method="post" action="Admin_FeedbackEdit/submit">
+                    " method="post" action="Admin_FeedbackEdit_Submit">
                 <input type="hidden" name="feedbackID" value="<?= $data[0]->getFeedbackID() ?>">
                 <div class="mb-3">
                     <label for="title" class="form-label">Received from</label>
@@ -72,6 +72,29 @@ use App\constant\feedback_status;
                     <?php } ?>
                 </div>
 
+                <div class="stepper-wrapper">
+                    <div class="stepper-item <?php if(!is_null($data[0]->getCreatedAt())){ echo "completed"; }?>">
+                        <div class="step-counter">1</div>
+                        <div class="step-name">Pending</div>
+                        <div class="step-name"><?php if(!is_null($data[0]->getCreatedAt())){echo $data[0]->getCreatedAt()->format('Y-m-d');} ?></div>
+                    </div>
+                    <div class="stepper-item <?php if(!is_null($data[0]->getInProgressAt())){ echo "completed"; }?>">
+                        <div class="step-counter">2</div>
+                        <div class="step-name">In Progress</div>
+                        <div class="step-name"><?php if(!is_null($data[0]->getInProgressAt())){echo $data[0]->getCreatedAt()->format('Y-m-d');} ?></div>
+                    </div>
+                    <div class="stepper-item <?php if(!is_null($data[0]->getResolvedAt())){ echo "completed"; }?>">
+                        <div class="step-counter">3</div>
+                        <div class="step-name">Resolved</div>
+                        <div class="step-name"><?php if(!is_null($data[0]->getResolvedAt())){echo $data[0]->getCreatedAt()->format('Y-m-d');} ?></div>
+                    </div>
+                    <div class="stepper-item <?php if(!is_null($data[0]->getCompensationOfferedAt())){ echo "completed"; }?>">
+                        <div class="step-counter">4</div>
+                        <div class="step-name">Compensation Offered</div>
+                        <div class="step-name"><?php if(!is_null($data[0]->getCompensationOfferedAt())){echo $data[0]->getCreatedAt()->format('Y-m-d');} ?></div>
+                    </div>
+                </div>
+
                 <div class="mb-3">
                     <label for="reply" class="form-label">Reply</label>
                     <textarea class="form-control" id="reply" name="reply" rows="5"><?= $data[0]->getReply() ?></textarea>
@@ -87,34 +110,6 @@ use App\constant\feedback_status;
             </form>
 
         </main>
-
-        <!--To enlarge the image-->>
-        <div id="enlargeImg" class="ImageModal">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <img class="modal-content" id="img">
-        </div>
-
-        <!-- Modal to view the Report Request -->
-        <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="reportModalLabel">Report Request</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="reportContent">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success">Accept</button>
-                        <button type="button" class="btn btn-danger">Reject</button>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
     </div>
 </div>
 
@@ -126,3 +121,81 @@ use App\constant\feedback_status;
 
 
 </html>
+
+<style>
+    .stepper-wrapper {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    .stepper-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+
+        @media (max-width: 768px) {
+            font-size: 12px;
+        }
+    }
+
+    .stepper-item::before {
+        position: absolute;
+        content: "";
+        border-bottom: 2px solid #ccc;
+        width: 100%;
+        top: 20px;
+        left: -50%;
+        z-index: 2;
+    }
+
+    .stepper-item::after {
+        position: absolute;
+        content: "";
+        border-bottom: 2px solid #ccc;
+        width: 100%;
+        top: 20px;
+        left: 50%;
+        z-index: 2;
+    }
+
+    .stepper-item .step-counter {
+        position: relative;
+        z-index: 5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #ccc;
+        margin-bottom: 6px;
+    }
+
+    .stepper-item.active {
+        font-weight: bold;
+    }
+
+    .stepper-item.completed .step-counter {
+        background-color: #4bb543;
+    }
+
+    .stepper-item.completed::after {
+        position: absolute;
+        content: "";
+        border-bottom: 2px solid #4bb543;
+        width: 100%;
+        top: 20px;
+        left: 50%;
+        z-index: 3;
+    }
+
+    .stepper-item:first-child::before {
+        content: none;
+    }
+    .stepper-item:last-child::after {
+        content: none;
+    }
+</style>

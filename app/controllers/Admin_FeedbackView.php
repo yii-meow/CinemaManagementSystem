@@ -25,6 +25,10 @@ class Admin_FeedbackView
         $data = $feedback;
 
         //print_r($feedback);
+        //echo $feedback[0]->getCreatedAt()->format('Y-m-d');
+        //echo is_null($feedback[0]->getInProgressAt());
+        //echo $feedback[0]->getResolvedAt()->format('Y-m-d');
+        //echo $feedback[0]->getCompensationOfferedAt()->format('Y-m-d');
         //die();
 
 

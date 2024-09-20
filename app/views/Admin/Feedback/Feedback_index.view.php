@@ -82,20 +82,28 @@ use App\constant\feedback_status;
                 <thead class="thead-dark" style="background-color: rgb(39, 37, 37); color:white">
                 <tr>
                     <th scope="col" style="width: 5%;">No.</th>
-                    <th scope="col" style="width: 20%;">Username</th>
-                    <th scope="col" style="width: 15%;">Rating</th>
-                    <th scope="col" style="width: 15%;">Date</th>
+                    <th scope="col" style="width: 10%;">Username</th>
+                    <th scope="col" style="width: 20%;">Feedback Keyword</th>
+                    <th scope="col" style="width: 10%;">Rating</th>
+                    <th scope="col" style="width: 10%;">Date</th>
                     <th scope="col" style="width: 25%;">Status</th>
-                    <th scope="col" style="width: 25%;">Action</th>
+                    <th scope="col" style="width: 20%;">Action</th>
 
                 </tr>
                 </thead>
                 <tbody>
                 <?php if(!empty($data)) {
-                    foreach ($data as $index => $feedback) { ?>
+                    foreach ($data['feedback'] as $index => $feedback) { ?>
                         <tr>
                             <th scope="row"><?= $index + 1 ?></th>
                             <td><?= $feedback->getUser()->getUserName() ?></td>
+                            <td style="display: flex">
+                                <?php
+                                foreach ($data['keyword'][$index] as $value) {
+                                echo "<div class='keyword-div'>$value</div>";
+                                }
+                                ?>
+                            </td>
                             <td>
                                 <div>
                                     <?php for ($i = 1; $i <= 5; $i++) { ?>
@@ -168,5 +176,13 @@ use App\constant\feedback_status;
 
     .compensationOffered {
         color: #44b253;
+    }
+
+    .keyword-div{
+        background-color: #2c3e50;
+        padding: 5px;
+        margin: 2px;
+        color: aliceblue;
+        border-radius: 10px;
     }
 </style>

@@ -57,7 +57,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= ROOT ?>/Feedback">
+                    <a class="nav-link" href="<?= ROOT ?>/Admin_FeedbackIndex">
                         <i class="fa-solid fa-message me-4 fa-lg"></i>
                         Feedback
                     </a>

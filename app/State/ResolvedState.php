@@ -16,6 +16,7 @@ class ResolvedState implements FeedbackState {
     public function offerCompensation(Feedback $feedback) {
         if($feedback->getStatus() == feedback_status::RESOLVED){
             $feedback->setStatus(feedback_status::COMPENSATION_OFFERED);
+            $feedback->setCompensationOfferedAt(new \DateTime());
         }else{
             return false;
             //$feedback->setStatus(new InProgressState());
