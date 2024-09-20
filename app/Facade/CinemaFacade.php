@@ -238,6 +238,72 @@ class CinemaFacade
         return $this->movieRepository->findAll();
     }
 
+    public function searchMovies($search = '', $category = '')
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('m', 'ms', 'ch', 'c')
+            ->from(Movie::class, 'm')
+            ->leftJoin('m.movieSchedules', 'ms')
+            ->leftJoin('ms.cinemaHall', 'ch')
+            ->leftJoin('ch.cinema', 'c')
+            ->where('m.status = :status')
+            ->setParameter('status', 'Now Showing');
+
+        // If user using search query
+        if ($search) {
+            $qb->andWhere($qb->expr()->like('m.title', ':search'))
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        // If user click the category
+        if ($category) {
+            $qb->andWhere('m.catagory = :category')
+                ->setParameter('category', $category);
+        }
+
+        $movies = $qb->getQuery()->getResult();
+
+        $moviesWithGroupedSchedules = [];
+        foreach ($movies as $movie) {
+            $movieData = [
+                'movieId' => $movie->getMovieId(),
+                'title' => $movie->getTitle(),
+                'photo' => $movie->getPhoto(),
+                'duration' => $movie->getDuration(),
+                'classification' => $movie->getClassification(),
+                'language' => $movie->getLanguage(),
+                'category' => $movie->getCatagory(),
+                'cinemas' => []
+            ];
+
+            $cinemas = [];
+            foreach ($movie->getMovieSchedules() as $schedule) {
+                $cinemaHall = $schedule->getCinemaHall();
+                $cinema = $cinemaHall->getCinema();
+                $cinemaId = $cinema->getCinemaId();
+
+                if (!isset($cinemas[$cinemaId])) {
+                    $cinemas[$cinemaId] = [
+                        'id' => $cinemaId,
+                        'name' => $cinema->getName(),
+                        'showtimes' => []
+                    ];
+                }
+
+                $cinemas[$cinemaId]['showtimes'][] = [
+                    'scheduleId' => $schedule->getMovieScheduleId(),
+                    'time' => $schedule->getStartingTime(),
+                    'hallType' => $cinemaHall->getHallType()
+                ];
+            }
+
+            $movieData['cinemas'] = array_values($cinemas);
+            $moviesWithGroupedSchedules[] = $movieData;
+        }
+
+        return $moviesWithGroupedSchedules;
+    }
+
     public function addMovie($movieData)
     {
         $movie = new Movie();
