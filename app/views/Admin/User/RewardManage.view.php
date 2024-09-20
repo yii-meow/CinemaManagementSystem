@@ -41,6 +41,20 @@
             </div>
 
             <!-- Filters and Sorting -->
+            <!-- Success Message -->
+            <?php if (!empty($successMessage)): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?= htmlspecialchars($successMessage, ENT_QUOTES, 'UTF-8') ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+            <!-- Success Message -->
+            <?php if (!empty($errorMessage)): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8') ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
             <div class="mb-3 d-flex flex-row-reverse">
                 <button class="btn btn-primary px-4 py-2" data-bs-toggle="modal" data-bs-target="#addRewardModal">
                     <i class="fa fa-plus me-3"></i>Add New Reward
@@ -48,11 +62,11 @@
             </div>
             <div class="row mb-4">
                 <div class="col-md-6">
-                    <form method="get" action="RewardManage">
+                    <form method="get" action="<?= ROOT ?>/RewardManage">
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-search"></i></span>
                             <input type="text" class="form-control" name="search" placeholder="Search reward..."
-                                   value="<?= htmlspecialchars($search ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                                   value="<?= htmlspecialchars(isset($search) ? $search : '', ENT_QUOTES, 'UTF-8') ?>">
                         </div>
                     </form>
                 </div>
@@ -128,7 +142,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="category" class="form-label">Category</label>
-                        <input type="text" class="form-control" id="category" name="category" required />
+                        <select class="form-select" id="category" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="Ticket">Ticket</option>
+                            <option value="Food&Beverage">Food & Beverage</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="details" class="form-label">Details</label>
@@ -136,8 +154,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3"
-                                  required></textarea>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="qty" class="form-label">Quantity</label>

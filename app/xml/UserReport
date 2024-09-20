@@ -69,6 +69,17 @@
                     </div>
                 </div>
                 <div class="container">
+                    <!-- Export Buttons -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <a href="userReport/export?type=csv" class="btn btn-primary">
+                                <i class="fas fa-file-csv"></i> Export to CSV
+                            </a>
+                            <a href="userReport/export?type=pdf" class="btn btn-danger">
+                                <i class="fas fa-file-pdf"></i> Export to PDF
+                            </a>
+                        </div>
+                    </div>
                     <!-- Display the Report -->
                     <div class="row">
                         <div class="col-12">
@@ -76,9 +87,10 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>UserID</th>
-                                        <th>UserName</th>
-                                        <th>PhoneNo</th>
+                                        <th>No.</th>
+                                        <th>User ID</th>
+                                        <th>User Name</th>
+                                        <th>Phone No</th>
                                         <th>Email</th>
                                         <th>Gender</th>
                                         <th>Status</th>
@@ -91,10 +103,11 @@
                                         <xsl:sort select="UserName" order="ascending"/>
                                         <xsl:if test="$selectedStatus = 'Both' or Status = $selectedStatus">
                                             <tr>
+                                                <td><b><xsl:value-of select="position()"/>.</b></td>
                                                 <td><xsl:value-of select="UserID"/></td>
                                                 <td><xsl:value-of select="UserName"/></td>
-                                                <td><xsl:value-of select="PhoneNo"/></td>
-                                                <td><xsl:value-of select="Email"/></td>
+                                                <td><a href="tel:{PhoneNo}"><xsl:value-of select="PhoneNo"/></a></td>
+                                                <td><a href="mailto:{Email}"><xsl:value-of select="Email"/></a></td>
                                                 <td><xsl:value-of select="Gender"/></td>
                                                 <!-- Apply conditional background color to the Status column -->
                                                 <td>

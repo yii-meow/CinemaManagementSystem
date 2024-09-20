@@ -76,27 +76,34 @@
                                 <?= htmlspecialchars($data['error']); ?>
                             </div>
                         <?php endif; ?>
-                        <form class="row login_form" action="ResetPass" method="post"
-                              id="contactForm" novalidate="novalidate">
+                        <form class="row login_form" action="ResetPass" method="post" id="contactForm" novalidate="novalidate">
                             <!-- Hidden field to carry phoneNo -->
                             <input type="hidden" name="phoneNo" value="<?php echo htmlspecialchars($_SESSION['phoneNo']); ?>">
 
+                            <!-- New Password Field with Validation Pattern -->
                             <div class="col-md-12 form-group">
                                 <input type="password" class="form-control" id="password" name="password"
                                        placeholder="New Password" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'New Password'">
+                                       onblur="this.placeholder = 'New Password'"
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}"
+                                       title="Password must be at least 6 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
+                                       required>
                             </div>
+
+                            <!-- Confirm Password Field with Match Validation -->
                             <div class="col-md-12 form-group">
                                 <input type="password" class="form-control" id="cpassword" name="cpassword"
                                        placeholder="Confirm Password" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Confirm Password'">
+                                       onblur="this.placeholder = 'Confirm Password'" required>
                                 <input type="checkbox" id="showPassword"> Show Password
                             </div>
-                            <div class="col-md-12 form-group">
-                                <button type="submit" value="submit" class="primary-btn">Change
-                                    Password</button>
 
+                            <!-- Submit Button -->
+                            <div class="col-md-12 form-group">
+                                <button type="submit" value="submit" class="primary-btn">Change Password</button>
                             </div>
+
+                            <!-- Back to Login Link -->
                             <div class="col-md-12 form-group">
                                 <a href="Login">Go Back to Login</a>
                             </div>
@@ -119,7 +126,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // JavaScript to toggle password visibility
+        // Show/Hide Password
         document.getElementById('showPassword').addEventListener('change', function() {
             var passwordField = document.getElementById('password');
             var confirmPasswordField = document.getElementById('cpassword');
@@ -129,6 +136,17 @@
             } else {
                 passwordField.type = 'password';
                 confirmPasswordField.type = 'password';
+            }
+        });
+
+        // Validate that password and confirm password match
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('cpassword').value;
+
+            if (password !== confirmPassword) {
+                event.preventDefault(); // Prevent form submission
+                alert('Passwords do not match!');
             }
         });
     </script>

@@ -4,20 +4,29 @@ namespace App\controllers;
 
 use App\Core\Controller;
 use App\Core\Database;
+use App\models\Likes;
 use App\Models\Post;
+use App\models\User;
 use App\Repositories\PostRepository;
 
 class FilterForum
 {
     use Controller;
 
-    protected $entityManager;
-    protected PostRepository $postRepository;
+    private $entityManager;
+    private PostRepository $postRepository;
+    private $userRepository;
+
 
     public function __construct()
     {
         $this->entityManager = Database::getEntityManager();
         $this->postRepository = $this->entityManager->getRepository(Post::class);
+        $this->userRepository = $this->entityManager->getRepository(User::class);
+        $this->sessionManager = new SessionManagement();
+
+        // Call session timeout check at the start of every request
+        $this->sessionManager->sessionTimeout();
     }
 
     public function index()
@@ -25,12 +34,17 @@ class FilterForum
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $filterOption = filter_input(INPUT_POST, 'filterOptions', FILTER_SANITIZE_SPECIAL_CHARS);
 
+            $userId = $_SESSION['userId'];
+            $user = $this->userRepository->find($userId);
+
+
             // Get filtered posts
             $posts = $this->filterPostsByOption($filterOption);
 
             // get content
             $postData = [];
             foreach ($posts as $post) {
+                $isLiked = $this->isPostLikedByUser($post, $user);
                 $postData[] = [
                     'postID' => $post->getPostID(),
                     'userName' => $post->getUser()->getUserName(),
@@ -40,6 +54,7 @@ class FilterForum
                     'contentImg' => $post->getContentImg(),
                     'status' => $post->getStatus(),
                     'likeCount' => count($post->getLikes()),
+                    'isLiked' => $isLiked,
                     'comments' => array_map(function ($comment) {
                         return [
                             'commentID' => $comment->getCommentID(),
@@ -61,7 +76,7 @@ class FilterForum
 
             $viewName = 'Customer/Forum/Forum';
 
-            $this->view($viewName, ['posts' => $postData, 'filter' => $filterOption]);
+            $this->view($viewName, ['posts' => $postData,  'user' => $user, 'filter' => $filterOption]);
         }
     }
 
@@ -83,5 +98,12 @@ class FilterForum
             default:
                 return $this->postRepository->filterPostsByIds([]);
         }
+    }
+    private function isPostLikedByUser(Post $post, User $user): bool
+    {
+        $likeRepository = $this->entityManager->getRepository(Likes::class);
+        $like = $likeRepository->findOneBy(['post' => $post, 'likedBy' => $user]);
+
+        return $like !== null;
     }
 }

@@ -22,6 +22,29 @@
     <title>Login</title>
 
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const isTimeout = urlParams.get('timeout');
+
+            if (isTimeout) {
+                // Show SweetAlert2 pop-up
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Session Timeout',
+                    text: 'Your session has timed out due to inactivity. Please log in again.',
+                    confirmButtonText: 'OK',
+                    timer: 10000 // Auto-close the dialog after 10 seconds
+                }).then(() => {
+                    // Clear the timeout query parameter after showing the alert
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('timeout');
+                    window.history.replaceState({}, '', url);
+                });
+            }
+        }
+    </script>
     <style>
         /* Wrapper for the password input and icon */
         .password-group {
@@ -104,10 +127,17 @@
                             <div class="col-md-12 form-group">
                                 <input type="tel" class="form-control" id="phoneNo" name="phoneNo"
                                        placeholder="Mobile Number" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Mobile Number'">
+                                       onblur="this.placeholder = 'Mobile Number'"
+                                       pattern="^\d{10,15}$"
+                                       title="Please enter a valid mobile number (10-15 digits)"
+                                       required>
                             </div>
                             <div class="col-md-12 form-group password-group">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                                <input type="password" class="form-control" id="password" name="password"
+                                       placeholder="Password" onfocus="this.placeholder = ''"
+                                       onblur="this.placeholder = 'Password'"
+                                       title="Password must be at least 6 characters, include at least one uppercase letter, one lowercase letter, one number, and one special character."
+                                       required>
                                 <span class="fa fa-eye password-toggle" onclick="togglePassword()"></span>
                             </div>
                             <br>

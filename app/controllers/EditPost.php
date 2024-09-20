@@ -15,6 +15,10 @@ class EditPost
     {
         $this->entityManager = Database::getEntityManager();
         $this->postRepository = $this->entityManager->getRepository(Post::class);
+        $this->sessionManager = new SessionManagement();
+
+        // Call session timeout check at the start of every request
+        $this->sessionManager->sessionTimeout();
     }
     public function index()
     {

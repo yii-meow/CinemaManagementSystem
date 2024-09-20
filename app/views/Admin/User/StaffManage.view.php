@@ -46,9 +46,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
-            <?php if (isset($_GET['success'])): ?>
+
+            <?php if (isset($success) && $success): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <?= htmlspecialchars($_GET['success'], ENT_QUOTES, 'UTF-8'); ?>
+                    <?= htmlspecialchars($success, ENT_QUOTES, 'UTF-8'); ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
@@ -90,7 +91,7 @@
                             <td><?= htmlspecialchars($member->getPhoneNo(), ENT_QUOTES, 'UTF-8'); ?></td>
                             <td><?= htmlspecialchars($member->getRole(), ENT_QUOTES, 'UTF-8'); ?></td>
                             <td>
-                                <a href="StaffView?staffId=<?= htmlspecialchars($member->getUserId(), ENT_QUOTES, 'UTF-8'); ?>">
+                                <a href="<?= ROOT ?>/StaffView?staffId=<?= htmlspecialchars($member->getUserId(), ENT_QUOTES, 'UTF-8'); ?>">
                                     <button class="btn btn-md btn-outline-primary me-2">
                                         <i class="fas fa-eye me-1"></i>View
                                     </button>
@@ -138,7 +139,7 @@
                         <label for="staffPass" class="form-label">
                             <i class="fas fa-lock me-2"></i>Password <sup style="color: red">*Set Default*</sup>
                         </label>
-                        <input type="text" class="form-control" id="staffPass" value="staffpass" disabled/>
+                        <input type="text" class="form-control" id="staffPass" value="@Bc123" disabled/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">

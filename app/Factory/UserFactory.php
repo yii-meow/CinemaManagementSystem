@@ -13,6 +13,9 @@ class UserFactory {
     private $entityManager;
     private $userRepository;
     private $adminRepository;
+
+    private $maxFailedAttempts = 3;
+    private $lockoutDuration = 60; // 1 minutes in seconds for testing
     public function __construct()
     {
         // Initialize EntityManager and User repository
@@ -45,11 +48,23 @@ class UserFactory {
     public function login($userType, $phoneNo, $password) {
         $result = [];
 
+        // Check if the admin is locked out
+        if ($this->isLockedOut($phoneNo)) {
+            $result['error'] = "Your account is locked. Please try again after 1 minute.";
+            return $result;
+        }
+
         if ($userType === 'admin') {
             // Admin login logic
             $admin = $this->adminRepository->findOneBy(['phoneNo' => $phoneNo]);
 
             if ($admin && password_verify($password, $admin->getPassword())) {
+                // Destroy any previous session (S.C [Establish a new session after successful login])
+                session_destroy();
+                // Start a new session
+                session_start();
+                session_regenerate_id(true); // Generate a new session ID
+
                 $user = UserFactory::createUser('admin', $admin->getUserId(), $admin->getUserName(), $admin->getPhoneNo(), $admin->getPassword(), $admin->getRole(), null, null, null, null, null);
 
                 $_SESSION['admin'] = [
@@ -58,9 +73,17 @@ class UserFactory {
                     'role' => $admin->getRole(),
                 ];
 
+                // Set last activity time for session management (S.C)
+                $_SESSION['last_activity'] = time();
+
+                // Reset failed attempts on successful login
+                $this->resetFailedAttempts($phoneNo);
+
                 $result['success_message'] = "Login successful. Redirecting to Admin Profile...";
                 $result['user'] = $user;
             } else {
+                // Increment failed attempts
+                $this->incrementFailedAttempts($phoneNo);
                 $result['error'] = "Invalid phone number or password for admin.";
             }
         } else {
@@ -93,6 +116,44 @@ class UserFactory {
         }
 
         return $result;
+    }
+
+    private function isLockedOut($phoneNo) {
+        // Check if there is a lockout record in the session
+        if (isset($_SESSION['lockout'][$phoneNo])) {
+            $lockout = $_SESSION['lockout'][$phoneNo];
+
+            if ($lockout['attempts'] >= $this->maxFailedAttempts) {
+                $timeElapsed = time() - $lockout['lastAttemptTime'];
+
+                if ($timeElapsed < $this->lockoutDuration) {
+                    return true;
+                } else {
+                    // Reset failed attempts after lockout duration
+                    $this->resetFailedAttempts($phoneNo);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private function incrementFailedAttempts($phoneNo) {
+        if (!isset($_SESSION['lockout'][$phoneNo])) {
+            $_SESSION['lockout'][$phoneNo] = [
+                'attempts' => 1,
+                'lastAttemptTime' => time()
+            ];
+        } else {
+            $_SESSION['lockout'][$phoneNo]['attempts']++;
+            $_SESSION['lockout'][$phoneNo]['lastAttemptTime'] = time();
+        }
+    }
+
+    private function resetFailedAttempts($phoneNo) {
+        if (isset($_SESSION['lockout'][$phoneNo])) {
+            unset($_SESSION['lockout'][$phoneNo]);
+        }
     }
 
     public function register($user) {

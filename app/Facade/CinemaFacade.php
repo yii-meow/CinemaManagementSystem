@@ -8,6 +8,7 @@ use App\models\CinemaHall;
 use App\models\MovieSchedule;
 use App\models\Movie;
 use DateTime;
+use App\services\YoutubeAPI\TrailerLinkGenerator;
 
 class CinemaFacade
 {
@@ -24,6 +25,11 @@ class CinemaFacade
         $this->cinemaHallRepository = $this->entityManager->getRepository(CinemaHall::class);
         $this->movieScheduleRepository = $this->entityManager->getRepository(MovieSchedule::class);
         $this->movieRepository = $this->entityManager->getRepository(Movie::class);
+    }
+
+    public function getAllCinemas()
+    {
+        return $this->cinemaRepository->findAll();
     }
 
     // Cinema Management
@@ -212,6 +218,11 @@ class CinemaFacade
         return $hall;
     }
 
+    public function getMovieSchedules()
+    {
+        return $this->movieScheduleRepository->findMovieSchedule();
+    }
+
     public function addMovieSchedule($cinemaHallId, $movieId, $startingTime)
     {
         $movie = $this->movieRepository->find($movieId);
@@ -230,5 +241,120 @@ class CinemaFacade
         $this->entityManager->flush();
 
         return $movieSchedule;
+    }
+
+    public function getAllMovies()
+    {
+        return $this->movieRepository->findAll();
+    }
+
+    public function getComingSoonMovies()
+    {
+        return $this->movieRepository->findComingSoonMovies();
+    }
+
+    public function searchMovies($search = '', $category = '')
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('m', 'ms', 'ch', 'c')
+            ->from(Movie::class, 'm')
+            ->leftJoin('m.movieSchedules', 'ms')
+            ->leftJoin('ms.cinemaHall', 'ch')
+            ->leftJoin('ch.cinema', 'c')
+            ->where('m.status = :status')
+            ->setParameter('status', 'Now Showing');
+
+        // If user using search query
+        if ($search) {
+            $qb->andWhere($qb->expr()->like('m.title', ':search'))
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        // If user click the category
+        if ($category && $category !== 'All') {
+            $qb->andWhere($qb->expr()->like('m.catagory', ':category'))
+                ->setParameter('category', '%' . $category . '%');
+        }
+
+        $movies = $qb->getQuery()->getResult();
+
+        $moviesWithGroupedSchedules = [];
+        foreach ($movies as $movie) {
+            $movieData = [
+                'movieId' => $movie->getMovieId(),
+                'title' => $movie->getTitle(),
+                'photo' => $movie->getPhoto(),
+                'duration' => $movie->getDuration(),
+                'classification' => $movie->getClassification(),
+                'language' => $movie->getLanguage(),
+                'category' => $movie->getCatagory(),
+                'cinemas' => []
+            ];
+
+            $cinemas = [];
+            foreach ($movie->getMovieSchedules() as $schedule) {
+                $cinemaHall = $schedule->getCinemaHall();
+                $cinema = $cinemaHall->getCinema();
+                $cinemaId = $cinema->getCinemaId();
+
+                if (!isset($cinemas[$cinemaId])) {
+                    $cinemas[$cinemaId] = [
+                        'id' => $cinemaId,
+                        'name' => $cinema->getName(),
+                        'showtimes' => []
+                    ];
+                }
+
+                $cinemas[$cinemaId]['showtimes'][] = [
+                    'scheduleId' => $schedule->getMovieScheduleId(),
+                    'time' => $schedule->getStartingTime(),
+                    'hallType' => $cinemaHall->getHallType()
+                ];
+            }
+
+            $movieData['cinemas'] = array_values($cinemas);
+            $moviesWithGroupedSchedules[] = $movieData;
+        }
+
+        return $moviesWithGroupedSchedules;
+    }
+
+    public function addMovie($movieData)
+    {
+        $movie = new Movie();
+        $this->setMovieData($movie, $movieData);
+
+        $this->entityManager->persist($movie);
+        $this->entityManager->flush();
+
+        return $movie;
+    }
+
+    private function setMovieData(Movie $movie, array $data)
+    {
+        if (isset($data['title'])) {
+            $movie->setTitle($data['title']);
+            $trailerLink = $this->fetchTrailer($data['title']);
+            if ($trailerLink !== null) {
+                $movie->setTrailerLink($trailerLink);
+            }
+        }
+        if (isset($data['photo'])) $movie->setPhoto($data['photo']);
+        if (isset($data['duration'])) $movie->setDuration($data['duration']);
+        if (isset($data['catagory'])) $movie->setCatagory($data['catagory']);
+        if (isset($data['releaseDate'])) $movie->setReleaseDate(new DateTime($data['releaseDate']));
+        if (isset($data['language'])) $movie->setLanguage($data['language']);
+        if (isset($data['subtitles'])) $movie->setSubtitles($data['subtitles']);
+        if (isset($data['director'])) $movie->setDirector($data['director']);
+        if (isset($data['casts'])) $movie->setCasts($data['casts']);
+        if (isset($data['description'])) $movie->setDescription($data['description']);
+        if (isset($data['classification'])) $movie->setClassification($data['classification']);
+        if (isset($data['status'])) $movie->setStatus($data['status']);
+    }
+
+    private function fetchTrailer($movieTitle)
+    {
+        $movieTrailer = new TrailerLinkGenerator();
+        return $movieTrailer->fetchTrailer($movieTitle);
     }
 }

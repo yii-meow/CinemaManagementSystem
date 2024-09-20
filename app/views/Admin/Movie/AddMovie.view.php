@@ -53,68 +53,38 @@
                     <i class="fas fa-arrow-left me-2"></i>Back
                 </button>
             </a>
-            <h1 class="mb-2">Add New Movie</h1>
+            <h1 class="mb-4"><i class="fas fa-film me-2"></i>Add New Movie</h1>
 
-            <form
-                    class="main-content p-4 mt-3"
-                    style="
-              background-color: #ffffff;
-              border-radius: 8px;
-              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            "
-            >
+            <form id="addMovieForm" class="main-content p-4 mt-3"
+                  style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);"
+                  enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" required/>
+                    <label for="title" class="form-label"><i class="fas fa-heading me-2"></i>Title</label>
+                    <input type="text" class="form-control" id="title" name="title" required/>
                 </div>
 
                 <div class="mb-3">
-                    <label for="photo" class="form-label">Movie Poster</label>
-                    <input
-                            type="file"
-                            class="form-control"
-                            id="photo"
-                            accept="image/*"
-                            required
-                    />
+                    <label for="photo" class="form-label"><i class="fas fa-image me-2"></i>Movie Poster</label>
+                    <input type="file" class="form-control" id="photo" name="photo" accept="image/*" required
+                           onchange="previewImage(this);"/>
+                    <img id="photoPreview" src="" alt="Photo preview"
+                         style="display:none; max-width: 200px; max-height: 300px; margin-top: 10px;">
                 </div>
 
                 <div class="mb-3">
-                    <label for="trailerLink" class="form-label">Trailer Link</label>
-                    <input
-                            type="url"
-                            class="form-control"
-                            id="trailerLink"
-                            required
-                    />
+                    <label for="duration" class="form-label"><i class="fas fa-clock me-2"></i>Duration (minutes)</label>
+                    <input type="number" class="form-control" id="duration" name="duration" min="1" required/>
                 </div>
 
                 <div class="mb-3">
-                    <label for="duration" class="form-label"
-                    >Duration (minutes)*</label
-                    >
-                    <input
-                            type="number"
-                            class="form-control"
-                            id="duration"
-                            min="1"
-                            required
-                    />
+                    <label for="category" class="form-label"><i class="fas fa-tags me-2"></i>Category</label>
+                    <input type="text" class="form-control" id="catagory" name="catagory" required/>
+                    <small class="form-text text-muted">Separate multiple categories with commas</small>
                 </div>
 
                 <div class="mb-3">
-                    <label for="category" class="form-label">Category</label>
-                    <input type="text" class="form-control" id="category" required/>
-                    <small class="form-text text-muted"
-                    >Separate multiple categories with commas</small
-                    >
-                </div>
-
-                <div class="mb-3">
-                    <label for="classification" class="form-label"
-                    >Classification</label
-                    >
-                    <select class="form-select" id="classification" required>
+                    <label for="classification" class="form-label"><i class="fas fa-certificate me-2"></i>Classification</label>
+                    <select class="form-select" id="classification" name="classification" required>
                         <option value="">Select classification</option>
                         <option value="G">G - General</option>
                         <option value="PG">PG - Parental Guidance</option>
@@ -125,62 +95,104 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="releaseDate" class="form-label">Release Date</label>
-                    <input
-                            type="date"
-                            class="form-control"
-                            id="releaseDate"
-                            required
-                    />
+                    <label for="status" class="form-label"><i class="fas fa-toggle-on me-2"></i>Status</label>
+                    <select class="form-select" id="status" name="status" required>
+                        <option value="">Select status</option>
+                        <option value="Now Showing">Now Showing</option>
+                        <option value="Coming Soon">Coming Soon</option>
+                        <option value="Not Showing">Not Showing</option>
+                    </select>
                 </div>
 
                 <div class="mb-3">
-                    <label for="language" class="form-label">Language</label>
-                    <input type="text" class="form-control" id="language" required/>
+                    <label for="releaseDate" class="form-label"><i class="fas fa-calendar-alt me-2"></i>Release
+                        Date</label>
+                    <input type="date" class="form-control" id="releaseDate" name="releaseDate" required/>
                 </div>
 
                 <div class="mb-3">
-                    <label for="subtitles" class="form-label">Subtitles</label>
-                    <input type="text" class="form-control" id="subtitles"/>
-                    <small class="form-text text-muted"
-                    >Separate multiple languages with commas</small
-                    >
+                    <label for="language" class="form-label"><i class="fas fa-language me-2"></i>Language</label>
+                    <input type="text" class="form-control" id="language" name="language" required/>
                 </div>
 
                 <div class="mb-3">
-                    <label for="director" class="form-label">Director</label>
-                    <input type="text" class="form-control" id="director" required/>
+                    <label for="subtitles" class="form-label"><i
+                                class="fas fa-closed-captioning me-2"></i>Subtitles</label>
+                    <input type="text" class="form-control" id="subtitles" name="subtitles"/>
+                    <small class="form-text text-muted">Separate multiple languages with commas</small>
                 </div>
 
                 <div class="mb-3">
-                    <label for="casts" class="form-label">Cast</label>
-                    <textarea
-                            class="form-control"
-                            id="casts"
-                            rows="3"
-                            required
-                    ></textarea>
-                    <small class="form-text text-muted"
-                    >Enter each cast member on a new line</small
-                    >
+                    <label for="director" class="form-label"><i class="fas fa-user-tie me-2"></i>Director</label>
+                    <input type="text" class="form-control" id="director" name="director" required/>
                 </div>
 
                 <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea
-                            class="form-control"
-                            id="description"
-                            rows="5"
-                            required
-                    ></textarea>
+                    <label for="casts" class="form-label"><i class="fas fa-users me-2"></i>Cast</label>
+                    <textarea class="form-control" id="casts" name="casts" rows="3" required></textarea>
+                    <small class="form-text text-muted">Enter each cast member on a new line</small>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Add Movie</button>
+                <div class="mb-3">
+                    <label for="description" class="form-label"><i
+                                class="fas fa-align-left me-2"></i>Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus-circle me-2"></i>Add Movie
+                </button>
             </form>
         </main>
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addMovieForm = document.getElementById('addMovieForm');
+
+        addMovieForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('<?=ROOT?>/MovieManagement/addMovie', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        alert("Movie added successfully!");
+                        // location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                        console.error('Detailed error:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while adding the movie.');
+                });
+        });
+    });
+
+    function previewImage(input) {
+        const preview = document.getElementById('photoPreview');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = "";
+            preview.style.display = 'none';
+        }
+    }
+</script>
 </body>
 </html>

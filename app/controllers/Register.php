@@ -62,7 +62,7 @@ class Register
                         ->setCoins(0)
                         ->setStatus('active');
 
-                    $data['success'] = $this->userFactory->register($user);
+                    $data['success_message'] = $this->userFactory->register($user);
 //                    // Persist user data
 //                    $this->entityManager->persist($user);
 //                    $this->entityManager->flush();

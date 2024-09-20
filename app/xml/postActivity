@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <!-- Parameter for selected status -->
+    <xsl:param name="userId" select="'Both'"/>
+
+    <!-- Template for the root element -->
+    <xsl:template match="/">
+        <html>
+            <head>
+                <title>User Post Activity</title>
+                <style>
+                    table {
+                        border-collapse: collapse;
+                        width: 100%;
+                    }
+                    th, td {
+                        border: 1px solid black;
+                        padding: 8px;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                    }
+                </style>
+            </head>
+            <body>
+                <h2>User Forum Post Activity Summary</h2>
+                <table>
+                    <tr>
+                        <th>No.</th>
+                        <th>Post Content</th>
+                        <th>Date Created</th>
+                        <th>Total Like(s)</th>
+                        <th>Total Comment(s)</th>
+                        <th>Total Replies</th>
+                    </tr>
+                    <xsl:for-each select="/PostActivity/Post">
+                        <tr>
+                            <td><xsl:value-of select="position()"/></td>
+                            <td><xsl:value-of select="content"/></td>
+                            <td><xsl:value-of select="postDate"/></td>
+                            <!-- Total likes for the post -->
+                            <td><xsl:value-of select="count(Like)"/></td>
+                            <!-- Total comments for the post -->
+                            <td><xsl:value-of select="count(Comment)"/></td>
+                            <!-- Total replies for the post -->
+                            <td><xsl:value-of select="count(Comment/Reply)"/></td>
+                        </tr>
+                        <!-- Display each comment and its replies -->
+                        <xsl:for-each select="Comment">
+                            <tr>
+                                <td colspan="6">
+                                    <strong>Comment ID:</strong> <xsl:value-of select="commentID"/>
+                                    <br/>
+                                    <strong>Comment Text:</strong> <xsl:value-of select="commentText"/>
+                                </td>
+                            </tr>
+                            <xsl:for-each select="Reply">
+                                <tr>
+                                    <td colspan="6" style="padding-left: 20px;">
+                                        <strong>Reply ID:</strong> <xsl:value-of select="replyID"/>
+                                        <br/>
+                                        <strong>Reply Text:</strong> <xsl:value-of select="replyText"/>
+                                    </td>
+                                </tr>
+                            </xsl:for-each>
+                        </xsl:for-each>
+                        <!-- Display each like -->
+                        <xsl:for-each select="Like">
+                            <tr>
+                                <td colspan="6">
+                                    <strong>Like ID:</strong> <xsl:value-of select="likeID"/>
+                                    <br/>
+                                    <strong>Like Date:</strong> <xsl:value-of select="likeDate"/>
+                                </td>
+                            </tr>
+                        </xsl:for-each>
+                    </xsl:for-each>
+                </table>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/js/all.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+            </body>
+        </html>
+    </xsl:template>
+</xsl:stylesheet>

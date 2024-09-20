@@ -1,8 +1,7 @@
-<?php 
+<?php
 
-if($_SERVER['SERVER_NAME'] == 'localhost')
-{
-	/** database config **/
+if ($_SERVER['SERVER_NAME'] == 'localhost') {
+    /** database config **/
 //    define('DBNAME', 'CinemaManagementSystem');
 //    define('DBHOST', 'cinema-management-system.cl9dstv2z9by.us-east-1.rds.amazonaws.com');
 //    define('DBUSER', 'RegularUser');  //Readonly, nbuser, RegularUser
@@ -10,7 +9,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
 //	define('DBDRIVER', '');
 
     //Routing
-	define('ROOT', 'http://localhost:8080/CinemaManagementSystem/public');
+    define('ROOT', 'http://localhost:8000/CinemaManagementSystem/public');
 
 
     //Database Credentials
@@ -38,7 +37,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
 //            ]
 //        ]
 //    ];
-
+    define('SITE_ROOT', dirname(__DIR__, 2) . '/public');
 }
 
 define('APP_NAME', "Cinema Management System");

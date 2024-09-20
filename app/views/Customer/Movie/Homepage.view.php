@@ -159,7 +159,7 @@
                 <div class="w-100">
                     <a href="<?= ROOT ?>/MovieDetails?movieId=<?= $encryptedMovieId ?>">
                         <div class="movie-result w-100">
-                            <img src="<?= htmlspecialchars($movie['photo']) ?>"
+                            <img src="<?= htmlspecialchars(ROOT. $movie['photo']) ?>"
                                  alt="<?= htmlspecialchars($movie['title']) ?>"
                                  class="movie-poster"/>
                             <div class="movie-details">
@@ -200,8 +200,8 @@
         if (isset($comingSoonMovies) && !empty($comingSoonMovies)):
             foreach ($comingSoonMovies as $movie): ?>
                 <div class="movie-card">
-                    <img src="<?= htmlspecialchars($movie->getPhoto()) ?>"
-                         alt="<?= htmlspecialchars($movie->getTitle()) ?>"/>
+                    <img src="<?= ROOT . htmlspecialchars($movie->getPhoto()) ?>"
+                         alt="<?= ROOT . htmlspecialchars($movie->getTitle()) ?>"/>
                     <div class="p-2">
                         <h2 class="movie-title"><?= htmlspecialchars($movie->getTitle()) ?></h2>
                         <p class="movie-date text-dark">Coming <?= $movie->getReleaseDate()->format('M. d, Y') ?></p>

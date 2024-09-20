@@ -12,15 +12,19 @@ class FilterPost
 {
     use Controller;
 
-    protected $entityManager;
-    protected PostRepository $postRepository;
-    protected $likeRepository;
+    private $entityManager;
+    private PostRepository $postRepository;
+    private $likeRepository;
 
     public function __construct()
     {
         $this->entityManager = Database::getEntityManager();
         $this->postRepository = $this->entityManager->getRepository(Post::class);
         $this->likeRepository = $this->entityManager->getRepository(Likes::class);
+        $this->sessionManager = new SessionManagement();
+
+        // Call session timeout check at the start of every request
+        $this->sessionManager->sessionTimeout();
     }
 
     public function index()
@@ -29,7 +33,7 @@ class FilterPost
             $filterOption = filter_input(INPUT_POST, 'filterOptions', FILTER_SANITIZE_SPECIAL_CHARS);
             $filterType = filter_input(INPUT_POST, 'filterType', FILTER_SANITIZE_SPECIAL_CHARS);
 
-            $userId = 4; // Hardcoded example user ID
+            $userID = $_SESSION['userId'];
 
             switch ($filterType) {
                 case 'myPosts':
@@ -43,7 +47,7 @@ class FilterPost
                     $viewName = 'Customer/Forum/Forum';
                     break;
             }
-            $posts = $this->getFilteredPosts($userId, $filterOption, $filterType);
+            $posts = $this->getFilteredPosts($userID, $filterOption, $filterType);
 
             if (empty($posts)) {
                 $this->view($viewName, ['posts' => [], 'filter' => $filterOption, 'filterType' => $filterType, 'message' => 'No posts found for the selected filter.']);
@@ -52,6 +56,7 @@ class FilterPost
 
             $postData = [];
             foreach ($posts as $post) {
+                $isLiked = $this->isPostLikedByUser($post, $userID);
                 $postData[] = [
                     'postID' => $post->getPostID(),
                     'userName' => $post->getUser()->getUserName(),
@@ -61,6 +66,7 @@ class FilterPost
                     'contentImg' => $post->getContentImg(),
                     'status' => $post->getStatus(),
                     'likeCount' => count($post->getLikes()),
+                    'isLiked' => $isLiked,
                     'comments' => array_map(function ($comment) {
                         return [
                             'commentID' => $comment->getCommentID(),
@@ -145,36 +151,11 @@ class FilterPost
         }
     }
 
-
-
-  /*  private function getLikedPosts($userId, $filterOption)
+    private function isPostLikedByUser(Post $post,$userID): bool
     {
-        $likes = $this->likeRepository->findBy(['likedBy' => $userId]);
+        $likeRepository = $this->entityManager->getRepository(Likes::class);
+        $like = $likeRepository->findOneBy(['post' => $post, 'likedBy' => $userID]);
 
-        if (!$likes) {
-            return [];
-        }
-
-        $postIds = array_map(function ($like) {
-            return $like->getPost()->getPostID();
-        }, $likes);
-
-        if (empty($postIds)) {
-            return [];
-        }
-
-        // Apply filtering based on the selected option
-        switch ($filterOption) {
-            case 'latestPost':
-                return $this->postRepository->filterPostsByIdsOrderedByDate($postIds, 'DESC'); // Latest posts
-            case 'oldestPost':
-                return $this->postRepository->filterPostsByIdsOrderedByDate($postIds, 'ASC');  // Oldest posts
-            case 'highestLikes':
-                return $this->postRepository->filterPostsByIdsOrderedByLikes($postIds,'DESC');       // Highest likes
-            case 'lowestLikes':
-                return $this->postRepository->filterPostsByIdsOrderedByLikes($postIds,'ASC');        // Lowest Likes
-            default:
-                return $this->postRepository->filterPostsByIds($postIds);
-        }
-    }*/
+        return $like !== null;
+    }
 }

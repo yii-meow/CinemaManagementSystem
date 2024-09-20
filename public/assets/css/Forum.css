@@ -86,7 +86,7 @@
 }
 
 .ml-2 {
-    margin-left: 0.5rem;
+    margin-left: 10px;
 }
 
 /*For view post*/
@@ -139,26 +139,29 @@
 .action-item:hover {
     color: #f03351;
 }
+.fa-heart.liked {
+    color: red;
+}
 
-.like-button {
+/*.likeIcon-button {
     font-size: 24px;
     cursor: pointer;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.like-button.liked {
+.likeIcon-button.liked {
     color: #f03351;
     transform: scale(1.2);
 }
 
-.like-button.unliked {
+.likeIcon-button.unliked {
     color: #ccc;
     transform: scale(1);
 }
 
-.like-button:active {
-    transform: scale(1.5); /* Slight bounce on click */
-}
+.likeIcon-button:active {
+    transform: scale(1.5);
+}*/
 
 .like-count {
     margin-left: 10px;
@@ -348,21 +351,6 @@
 }
 
 /* For left panel */
-.left-container {
-    background-color: #f03351;
-    width: 220px;
-    height: calc(100vh - 70px);
-    display: fixed;
-    position: fixed;
-    top: 130px;
-    left: 0;
-    overflow-y: auto;
-    z-index: 1000;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-    border-radius: 0 10px 0 10px;
-    padding: 20px;
-
-}
 
 .nav-buttons {
     display: flex;

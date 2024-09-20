@@ -6,7 +6,9 @@ use App\Core\Controller;
 use App\Core\Database;
 use App\Models\Post;
 use App\Models\Likes;
+use App\models\User;
 use Doctrine\ORM\EntityManagerInterface;
+use App\controllers\SessionManagement;
 
 class ShowLikedPost
 {
@@ -21,11 +23,27 @@ class ShowLikedPost
         $this->entityManager = Database::getEntityManager();
         $this->postRepository = $this->entityManager->getRepository(Post::class);
         $this->likeRepository = $this->entityManager->getRepository(Likes::class);
+        $this->sessionManager = new SessionManagement();
+
+        // Call session timeout check at the start of every request
+        $this->sessionManager->sessionTimeout();
     }
 
     public function index()
     {
-        $userId = 4; // Temporarily hard-coded
+        // Start session if not started already
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Check if userId is set in the session
+        if (!isset($_SESSION['userId'])) {
+            // Redirect to login if userId is not set
+            $this->view('Customer/User/Login');
+            exit();
+        }
+
+        $userId = $_SESSION['userId'];
 
         // Fetch posts liked by the specific user
         $likedPosts = $this->likeRepository->findBy(['likedBy' => $userId]);
@@ -37,7 +55,10 @@ class ShowLikedPost
 
         $postData = [];
         foreach ($likedPosts as $like) {
+
             $post = $like->getPost();
+            $isLiked = true;
+
             $postData[] = [
                 'postID' => $post->getPostID(),
                 'userName' => $post->getUser()->getUserName(),
@@ -47,6 +68,7 @@ class ShowLikedPost
                 'contentImg' => $post->getContentImg(),
                 'status' => $post->getStatus(),
                 'likeCount' => count($post->getLikes()),
+                'isLiked' => $isLiked,
                 'comments' => array_map(function ($comment) {
                     return [
                         'commentID' => $comment->getCommentID(),
@@ -68,4 +90,5 @@ class ShowLikedPost
 
         $this->view('Customer/Forum/LikedPost', ['posts' => $postData]);
     }
+
 }

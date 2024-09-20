@@ -25,15 +25,15 @@ class StaffManage
         if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
 
             $error = null; // Initialize an error message variable
+            $success = null; // Initialize a success message variable
             $searchQuery = $_GET['search'] ?? null; // Get the search query from the URL
-
 
             // Check if form is submitted via POST
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Get data from the form submission
                 $staffName = $_POST['staffName'] ?? null;
                 $phoneNo = $_POST['phoneNo'] ?? null;
-                $defaultPassword = 'staffpass';  // Default password
+                $defaultPassword = '@Bc123';  // Default password
                 $role = 'Staff';  // Default role
 
                 // Validate the form data (basic validation)
@@ -59,8 +59,8 @@ class StaffManage
                         $this->entityManager->persist($staff);
                         $this->entityManager->flush();
 
-                        // Redirect to prevent form resubmission and show the updated list
-                        header('Location: ' . ROOT . '/StaffManage');
+                        // Redirect to prevent form resubmission and show the updated list with success message
+                        header('Location: ' . ROOT . '/StaffManage?success=Staff%20member%20added%20successfully');
                         exit();
                     }
                 }
@@ -79,16 +79,20 @@ class StaffManage
                 $staff = $this->adminRepository->findAll();
             }
 
-            // Pass the list of staff and the error message (if any) to the view
+            // Get the success message from the URL
+            $success = $_GET['success'] ?? null;
+
+            // Pass the list of staff, error message, and success message (if any) to the view
             $data = [
                 'staff' => $staff,
                 'error' => $error,
+                'success' => $success,
                 'searchQuery' => $searchQuery
             ];
 
-            // Render the StaffManage view with the staff data and potential error message
+            // Render the StaffManage view with the staff data, potential error message, and success message
             $this->view('Admin/User/StaffManage', $data);
-        }else {
+        } else {
             // Redirect to permission denied page if user is not a SuperAdmin
             $this->view("Admin/403PermissionDenied");
         }

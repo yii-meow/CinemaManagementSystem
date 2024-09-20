@@ -53,7 +53,7 @@
 
 
     <h1>Select User Status to Generate Report</h1>
-    <form action="userReport" method="POST">
+    <form action="<?= ROOT ?>/userReport" method="POST">
         <div class="form-check mb-3">
             <input class="form-check-input" type="radio" name="status" id="activeUsers" value="active" checked>
             <label class="form-check-label" for="activeUsers">

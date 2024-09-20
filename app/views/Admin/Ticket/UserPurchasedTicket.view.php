@@ -1,3 +1,8 @@
+<?php
+
+use App\core\Encryption;
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -22,6 +27,12 @@
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/AdminCinemaManagement.css"/>
     <title>User Ticket</title>
 
+    <style>
+        td {
+            padding: 15px !important;
+        }
+    </style>
+
     <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png"/>
 </head>
 
@@ -40,45 +51,67 @@
 
             <!-- Filters and Sorting -->
             <div class="row mb-4">
-                <div class="col-md-6">
-                    <form method="GET" action="<?= ROOT ?>/UserManage">
-                        <div class="input-group">
+                <div>
+                    <form method="POST"
+                          style="display: flex; flex-flow: row nowrap; justify-content: space-between !important;">
+                        <div class="input-group" style="max-width: 600px;">
                             <span class="input-group-text"><i class="fas fa-search"></i></span>
-                            <input type="text" class="form-control" name="search" placeholder="Search user..."
+                            <input id="myInput" onkeyup="filterTable()" type="text" class="form-control" name="search"
+                                   placeholder="Search ticket..."
                                    value="<?= htmlspecialchars($searchQuery ?? '', ENT_QUOTES, 'UTF-8'); ?>"/>
+                        </div>
+                        <div class="exportButton" style="display:flex; flex-flow: row nowrap; gap:10px;">
+                            <button onclick="location.href='<?= ROOT ?>/UserPurchasedTicket/showXSLT'" type="button"
+                                    class="btn btn-primary">Show XSLT
+                            </button>
+                            <button onclick="location.href='<?= ROOT ?>/UserPurchasedTicket/exportCSV'" type="button"
+                                    class="btn btn-success">Export CSV
+                            </button>
+                            <button onclick="location.href='<?= ROOT ?>/UserPurchasedTicket/exportPDF'" type="button"
+                                    class="btn btn-danger">Export PDF
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <!-- User list -->
-            <table class="table">
-                <thead class="thead-dark" style="background-color: rgb(39, 37, 37); color:white">
+            <!-- Ticket list -->
+            <table class="table" id="myTable">
+                <thead class="thead-dark" style="background-color: rgb(39, 37, 37); color:white;">
                 <tr>
-                    <th scope="col" style="width: 3%;">No.</th>
-                    <th scope="col" style="width: 5%;">Profile Image</th>
-                    <th scope="col" style="width: 10%;">Username</th>
-                    <th scope="col" style="width: 10%;">Phone</th>
-                    <th scope="col" style="width: 15%;">Email</th>
-                    <th scope="col" style="width: 10%;">Action</th>
+                    <th scope="col" style="padding:10px;width: 3%; vertical-align: middle">No.</th>
+                    <th scope="col" style="padding:10px;width: 8%; vertical-align: middle">Username</th>
+                    <th scope="col" style="padding:10px;width: 10%; vertical-align: middle">Ticket Status</th>
+                    <th scope="col" style="padding:10px;width: 10%; vertical-align: middle">Payment Status</th>
+                    <th scope="col" style="padding:10px;width: 12%; vertical-align: middle">Movie Name</th>
+                    <th scope="col" style="padding:10px;width: 10%; vertical-align: middle">Date & Time</th>
+                    <th scope="col" style="padding:10px;width: 10%; vertical-align: middle">Seat Numbers</th>
+                    <th scope="col" style="padding:10px;width: 8%; vertical-align: middle">Total Price</th>
+                    <th scope="col" style="padding:10px;width: 5%; text-align: center; vertical-align: middle">Action
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php if (isset($users) && !empty($users)): ?>
-                    <?php foreach ($users as $index => $user): ?>
+                <?php if (isset($tickets) && !empty($tickets)): ?>
+                    <?php foreach ($tickets as $index => $ticket): ?>
                         <tr>
-                            <th scope="row"><?= $index + 1 ?></th>
-                            <td>
-                                <img src="<?= ROOT ?>/assets/images/<?= $user->getProfileImg() ?? '../../../public/assets/images/profile4.jpg'; ?>"
-                                     alt="Profile Image"
-                                     style="width:40px; height:40px; border-radius:50%;">
-                            </td>
-                            <td><?= htmlspecialchars($user->getUserName(), ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td><?= htmlspecialchars($user->getPhoneNo(), ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td><?= htmlspecialchars($user->getEmail(), ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td>
-                                <a href="UserView?userId=<?= $user->getUserId(); ?>">
-                                    <button class="btn btn-md btn-outline-primary me-2">
+                            <th scope="row" style="padding: 15px !important"><?= $index + 1 ?></th>
+                            <td><?= htmlspecialchars($ticket['customerName'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?= htmlspecialchars($ticket['ticketStatus'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?= htmlspecialchars($ticket['paymentStatus'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?= htmlspecialchars($ticket['movieTitle'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?= htmlspecialchars($ticket['startingTime']->format('Y-m-d H:i A'), ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?= htmlspecialchars($ticket['seatNo'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?= "RM " . number_format($ticket['totalPrice'], 2); ?></td>
+                            <td style="text-align: center;">
+
+                                <?php
+                                //Encryption Process
+                                $encryption = new Encryption();
+                                $encryptedTicketId = $encryption->encrypt($ticket['ticketId'], $encryption->getKey());
+                                ?>
+                                <a href="<?= ROOT ?>/UserTicketView?ticketId=<?= $encryptedTicketId ?>">
+                                    <button style="width: 100%;" class="btn btn-md btn-outline-primary me-2">
                                         <i class="fas fa-exclamation-circle me-1"></i>View
                                     </button>
                                 </a>
@@ -87,7 +120,7 @@
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6">No users found.</td>
+                        <td colspan="9">No tickets found.</td>
                     </tr>
                 <?php endif; ?>
                 </tbody>
@@ -96,6 +129,33 @@
     </div>
 </div>
 
+<script>
+    function filterTable() {
+        // Declare variables
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows (except the header row)
+        for (i = 1; i < tr.length; i++) {
+            tr[i].style.display = "none"; // Hide the row initially
+
+            // Loop through all table data (td) in the current row
+            td = tr[i].getElementsByTagName("td");
+            for (j = 0; j < td.length; j++) {
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = ""; // Show the row if match found
+                        break; // Stop searching in this row if a match is found
+                    }
+                }
+            }
+        }
+    }
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 

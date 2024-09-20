@@ -4,9 +4,11 @@ namespace App\controllers;
 
 use App\Core\Controller;
 use App\Core\Database;
+use App\models\Likes;
 use App\Models\Post;
 use App\Models\User; // Assuming the User entity exists
 use Doctrine\ORM\EntityManagerInterface;
+use App\controllers\SessionManagement;
 
 class MyPost
 {
@@ -19,12 +21,30 @@ class MyPost
     {
         $this->entityManager = Database::getEntityManager();
         $this->postRepository = $this->entityManager->getRepository(Post::class);
+        // Initialize session management
+        $this->sessionManager = new SessionManagement();
+
+        // Call session timeout check at the start of every request
+        $this->sessionManager->sessionTimeout();
     }
 
     // Method to fetch posts only for a particular user
     public function index()
     {
-        $userId = 1;// temporarily hard coded
+        // Start session if not started already
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Check if userId is set in the session
+        if (!isset($_SESSION['userId'])) {
+            // Redirect to login if userId is not set
+            $this->view('Customer/User/Login');
+            exit();
+        }
+
+        $userId = $_SESSION['userId'];
+        //$userId = 1;// temporarily hard coded
         // Fetch posts for the specific user with comments, likes, and replies
         $posts = $this->postRepository->findBy(['user' => $userId]);
 
@@ -36,6 +56,8 @@ class MyPost
 
         $postData = [];
         foreach ($posts as $post) {
+            $isLiked = $this->isPostLikedByUser($post, $userId);
+
             $postData[] = [
                 'postID' => $post->getPostID(),
                 'userName' => $post->getUser()->getUserName(),
@@ -45,6 +67,7 @@ class MyPost
                 'contentImg' => $post->getContentImg(),
                 'status' => $post->getStatus(),
                 'likeCount' => count($post->getLikes()),
+                'isLiked' => $isLiked,
                 'comments' => array_map(function ($comment) {
                     return [
                         'commentID' => $comment->getCommentID(),
@@ -66,5 +89,13 @@ class MyPost
 
         // Render the view with the post data
         $this->view('Customer/Forum/MyPost', ['posts' => $postData]);
+    }
+
+    private function isPostLikedByUser(Post $post,$userID): bool
+    {
+        $likeRepository = $this->entityManager->getRepository(Likes::class);
+        $like = $likeRepository->findOneBy(['post' => $post, 'likedBy' => $userID]);
+
+        return $like !== null;
     }
 }

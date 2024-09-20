@@ -71,6 +71,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text">+60</span> <!-- Fixed prefix -->
                                     <input type="tel" class="form-control" id="phoneNo" name="phoneNo"
+                                           maxlength="11"
                                            placeholder="Enter number" onfocus="this.placeholder = ''"
                                            onblur="this.placeholder = 'Enter number'" required>
                                 </div>

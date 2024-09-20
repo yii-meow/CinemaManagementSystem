@@ -140,6 +140,10 @@
     color: #f03351;
 }
 
+.fa-heart.liked {
+    color: red;
+}
+
 
 .comment-input {
     width: 400px;

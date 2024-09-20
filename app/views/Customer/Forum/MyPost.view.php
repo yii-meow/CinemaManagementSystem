@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -17,7 +18,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/reset.css"/>
 
@@ -48,12 +48,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php elseif ($_GET['message'] === 'reply_success'): ?>
             <p>Your reply was successfully added!</p>
         <?php elseif ($_GET['message'] === 'comment_fail'): ?>
-            <p>Your comment not added!</p>
+            <p>Your comment was not added!</p>
         <?php elseif ($_GET['message'] === 'reply_fail'): ?>
             <p>Your reply was not added!</p>
         <?php endif; ?>
     </div>
 <?php endif; ?>
+
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
 <script>
     // Function to get query parameters
@@ -80,217 +83,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 text: 'There was an issue editing your post. Please try again.',
                 confirmButtonText: 'OK'
             });
-        }else if (remove === 'success') {
+        } else if (remove === 'success') {
             Swal.fire({
                 icon: 'success',
                 title: 'Post Deleted',
                 text: 'Your post has been successfully deleted!',
                 confirmButtonText: 'OK'
             });
-        }else if (remove === 'error') {
+        } else if (remove === 'error') {
             Swal.fire({
                 icon: 'error',
-                title: 'Post Edit Failed',
+                title: 'Post Delete Failed',
                 text: 'There was an issue deleting your post. Please try again.',
                 confirmButtonText: 'OK'
             });
         }
     };
-
-
 </script>
+<?php
+if (isset($data['user'])) {
+    $user = $data['user'];
+
+}
+$userID = $_SESSION['userId'];
+?>
 
         <div id="Customer">
 
-            <!--Header-->
-            <div class="header" id="header">
-
-                <div class="binder">
-
-
-                    <div style="margin-left: 20px;" class="business-icon">
-                        <div
-                            style="color: white; height: inherit; text-align: center; font-weight: bold; font-size: 20px;">
-                            <img src="<?= ROOT ?>/assets/images/alternativeIcon.png" draggable="false" width="200" height="55" />
-                        </div>
-                    </div>
-
-
-
-
-                    <div class="search-ctn col-7" style="margin-top: auto; margin-bottom: auto;">
-                        <div class="search-ctn input-group"
-                            style="display: flex; flex-flow: row nowrap; min-width: 100%;" role="search">
-                            <div class="s-box col-11">
-                                <input type="text" autocomplete="off"
-                                    style="outline:2px solid #f03351; color: #f03351; position: relative; border-bottom-right-radius: 0px; border-top-right-radius: 0px;"
-                                    id="txtSearch" class="form-control border border-1 search-bar"
-                                    placeholder="Movie Title" />
-                            </div>
-                            <div>
-                                <button id="btnSch"
-                                    style="background-color: #141414; width: fit-content; border-bottom-left-radius: 0px; border-top-left-radius: 0px; border-color: #f03351; height: 41px; margin-top: -2px;"
-                                    class="btn-light btn btn-search">
-                                    <i style="color: #f03351; font-size: 18px; display: flex; justify-content: center; align-items: center; margin-top: 4.5px; height: 18px;"
-                                        class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-                <div class="right-header">
-
-                    <div class="action-group" style="display: flex; flex-flow: row nowrap;">
-
-
-                        <div class="nofitication-cont">
-                            <div>
-                                <i onclick="openMessage()"
-                                    style="cursor: pointer; position: relative; top: 0; color: white; font-size: 28px;"
-                                    class="fa-regular fa-bell" id="bell"></i>
-                                <div runat="server" ID="REDDOT"
-                                    style="position: absolute; top: 0; right: 0; border-radius: 100px; background-color: #ff2b2b; height: 11px; width: 11px;">
-                                </div>
-                            </div>
-
-                            <div class="messages">
-                                <ul id="dropdownMessage" tabindex="-1" class="dropdown-menu dropdown-menu-end"
-                                    aria-labelledby="navbarDropdownMenuLink">
-                                    <li>
-                                        abcde
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-
-
-                        <div class="profile-container action" id="profile">
-                            <div style="margin-top: auto; margin-bottom: auto;">
-                                <button onclick="" class="btn header-font"
-                                    style="padding:10px; width: 160px; font-size: 17px; display: flex; color: #f03351;">
-                                    <div
-                                        style="margin-top: -3px; border-radius: 150px; width: 30px; height: 30px; overflow: hidden;">
-                                        <img src="<?= ROOT ?>/assets/images/defaultProfile.jpg" draggable="false"
-                                            style="background-color: white; border-radius: 100px; width: 30px; height: 30px;"
-                                            id="topImage" />
-                                    </div>
-                                    &nbsp;
-                                    User Profile
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="login action" style="margin-right: 20px;">
-                            <div style="margin-top: auto; margin-bottom: auto;">
-                                <button ID="btnLgn" class="topBtns btn dropdown-toggle header-font"
-                                    data-bs-toggle="dropdown" aria-expanded="false"
-                                    Style="font-size: 17px; color:#f03351">
-                                    <i style="color: #f03351; font-size:18px"
-                                        class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;
-                                    Login
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li id="userlogin">
-                                        <a href="" id="hrefCustomer" class="dropdown-item LoginHover">Customer</a>
-                                    </li>
-                                    <li id="stafflogin">
-                                        <a id="hrefStaff" href="" class="dropdown-item LoginHover">Staff</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-
-            <!--Navigation Bar-->
-            <div class="dropdowns" style="display: flex; flex-flow: row nowrap;">
-                <div class="drop">
-                    <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        NEW MOVIES
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="">New Action</a></li>
-                        <li><a class="dropdown-item" href="">New Horror</a></li>
-                        <li><a class="dropdown-item" href="">New Animation</a></li>
-                        <li><a class="dropdown-item" href="">New Romance</a></li>
-                    </ul>
-                </div>
-                <div class="drop">
-                    <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        ACTION
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="">Superhero</a></li>
-                        <li><a class="dropdown-item" href="">War</a></li>
-                        <li><a class="dropdown-item" href="">Adventure</a></li>
-                    </ul>
-                </div>
-                <div class="drop">
-                    <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        HORROR
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="">Supernatural Horror</a></li>
-                        <li><a class="dropdown-item" href="">Zombie</a></li>
-                    </ul>
-                </div>
-                <div class="drop">
-                    <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        ANIMATION
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="">2D Animation</a></li>
-                        <li><a class="dropdown-item" href="">3D Animation</a></li>
-                        <li><a class="dropdown-item" href="">Anime</a></li>
-                    </ul>
-                </div>
-                <div class="drop">
-                    <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        ROMANCE
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="">Romantic Comedy</a></li>
-                        <li><a class="dropdown-item" href="">Romantic Drama</a></li>
-                    </ul>
-                </div>
-                <ul class="nav-item dropdown">
-                    <button class="btn dropbtn" type="button" aria-expanded="false">
-                        <a href="" style="text-decoration: none;"> NOW SHOWING</a>
-                    </button>
-                </ul>
-                <ul class="nav-item dropdown">
-                    <button class="btn dropbtn" type="button" aria-expanded="false">
-                        <a href="" style="text-decoration: none;"> COMING SOON</a>
-                    </button>
-                </ul>
-                <div class="drop">
-                    <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        FORUM
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="Forum.html">Community Forum</a></li>
-                        <li><a class="dropdown-item" href="AddPost.html">Create Post</a></li>
-                        <li><a class="dropdown-item" href="MyPost.html">My Post</a></li>
-                        <li><a class="dropdown-item" href="LikedPost.html">Liked Post</a></li>
-                    </ul>
-                </div>
-            </div>
-
+            <?php include(dirname(__DIR__) . '../../header.php') ?>
+            <?php include(dirname(__DIR__) . '../../navigationBar.php') ?>
 
             <!--Main Contents-->
             <div class="main-content">
@@ -361,9 +182,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <?php else : ?>
                                 <div class="MyPostTitle">
                                     My Post<br>
+                                    <form method="post" action="<?=ROOT?>/PostActivity/index">
                                     <button class="activity-btn" onclick="window.location.href='<?=ROOT?>/PostActivity/viewActivity'">
                                         <i class="fa fa-eye"></i>&nbsp;View Activity
-                                    </button>
+                                    </button></form>
                                     <br><br>
                                 </div>
                             <?php endif; ?>
@@ -447,22 +269,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         </div>
                                         <?php if ($postItem['contentImg']): ?>
                                             <div class="post-image">
-                                                <img src="<?php echo ROOT . htmlspecialchars($postItem['contentImg']); ?>" class="posted-image" onclick="openModal(this)"/>
+                                                <img src="<?=ROOT?>/..<?php echo htmlspecialchars($postItem['contentImg']); ?>" class="posted-image" onclick="openModal(this)"/>
                                             </div>
                                         <?php endif; ?>
                                         <div class="post-content">
-                                            <p style="margin-left: 20px;"><?php echo htmlspecialchars($postItem['content'], ENT_QUOTES, 'UTF-8'); ?></p>
-                                            <div class="post-details">
-                                                <span><?php echo htmlspecialchars($postItem['postDate'], ENT_QUOTES, 'UTF-8'); ?></span>
-                                                <button class="action-button translate-button">Translate</button>
-                                            </div>
+                                            <form class="translateForm">
+                                                <input type="hidden" name="content"
+                                                       value="<?php echo htmlspecialchars($postItem['content'], ENT_QUOTES, 'UTF-8'); ?>">
+                                                <p style="margin-left: 20px;"><?php echo htmlspecialchars($postItem['content'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                                <p class="translationResult" style="margin-left: 20px; color:#939191; font-size:0.8em;"></p>
 
-                                            <div class="action-container">
-                                                <div class="action-item">
-                                                    <i class="fa fa-heart-o"></i>
-                                                    <p class="like-count"><?php echo htmlspecialchars($postItem['likeCount'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                                <div class="post-details">
+                                                    <span><?php echo htmlspecialchars($postItem['postDate'], ENT_QUOTES, 'UTF-8'); ?></span>
+                                                    <button type="button" class="action-button translate-button"
+                                                            onclick="translateContent(this)">Translate
+                                                    </button>
                                                 </div>
-                                                <button class="action-button viewComment-button" onclick="toggleComments(event)" style="margin-top: -6px;">View Comment</button>
+                                                <p class="translationResult" style="margin-left: 20px; color:limegreen"></p>
+                                            </form>
+                                            <script>
+                                                function translateContent(button) {
+                                                    // Find the closest form element
+                                                    var form = button.closest('form');
+                                                    var formData = new FormData(form);
+
+                                                    fetch('<?= ROOT ?>/Translation/index', {
+                                                        method: 'POST',
+                                                        body: formData
+                                                    })
+                                                        .then(response => response.json())
+                                                        .then(data => {
+                                                            // Find the result paragraph in the same form
+                                                            var resultParagraph = form.querySelector('.translationResult');
+                                                            if (data.translatedText) {
+                                                                resultParagraph.innerText = 'Translated Text: ' + data.translatedText;
+                                                            } else if (data.error) {
+                                                                resultParagraph.innerText = 'Error: ' + data.error;
+                                                            }
+                                                        })
+                                                        .catch(error => {
+                                                            // Find the result paragraph in the same form
+                                                            var resultParagraph = form.querySelector('.translationResult');
+                                                            resultParagraph.innerText = 'Error: ' + error;
+                                                        });
+                                                }
+
+                                            </script>
+
+                                            <!-- for like and unlike section-->
+                                            <div class="action-container">
+                                                <div class="action-item" style="margin-left:20px;" data-post-id="<?php echo htmlspecialchars($postItem['postID'], ENT_QUOTES, 'UTF-8'); ?>">
+                                                    <i class="fa <?php echo htmlspecialchars($postItem['isLiked'] ? 'fa-heart liked' : 'fa-heart-o unliked', ENT_QUOTES, 'UTF-8'); ?> like-button"
+                                                       id="like-button-<?php echo htmlspecialchars($postItem['postID'], ENT_QUOTES, 'UTF-8'); ?>"
+                                                       onclick="toggleLike(event, this)"></i>
+                                                    <p class="like-count" id="like-count-<?php echo htmlspecialchars($postItem['postID'], ENT_QUOTES, 'UTF-8'); ?>">
+                                                        <?php echo htmlspecialchars($postItem['likeCount'], ENT_QUOTES, 'UTF-8'); ?>
+                                                    </p>
+                                                </div>
+                                                <button class="action-button viewComment-button" onclick="toggleComments(event)"
+                                                        style="margin-top: -6px;">View Comment
+                                                </button>
                                             </div>
 
                                             <!-- Comment Section -->
@@ -475,7 +341,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                                 <div class="comment-section">
                                                     <div class="input-wrapper">
-                                                        <form method="POST" action="<?= ROOT ?>/AddCommentReply/index">
+                                                        <form method="POST" action="<?= ROOT ?>/PostInteraction/index">
                                                             <input type="hidden" name="action" value="comment" />
                                                             <input type="hidden" name="postID" value="<?php echo htmlspecialchars($post_id, ENT_QUOTES, 'UTF-8'); ?>" />
                                                             <input class="comment-input" style="font-size: 0.8em;" name="commentText" placeholder="Write a comment..." required>
@@ -497,12 +363,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                                     <div class="comment-text"><?php echo htmlspecialchars($comment['commentText']); ?></div>
                                                                     <div class="comment-actions">
                                                                         <button class="action-button reply-button" onclick="showReplyBox(event)">Reply</button>
-                                                                        <button class="action-button translate-button">Translate</button>
                                                                     </div>
 
                                                                     <!-- Reply Section -->
                                                                     <div class="reply-wrapper" style="display:none;">
-                                                                        <form method="POST" action="<?= ROOT ?>/AddCommentReply/index">
+                                                                        <form method="POST" action="<?= ROOT ?>/PostInteraction/index">
                                                                             <input type="hidden" name="action" value="reply" />
                                                                             <input type="hidden" name="commentID" value="<?php echo htmlspecialchars($comment['commentID'], ENT_QUOTES, 'UTF-8'); ?>" />
                                                                             <input type="hidden" name="postID" value="<?php echo htmlspecialchars($post_id, ENT_QUOTES, 'UTF-8'); ?>" />
@@ -566,23 +431,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-        <!--Footer-->
-        <footer id="footer">
-            <div class="footer-container container-fluid">
-                <div class="bottom" style="text-align: center; color: white;">
-                    © 2023 - 2024 DreamWorks Cinema (Copyright All Right Reserved)
-                </div>
-            </div>
-        </footer>
+<!--Footer-->
+<?php include(dirname(__DIR__) . '../../footer.php') ?>
 
 
+<?php
+// Ensure ROOT and $userID are properly defined
+$rootUrl = ROOT; // Assuming ROOT is defined in PHP
+$userID = isset($userID) ? $userID : 'null'; // Ensure $userID is set
+?>
+
+<!--JavaScripts-->
+<script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?= ROOT ?>/assets/js/likeIcon.js"></script>
 
 
-        <!--JavaScripts-->
-        <script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+    // passing the value for likeIcon.js
+    const rootUrl = '<?= $rootUrl ?>';
+    const userID = <?= json_encode($userID) ?>;
 
-        <script type="text/javascript">
             // post id of Edit post
             function setEditPostID(postID) {
                 document.getElementById('editPostID').value = postID;

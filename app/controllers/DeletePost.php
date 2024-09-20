@@ -27,6 +27,10 @@ class DeletePost
         $this->commentRepository = $this->entityManager->getRepository(Comment::class);
         $this->likeRepository = $this->entityManager->getRepository(Likes::class);
         $this->replyRepository = $this->entityManager->getRepository(Reply::class);
+        $this->sessionManager = new SessionManagement();
+
+        // Call session timeout check at the start of every request
+        $this->sessionManager->sessionTimeout();
     }
 
     public function index()

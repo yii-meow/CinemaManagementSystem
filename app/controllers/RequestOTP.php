@@ -16,7 +16,7 @@ class RequestOTP
             // Store OTP and expiry time in session
             $_SESSION['phoneNo'] = $_POST['phoneNo'];
             $_SESSION['otp_code'] = $otpCode;
-            $_SESSION['otp_expiry'] = time() + 60; // OTP valid for 5 minutes
+            $_SESSION['otp_expiry'] = time() + 300; // OTP valid for 5 minutes
 
             // Send OTP request to Node.js server
             $url = 'http://localhost:3000/send-otp';
