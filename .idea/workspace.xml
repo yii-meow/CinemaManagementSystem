@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/SeatSelection.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/SeatSelection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repositories/MovieScheduleRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/MovieScheduleRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repositories/SeatRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/SeatRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repositories/TicketRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/TicketRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Selection/DetailSelection.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Selection/DetailSelection.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/QRCodeGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/QRCodeGenerator.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +113,7 @@
       <workItem from="1726708376464" duration="48262000" />
       <workItem from="1726799035313" duration="3304000" />
       <workItem from="1726805195568" duration="6931000" />
-      <workItem from="1726815957773" duration="8922000" />
+      <workItem from="1726815957773" duration="10630000" />
     </task>
     <servers />
   </component>
