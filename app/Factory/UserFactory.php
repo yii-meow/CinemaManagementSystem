@@ -59,6 +59,12 @@ class UserFactory {
             $admin = $this->adminRepository->findOneBy(['phoneNo' => $phoneNo]);
 
             if ($admin && password_verify($password, $admin->getPassword())) {
+                // Destroy any previous session (S.C [Establish a new session after successful login])
+                session_destroy();
+                // Start a new session
+                session_start();
+                session_regenerate_id(true); // Generate a new session ID
+
                 $user = UserFactory::createUser('admin', $admin->getUserId(), $admin->getUserName(), $admin->getPhoneNo(), $admin->getPassword(), $admin->getRole(), null, null, null, null, null);
 
                 $_SESSION['admin'] = [
@@ -66,6 +72,9 @@ class UserFactory {
                     'userName' => $admin->getUserName(),
                     'role' => $admin->getRole(),
                 ];
+
+                // Set last activity time for session management (S.C)
+                $_SESSION['last_activity'] = time();
 
                 // Reset failed attempts on successful login
                 $this->resetFailedAttempts($phoneNo);
