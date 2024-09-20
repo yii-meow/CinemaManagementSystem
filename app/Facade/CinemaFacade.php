@@ -256,9 +256,9 @@ class CinemaFacade
         }
 
         // If user click the category
-        if ($category) {
-            $qb->andWhere('m.catagory = :category')
-                ->setParameter('category', $category);
+        if ($category && $category !== 'All') {
+            $qb->andWhere($qb->expr()->like('m.catagory', ':category'))
+                ->setParameter('category', '%' . $category . '%');
         }
 
         $movies = $qb->getQuery()->getResult();
