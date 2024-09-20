@@ -160,19 +160,21 @@
                     return response.json();
                 })
                 .then(data => {
+                    console.log(data);
                     if (data.error) {
                         throw new Error(data.error);
                     } else {
-                        if (confirm("Are you sure to export XML for movie data ?")) {
-                            // Download the XML file
-                            const xmlBlob = new Blob([atob(data.xml)], {type: 'application/xml'});
-                            const xmlUrl = window.URL.createObjectURL(xmlBlob);
-                            const xmlLink = document.createElement('a');
-                            xmlLink.href = xmlUrl;
-                            xmlLink.download = 'movies.xml';
-                            xmlLink.click();
-                            window.URL.revokeObjectURL(xmlUrl);
+                        if (confirm("Are you sure to download exported XML for movie data ?")) {
+                            // Download the HTML file
+                            const htmlBlob = new Blob([atob(data.html)], {type: 'text/html'});
+                            const htmlUrl = window.URL.createObjectURL(htmlBlob);
+                            const htmlLink = document.createElement('a');
+                            htmlLink.href = htmlUrl;
+                            htmlLink.download = 'movies_summary.html';
+                            htmlLink.click();
+                            window.URL.revokeObjectURL(htmlUrl);
                         }
+
                     }
                 })
                 .catch(error => {

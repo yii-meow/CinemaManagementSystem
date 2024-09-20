@@ -114,9 +114,9 @@ class MovieManagement
 
             // Prepare the response
             $response = [
-                'xml' => base64_encode($result['xml'])
+                'xml' => base64_encode($result['xml']),
+                'html' => base64_encode($result['html']),
             ];
-
             jsonResponse($response);
         } catch (\Exception $e) {
             error_log("Error in exportMovieToXML: " . $e->getMessage());
