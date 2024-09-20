@@ -39,6 +39,13 @@ if (isset($data['user'])) {
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
+
+            <?php if (isset($data['success']) && !empty($data['success'])): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?= htmlspecialchars($data['success']) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
             <form id="editProfileForm" action="ProfileEdit" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="userName">Full Name</label>

@@ -1,5 +1,6 @@
 <?php
 namespace App\controllers;
+
 use App\core\Controller;
 
 class RequestOTP
@@ -9,12 +10,13 @@ class RequestOTP
     public function index()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $phoneNo = $_POST['phoneNo'];
+            $phoneNo = '+60' . $_POST['phoneNo'];
             $otpCode = rand(100000, 999999); // Generate OTP code
 
             // Store OTP and expiry time in session
+            $_SESSION['phoneNo'] = $_POST['phoneNo'];
             $_SESSION['otp_code'] = $otpCode;
-            $_SESSION['otp_expiry'] = time() + 300; // OTP valid for 5 minutes
+            $_SESSION['otp_expiry'] = time() + 60; // OTP valid for 5 minutes
 
             // Send OTP request to Node.js server
             $url = 'http://localhost:3000/send-otp';
@@ -28,24 +30,30 @@ class RequestOTP
                 ],
             ];
             $context = stream_context_create($options);
-            $response = file_get_contents($url, false, $context);
 
-            // Handle response
+            // Handle HTTP request errors
+            $response = @file_get_contents($url, false, $context); // Suppress errors with @
+
             if ($response === FALSE) {
-                // Error handling
-                echo 'Failed to connect to OTP server.';
+                // Network error or server is down
+                $error = 'Failed to request OTP. Please check your Phone Number is correct.';
+                $this->view('Customer/User/ForgetPassVerify', ['error' => $error]);
                 return;
             }
 
             $responseData = json_decode($response, true);
 
-            if ($responseData['success']) {
-                // Redirect to verify OTP page
+            // Handle JSON response errors
+            if ($responseData && !$responseData['success']) {
+                $error = 'Error: ' . $responseData['message'];
+                $this->view('Customer/User/ForgetPassVerify', ['error' => $error]);
+            } else {
+                // Success: Store a success message in the session
+                $_SESSION['success_message'] = 'OTP sent successfully. Please verify your OTP.';
+
+                // Redirect to the verify OTP page
                 $this->view('Customer/User/verifyOTP');
                 exit;
-            } else {
-                // Handle failure
-                echo 'Failed to send OTP: ' . $responseData['message'];
             }
         }
     }

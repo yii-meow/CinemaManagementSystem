@@ -10,7 +10,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="MovieManagement">
                         <i class="fas fa-film me-4 fa-lg"></i>
                         Movies
                     </a>
@@ -45,33 +45,27 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="UserPurchasedTicket">
                         <i class="fas fa-ticket-alt me-4 fa-lg"></i>
-                        Bookings
+                        User Ticket
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="AdminForum.html">
+                    <a class="nav-link" href="AdminForum">
                         <i class="fa fa-users me-4 fa-lg"></i>
                         Forum
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Feedback.html">
-                        <i class="fa fa-comment-dots me-4 fa-lg"></i>
+                    <a class="nav-link" href="Feedback">
+                        <i class="fa-solid fa-message me-4 fa-lg"></i>
                         Feedback
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="TicketPricingManagement">
                         <i class="fa fa-ticket me-4 fa-lg"></i>
-                        Ticket Pricing Management
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="TicketTracking.html">
-                        <i class="fa fa-ticket-alt me-4 fa-lg"></i>
-                        Ticket Tracking
+                        Ticket Pricing
                     </a>
                 </li>
                 <li class="nav-item">

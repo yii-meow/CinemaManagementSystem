@@ -47,6 +47,22 @@
                         <br>
                         <br>
                         <h3>Verify OTP</h3>
+
+                        <!-- Display success message if it exists -->
+                        <?php if (isset($_SESSION['success_message'])): ?>
+                            <div class="alert alert-success" role="alert">
+                                <?= htmlspecialchars($_SESSION['success_message']); ?>
+                            </div>
+                            <?php unset($_SESSION['success_message']); // Clear message after displaying ?>
+                        <?php endif; ?>
+
+                        <!-- Display error message if it exists -->
+                        <?php if (isset($error) && !empty($error)): ?>
+                            <div class="alert alert-danger" role="alert">
+                                <?= htmlspecialchars($error); ?>
+                            </div>
+                        <?php endif; ?>
+
                         <form id="otpVerifyForm" class="row login_form" action="verifyOTP" method="post">
                             <div class="col-md-12 form-group">
                                 <input type="tel" class="form-control" id="otpCode" name="otpCode"
@@ -58,6 +74,15 @@
                                 <button type="submit" class="primary-btn">Verify</button>
                             </div>
                             <div id="responseMessage" class="col-md-12 form-group"></div>
+                        </form>
+                        <br>
+                        <br>
+                        <!-- Timer display -->
+                        <p id="timer" style="color: red; font-size: 18px; font-weight: bold;"></p>
+
+                        <!-- Request New OTP button (Initially hidden) -->
+                        <form id="requestOtpForm" method="post" action="ForgetPassVerify" style="display: none;">
+                            <button type="submit" class="btn btn-secondary">Request New OTP</button>
                         </form>
                     </div>
                 </div>
@@ -71,6 +96,34 @@
     <!--JavaScripts-->
     <script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Set expiry time in seconds (e.g., 60 seconds for 1 minute)
+        let expiryTime = <?= isset($_SESSION['otp_expiry']) ? $_SESSION['otp_expiry'] - time() : 0; ?>;
+
+        // Function to start the countdown
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            const requestOtpForm = document.getElementById('requestOtpForm');
+            let timer = expiryTime;
+
+            const countdown = setInterval(function() {
+                if (timer <= 0) {
+                    clearInterval(countdown);
+                    timerElement.innerHTML = 'OTP expired!';
+                    requestOtpForm.style.display = 'block'; // Show the request OTP button
+                } else {
+                    const minutes = Math.floor(timer / 60);
+                    const seconds = timer % 60;
+                    timerElement.innerHTML = `OTP expires in ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                    timer--;
+                }
+            }, 1000);
+        }
+
+        // Start the timer when the page loads
+        window.onload = startTimer;
+    </script>
 
 </body>
 

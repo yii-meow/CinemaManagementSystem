@@ -5,6 +5,7 @@ namespace App\controllers;
 use App\models\Reward;
 use App\core\Controller;
 use App\core\Database;
+use App\models\UserReward;
 
 class RewardView
 {
@@ -21,7 +22,9 @@ class RewardView
 
     public function index()
     {
-        $action = $_POST['action'] ?? null;
+        if (isset($_SESSION['admin'])){
+
+            $action = $_POST['action'] ?? null;
         $rewardId = $_GET['rewardId'] ?? $_POST['rewardId'] ?? null;
 
         if ($action === 'update') {
@@ -30,6 +33,11 @@ class RewardView
             $this->deleteReward($rewardId);
         } else {
             $this->viewReward($rewardId);
+        }
+
+        }else {
+            // Redirect to permission denied page if user is not a SuperAdmin
+            $this->view("Admin/403PermissionDenied");
         }
     }
 
@@ -76,16 +84,8 @@ class RewardView
                 $this->entityManager->persist($reward);
                 $this->entityManager->flush();
 
-                // Fetch all rewards from the database
-                $rewards = $this->rewardRepository->findAll();
-
-                // Pass the list of rewards to the view
-                $data = [
-                    'rewards' => $rewards
-                ];
-
-                // Render the RewardManage view with the reward data
-                $this->view('Admin/User/RewardManage', $data);
+                // Redirect to RewardManage with success message
+                header('Location: RewardManage?success=Reward updated successfully');
                 exit();
             } else {
                 echo "Reward not found.";
@@ -100,20 +100,23 @@ class RewardView
         if ($rewardId) {
             $reward = $this->rewardRepository->find($rewardId);
 
+            // Check if the reward is referenced in the userReward table
+            $userRewardRepository = $this->entityManager->getRepository(UserReward::class);
+            $userReward = $userRewardRepository->findOneBy(['reward' => $reward]);
+
+            if ($userReward) {
+                // Reward is referenced in the userReward table, cannot delete
+                header('Location: RewardManage?error=Reward cannot be deleted as it is referenced by users');
+                exit();
+            }
+
+
             if ($reward) {
                 $this->entityManager->remove($reward);
                 $this->entityManager->flush();
 
-                // Fetch all rewards from the database
-                $rewards = $this->rewardRepository->findAll();
-
-                // Pass the list of rewards to the view
-                $data = [
-                    'rewards' => $rewards
-                ];
-
-                // Render the RewardManage view with the reward data
-                $this->view('Admin/User/RewardManage', $data);
+                // Redirect to RewardManage with success message
+                header('Location: RewardManage?success=Reward deleted successfully');
                 exit();
             } else {
                 echo "Reward not found.";

@@ -31,6 +31,26 @@
             -webkit-appearance: none;
             margin: 0;
         }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+        }
+
+        .overlay-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 20px;
+        }
     </style>
 </head>
 
@@ -52,37 +72,90 @@
                 <div id="alerts"></div>
                 <div class="supported-methods">
 
+                    <!--Cash-->
                     <div class="pay">
-                        <input type="radio" class="btn-check" value="cash" name="payoption" id="pay1"
+                        <input type="radio" class="btn-check" value="cash" name="payoption" id="cash"
                                autocomplete="off">
                         <label data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Cash"
-                               class="btn btn-outline-danger" for="pay1">
+                               class="btn btn-outline-danger" for="cash">
                             <img src="<?= ROOT ?>/assets/images/cash.png" draggable="false"/>&nbsp;Cash
                         </label>
                     </div>
 
+                    <!--Card-->
                     <div class="pay">
-                        <input type="radio" class="btn-check" value="tng" name="payoption" id="pay2"
+                        <input type="radio" class="btn-check" value="card" name="payoption" id="card"
                                autocomplete="off">
-                        <label data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Touch 'n Go e-Wallet"
-                               class="btn btn-outline-danger" for="pay2">
-                            <img src="<?= ROOT ?>/assets/images/tng.png" draggable="false"/>&nbsp;Touch 'n Go e-Wallet
+                        <label data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="C  ard"
+                               class="btn btn-outline-danger" for="card">
+                            <img src="<?= ROOT ?>/assets/images/card.png" draggable="false"/>&nbsp;Card
                         </label>
                     </div>
 
+                    <!--E-Wallet-->
                     <div class="pay">
-                        <input type="radio" class="btn-check" value="grab" name="payoption" id="pay3"
+                        <input type="radio" class="btn-check" value="wallet" name="payoption" id="wallet"
                                autocomplete="off">
-                        <label data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="GrabPay"
-                               class="btn btn-outline-danger" for="pay3">
-                            <img src="<?= ROOT ?>/assets/images/grab.png " draggable="false"/>&nbsp;GrabPay
+                        <label data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="E-Wallet"
+                               class="btn btn-outline-danger" for="wallet">
+                            <img src="<?= ROOT ?>/assets/images/wallet.png " draggable="false"/>&nbsp;E-Wallet
                         </label>
                     </div>
 
                 </div>
                 <!-- End select payment method -->
             </div>
-            <div class="formdetail" autocomplete="off">
+            <div class="formdetail" style="justify-content:;" autocomplete="off">
+
+                <!--If chosen Card Information-->
+                <div class="fill" style="display: none; margin-bottom: 10px;">
+                    <div class="title">
+                        Card Information
+                    </div>
+                    <div class="box2" id="cardbox">
+                        <div class="form-floating card-type">
+                            <select name="cardType" id="ddlCardType" class="form-control" aria-label="Card Type">
+                                <option value="visa" selected>Visa</option>
+                                <option value="mastercard">MasterCard</option>
+                            </select>
+                            <label for="ddlCardType">Card Type</label>
+                        </div>
+                        <div class="form-floating card-number">
+                            <input name="cardNumber" type="text" id="txtCardNumber" class="form-control"
+                                   placeholder="Card Number"/>
+                            <label for="txtCardNumber">Card Number</label>
+                        </div>
+                        <div class="form-floating expiry-date">
+                            <input name="expiryDate" type="text" id="txtExpiryDate" class="form-control"
+                                   placeholder="Expiry Date (MM/YY)"/>
+                            <label for="txtExpiryDate">Expiry Date (MM/YY)</label>
+                        </div>
+                        <div class="form-floating cvv">
+                            <input name="cvv" type="password" id="txtCVV" class="form-control" placeholder="CVV"/>
+                            <label for="txtCVV">CVV</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!--If chosen E-Wallet Information-->
+                <div class="fill" style="display: none;margin-bottom: 10px;">
+                    <div class="title">
+                        E-Wallet Information
+                    </div>
+                    <div class="box2" id="walletbox">
+                        <div class="form-floating phone">
+                            <input name="phone" type="tel" id="txtPhone" class="form-control" placeholder="Phone"/>
+                            <label for="txtPhone">Phone</label>
+                        </div>
+                        <div class="form-floating ewallet-password">
+                            <input name="txtEwalletPassword" type="password" id="txtEwalletPassword"
+                                   class="form-control" placeholder="E-Wallet Password"/>
+                            <label for="txtEwalletPassword">E-Wallet Password</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Basic Information-->
                 <div class="fill">
                     <div class="title">
                         Booking Information
@@ -104,10 +177,10 @@
                             <input name="email" type="email" id="txtEmail" class="form-control" placeholder="Email"/>
                             <label for="txtEmail">Email</label>
                         </div>
-                        <div class="form-floating phone">
-                            <input name="phone" type="tel" id="txtPhone" class="form-control" placeholder="Phone"/>
-                            <label for="txtPhone">Phone</label>
-                        </div>
+                        <!--                        <div class="form-floating phone">-->
+                        <!--                            <input name="phone" type="tel" id="txtPhone" class="form-control" placeholder="Phone"/>-->
+                        <!--                            <label for="txtPhone">Phone</label>-->
+                        <!--                        </div>-->
                         <div class="askVoucher">
                             <div class="form-check check-box">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -116,7 +189,8 @@
                                     I HAVE A PROMO CODE
                                 </label>
                             </div>
-                            <div class="voucher" style="width:100%; gap:10px; display: none;" id="voucherbox">
+                            <div class="voucher" style="width:100%; gap:10px; display: none; margin-bottom: 20px;"
+                                 id="voucherbox">
                                 <div style="width:80%" class="form-floating voucher">
                                     <input name="promoCode" type="number" id="voucher" class="form-control"
                                            placeholder="Promo Code">
@@ -131,7 +205,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="checkout">
+                <div class="checkout" style="margin-top: auto;">
                     <button type="button" onclick="history.back()" class="btn btn-secondary">Cancel</button>
                     <button type="button" id="submitBtn" class="btn btn-danger">Checkout</button>
                 </div>
@@ -307,6 +381,7 @@
         echo $data["cinemaHall"]["hallType"];
     } ?>"/>
 
+
     <input type="hidden" name="selectedDateTime" value="<?php if (isset($data)) {
         echo $data["qs"]["date"];
     } ?>"/>
@@ -319,13 +394,25 @@
         echo number_format($data["amount"]["finalPrice"], 2);
     } ?>"/>
 
+    <input type="hidden" name="hallId" value="<?php if (isset($data)) {
+        echo number_format($data["qs"]["hid"], 2);
+    } ?>"/>
+
+    <input type="hidden" name="scheduleId" value="<?php if (isset($data)) {
+        echo number_format($data["qs"]["scheduleId"], 2);
+    } ?>"/>
+
+    <input type="hidden" id="promoCodePass" name="promoCodePass"/>
+
 </form>
+
 
 <script type="text/javascript">
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 
+    //Voucher Box Display
     const checkboxVoucher = document.querySelector("#flexCheckDefault");
     checkboxVoucher.addEventListener("click", function () {
         const voucherBox = document.querySelector("#voucherbox");
@@ -342,19 +429,64 @@
             document.getElementById("pcode-no").innerHTML = "-";
 
             //Get the final price and update
-            document.getElementById("alltotal").innerHTML = <?php if (isset($data)) {
-                echo number_format($data["amount"]["finalPrice"], 2);
+            //955145
+            <?php if (isset($data)) {
+                $finalPrice = isset($data) ? number_format($data["amount"]["finalPrice"], 2, '.', '') : '0.00';
             } ?>;
+
+            document.getElementById("alltotal").innerHTML = "<?php echo $finalPrice; ?>";
+
 
             promoApplied = false
             document.getElementById("voucher").readOnly = false;
         }
     })
 
+
+    function handlePaymentSelection() {
+        // Get all radio buttons
+        const paymentOptions = document.getElementsByName('payoption');
+
+        // Get the card and wallet information boxes
+        const cardBox = document.getElementById('cardbox').closest('.fill');
+        const walletBox = document.getElementById('walletbox').closest('.fill');
+
+        // Hide all boxes initially
+        cardBox.style.display = 'none';
+        walletBox.style.display = 'none';
+
+        // Check which option is selected
+        for (const option of paymentOptions) {
+            if (option.checked) {
+                switch (option.value) {
+                    case 'card':
+                        cardBox.style.display = 'block';
+                        break;
+                    case 'wallet':
+                        walletBox.style.display = 'block';
+                        break;
+                    // No need for a 'cash' case as it doesn't have a specific box to show
+                }
+                break; // Exit the loop once we've found the checked option
+            }
+        }
+    }
+
+    // Add event listeners to all payment options
+    document.addEventListener('DOMContentLoaded', function () {
+        const paymentOptions = document.getElementsByName('payoption');
+        paymentOptions.forEach(option => {
+            option.addEventListener('change', handlePaymentSelection);
+        });
+        // Call the function once on page load to set the initial state
+        handlePaymentSelection();
+    });
+
 </script>
 
-
 <script>
+
+
     $.ajaxSetup({
         cache: false
     });
@@ -387,6 +519,8 @@
 
                     $('#alerts').empty(); // Clear previous alerts
 
+
+                    //ERROR
                     if (response.data && response.data.errors) {
                         // Create a single alert box
                         const alertDiv = $('<div class="alert alert-danger" role="alert"></div>');
@@ -406,10 +540,21 @@
 
                         // Append the alert box to the alerts container
                         $('#alerts').append(alertDiv);
+
+                        //SUCCESS
                     } else {
+                        if (response.redirect && response.redirect !== "Err") {
 
+                            //Testing
+                            document.writeln(response)
+
+                            //Redirection
+                            location.href = "<?=ROOT?>/PurchaseConfirm?ticketId=" + response["redirect"];
+                        } else {
+                            document.writeln(response)
+                            alert("Something went wrong.")
+                        }
                     }
-
                 },
                 error: function (jXHR, textStatus, errorThrown) {
                     console.error("Error", errorThrown);
@@ -417,14 +562,12 @@
                 }
             }
         );
-
-
     }
-
 
 
     //Flag of Promo Code Status
     let promoApplied = false;
+
     function applyPromoCode() {
         $.ajax({
             url: "<?=ROOT?>/Payment/applyPromo",
@@ -456,6 +599,9 @@
                     document.getElementById("discount-amt").innerHTML = "RM " + response.data["discount"].toFixed(2);
                     document.getElementById("pcode-no").innerHTML = response.data["promoCode"];
 
+                    //Assign promo code to the hidden field
+                    updateHiddenInput();
+
                     // Get the final price and update
                     const finalamt = parseFloat(document.getElementById("alltotal").innerHTML);
                     var newPrice = finalamt - response.data["discount"]; // Use the actual discount value
@@ -474,7 +620,11 @@
                     document.getElementById("pcode-no").innerHTML = "-";
 
                     // Get the final price and update
-                    document.getElementById("alltotal").innerHTML = <?php if (isset($data)) { echo number_format($data["amount"]["finalPrice"], 2); } ?>;
+                    <?php if (isset($data)) {
+                        $finalPrice = isset($data) ? number_format($data["amount"]["finalPrice"], 2, '.', '') : '0.00';
+                    } ?>;
+
+                    document.getElementById("alltotal").innerHTML = "<?php echo $finalPrice; ?>";
 
                     promoApplied = false
                     document.getElementById("voucher").readOnly = false
@@ -485,6 +635,15 @@
             }
         });
     }
+
+
+    function updateHiddenInput() {
+        // Get the value from the span element
+        var spanValue = document.getElementById('pcode-no').innerText;
+        // Set the value to the hidden input field
+        document.getElementById('promoCodePass').value = spanValue;
+    }
+
 
 </script>
 

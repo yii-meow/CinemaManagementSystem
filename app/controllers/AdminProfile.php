@@ -22,7 +22,9 @@ class AdminProfile
 
     public function index()
     {
-        // Start the session if it's not already started
+        if (isset($_SESSION['admin'])){
+
+            // Start the session if it's not already started
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
@@ -85,5 +87,10 @@ class AdminProfile
             $data = ['messages' => ['No admin logged in.']];
             $this->view('Admin/User/AdminProfile', $data);
         }
+        } else {
+            // Redirect to permission denied page if user is not a SuperAdmin
+            $this->view("Admin/403PermissionDenied");
+        }
     }
+
 }

@@ -137,7 +137,7 @@
             } ?>
         </div>
     </div>
-    <div id="no-movies-message" style="display: none;">
+    <div id="no-movies-message" style="display: none;color:red;">
         <p>No movies available for the selected cinema.</p>
     </div>
     <div class="movies">
@@ -149,30 +149,44 @@
                 $minutes = $duration % 60;
                 $durationFormatted = "{$hours} hours and {$minutes} minutes";
                 ?>
-                <div class="movie-result w-100">
-                    <img src="<?= htmlspecialchars($movie['photo']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>"
-                         class="movie-poster"/>
-                    <div class="movie-details">
-                        <h2 class="movie-title"><?= htmlspecialchars(strtoupper($movie['title'])) ?></h2>
-                        <p class="movie-info mt-4 text-secondary">
-                            <?= htmlspecialchars($movie['classification'] ?? 'Not Rated') ?> | <?= $durationFormatted ?>
-                            | Language: <?= htmlspecialchars($movie['language']) ?>
-                        </p>
-                        <div class="movie-format mt-2"><?= htmlspecialchars($movie["category"]) ?></div>
-                        <?php foreach ($movie['cinemas'] as $cinema): ?>
-                            <div class="cinema-showtimes mt-5 py-3" data-cinema-id="<?= $cinema['id'] ?>">
-                                <h3><?= htmlspecialchars($cinema['name']) ?></h3>
-                                <div class="showtimes mt-4">
-                                    <?php foreach ($cinema['showtimes'] as $showtime): ?>
-                                        <button class="showtime-btn" data-schedule-id="<?= $showtime['scheduleId'] ?>">
-                                            <?= $showtime['time']->format('h:i A') ?>
-                                            (<?= htmlspecialchars($showtime['hallType']) ?>)
-                                        </button>
-                                    <?php endforeach; ?>
-                                </div>
+
+                <?php
+                    //Perform Encryption
+                    $encryption = new \App\core\Encryption();
+                    $movieId = $movie['movieId'];
+                    $encryptedMovieId = $encryption->encrypt($movieId, $encryption->getKey());
+                ?>
+                <div class="w-100">
+                    <a href="<?= ROOT ?>/MovieDetails?movieId=<?= $encryptedMovieId ?>">
+                        <div class="movie-result w-100">
+                            <img src="<?= htmlspecialchars($movie['photo']) ?>"
+                                 alt="<?= htmlspecialchars($movie['title']) ?>"
+                                 class="movie-poster"/>
+                            <div class="movie-details">
+                                <h2 class="movie-title"><?= htmlspecialchars(strtoupper($movie['title'])) ?></h2>
+                                <p class="movie-info mt-4 text-secondary">
+                                    <?= htmlspecialchars($movie['classification'] ?? 'Not Rated') ?>
+                                    | <?= $durationFormatted ?>
+                                    | Language: <?= htmlspecialchars($movie['language']) ?>
+                                </p>
+                                <div class="movie-format mt-2"><?= htmlspecialchars($movie["category"]) ?></div>
+                                <?php foreach ($movie['cinemas'] as $cinema): ?>
+                                    <div class="cinema-showtimes mt-5 py-3" data-cinema-id="<?= $cinema['id'] ?>">
+                                        <h3><u><?= htmlspecialchars($cinema['name']) ?></u></h3>
+                                        <div class="showtimes mt-4 mb-2">
+                                            <?php foreach ($cinema['showtimes'] as $showtime): ?>
+                                                <button class="showtime-btn border-0"
+                                                        data-schedule-id="<?= $showtime['scheduleId'] ?>">
+                                                    <?= $showtime['time']->format('h:i A') ?>
+                                                    (<?= htmlspecialchars($showtime['hallType']) ?>)
+                                                </button>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
                             </div>
-                        <?php endforeach; ?>
-                    </div>
+                        </div>
+                    </a>
                 </div>
             <?php endforeach;
         } ?>

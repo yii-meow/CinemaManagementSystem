@@ -61,17 +61,12 @@ class Movie
         return $this->movieId;
     }
 
-    /**
-     * @return mixed
-     */
     public function getMovieSchedules()
     {
         return $this->movieSchedules;
     }
 
-    /**
-     * @param mixed $movieSchedules
-     */
+
     public function setMovieSchedules($movieSchedules): void
     {
         $this->movieSchedules = $movieSchedules;

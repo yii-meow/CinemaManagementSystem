@@ -11,12 +11,6 @@ class Logout extends SessionManagement
 
     public function index()
     {
-        // Start session if it's not already started
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        //[logout functionality - fully terminate session]
         // Clear the session array
         $_SESSION = [];
 
@@ -32,7 +26,7 @@ class Logout extends SessionManagement
         // Destroy the session itself
         session_destroy();
 
-        // Redirect to the login page [Once logout cannot access again, must login first]
+        // Redirect to the login page
         $this->view('Customer/User/Login');
         exit();
     }
