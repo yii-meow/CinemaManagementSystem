@@ -70,44 +70,18 @@
                     Export Movie Data to XML
                 </button>
             </div>
-            <div class="row mb-4">
-                <div class="col-md-4">
-                    <div class="input-group">
-                <span class="input-group-text"
-                ><i class="fas fa-search"></i
-                    ></span>
-                        <input
-                                type="text"
-                                class="form-control"
-                                placeholder="Search movies..."
-                        />
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <select class="form-select" id="stateFilter">
-                        <option value="">All Category</option>
-                        <option value="Selangor">Thriller</option>
-                        <option value="Johor">Horror</option>
-                        <option value="Penang">Romance</option>
-                        <option value="Kuala Lumpur">Action</option>
-                        <option value="Kuala Lumpur">Racing</option>
-                        <!-- Add more states here -->
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <select class="form-select" id="sortOption">
-                        <option selected="selected" disabled>Sort by...</option>
-                        <option value="name">Sort by Name</option>
-                        <option value="location">Sort by Duration</option>
-                    </select>
-                </div>
-            </div>
 
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-                <!-- Movie Card 1 -->
                 <?php if (isset($movies)) foreach ($movies as $movie): ?>
                     <div class="col">
-                        <div class="card movie-card">
+                        <div class="card movie-card" data-movie-id="<?php echo $movie->getMovieId(); ?>"
+                             data-release-date="<?php echo $movie->getReleaseDate()->format('Y-m-d'); ?>"
+                             data-language="<?php echo htmlspecialchars($movie->getLanguage()); ?>"
+                             data-subtitles="<?php echo htmlspecialchars($movie->getSubtitles()); ?>"
+                             data-casts="<?php echo htmlspecialchars($movie->getCasts()); ?>"
+                             data-description="<?php echo htmlspecialchars($movie->getDescription()); ?>"
+                             data-trailer-link="<?php echo htmlspecialchars($movie->getTrailerLink()); ?>"
+                             data-status="<?php echo htmlspecialchars($movie->getStatus()); ?>">
                             <img
                                     src="<?php echo htmlspecialchars(ROOT . $movie->getPhoto()); ?>"
                                     class="card-img-top"
@@ -128,12 +102,10 @@
                             </div>
                             <div class="card-footer">
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-outline-primary edit-movie"
-                                            data-movie-id="<?php echo $movie->getMovieId(); ?>">
+                                    <button type="button" class="btn btn-outline-primary edit-movie">
                                         Edit
                                     </button>
-                                    <button type="button" class="btn btn-outline-danger remove-movie"
-                                            data-movie-id="<?php echo $movie->getMovieId(); ?>">
+                                    <button type="button" class="btn btn-outline-danger remove-movie">
                                         Remove
                                     </button>
                                 </div>
@@ -146,6 +118,66 @@
     </div>
 </div>
 
+<div class="modal fade" id="editMovieModal" tabindex="-1" aria-labelledby="editMovieModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editMovieModalLabel">Edit Movie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editMovieForm">
+                    <input type="hidden" id="editMovieId" name="movieId">
+                    <div class="mb-3">
+                        <label for="editTitle" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="editTitle" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCategory" class="form-label">Category</label>
+                        <input type="text" class="form-control" id="editCategory" name="catagory" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDirector" class="form-label">Director</label>
+                        <input type="text" class="form-control" id="editDirector" name="director" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDuration" class="form-label">Duration (minutes)</label>
+                        <input type="number" class="form-control" id="editDuration" name="duration" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editClassification" class="form-label">Classification</label>
+                        <input type="text" class="form-control" id="editClassification" name="classification" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editReleaseDate" class="form-label">Release Date</label>
+                        <input type="date" class="form-control" id="editReleaseDate" name="releaseDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editLanguage" class="form-label">Language</label>
+                        <input type="text" class="form-control" id="editLanguage" name="language" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editSubtitles" class="form-label">Subtitles</label>
+                        <input type="text" class="form-control" id="editSubtitles" name="subtitles">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCasts" class="form-label">Casts</label>
+                        <input type="text" class="form-control" id="editCasts" name="casts" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="editDescription" name="description" rows="3"
+                                  required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveMovieChanges">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -178,6 +210,67 @@
                 .catch(error => {
                     console.error('Error:', error.message);
                     // alert('An error occurred while exporting the movies: ' + error.message);
+                });
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editMovieModal = new bootstrap.Modal(document.getElementById('editMovieModal'));
+        const editMovieForm = document.getElementById('editMovieForm');
+        const saveMovieChangesButton = document.getElementById('saveMovieChanges');
+
+        // Use event delegation for edit buttons
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('edit-movie') || event.target.closest('.edit-movie')) {
+                const button = event.target.classList.contains('edit-movie') ? event.target : event.target.closest('.edit-movie');
+                const movieCard = button.closest('.movie-card');
+                populateModalAndOpen(movieCard);
+            }
+        });
+
+        function populateModalAndOpen(movieCard) {
+            document.getElementById('editMovieId').value = movieCard.dataset.movieId;
+            document.getElementById('editTitle').value = movieCard.querySelector('.movie-card-title').textContent.trim();
+            document.getElementById('editCategory').value = movieCard.querySelector('.card-text:nth-child(2)').textContent.replace('Category:', '').trim();
+            document.getElementById('editDirector').value = movieCard.querySelector('.card-text:nth-child(3)').textContent.replace('Director:', '').trim();
+            document.getElementById('editClassification').value = movieCard.querySelector('.card-text:nth-child(5)').textContent.replace('Classification:', '').trim();
+            document.getElementById('editDuration').value = movieCard.querySelector('.card-text:nth-child(4)').textContent.replace('Duration:', '').replace('mins', '').trim();
+
+            // For hidden fields
+            document.getElementById('editReleaseDate').value = movieCard.dataset.releaseDate || '';
+            document.getElementById('editLanguage').value = movieCard.dataset.language || '';
+            document.getElementById('editSubtitles').value = movieCard.dataset.subtitles || '';
+            document.getElementById('editCasts').value = movieCard.dataset.casts || '';
+            document.getElementById('editDescription').value = movieCard.dataset.description || '';
+
+            editMovieModal.show();
+        }
+
+        saveMovieChangesButton.addEventListener('click', function () {
+            const formData = new FormData(editMovieForm);
+            const movieData = Object.fromEntries(formData.entries());
+
+            fetch('<?=ROOT?>/MovieManagement/editMovie', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(movieData),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        editMovieModal.hide();
+                        location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating the movie.');
                 });
         });
     });

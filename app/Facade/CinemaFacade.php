@@ -359,6 +359,40 @@ class CinemaFacade
         return $movieTrailer->fetchTrailer($movieTitle);
     }
 
+    public function updateMovie($movieId, $movieData)
+    {
+        $movie = $this->entityManager->getRepository(Movie::class)->find($movieId);
+
+        if (!$movie) {
+            throw new \Exception("Movie not found");
+        }
+
+        // Update the movie properties
+        if (isset($movieData['title'])) $movie->setTitle($movieData['title']);
+        if (isset($movieData['catagory'])) $movie->setCatagory($movieData['catagory']);
+        if (isset($movieData['director'])) $movie->setDirector($movieData['director']);
+        if (isset($movieData['duration'])) $movie->setDuration((int)$movieData['duration']);
+        if (isset($movieData['classification'])) $movie->setClassification($movieData['classification']);
+        if (isset($movieData['releaseDate'])) $movie->setReleaseDate(new \DateTime($movieData['releaseDate']));
+        if (isset($movieData['language'])) $movie->setLanguage($movieData['language']);
+        if (isset($movieData['subtitles'])) $movie->setSubtitles($movieData['subtitles']);
+        if (isset($movieData['casts'])) $movie->setCasts($movieData['casts']);
+        if (isset($movieData['description'])) $movie->setDescription($movieData['description']);
+
+        // If you're updating the photo, you'll need to handle file upload separately
+        // and then update the photo property
+        // if (isset($movieData['photo'])) $movie->setPhoto($movieData['photo']);
+
+        try {
+            $this->entityManager->flush();
+            return true;
+        } catch (\Exception $e) {
+            // Log the error
+            error_log($e->getMessage());
+            throw $e;
+        }
+    }
+
     public function getTicketPricing()
     {
         $ticketPricing = $this->entityManager->getRepository(TicketPricing::class)->find(1);
