@@ -63,7 +63,8 @@
 <body>
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
+        <!-- Sidebar Remember to change this-->
+
         <nav class="col-md-3 col-lg-2 d-md-block p-0">
             <div class="sidebar-container">
                 <div class="sidebar p-3">

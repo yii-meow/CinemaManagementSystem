@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PostActivity>
+  <Post>
+    <postID>95</postID>
+    <content>This movie so amazing!</content>
+    <postDate>2024-09-19 08:53:54</postDate>
+  </Post>
+  <Post>
+    <postID>96</postID>
+    <content>The entire experience in the cinema was great</content>
+    <postDate>2024-09-19 08:54:22</postDate>
+    <Like>
+      <likeID>102</likeID>
+      <likeDate>2024-09-19 09:28:01</likeDate>
+    </Like>
+  </Post>
+</PostActivity>

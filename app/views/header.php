@@ -39,10 +39,7 @@
 
 
     <div class="right-header">
-
         <div class="action-group" style="display: flex; flex-flow: row nowrap;">
-
-
             <div class="nofitication-cont">
                 <div>
                     <i onclick="openMessage()"
@@ -53,7 +50,7 @@
                     </div>
                 </div>
 
-                <div class="messages">
+                <div class="messages" style="display: none;">
                     <ul id="dropdownMessage" tabindex="-1" class="dropdown-menu dropdown-menu-end"
                         aria-labelledby="navbarDropdownMenuLink">
                         <li>
@@ -109,3 +106,4 @@
         </div>
     </div>
 </div>
+

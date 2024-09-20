@@ -20,17 +20,34 @@ class AddPost
     {
         $this->entityManager = Database::getEntityManager();
         $this->postRepository = $this->entityManager->getRepository(Post::class);
+        $this->sessionManager = new SessionManagement();
+
+        // Call session timeout check at the start of every request
+        $this->sessionManager->sessionTimeout();
     }
 
 
     public function index()
     {
+        show("HELO");
         $data = ['error' => null, 'errorMessage' => null];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userID = 1; // Placeholder; replace with dynamic user ID retrieval
+            // Start session if not started already
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+
+            // Check if userId is set in the session
+            if (!isset($_SESSION['userId'])) {
+                // Redirect to login if userId is not set
+                $this->view('Customer/User/Login');
+                exit();
+            }
+
+            $userID = $_SESSION['userId'];
             $status = "Approved";
-            $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
+            $content = $_POST['content']; //filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
             $image = $_FILES['contentImg'] ?? null;
 
             if (empty($content)) {
@@ -48,6 +65,8 @@ class AddPost
                     }
                 } elseif ($image['error'] !== UPLOAD_ERR_NO_FILE) {
                     // when image is not uploaded but an error occurr
+                    show("Yout content: " .$content);
+
                     header('Location: ' . ROOT . '/AddPost?message=image_upload_error');
                 }
 
@@ -73,7 +92,7 @@ class AddPost
     // Image validation and upload handling
     private function validateUploadImage($image)
     {
-        $targetDir = '/uploads/'; // Store as relative path for web access
+        $targetDir = '/storage/uploads/'; // Store as relative path for web access
         $imageName = bin2hex(random_bytes(16))  . '_' . basename($image['name']); // to generate unique filename
         $imagePath = $targetDir . $imageName;
 
@@ -97,11 +116,6 @@ class AddPost
             return '*Invalid file type. Allowed mime types are: ' . implode(', ', self::ALLOWED_MIME_TYPES);
         }
 
-        // Check if the target directory exists, if not, create it
-        if (!is_dir(dirname($fullImagePath))) {
-            mkdir(dirname($fullImagePath), 0777, true);
-        }
-
         // Move the uploaded file to the new location
         if (!move_uploaded_file($image['tmp_name'], $fullImagePath)) {
             return '*Error moving the uploaded file.';
@@ -122,7 +136,7 @@ class AddPost
         try {
             $this->entityManager->persist($postData);
             $this->entityManager->flush();
-            header('Location: ' . ROOT . '/AddPost?message=success');
+            header('Location: ' . ROOT . '/Forum?add=success');
         } catch (\Exception $e) {
             error_log($e->getMessage());
             header('Location: ' . ROOT . '/AddPost?message=error');

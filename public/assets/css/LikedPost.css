@@ -140,6 +140,9 @@
 .action-item:hover {
     color: #f03351;
 }
+.fa-heart.liked {
+    color: red;
+}
 
 /*For user comment section*/
 .comment-section {

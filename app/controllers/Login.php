@@ -5,7 +5,7 @@ namespace App\controllers;
 use App\models\User;
 use App\core\Controller;
 use App\core\Database;
-use App\session\SessionManagement;
+use App\controllers\SessionManagement;
 
 class Login extends SessionManagement
 {
@@ -55,15 +55,6 @@ class Login extends SessionManagement
                     // Start a new session
                     session_start();
                     session_regenerate_id(true); // Generate a new session ID
-
-                    // S.C [Disallow concurrent logins with the same user ID]
-                    // Check if the user is already logged in from another device
-                    if ($user->getSessionId() && $user->getSessionId() !== session_id()) {
-                        // Another session is active; log out the previous session
-                        session_id($user->getSessionId());
-                        session_destroy();
-                        session_start();
-                    }
 
 
                     $_SESSION['userId'] = $user->getUserId();

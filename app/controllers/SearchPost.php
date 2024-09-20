@@ -7,20 +7,25 @@ use App\Core\Database;
 use App\Models\Post;
 use App\repositories\PostRepository;
 use App\Models\Likes;
+use App\controllers\SessionManagement;
 
 class SearchPost
 {
     use Controller;
 
-    protected $entityManager;
-    protected PostRepository $postRepository;
-    protected $likeRepository;
+    private $entityManager;
+    private PostRepository $postRepository;
+    private $likeRepository;
 
     public function __construct()
     {
         $this->entityManager = Database::getEntityManager();
         $this->postRepository = $this->entityManager->getRepository(Post::class);
         $this->likeRepository = $this->entityManager->getRepository(Likes::class);
+        $this->sessionManager = new SessionManagement();
+
+        // Call session timeout check at the start of every request
+        $this->sessionManager->sessionTimeout();
     }
 
     public function index()
@@ -28,6 +33,8 @@ class SearchPost
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $keyword = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
             $searchType = filter_input(INPUT_POST, 'searchType', FILTER_SANITIZE_STRING);
+
+            $userId = $_SESSION['userId'];
 
             // Decide search logic based on the hidden input
             switch ($searchType) {
@@ -61,6 +68,8 @@ class SearchPost
             // Process and display posts as before
             $postData = [];
             foreach ($posts as $post) {
+                $isLiked = $this->isPostLikedByUser($post, $userId);
+
                 $postData[] = [
                     'postID' => $post->getPostID(),
                     'userName' => $post->getUser()->getUserName(),
@@ -70,6 +79,7 @@ class SearchPost
                     'contentImg' => $post->getContentImg(),
                     'status' => $post->getStatus(),
                     'likeCount' => count($post->getLikes()),
+                    'isLiked' => $isLiked,
                     'comments' => array_map(function ($comment) {
                         return [
                             'commentID' => $comment->getCommentID(),
@@ -96,13 +106,13 @@ class SearchPost
 
     private function getMyPosts($keyword)
     {
-        $userId = 4; // Example hard-coded user ID
+        $userId = $_SESSION['userId'];
         return $this->postRepository->findPostsByUserAndKeyword($userId, $keyword);
     }
 
     private function getLikedPosts($keyword)
     {
-        $userId = 4; // Example hard-coded user ID
+        $userId = $_SESSION['userId'];
         $likes = $this->likeRepository->findBy(['likedBy' => $userId]);
 
         if (!$likes) {
@@ -126,7 +136,13 @@ class SearchPost
     }
 
 
+    private function isPostLikedByUser(Post $post,$userID): bool
+    {
+        $likeRepository = $this->entityManager->getRepository(Likes::class);
+        $like = $likeRepository->findOneBy(['post' => $post, 'likedBy' => $userID]);
 
+        return $like !== null;
+    }
 
 
 }

@@ -16,6 +16,7 @@ class Logout extends SessionManagement
             session_start();
         }
 
+        //[logout functionality - fully terminate session]
         // Clear the session array
         $_SESSION = [];
 
@@ -31,7 +32,7 @@ class Logout extends SessionManagement
         // Destroy the session itself
         session_destroy();
 
-        // Redirect to the login page
+        // Redirect to the login page [Once logout cannot access again, must login first]
         $this->view('Customer/User/Login');
         exit();
     }

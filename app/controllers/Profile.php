@@ -5,6 +5,8 @@ namespace App\controllers;
 use App\models\User;
 use App\core\Controller;
 use App\core\Database;
+use App\controllers\SessionManagement;
+
 
 class Profile
 {
@@ -18,6 +20,11 @@ class Profile
         // Initialize entityManager and repository
         $this->entityManager = Database::getEntityManager();
         $this->userRepository = $this->entityManager->getRepository(User::class);
+        // Initialize session management
+        $this->sessionManager = new SessionManagement();
+
+        // Call session timeout check at the start of every request
+        $this->sessionManager->checkSession();
     }
 
     public function index()
