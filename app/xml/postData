@@ -61,6 +61,14 @@
     <postID>85</postID>
     <content>Can't wait to the movie day</content>
     <postDate>2024-09-18 13:00:25</postDate>
+    <Comment>
+      <commentID>31</commentID>
+      <commentText>~~~~</commentText>
+      <Reply>
+        <replyID>12</replyID>
+        <replyText>yayy</replyText>
+      </Reply>
+    </Comment>
     <Like>
       <likeID>57</likeID>
       <likeDate>2024-09-18 18:21:34</likeDate>
@@ -79,6 +87,10 @@
     <postID>87</postID>
     <content>I'm so excited</content>
     <postDate>2024-09-18 13:04:29</postDate>
+    <Comment>
+      <commentID>27</commentID>
+      <commentText>hihi</commentText>
+    </Comment>
     <Like>
       <likeID>76</likeID>
       <likeDate>2024-09-19 06:43:36</likeDate>
@@ -166,6 +178,10 @@
     <postID>90</postID>
     <content>omg</content>
     <postDate>2024-09-18 15:48:21</postDate>
+    <Comment>
+      <commentID>26</commentID>
+      <commentText>hihi</commentText>
+    </Comment>
     <Like>
       <likeID>54</likeID>
       <likeDate>2024-09-18 18:12:54</likeDate>
@@ -192,6 +208,14 @@
     <postID>92</postID>
     <content>content</content>
     <postDate>2024-09-18 15:50:25</postDate>
+    <Comment>
+      <commentID>25</commentID>
+      <commentText>ok</commentText>
+      <Reply>
+        <replyID>10</replyID>
+        <replyText>bye</replyText>
+      </Reply>
+    </Comment>
     <Like>
       <likeID>50</likeID>
       <likeDate>2024-09-18 18:01:06</likeDate>
@@ -201,6 +225,10 @@
     <postID>94</postID>
     <content>sssss</content>
     <postDate>2024-09-18 15:59:38</postDate>
+    <Comment>
+      <commentID>30</commentID>
+      <commentText>ijfewoif</commentText>
+    </Comment>
     <Like>
       <likeID>55</likeID>
       <likeDate>2024-09-18 18:13:25</likeDate>

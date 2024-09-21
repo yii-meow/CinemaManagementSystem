@@ -7,7 +7,7 @@ use App\models\User;
 use App\Observers\ObserverInterface;
 
 // respond to changes by updating the like count
-//!!!!
+
 
 class LikeObserver implements ObserverInterface {
     public function update(string $event, Post $post = null, User $user = null, Comment $comment = null, string $replyText = null): void {
