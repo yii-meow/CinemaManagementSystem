@@ -55,14 +55,13 @@ class feedbackReport{
 
         } else {
             // Show the form if the request method is not POST
-            $this->view('Admin/Feedback/Feedback_report'); // Load the form view
+            $this->view('Admin/Feedback/feedbackReport'); // Load the form view
         }
     }
 
     public function generateFeedbackXML($status){
         if ($status == 'All') {
             $feedbacks = $this->feedbackRepository->findAll();
-            echo "all";
         } else {
             $feedbacks = $this->feedbackRepository->findBy(['status' => $status]);
         }
