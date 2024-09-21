@@ -189,6 +189,33 @@ class CinemaFacade
         return $cinema;
     }
 
+    public function removeCinema($cinemaId)
+    {
+        $cinema = $this->cinemaRepository->find($cinemaId);
+        if (!$cinema) {
+            throw new \Exception("Cinema not found");
+        }
+
+        try {
+            // Instead of removing, we're just marking it as inactive
+            $this->entityManager->remove($cinema);
+            $this->entityManager->flush();
+
+            $this->logger->info('Cinema removed', [
+                'cinema id' => $cinemaId,
+                'cinema name' => $cinema->getName()
+            ]);
+
+            return true;
+        } catch (\Exception $e) {
+            $this->logger->error('Cinema failed to be removed', [
+                'cinema id' => $cinemaId,
+                'error' => $e->getMessage()
+            ]);
+            return false;
+        }
+    }
+
     public function addCinemaHall($cinemaId, $hallName, $capacity, $hallType)
     {
         $cinema = $this->cinemaRepository->find($cinemaId);
@@ -241,13 +268,37 @@ class CinemaFacade
         $this->entityManager->flush();
 
         $this->logger->info('CinemaHall updated', [
-            'hall id' => $hallId,
-            'hall name' => $data['hallName'],
-            'capacity' => $data['capacity'],
-            'hall type' => $data['hallType']
+            'hall id' => $hallId
         ]);
 
         return $hall;
+    }
+
+    public function removeCinemaHall($hallId)
+    {
+        $hall = $this->cinemaHallRepository->findByHallId($hallId);
+        if (!$hall) {
+            throw new \Exception("Hall not found");
+        }
+
+        try {
+            $this->entityManager->remove($hall);
+            $this->entityManager->flush();
+
+            $this->logger->info('CinemaHall removed', [
+                'hall id' => $hallId,
+                'hall name' => $hall->getHallName(),
+                'cinema id' => $hall->getCinema()->getCinemaId()
+            ]);
+
+            return true;
+        } catch (\Exception $e) {
+            $this->logger->error('Failed to remove CinemaHall', [
+                'hall id' => $hallId,
+                'error' => $e->getMessage()
+            ]);
+            return false;
+        }
     }
 
     public function getMovieSchedules()
@@ -424,20 +475,18 @@ class CinemaFacade
         if (isset($movieData['casts'])) $movie->setCasts($movieData['casts']);
         if (isset($movieData['description'])) $movie->setDescription($movieData['description']);
 
-        $this->logger->info('Movie updated', [
-            'movie title' => $movieData['title'],
-            'duration' => $movieData['duration'],
-            'category' => $movieData['catagory'],
-            'release date' => $movieData['releaseDate'],
-            'status' => $movieData['status'],
-        ]);
-
         try {
             $this->entityManager->flush();
+            $this->logger->info('Movie updated', [
+                'movie title' => $movieData['title'],
+            ]);
             return true;
         } catch (\Exception $e) {
             // Log the error
-            error_log($e->getMessage());
+            $this->logger->error('Movie updated', [
+                'movie title' => $movieData['title'],
+                'message' => $e->getMessage()
+            ]);
             throw $e;
         }
     }

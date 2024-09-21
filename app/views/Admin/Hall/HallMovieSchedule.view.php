@@ -59,12 +59,19 @@
                 <i class="fa fa-info-circle ms-3 fa-lg"></i>
             </div>
             <div class="d-flex flex-row-reverse mb-3">
-                <a href="<?= ROOT ?>/HallConfiguration?hallId=<?= $cinemaInformation["hallId"] ?>">
+                <a href="<?= ROOT ?>/HallManagement?hallId=<?= $cinemaInformation["hallId"] ?>">
                     <button class="btn btn-warning mb-3">
                         <i class="fa fa-cogs me-2" aria-hidden="true"></i>
                         Edit Hall Configuration
                     </button>
                 </a>
+
+            </div>
+            <div class="d-flex flex-row-reverse mb-3">
+                <button class="btn btn-danger mb-3" onclick="removeHall(<?= $cinemaInformation['hallId'] ?>)">
+                    <i class="fa fa-cogs me-2" aria-hidden="true"></i>
+                    Remove Cinema Hall
+                </button>
             </div>
             <div class="movie-schedule">
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -185,7 +192,7 @@
 
             // Set the new openingHours and remove the old fields
 
-            fetch('<?=ROOT?>/HallMovieSchedule/addHallMovieSchedule', {
+            fetch('<?=ROOT?>/MovieScheduleManagement/addHallMovieSchedule', {
                 method: 'POST',
                 body: formData
             })
@@ -206,6 +213,28 @@
             form.reset();
         });
     });
+
+    function removeHall(hallId) {
+        if (confirm('Are you sure you want to remove this cinema hall?')) {
+            fetch(`<?= ROOT ?>/HallManagement/removeHall/${hallId}`, {
+                method: 'DELETE',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        alert(data.message);
+                        window.location.href = '<?= ROOT ?>/CinemaManagement'; // Redirect to cinema management page
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while removing the cinema hall.');
+                });
+        }
+    }
 </script>
 </body>
 </html>

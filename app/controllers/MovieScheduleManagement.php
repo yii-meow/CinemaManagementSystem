@@ -5,7 +5,7 @@ namespace App\controllers;
 use App\core\Controller;
 use App\Facade\CinemaFacade;
 
-class HallMovieSchedule
+class MovieScheduleManagement
 {
     use Controller;
 

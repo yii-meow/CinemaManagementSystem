@@ -5,7 +5,7 @@ namespace App\controllers;
 use App\core\Controller;
 use App\Facade\CinemaFacade;
 
-class HallConfiguration
+class HallManagement
 {
     use Controller;
 
@@ -23,7 +23,7 @@ class HallConfiguration
             $hallId = isset($_GET['hallId']) ? $_GET['hallId'] : null;
             $cinemaInformation = $this->cinemaFacade->getFormattedCinemaHallDetails($hallId);
 
-            return $this->view("Admin/Hall/HallConfiguration", ['cinemaInformation' => $cinemaInformation]);
+            return $this->view("Admin/Hall/HallManagement", ['cinemaInformation' => $cinemaInformation]);
         } else {
             $this->view("Admin/403PermissionDenied");
         }
@@ -48,6 +48,30 @@ class HallConfiguration
             jsonResponse(['success' => true, 'message' => 'Cinema hall updated successfully']);
         } catch (\Exception $e) {
             jsonResponse(['success' => false, 'message' => 'Error updating cinema hall: ' . $e->getMessage()]);
+        }
+    }
+
+    public function removeHall($hallId = null)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+            jsonResponse(['success' => false, 'message' => 'Method Not Allowed']);
+            return;
+        }
+
+        if (!$hallId) {
+            jsonResponse(['success' => false, 'message' => 'Hall ID is required']);
+            return;
+        }
+
+        try {
+            $result = $this->cinemaFacade->removeCinemaHall($hallId);
+            if ($result) {
+                jsonResponse(['success' => true, 'message' => 'Cinema hall removed successfully']);
+            } else {
+                jsonResponse(['success' => false, 'message' => 'Failed to remove cinema hall']);
+            }
+        } catch (\Exception $e) {
+            jsonResponse(['success' => false, 'message' => 'Error removing cinema hall: ' . $e->getMessage()]);
         }
     }
 }

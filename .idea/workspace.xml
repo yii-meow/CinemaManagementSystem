@@ -5,10 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/controllers/HallManagement.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/controllers/MovieScheduleManagement.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Log/LogViewer.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Log/LogViewer.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/adminSidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/adminSidebar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Logger/logs/cinema_operations-2024-09-21.log" beforeDir="false" afterPath="$PROJECT_DIR$/app/Logger/logs/cinema_operations-2024-09-21.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/CinemaManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/CinemaManagement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/HallConfiguration.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/HallMovieSchedule.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaDetails.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaDetails.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Hall/HallConfiguration.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Hall/HallManagement.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

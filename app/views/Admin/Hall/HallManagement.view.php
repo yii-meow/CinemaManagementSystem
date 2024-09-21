@@ -184,7 +184,7 @@
                 alert('Hall ID is missing. Cannot update hall type.');
                 return;
             }
-            fetch('<?=ROOT?>/HallConfiguration/updateHall', {
+            fetch('<?=ROOT?>/HallManagement/updateHall', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -222,7 +222,7 @@
                 return;
             }
 
-            fetch('<?=ROOT?>/HallConfiguration/updateHall', {
+            fetch('<?=ROOT?>/HallManagement/updateHall', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
