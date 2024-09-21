@@ -366,9 +366,7 @@ class CinemaFacade
         $this->entityManager->flush();
 
         $this->logger->info('Movie added', [
-            'movie id' => $movieData['movieId'],
             'movie title' => $movieData['title'],
-            'trailer link' => $movieData['trailerLink'],
             'duration' => $movieData['duration'],
             'category' => $movieData['catagory'],
             'release date' => $movieData['releaseDate'],
@@ -426,9 +424,13 @@ class CinemaFacade
         if (isset($movieData['casts'])) $movie->setCasts($movieData['casts']);
         if (isset($movieData['description'])) $movie->setDescription($movieData['description']);
 
-        // If you're updating the photo, you'll need to handle file upload separately
-        // and then update the photo property
-        // if (isset($movieData['photo'])) $movie->setPhoto($movieData['photo']);
+        $this->logger->info('Movie updated', [
+            'movie title' => $movieData['title'],
+            'duration' => $movieData['duration'],
+            'category' => $movieData['catagory'],
+            'release date' => $movieData['releaseDate'],
+            'status' => $movieData['status'],
+        ]);
 
         try {
             $this->entityManager->flush();
@@ -502,6 +504,11 @@ class CinemaFacade
 
         try {
             $this->entityManager->flush();
+
+            $this->logger->info('TicketPricing updated', [
+                'ticket price' => $data,
+            ]);
+
             return true;
         } catch (\Exception $e) {
             // Log the error

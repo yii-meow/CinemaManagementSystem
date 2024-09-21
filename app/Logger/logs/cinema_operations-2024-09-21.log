@@ -1,1 +1,5 @@
 [2024-09-21 07:41:14] INFO: Cinema Hall added {"cinemaId":"19","hall name":"H02","capacity":"48","hall type":"Atmos"}
+[2024-09-21 08:00:29] INFO: Movie added {"movie id":null,"movie title":"A Minecraft Movie","trailer link":null,"duration":"120","category":"Game","release date":"2025-04-04","status":"Coming Soon"}
+[2024-09-21 08:09:31] INFO: Movie added {"movie title":"A Minecraft Movie","duration":"120","category":"game,imagination,fantasy","release date":"2025-04-04","status":"Coming Soon"}
+[2024-09-21 08:12:40] INFO: Ticket pricing updated {"ticket price":{"baseTicketIMAX":"18","baseTicketDeluxe":"25","baseTicketAtmos":"45","baseTicketBenie":"75"}}
+[2024-09-21 08:13:30] INFO: CinemaHall added {"cinemaId":"19","hall name":"H03","capacity":"108","hall type":"Deluxe"}
