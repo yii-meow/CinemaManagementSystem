@@ -95,8 +95,6 @@ class UserPurchasedTicket
 
         // Set font
         $pdf->SetFont('Arial', 'B', 16);
-
-        // Add a title
         $pdf->Cell(0, 10, 'Ticket Information', 0, 1, 'C');
 
         // Add header row
@@ -221,6 +219,7 @@ class UserPurchasedTicket
         $xsl = new DOMDocument;
         $xsl->load($xslFilePath);
         $xslt->importStylesheet($xsl);
+        $xslt->setParameter('','ROOT', ROOT);
 
         // Transform the XML
         $result = $xslt->transformToXML($xml);

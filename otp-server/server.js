@@ -7,9 +7,9 @@ const app = express();
 const port = 3000;
 
 // Replace these with your Twilio credentials
-const accountSid = 'ACb22155837a913914ae94155c47338fb9'; 
-const authToken = 'b39f440f767bbeefa9ef1d182eb2c0cb'; 
-const twilioPhoneNumber = '+1 718 305 1851';
+const accountSid = 'AC2e4d680e9dd3fa0e2ef3f8eff9b75a6f'; 
+const authToken = '4fa9fadb08719738670e458ebd8a7051'; 
+const twilioPhoneNumber = '+19477770658';
 
 const client = new Twilio(accountSid, authToken);
 

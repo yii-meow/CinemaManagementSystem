@@ -89,28 +89,28 @@
 
                         <form id="createPostForm" enctype="multipart/form-data" method="POST" action="<?=ROOT?>/AddPost/index">
                             <input type="hidden" name="action" value="createPost" />
+
                             <div class="mb-3">
-                                <input type="hidden" name="userId" value=3/>
+                                <input type="hidden" name="userId" value="3" />
                                 <label for="postContent" class="form-label">Post Content</label>
-                                <textarea class="form-control" id="postContent" name="content" rows="4"
-                                    placeholder="Write your content here..." required></textarea>
+                                <textarea class="form-control" id="postContent" name="content" rows="4" placeholder="Write your content here..." required><?= isset($_POST['content']) ? htmlspecialchars($_POST['content']) : '' ?></textarea>
                             </div>
+
                             <div class="mb-3">
                                 <label for="postImage" class="form-label">Upload Image Only</label>
-                                <input class="form-control" type="file" id="postImage" name="contentImg"
-                                       accept=".jpg, .jpeg, .png" onchange="previewImage(event)">
-                                <!--Only accept these file type-->
+                                <input class="form-control" type="file" id="postImage" name="contentImg" onchange="previewImage(event)">
                                 <div id="fileError" class="text-danger mt-2">
                                     <?php if (isset($errorMessage)): ?>
                                         <?php echo htmlspecialchars($errorMessage); ?>
                                     <?php endif; ?>
                                 </div>
                             </div>
+
                             <!-- Image Preview Section -->
                             <div class="mb-3">
-                                <img id="imagePreview" src="#" alt="Image Preview"
-                                    style="max-width: 300px; display: none;" />
+                                <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 300px; display: none;" />
                             </div>
+
                             <div class="text-end">
                                 <button type="submit" class="btn btn-primary">Submit Post</button>
                             </div>

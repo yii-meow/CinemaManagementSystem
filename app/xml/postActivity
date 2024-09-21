@@ -9,21 +9,68 @@
             <head>
                 <title>User Post Activity</title>
                 <style>
+                    body {
+                    font-family: Arial, sans-serif;
+                    margin: 20px;
+                    background-color: #f9f9f9;
+                    }
+
+                    h2 {
+                    text-align: center;
+                    color: #333;
+                    }
+
                     table {
-                        border-collapse: collapse;
-                        width: 100%;
+                    border-collapse: collapse;
+                    width: 80%;
+                    margin: 20px auto;
+                    background-color: #fff;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                    border-radius: 8px;
+                    overflow: hidden;
                     }
+
                     th, td {
-                        border: 1px solid black;
-                        padding: 8px;
+                    padding: 12px 15px;
+                    text-align: left;
                     }
+
                     th {
-                        background-color: #f2f2f2;
+                    background-color: #f03351;
+                    color: white;
+                    font-weight: bold;
+                    }
+
+                    td {
+                    color: #555;
+                    }
+
+                    tr:nth-child(even) {
+                    background-color: #f2f2f2;
+                    }
+
+                    tr:hover {
+                    background-color: #e0e0e0;
+                    cursor: pointer;
+                    }
+
+                    /* Style for the table container */
+                    .table-container {
+                    margin: auto;
+                    padding: 20px;
+                    border-radius: 8px;
+                    background-color: #f1f1f1;
                     }
                 </style>
             </head>
             <body>
-                <h2>User Forum Post Activity Summary</h2>
+                <h2>Your Post Activity Summary</h2>
+                <!-- Button container for PDF and CSV export -->
+                <div style="text-align: right; margin-bottom: 10px;">
+                    <a href="PostActivity/export/{userID}" class="btn btn-danger">
+                        <i class="fas fa-file-pdf"></i> Export to PDF
+                    </a>
+                </div>
                 <table>
                     <tr>
                         <th>No.</th>
@@ -34,6 +81,8 @@
                         <th>Total Replies</th>
                     </tr>
                     <xsl:for-each select="/PostActivity/Post">
+                        <!-- Sorting by the count of Like in descending order -->
+                        <xsl:sort select="count(Like)" data-type="number" order="descending"/>
                         <tr>
                             <td><xsl:value-of select="position()"/></td>
                             <td><xsl:value-of select="content"/></td>
@@ -45,35 +94,6 @@
                             <!-- Total replies for the post -->
                             <td><xsl:value-of select="count(Comment/Reply)"/></td>
                         </tr>
-                        <!-- Display each comment and its replies -->
-                        <xsl:for-each select="Comment">
-                            <tr>
-                                <td colspan="6">
-                                    <strong>Comment ID:</strong> <xsl:value-of select="commentID"/>
-                                    <br/>
-                                    <strong>Comment Text:</strong> <xsl:value-of select="commentText"/>
-                                </td>
-                            </tr>
-                            <xsl:for-each select="Reply">
-                                <tr>
-                                    <td colspan="6" style="padding-left: 20px;">
-                                        <strong>Reply ID:</strong> <xsl:value-of select="replyID"/>
-                                        <br/>
-                                        <strong>Reply Text:</strong> <xsl:value-of select="replyText"/>
-                                    </td>
-                                </tr>
-                            </xsl:for-each>
-                        </xsl:for-each>
-                        <!-- Display each like -->
-                        <xsl:for-each select="Like">
-                            <tr>
-                                <td colspan="6">
-                                    <strong>Like ID:</strong> <xsl:value-of select="likeID"/>
-                                    <br/>
-                                    <strong>Like Date:</strong> <xsl:value-of select="likeDate"/>
-                                </td>
-                            </tr>
-                        </xsl:for-each>
                     </xsl:for-each>
                 </table>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/js/all.min.js"></script>

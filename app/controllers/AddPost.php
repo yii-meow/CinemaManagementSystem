@@ -12,7 +12,7 @@ class AddPost
 
     private $entityManager;
     private $postRepository;
-    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+    const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
     const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png'];
     const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png'];
 
@@ -29,7 +29,6 @@ class AddPost
 
     public function index()
     {
-        show("HELO");
         $data = ['error' => null, 'errorMessage' => null];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -63,14 +62,10 @@ class AddPost
                     } else {
                         $imagePath = $uploadResult['imagePath'];
                     }
-                } elseif ($image['error'] !== UPLOAD_ERR_NO_FILE) {
-                    // when image is not uploaded but an error occurr
-                    show("Yout content: " .$content);
-
-                    header('Location: ' . ROOT . '/AddPost?message=image_upload_error');
+                } elseif (isset($image['error']) && $image['error'] !== UPLOAD_ERR_NO_FILE) {
+                    redirect("\Error404\index");
                 }
 
-                // Fetch User entity
                 $user = $this->entityManager->getRepository(User::class)->find($userID);
                 if (!$user) {
                     $data['error'] = 'User not found. Please try again.';
@@ -78,7 +73,6 @@ class AddPost
                     exit;
                 }
 
-                // Only proceed if there are no errors
                 if (!$data['errorMessage'] && !$data['error']) {
                     $this->storePost($user, $content, $status, $imagePath, $data);
                 }
@@ -92,36 +86,34 @@ class AddPost
     // Image validation and upload handling
     private function validateUploadImage($image)
     {
-        $targetDir = '/storage/uploads/'; // Store as relative path for web access
-        $imageName = bin2hex(random_bytes(16))  . '_' . basename($image['name']); // to generate unique filename
+        $targetDir = '/storage/uploads/';
+        $imageName = bin2hex(random_bytes(16))  . '_' . basename($image['name']);
         $imagePath = $targetDir . $imageName;
-
-        // Physical path to save the image
         $fullImagePath = __DIR__ . '../../..'. $imagePath;
 
         // Validate file size
         if ($image['size'] > self::MAX_FILE_SIZE) {
-            return '*File size exceeded the maximum limit.';
+            return ['error' => '*File size exceeded the maximum limit.'];
         }
 
         // Validate file extension
         $fileExtension = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
         if (!in_array($fileExtension, self::ALLOWED_EXTENSIONS)) {
-            return '*Invalid file type. Allowed types are: ' . implode(', ', self::ALLOWED_EXTENSIONS);
+            return ['error' => '*Invalid file type. Allowed types are: ' . implode(', ', self::ALLOWED_EXTENSIONS)];
         }
 
         // Validate mime content type
-        $fileMimeType = mime_content_type($image['tmp_name']); //ensure uploaded file is allowed type
+        $fileMimeType = mime_content_type($image['tmp_name']);
         if (!in_array($fileMimeType, self::ALLOWED_MIME_TYPES)) {
-            return '*Invalid file type. Allowed mime types are: ' . implode(', ', self::ALLOWED_MIME_TYPES);
+            return ['error' => '*Invalid mime type. Allowed types are: ' . implode(', ', self::ALLOWED_MIME_TYPES)];
         }
 
         // Move the uploaded file to the new location
         if (!move_uploaded_file($image['tmp_name'], $fullImagePath)) {
-            return '*Error moving the uploaded file.';
+            return ['error' => '*Error moving the uploaded file.'];
         }
 
-        return ['imagePath' => $imagePath];    // no err
+        return ['imagePath' => $imagePath];
     }
 
     private function storePost($user, $content, $status, $imagePath, &$data)
