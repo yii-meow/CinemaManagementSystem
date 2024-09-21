@@ -182,8 +182,8 @@ $userID = $_SESSION['userId'];
                             <?php else : ?>
                                 <div class="MyPostTitle">
                                     My Post<br>
-                                    <form method="post" action="<?=ROOT?>/PostActivity/index">
-                                    <button class="activity-btn" onclick="window.location.href='<?=ROOT?>/PostActivity/viewActivity'">
+                                    <form method="post" action="<?=ROOT?>/PostActivity">
+                                    <button class="activity-btn" onclick="window.location.href='<?=ROOT?>/PostActivity'">
                                         <i class="fa fa-eye"></i>&nbsp;View Activity
                                     </button></form>
                                     <br><br>

@@ -6,7 +6,7 @@ use App\core\Database;
 
 class SessionManagement
 {
-    private $timeoutDuration = 600; // 10 minutes
+    private $timeoutDuration = 900; // 15 minutes
 
     public function __construct()
     {
@@ -23,7 +23,7 @@ class SessionManagement
             // Last request was more than 10 minutes ago
             session_unset(); // Clear session data
             session_destroy(); // Destroy session
-            header('Location: ' . ROOT . '/Login?timeout=true');
+            header('Location: '.ROOT.'/Login/index?timeout=true'); // Redirect to login page
             exit();
         }
 

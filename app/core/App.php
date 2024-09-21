@@ -9,6 +9,7 @@ class App
 
     private function splitURL()
     {
+
         $URL = $_GET['url'] ?? 'Homepage';// this must be same with the controller name in line 6                      //Can temporarily change to your currently working environment
 
         $URL = explode("/", trim($URL, "/"));
