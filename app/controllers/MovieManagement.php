@@ -2,9 +2,9 @@
 
 namespace App\controllers;
 
-use App\xml\MovieXMLGenerator;
 use App\core\Controller;
 use App\Facade\CinemaFacade;
+use App\xml\Movie\MovieXMLGenerator;
 
 class MovieManagement
 {
@@ -19,8 +19,12 @@ class MovieManagement
 
     public function index()
     {
-        $movies = $this->cinemaFacade->getAllMovies();
-        return $this->view("Admin/Movie/MovieManagement", ['movies' => $movies]);
+//        if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
+            $movies = $this->cinemaFacade->getAllMovies();
+            return $this->view("Admin/Movie/MovieManagement", ['movies' => $movies]);
+//        } else {
+//            $this->view("Admin/403PermissionDenied");
+//        }
     }
 
     public function addMovie()
@@ -108,7 +112,19 @@ class MovieManagement
 
     public function exportMovieToXML()
     {
-        $xmlGenerator = new MovieXMLGenerator();
-        $xmlGenerator->generateMovieXML();
+        try {
+            $xmlGenerator = new MovieXMLGenerator();
+            $result = $xmlGenerator->generateMovieXML();
+
+            // Prepare the response
+            $response = [
+                'xml' => base64_encode($result['xml']),
+                'html' => base64_encode($result['html']),
+            ];
+            jsonResponse($response);
+            exit;
+        } catch (\Exception $e) {
+            jsonResponse(["error" => $e->getMessage()]);
+        }
     }
 }

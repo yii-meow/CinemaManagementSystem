@@ -96,7 +96,7 @@ use App\core\Encryption;
                         <div class="img1" id="image">
                             <button id="im" onclick="changeImg()">
                                 <img id="img" src="<?php if (isset($photo)) {
-                                    echo $photo;
+                                    echo ROOT . $photo;
                                 } ?>" class="sideimg">
                             </button>
                         </div>
@@ -106,7 +106,7 @@ use App\core\Encryption;
                                     <img id="vid" style="filter: blur(3px);"
                                          src="
                                          <?php if (isset($photo)) {
-                                             echo $photo;
+                                             echo ROOT . $photo;
                                          } ?>"
                                          class="sideimg">
                                     <!--hidden field to pass video link to js-->

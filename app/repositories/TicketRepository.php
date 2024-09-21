@@ -15,6 +15,7 @@ class TicketRepository extends EntityRepository
             ->select([
                 't.ticketId',
                 't.ticketStatus',
+                't.qrCodeURL',
                 'ms.startingTime',
                 'm.title AS movieTitle',
                 'm.duration AS movieDuration',
@@ -156,4 +157,24 @@ class TicketRepository extends EntityRepository
         return array_values($groupedTickets);
     }
 
+
+
+//    public function findAllSeatsOfTheMovieOfTheDateTime(int $movieId, string $date, int $movieScheduleId){
+//
+//        $dateTime = new \DateTime($date, new \DateTimeZone('Asia/Kuala_Lumpur'));
+//
+//        return $this->createQueryBuilder('t')
+//            ->select('t.ticketId, t.ticketStatus, t.qrCodeURL, ms.startingTime, m.title, u.userId')
+//            ->innerJoin('t.movieSchedule', 'ms')  // Join with MovieSchedule
+//            ->innerJoin('ms.movie', 'm')  // Join with Movie
+//            ->innerJoin('t.user', 'u')  // Join with User
+//            ->where('ms.movieScheduleId = :movieScheduleId')  // Correct reference to movieScheduleId
+//            ->andWhere('m.movieId = :movieId')
+//            ->andWhere('ms.startingTime = :dateTime')
+//            ->setParameter('movieScheduleId', $movieScheduleId)  // Set the movieScheduleId parameter
+//            ->setParameter('movieId', $movieId)  // Set the movieId parameter
+//            ->setParameter('dateTime', $dateTime)  // Set the dateTime parameter
+//            ->getQuery()
+//            ->getResult();
+//    }
 }

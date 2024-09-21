@@ -7,8 +7,9 @@ use App\models\Cinema;
 use App\models\CinemaHall;
 use App\models\MovieSchedule;
 use App\models\Movie;
+use App\models\TicketPricing;
 use DateTime;
-use Doctrine\DBAL\Exception;
+use App\services\YoutubeAPI\TrailerLinkGenerator;
 
 class CinemaFacade
 {
@@ -25,6 +26,11 @@ class CinemaFacade
         $this->cinemaHallRepository = $this->entityManager->getRepository(CinemaHall::class);
         $this->movieScheduleRepository = $this->entityManager->getRepository(MovieSchedule::class);
         $this->movieRepository = $this->entityManager->getRepository(Movie::class);
+    }
+
+    public function getAllCinemas()
+    {
+        return $this->cinemaRepository->findAll();
     }
 
     // Cinema Management
@@ -213,6 +219,11 @@ class CinemaFacade
         return $hall;
     }
 
+    public function getMovieSchedules()
+    {
+        return $this->movieScheduleRepository->findMovieSchedule();
+    }
+
     public function addMovieSchedule($cinemaHallId, $movieId, $startingTime)
     {
         $movie = $this->movieRepository->find($movieId);
@@ -236,6 +247,77 @@ class CinemaFacade
     public function getAllMovies()
     {
         return $this->movieRepository->findAll();
+    }
+
+    public function getComingSoonMovies()
+    {
+        return $this->movieRepository->findComingSoonMovies();
+    }
+
+    public function searchMovies($search = '', $category = '')
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('m', 'ms', 'ch', 'c')
+            ->from(Movie::class, 'm')
+            ->leftJoin('m.movieSchedules', 'ms')
+            ->leftJoin('ms.cinemaHall', 'ch')
+            ->leftJoin('ch.cinema', 'c')
+            ->where('m.status = :status')
+            ->setParameter('status', 'Now Showing');
+
+        // If user using search query
+        if ($search) {
+            $qb->andWhere($qb->expr()->like('m.title', ':search'))
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        // If user click the category
+        if ($category && $category !== 'All') {
+            $qb->andWhere($qb->expr()->like('m.catagory', ':category'))
+                ->setParameter('category', '%' . $category . '%');
+        }
+
+        $movies = $qb->getQuery()->getResult();
+
+        $moviesWithGroupedSchedules = [];
+        foreach ($movies as $movie) {
+            $movieData = [
+                'movieId' => $movie->getMovieId(),
+                'title' => $movie->getTitle(),
+                'photo' => $movie->getPhoto(),
+                'duration' => $movie->getDuration(),
+                'classification' => $movie->getClassification(),
+                'language' => $movie->getLanguage(),
+                'category' => $movie->getCatagory(),
+                'cinemas' => []
+            ];
+
+            $cinemas = [];
+            foreach ($movie->getMovieSchedules() as $schedule) {
+                $cinemaHall = $schedule->getCinemaHall();
+                $cinema = $cinemaHall->getCinema();
+                $cinemaId = $cinema->getCinemaId();
+
+                if (!isset($cinemas[$cinemaId])) {
+                    $cinemas[$cinemaId] = [
+                        'id' => $cinemaId,
+                        'name' => $cinema->getName(),
+                        'showtimes' => []
+                    ];
+                }
+
+                $cinemas[$cinemaId]['showtimes'][] = [
+                    'scheduleId' => $schedule->getMovieScheduleId(),
+                    'time' => $schedule->getStartingTime(),
+                    'hallType' => $cinemaHall->getHallType()
+                ];
+            }
+
+            $movieData['cinemas'] = array_values($cinemas);
+            $moviesWithGroupedSchedules[] = $movieData;
+        }
+
+        return $moviesWithGroupedSchedules;
     }
 
     public function addMovie($movieData)
@@ -273,48 +355,58 @@ class CinemaFacade
 
     private function fetchTrailer($movieTitle)
     {
-        $encodedTitle = urlencode($movieTitle);
-        $url = "http://localhost:5000/movies/{$encodedTitle}/trailer";
-
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, ['Accept: application/json']);
-
-        $response = curl_exec($curl);
-
-        if ($response === false) {
-            $error = curl_error($curl);
-            curl_close($curl);
-            error_log("cURL Error in fetchTrailer: $error");
-            return null;
-        }
-
-        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        curl_close($curl);
-
-        $data = json_decode($response, true);
-
-        if ($httpCode == 200 && isset($data['data']['attributes']['link'])) {
-            // Extract video ID from the YouTube link
-            $videoId = $this->extractYouTubeId($data['data']['attributes']['link']);
-
-            if ($videoId) {
-                // Construct embedded link
-                return "https://www.youtube.com/embed/{$videoId}";
-            }
-        }
-
-        $errorMessage = $data['errors'][0]['detail'] ?? "HTTP Error: $httpCode";
-        error_log("Error in fetchTrailer: $errorMessage");
-        return null;
+        $movieTrailer = new TrailerLinkGenerator();
+        return $movieTrailer->fetchTrailer($movieTitle);
     }
 
-    private function extractYouTubeId($url)
+    public function getTicketPricing()
     {
-        $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i';
-        if (preg_match($pattern, $url, $match)) {
-            return $match[1];
+        $ticketPricing = $this->entityManager->getRepository(TicketPricing::class)->find(1);
+        return $ticketPricing;
+    }
+
+    public function updateTicketPricing($data)
+    {
+        $ticketPricing = $this->getTicketPricing();
+
+        // Update only the properties that are present in the $data array
+        if (isset($data['baseTicketIMAX'])) {
+            $ticketPricing->setBaseTicketIMAX($data['baseTicketIMAX']);
         }
-        return null;
+        if (isset($data['baseTicketDeluxe'])) {
+            $ticketPricing->setBaseTicketDeluxe($data['baseTicketDeluxe']);
+        }
+        if (isset($data['baseTicketAtmos'])) {
+            $ticketPricing->setBaseTicketAtmos($data['baseTicketAtmos']);
+        }
+        if (isset($data['baseTicketBenie'])) {
+            $ticketPricing->setBaseTicketBenie($data['baseTicketBenie']);
+        }
+
+        if (isset($data['timeBasedWeekdayBefore12'])) {
+            $ticketPricing->setTimeBasedWeekdayBefore12($data['timeBasedWeekdayBefore12']);
+        }
+        if (isset($data['timeBasedWeekdayAfter12'])) {
+            $ticketPricing->setTimeBasedWeekdayAfter12($data['timeBasedWeekdayAfter12']);
+        }
+        if (isset($data['timeBasedWeekend'])) {
+            $ticketPricing->setTimeBasedWeekend($data['timeBasedWeekend']);
+        }
+        if (isset($data['timeBasedMidnight'])) {
+            $ticketPricing->setTimeBasedMidnight($data['timeBasedMidnight']);
+        }
+
+        if (isset($data['commissionFee'])) {
+            $ticketPricing->setCommissionFee($data['commissionFee']);
+        }
+
+        try {
+            $this->entityManager->flush();
+            return true;
+        } catch (\Exception $e) {
+            // Log the error
+            error_log($e->getMessage());
+            return false;
+        }
     }
 }

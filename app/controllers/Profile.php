@@ -14,6 +14,7 @@ class Profile
 
     private $entityManager;
     private $userRepository;
+    private $sessionManager;
 
     public function __construct()
     {
@@ -24,7 +25,7 @@ class Profile
         $this->sessionManager = new SessionManagement();
 
         // Call session timeout check at the start of every request
-        $this->sessionManager->checkSession();
+        $this->sessionManager->sessionTimeout();
     }
 
     public function index()

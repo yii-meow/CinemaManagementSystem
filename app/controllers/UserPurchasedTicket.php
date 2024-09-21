@@ -9,8 +9,10 @@ use App\core\Database;
 use App\models\Ticket;
 use App\repositories\TicketRepository;
 use Doctrine\ORM\EntityRepository;
+use DOMDocument;
 use FPDF;
 use SimpleXMLElement;
+use XSLTProcessor;
 
 class UserPurchasedTicket
 {
@@ -28,45 +30,45 @@ class UserPurchasedTicket
 
     public function index()
     {
-        if (isset($_SESSION['admin'])){
+        if (isset($_SESSION['admin'])) {
 
             //Create XML Root
-        $xml = new SimpleXMLElement('<?xml version="1.0"?><tickets></tickets>');
+            $xml = new SimpleXMLElement('<?xml version="1.0"?><tickets></tickets>');
 
-        //Find all user ticket
-        $ticketsData = [];
-        $tickets = $this->ticketRepository->findAllTickets();
-        if ($tickets) {
-            foreach ($tickets as $ticket) {
-                //Return Result
-                $ticketsData[] = $ticket;
+            //Find all user ticket
+            $ticketsData = [];
+            $tickets = $this->ticketRepository->findAllTickets();
+            if ($tickets) {
+                foreach ($tickets as $ticket) {
+                    //Return Result
+                    $ticketsData[] = $ticket;
 
-                //Generate XML
-                $ticketNode = $xml->addChild('ticket');
-                $ticketNode->addChild('ticketId', $ticket["ticketId"]);
-                $ticketNode->addChild('customerName', $ticket["customerName"]);
-                $ticketNode->addChild('ticketStatus', $ticket["ticketStatus"]);
-                $ticketNode->addChild('paymentStatus', $ticket["paymentStatus"]);
-                $ticketNode->addChild('movieTitle', $ticket["movieTitle"]);
-                $ticketNode->addChild('startingTime', $ticket["startingTime"]->format('Y-m-d H:i:s'));
-                $ticketNode->addChild('seatNo', $ticket["seatNo"]);
-                $ticketNode->addChild('totalPrice', $ticket["totalPrice"]);
+                    //Generate XML
+                    $ticketNode = $xml->addChild('ticket');
+                    $ticketNode->addChild('ticketId', $ticket["ticketId"]);
+                    $ticketNode->addChild('customerName', $ticket["customerName"]);
+                    $ticketNode->addChild('ticketStatus', $ticket["ticketStatus"]);
+                    $ticketNode->addChild('paymentStatus', $ticket["paymentStatus"]);
+                    $ticketNode->addChild('movieTitle', $ticket["movieTitle"]);
+                    $ticketNode->addChild('startingTime', $ticket["startingTime"]->format('Y-m-d H:i:s'));
+                    $ticketNode->addChild('seatNo', $ticket["seatNo"]);
+                    $ticketNode->addChild('totalPrice', $ticket["totalPrice"]);
+                }
+
+                //Store the XML as file
+                $filePath = 'C:\xampp\htdocs\CinemaManagementSystem\app\xml\ticket.xml';
+                $xml->asXML($filePath);
+
             }
 
-            //Store the XML as file
-            $filePath = 'C:\xampp\htdocs\CinemaManagementSystem\app\xml\ticket.xml';
-            $xml->asXML($filePath);
+            //Return result to view
+            $data = [
+                "tickets" => $ticketsData,
+            ];
 
-        }
-
-        //Return result to view
-        $data = [
-            "tickets" => $ticketsData,
-        ];
-
-        //Render view
-        $this->view("Admin/Ticket/UserPurchasedTicket", $data);
-        }else {
+            //Render view
+            $this->view("Admin/Ticket/UserPurchasedTicket", $data);
+        } else {
             // Redirect to permission denied page if user is not a SuperAdmin
             $this->view("Admin/403PermissionDenied");
         }
@@ -119,17 +121,31 @@ class UserPurchasedTicket
             $pdf->Ln();
         }
 
-        $pdf->Output('F', $pdfFilePath); //'F' means save to a file
+        // Save the PDF to the file system
+        $pdf->Output('F', $pdfFilePath); // 'F' means save to a file
 
-        // Output the PDF
-        header("Location: " . ROOT . "/UserPurchasedTicket");
+        // Now read the PDF file and output it to the browser for download
+        if (file_exists($pdfFilePath)) {
+            // Set headers for PDF download
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="ticket.pdf"');
+            header('Content-Length: ' . filesize($pdfFilePath));
+            header('Pragma: no-cache');
+            header('Expires: 0');
+
+            // Output the file to the browser
+            readfile($pdfFilePath);
+        } else {
+            echo "Error: PDF file could not be found for download.";
+        }
+
         exit();
     }
 
 
     //Export to CSV
-    public function exportCSV() {
-
+    public function exportCSV()
+    {
         // Use relative paths
         $xmlFilePath = __DIR__ . "/../xml/ticket.xml";
         $csvFilePath = __DIR__ . "/../Export/CSV/ticket.csv";
@@ -176,8 +192,45 @@ class UserPurchasedTicket
         // Close the CSV file
         fclose($csvFile);
 
-        header("Location: " . ROOT . "/UserPurchasedTicket");
+        // Now read the CSV file and output it to the browser for download
+        if (file_exists($csvFilePath)) {
+            // Set headers for CSV download
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment; filename="ticket.csv"');
+            header('Content-Length: ' . filesize($csvFilePath));
+            header('Pragma: no-cache');
+            header('Expires: 0');
+
+            // Output the file to the browser
+            readfile($csvFilePath);
+        } else {
+            echo "Error: CSV file could not be found for download.";
+        }
+
         exit();
+    }
+
+    public function showXSLT(){
+        //Call XML File
+        $xmlFilePath = __DIR__ . "/../xml/ticket.xml";
+        $xml = @simplexml_load_file($xmlFilePath);
+
+        //Load the XSLT File
+        $xslFilePath = __DIR__ . "/../xml/ticket.xsl";
+        $xslt = new XSLTProcessor();
+        $xsl = new DOMDocument;
+        $xsl->load($xslFilePath);
+        $xslt->importStylesheet($xsl);
+
+        // Transform the XML
+        $result = $xslt->transformToXML($xml);
+
+        if ($result) {
+            header('Content-Type: text/html');
+            echo $result;
+        } else {
+            echo 'Transformation failed.';
+        }
     }
 
 }

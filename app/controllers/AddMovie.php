@@ -1,4 +1,5 @@
 <?php
+
 namespace App\controllers;
 
 use App\core\Controller;
@@ -9,6 +10,10 @@ class AddMovie
 
     public function index()
     {
-        return $this->view("Admin/Movie/AddMovie");
+        if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
+            return $this->view("Admin/Movie/AddMovie");
+        } else {
+            $this->view("Admin/403PermissionDenied");
+        }
     }
 }

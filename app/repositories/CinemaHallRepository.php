@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityRepository;
 
 class CinemaHallRepository extends EntityRepository
 {
-    public function findByHallId($hallId)
+    public function findByHallId(int $hallId)
     {
         return $this->createQueryBuilder('ch')
             ->leftJoin('ch.cinema', 'c')
@@ -20,7 +20,7 @@ class CinemaHallRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
-    public function getNextHallName($cinemaId)
+    public function getNextHallName(int $cinemaId)
     {
         $query = $this->createQueryBuilder('ch')
             ->select('MAX(ch.hallName) as maxHallName')

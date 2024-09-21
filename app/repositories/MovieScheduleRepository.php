@@ -90,7 +90,7 @@ class MovieScheduleRepository extends EntityRepository
         return array_values($groupedResults);
     }
 
-    public function findUpcomingSchedulesByHall($hallId)
+    public function findUpcomingSchedulesByHall(int $hallId)
     {
         return $this->createQueryBuilder('ms')
             ->select('ms', 'm')
@@ -115,9 +115,9 @@ class MovieScheduleRepository extends EntityRepository
             ->andWhere('ms.startingTime <= :date_end')
             ->setParameter('movieId', $movieId)
             ->setParameter('date_start', $date->format('Y-m-d 00:00:00'))  //Get a specific date
-            ->setParameter('date_end', $date->format('Y-m-d 23:59:59'));  //Get a specific date
+            ->setParameter('date_end', $date->format('Y-m-d 23:59:59'))  //Get a specific date
+            ->groupBy('ch.hallType');
 
         return $qb->getQuery()->getResult();
-
     }
 }
