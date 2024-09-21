@@ -10,6 +10,8 @@ use App\models\Movie;
 use App\models\TicketPricing;
 use DateTime;
 use App\services\YoutubeAPI\TrailerLinkGenerator;
+use App\Logger\CinemaLogger;
+use Monolog\Logger;
 
 class CinemaFacade
 {
@@ -26,6 +28,7 @@ class CinemaFacade
         $this->cinemaHallRepository = $this->entityManager->getRepository(CinemaHall::class);
         $this->movieScheduleRepository = $this->entityManager->getRepository(MovieSchedule::class);
         $this->movieRepository = $this->entityManager->getRepository(Movie::class);
+        $this->logger = new CinemaLogger();
     }
 
     public function getAllCinemas()
@@ -153,6 +156,13 @@ class CinemaFacade
         $this->entityManager->persist($cinema);
         $this->entityManager->flush();
 
+        $this->logger->info('Cinema added', [
+            'cinemaId' => $cinema->getCinemaId(),
+            'name' => $name,
+            'city' => $city,
+            'state' => $state
+        ]);
+
         return $cinema;
     }
 
@@ -170,6 +180,12 @@ class CinemaFacade
         if (isset($data['openingHours'])) $cinema->setOpeningHours($data['openingHours']);
 
         $this->entityManager->flush();
+
+        $this->logger->info('Cinema updated', [
+            'cinemaId' => $cinemaId,
+            'updatedFields' => array_keys($data)
+        ]);
+
         return $cinema;
     }
 
@@ -188,6 +204,13 @@ class CinemaFacade
 
         $this->entityManager->persist($cinemaHall);
         $this->entityManager->flush();
+
+        $this->logger->info('CinemaHall added', [
+            'cinemaId' => $cinemaId,
+            'hall name' => $hallName,
+            'capacity' => $capacity,
+            'hall type' => $hallType
+        ]);
 
         return $cinemaHall;
     }
@@ -216,6 +239,14 @@ class CinemaFacade
         }
 
         $this->entityManager->flush();
+
+        $this->logger->info('CinemaHall updated', [
+            'hall id' => $hallId,
+            'hall name' => $data['hallName'],
+            'capacity' => $data['capacity'],
+            'hall type' => $data['hallType']
+        ]);
+
         return $hall;
     }
 
@@ -240,6 +271,12 @@ class CinemaFacade
 
         $this->entityManager->persist($movieSchedule);
         $this->entityManager->flush();
+
+        $this->logger->info('MovieSchedule added', [
+            'movie id' => $movieId,
+            'cinema hall id' => $cinemaHallId,
+            'starting time' => $startingTime,
+        ]);
 
         return $movieSchedule;
     }
@@ -327,6 +364,16 @@ class CinemaFacade
 
         $this->entityManager->persist($movie);
         $this->entityManager->flush();
+
+        $this->logger->info('Movie added', [
+            'movie id' => $movieData['movieId'],
+            'movie title' => $movieData['title'],
+            'trailer link' => $movieData['trailerLink'],
+            'duration' => $movieData['duration'],
+            'category' => $movieData['catagory'],
+            'release date' => $movieData['releaseDate'],
+            'status' => $movieData['status'],
+        ]);
 
         return $movie;
     }
@@ -461,5 +508,11 @@ class CinemaFacade
             error_log($e->getMessage());
             return false;
         }
+    }
+
+    public function getLogs($date = null)
+    {
+        $logger = new CinemaLogger();
+        return $logger->getLogs($date);
     }
 }
