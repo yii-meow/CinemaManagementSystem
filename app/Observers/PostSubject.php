@@ -15,27 +15,33 @@ class PostSubject implements SubjectInterface { // implemenmt the Subject
     private $entityManager;
     private $likeRepository;
 
-
+    // Constructor to initialize the subject and its repositories
    public function __construct() {
         $this->entityManager = Database::getEntityManager();
         $this->likeRepository = $this->entityManager->getRepository(Likes::class);
     }
+
+    // Attach an observer to the subject
     public function attach(ObserverInterface $observer): void {
-        $this->observers[] = $observer;
+        $this->observers[] = $observer;// Add observer to the list
     }
     public function detach(ObserverInterface $observer): void {
+        // Filter out the given observer from the list
         $this->observers = array_filter($this->observers, function ($obs) use ($observer) {
             return $obs !== $observer;
         });
     }
 
-    public function notifyAllObservers(string $event, ?Post $post = null, ?User $user = null): void {
+    // Notify all observers about an event
+    public function notifyAllObservers(string $event, Post $post = null, User $user = null): void {
+        // Loop through each observer and call their update method
         foreach ($this->observers as $observer) {
             $observer->update($event, $post, $user);
         }
     }
 
 
+    // Method to handle liking or unliking a post
     public function likePost(User $user, Post $post): void {
         // check whether the user liked a specific post
         $existingLike = $this->likeRepository->findOneBy(['post' => $post, 'likedBy' => $user]);
@@ -48,16 +54,23 @@ class PostSubject implements SubjectInterface { // implemenmt the Subject
 
         } else {
             // means the user is liking the post
-            $like = new Likes();
-            $like->setLikedBy($user);
-            $like->setPost($post);
-            $like->setLikeDate(new \DateTime());
-            $this->entityManager->persist($like);
-            $isLiked = true;
+            try {
+                $like = new Likes();
+                $like->setLikedBy($user);
+                $like->setPost($post);
+                $like->setLikeDate(new \DateTime());
+                $this->entityManager->persist($like);
+                $isLiked = true;
+            }catch(\Exception $e){
+                error_log('Error adding like: ' . $e->getMessage());
+                exit();
+            }
         }
 
-        $this->entityManager->flush();
-        $this->notifyAllObservers($isLiked ? 'like' : 'unlike', $post, $user);    }
+        $this->entityManager->flush(); // Save changes to the database
+        // Notify observers about the like/unlike event
+        $this->notifyAllObservers($isLiked ? 'like' : 'unlike', $post, $user);
+   }
 
     // Method to check whether a post is liked
     public function isLiked(User $user, Post $post): bool
@@ -66,23 +79,25 @@ class PostSubject implements SubjectInterface { // implemenmt the Subject
         return $existingLike !== null;
     }
 
+    // Method to add a comment to a post
     public function addComment(User $user, Post $post, string $commentText): void {
-       try{
-       $comment = new Comment();
-        $comment->setPost($post);
-        $comment->setCommenter($user);
-        $comment->setCommentText($commentText);
+       try {
+           $comment = new Comment();
+           $comment->setPost($post);
+           $comment->setCommenter($user);
+           $comment->setCommentText($commentText);
 
-        $this->entityManager->persist($comment);
-        $this->entityManager->flush();
+           $this->entityManager->persist($comment);
+           $this->entityManager->flush();
 
            $this->notifyAllObservers('comment', $post, $user);
-           header('Location: ' . ROOT . '/Forum?message=comment_success');
-       } catch (\Exception $e) {
-           header('Location: ' . ROOT . '/Forum?message=comment_fail');
-       }
+       }catch(\Exception $e){
+           error_log('Error adding comment: ' . $e->getMessage());
+           exit();
+        }
     }
 
+    // Method to add a reply to a comment
     public function addReply(User $user, Comment $comment, string $replyText): void
     {
         try {
@@ -95,10 +110,11 @@ class PostSubject implements SubjectInterface { // implemenmt the Subject
             $this->entityManager->flush();
 
             $this->notifyAllObservers('reply', $comment->getPost(), $user);
-            header('Location: ' . ROOT . '/Forum?message=reply_success');
-        } catch (\Exception $e) {
-            header('Location: ' . ROOT . '/Forum?message=reply_fail');
+        }catch(\Exception $e){
+            error_log('Error adding reply: ' . $e->getMessage());
+            exit();
         }
+
     }
 
 }

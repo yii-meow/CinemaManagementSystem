@@ -5,7 +5,7 @@ namespace App\services;
 class TranslationService {
     public function translate($content, $targetLanguage) {
         // RapidAPI key
-        $apiKey = getenv('RAPIDAPI_KEY');//'6cd3ce0668mshef29e98611d69cbp145648jsn02843b08fd14'; // expired
+        $apiKey = getenv('RAPIDAPI_KEY');
 
         // API endpoint for translation
         $url = "https://google-translate1.p.rapidapi.com/language/translate/v2";

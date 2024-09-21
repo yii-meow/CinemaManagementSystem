@@ -87,12 +87,21 @@ class PostInteraction
             $post = $this->postRepository->find($postID);
             $user = $this->userRepository->find($userID);
 
-            // Notify observers of the new comment
-            $this->likeSubject->addComment($user, $post, $commentText);
+
+            if ($post && $user) {
+                // Notify observers and add the comment
+                $this->likeSubject->addComment($user, $post, $commentText);
+                // Redirect with a success message
+                header('Location: ' . ROOT . '/Forum?message=comment_success');
+                exit;
+            } else {
+                header('Location: ' . ROOT . '/Forum?message=comment_fail');
+                exit;
+            }
         } else {
             header('Location: ' . ROOT . '/Forum?message=comment_fail');
+            exit;
         }
-
     }
 
     private function addReply($userID, $postID, $replyText)
@@ -108,6 +117,8 @@ class PostInteraction
             // Check if the comment exists
             if ($comment) {
                 $this->likeSubject->addReply($user, $comment, $replyText);
+                header('Location: ' . ROOT . '/Forum?message=reply_success');
+                exit;
             } else {
                 header('Location: ' . ROOT . '/Forum?message=reply_fail');
                 exit; // Always use exit after a header redirect

@@ -7,7 +7,7 @@ use App\models\Post;
 use App\models\User;
 use App\models\Likes;
 use App\models\Comment;
-use App\models\Reply;
+use App\models\Reply;use FPDF;
 
 class PostActivity {
     use Controller;
@@ -18,6 +18,7 @@ class PostActivity {
     private $commentRepository;
     private $replyRepository;
     private $likesRepository;
+
 
     public function __construct() {
         $this->entityManager = Database::getEntityManager();
@@ -33,6 +34,7 @@ class PostActivity {
     }
 
     public function index() {
+
         $userID = $_SESSION['userId'] ?? null;
 
         if (!$userID) {
@@ -43,8 +45,8 @@ class PostActivity {
 
         $this->generateXML($userID);
 
-        $xmlPath = 'C:/xampp/htdocs/CinemaManagementSystem/app/xml/postData';
-        $xslPath = 'C:/xampp/htdocs/CinemaManagementSystem/app/xml/postActivity';
+        $xmlPath = 'C:\xampp\htdocs\CinemaManagementSystem\app\xml\postData';
+        $xslPath = 'C:\xampp\htdocs\CinemaManagementSystem\app\xml\postActivity';
 
         if (!file_exists($xmlPath)) {
             die("Error: XML file not found at $xmlPath");
@@ -74,6 +76,66 @@ class PostActivity {
         // Output the result
         echo $html; // Display the transformed XML
     }
+
+    public function export($userID){
+         // Fetch user posts
+    $posts = $this->postRepository->findBy(['user' => $userID]);
+
+    // If there are no posts, handle it
+    if (empty($posts)) {
+        die('No posts found for this user.');
+    }
+            // Export to PDF
+            $pdf = new FPDF();
+            $pdf->AddPage();
+            $pdf->SetFont('Arial', '', 12);
+
+            // Set title
+            $pdf->Cell(0, 10, 'Post Activity Summary', 0, 1, 'C');
+
+             // Set table header
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(10, 10, 'No.', 1, 0, 'C');
+    $pdf->Cell(80, 10, 'Post Content', 1, 0, 'C');
+    $pdf->Cell(30, 10, 'Date Created', 1, 0, 'C');
+    $pdf->Cell(20, 10, 'Total Like(s)', 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Total Comment(s)', 1, 0, 'C');
+    $pdf->Cell(25, 10, 'Total Replies', 1, 1, 'C'); // Move to the next line
+
+    // Set font for table content
+    $pdf->SetFont('Arial', '', 10);
+
+    // Iterate through posts to add data
+    $counter = 1;
+    foreach ($posts as $post) {
+        $totalLikes = count($post->getLikes());
+        $totalComments = count($post->getComments());
+        $totalReplies = 0;
+
+        // Calculate total replies by iterating through comments
+        foreach ($post->getComments() as $comment) {
+            $totalReplies += count($comment->getReplies());
+        }
+
+        // Add row data
+        $pdf->Cell(10, 10, $counter++, 1);
+        $pdf->Cell(80, 10, substr($post->getContent(), 0, 40) . '...', 1); // Truncate long content
+        $pdf->Cell(30, 10, $post->getPostDate()->format('Y-m-d'), 1);
+        $pdf->Cell(20, 10, $totalLikes, 1);
+        $pdf->Cell(25, 10, $totalComments, 1);
+        $pdf->Cell(25, 10, $totalReplies, 1);
+        $pdf->Ln(); // Move to the next line
+    }
+
+            // Output the PDF
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment;filename="user_report.pdf"');
+
+            $pdf->Output('php://output', 'I');
+            exit();
+        }
+
+
 
    private function generateXML($userID) {
     // Retrieve the user's posts data
@@ -157,7 +219,7 @@ class PostActivity {
         $root->appendChild($postElement);
     }
         // Save XML to file
-        $xml->save('C:/xampp/htdocs/CinemaManagementSystem/app/xml/postData');
+       $xml->save('C:\xampp\htdocs\CinemaManagementSystem\app\xml\postData');
     }
 
 }
