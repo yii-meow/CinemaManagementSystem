@@ -26,3 +26,9 @@
 [2024-09-21 10:00:10] INFO: Cinema removed {"cinema id":"21","cinema name":"Test facade"}
 [2024-09-21 10:02:56] INFO: Movie added {"movie title":"tetesst","duration":"123","category":"test","release date":"2024-09-20","status":"Now Showing"}
 [2024-09-21 10:04:16] INFO: Movie updated {"movie title":"Twilight of the Warriors: Walled In"}
+[2024-09-21 11:49:47] INFO: MovieSchedule added {"movie id":"15","cinema hall id":"6","starting time":"2024-09-21T19:49"}
+[2024-09-21 11:50:09] INFO: MovieSchedule added {"movie id":"15","cinema hall id":"6","starting time":"2024-09-21T23:55"}
+[2024-09-21 12:23:56] INFO: MovieSchedule updated {"schedule id":"103","new starting time":"2024-09-21 19:50:00"}
+[2024-09-21 12:25:46] INFO: MovieSchedule removed {"schedule id":"104","movie id":15,"cinema hall id":6}
+[2024-09-21 12:30:52] INFO: MovieSchedule added {"movie id":"15","cinema hall id":"6","starting time":"2024-09-21T23:30"}
+[2024-09-21 12:31:43] INFO: MovieSchedule updated {"schedule id":"89","new starting time":"2024-09-25 15:45:00"}

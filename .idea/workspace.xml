@@ -6,14 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Logger/logs/cinema_operations-2024-09-21.log" beforeDir="false" afterPath="$PROJECT_DIR$/app/Logger/logs/cinema_operations-2024-09-21.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/Movie/MovieXMLGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/Movie/MovieXMLGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/Movie/movie_summary.xsl" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/Movie/movie_summary.xsl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/Movie/movies_raw.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/Movie/movies_raw.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/Movie/movies_summary.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/Movie/movies_summary.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/ticket.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/ticket.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/MovieScheduleManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MovieScheduleManagement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/MovieSchedule.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/MovieSchedule.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

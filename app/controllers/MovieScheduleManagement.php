@@ -50,4 +50,52 @@ class MovieScheduleManagement
             jsonResponse(['success' => false, 'message' => 'Invalid request method']);
         }
     }
+
+    public function updateMovieSchedule()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            jsonResponse(['success' => false, 'message' => 'Method Not Allowed']);
+            return;
+        }
+
+        $scheduleId = $_POST['scheduleId'] ?? '';
+        $startingTime = $_POST['startingTime'] ?? '';
+
+        if (empty($scheduleId) || empty($startingTime)) {
+            jsonResponse(['success' => false, 'message' => 'Please fill in all required fields.']);
+            return;
+        }
+
+        try {
+            $newDateTime = new \DateTime($startingTime);
+            $this->cinemaFacade->updateMovieSchedule($scheduleId, $newDateTime);
+            jsonResponse(['success' => true, 'message' => 'Movie schedule updated successfully']);
+        } catch (\Exception $e) {
+            jsonResponse(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()]);
+        }
+    }
+
+    public function removeMovieSchedule($scheduleId = null)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+            jsonResponse(['success' => false, 'message' => 'Method Not Allowed']);
+            return;
+        }
+
+        if (!$scheduleId) {
+            jsonResponse(['success' => false, 'message' => 'Schedule ID is required']);
+            return;
+        }
+
+        try {
+            $result = $this->cinemaFacade->removeMovieSchedule($scheduleId);
+            if ($result) {
+                jsonResponse(['success' => true, 'message' => 'Movie schedule removed successfully']);
+            } else {
+                jsonResponse(['success' => false, 'message' => 'Failed to remove movie schedule']);
+            }
+        } catch (\Exception $e) {
+            jsonResponse(['success' => false, 'message' => 'Error removing movie schedule: ' . $e->getMessage()]);
+        }
+    }
 }

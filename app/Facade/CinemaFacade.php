@@ -112,7 +112,11 @@ class CinemaFacade
             $date = $showtime->getStartingTime()->format('Y-m-d');
             $movieId = $showtime->getMovie()->getMovieId();
             $groupedSchedules[$date][$movieId]['movie'] = $showtime->getMovie();
-            $groupedSchedules[$date][$movieId]['times'][] = $showtime->getStartingTime();
+            $groupedSchedules[$date][$movieId]['times'][] = [
+                'id' => $showtime->getMovieScheduleId(),
+                'time' => $showtime->getStartingTime(),
+                'fullDateTime' => $showtime->getStartingTime()->format('Y-m-d\TH:i:s')
+            ];
         }
 
         $movies = $this->movieRepository->findAll();
@@ -330,6 +334,54 @@ class CinemaFacade
         ]);
 
         return $movieSchedule;
+    }
+
+    public function updateMovieSchedule($scheduleId, DateTime $startingTime)
+    {
+        $movieSchedule = $this->movieScheduleRepository->find($scheduleId);
+
+        if (!$movieSchedule) {
+            throw new \Exception("Movie schedule not found");
+        }
+
+        $movieSchedule->setStartingTime($startingTime);
+
+        $this->entityManager->flush();
+
+        $this->logger->info('MovieSchedule updated', [
+            'schedule id' => $scheduleId,
+            'new starting time' => $startingTime->format('Y-m-d H:i:s'),
+        ]);
+
+        return $movieSchedule;
+    }
+
+    public function removeMovieSchedule($scheduleId)
+    {
+        $movieSchedule = $this->movieScheduleRepository->find($scheduleId);
+
+        if (!$movieSchedule) {
+            throw new \Exception("Movie schedule not found");
+        }
+
+        try {
+            $this->entityManager->remove($movieSchedule);
+            $this->entityManager->flush();
+
+            $this->logger->info('MovieSchedule removed', [
+                'schedule id' => $scheduleId,
+                'movie id' => $movieSchedule->getMovie()->getMovieId(),
+                'cinema hall id' => $movieSchedule->getCinemaHall()->getHallId(),
+            ]);
+
+            return true;
+        } catch (\Exception $e) {
+            $this->logger->error('Failed to remove MovieSchedule', [
+                'schedule id' => $scheduleId,
+                'error' => $e->getMessage()
+            ]);
+            return false;
+        }
     }
 
     public function getAllMovies()
