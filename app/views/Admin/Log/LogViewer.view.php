@@ -73,7 +73,7 @@
                 </div>
             <?php else: ?>
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover table-sm">
+                    <table class="table table-striped table-hover table-md">
                         <thead>
                         <tr>
                             <th>Timestamp</th>
