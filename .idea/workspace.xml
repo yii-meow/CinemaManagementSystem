@@ -6,27 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Observers/LikeObserver.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/LikeObserver.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Observers/PostSubject.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/PostSubject.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/AddPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/AddPost.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/PostActivity.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/PostActivity.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/PostInteraction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/PostInteraction.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/SessionManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/SessionManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/App.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/App.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/TranslationService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/TranslationService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Forum/AddPost.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Forum/AddPost.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Forum/MyPost.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Forum/MyPost.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/navigationBar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/navigationBar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/postActivity" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/postActivity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/postData" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/postData" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/postData.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Export/CSV/ticket.csv" beforeDir="false" afterPath="$PROJECT_DIR$/app/Export/CSV/ticket.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Export/PDF/ticket.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/app/Export/PDF/ticket.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/UserPurchasedTicket.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/UserPurchasedTicket.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/core/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/ticket.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/ticket.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/ticket.xsl" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/ticket.xsl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/userData" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/userData" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
@@ -85,24 +78,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.codeium.enabled": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/xampp/htdocs/CinemaManagementSystem",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "advanced.settings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/CinemaManagementSystem/app/xslt&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PhpStorm 2024.2.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\CinemaManagementSystem\app\xslt" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\CinemaManagementSystem\app\xml" />
+      <recent name="C:\xampp\htdocs\CinemaManagementSystem\app\xml\Movie" />
       <recent name="C:\xampp\htdocs\CinemaManagementSystem\vendor" />
     </key>
   </component>
@@ -124,8 +121,10 @@
       <updated>1726595669913</updated>
       <workItem from="1726595671211" duration="372000" />
       <workItem from="1726708376464" duration="48262000" />
-      <workItem from="1726829590849" duration="10319000" />
-      <workItem from="1726871528536" duration="11236000" />
+      <workItem from="1726799035313" duration="3304000" />
+      <workItem from="1726805195568" duration="6931000" />
+      <workItem from="1726815957773" duration="13932000" />
+      <workItem from="1726860406175" duration="10462000" />
     </task>
     <servers />
   </component>

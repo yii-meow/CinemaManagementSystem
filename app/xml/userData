@@ -33,16 +33,8 @@
     <Status>active</Status>
   </User>
   <User>
-    <UserID>5</UserID>
-    <UserName>helloo0000</UserName>
-    <PhoneNo>01376783627</PhoneNo>
-    <Email>hi@gmail.com</Email>
-    <Gender>M</Gender>
-    <Status>deactive</Status>
-  </User>
-  <User>
     <UserID>6</UserID>
-    <UserName>kyann</UserName>
+    <UserName>kyanxxxx</UserName>
     <PhoneNo>0143551931</PhoneNo>
     <Email>xx@gmail.com</Email>
     <Gender>F</Gender>
@@ -63,14 +55,6 @@
     <Email>angeline@gmail.com</Email>
     <Gender>F</Gender>
     <Status>active</Status>
-  </User>
-  <User>
-    <UserID>9</UserID>
-    <UserName>Chong Kah Yan</UserName>
-    <PhoneNo>0129736473</PhoneNo>
-    <Email>kahyanchong0803@gmail.com</Email>
-    <Gender>F</Gender>
-    <Status>deactive</Status>
   </User>
   <User>
     <UserID>10</UserID>
@@ -94,6 +78,14 @@
     <PhoneNo>0143551935</PhoneNo>
     <Email>kahyanchong0803@gmail.com</Email>
     <Gender>M</Gender>
+    <Status>active</Status>
+  </User>
+  <User>
+    <UserID>13</UserID>
+    <UserName>Kyin</UserName>
+    <PhoneNo>01136694832</PhoneNo>
+    <Email>kyin@gmail.com</Email>
+    <Gender>F</Gender>
     <Status>active</Status>
   </User>
 </UsersReport>
