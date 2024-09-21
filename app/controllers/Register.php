@@ -63,12 +63,7 @@ class Register
                         ->setStatus('active');
 
                     $data['success_message'] = $this->userFactory->register($user);
-//                    // Persist user data
-//                    $this->entityManager->persist($user);
-//                    $this->entityManager->flush();
-//
-//                    // Redirect to login page or success page
-//                    $data['success'] = 'Registration successful. Please log in.';
+
                     $this->view('Customer/User/Login', $data);
                     exit();
                 }
