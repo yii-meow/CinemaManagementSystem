@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Logger/logs/cinema_operations-2024-09-21.log" beforeDir="false" afterPath="$PROJECT_DIR$/app/Logger/logs/cinema_operations-2024-09-21.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/adminSidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/adminSidebar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/Movie/movies_raw.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/Movie/movies_raw.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/navigationBar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/navigationBar.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
