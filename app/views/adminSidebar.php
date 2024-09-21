@@ -21,23 +21,6 @@
                         Customer
                     </a>
                 </li>
-
-                <!-- Check admin role for Staff and Report visibility -->
-                <?php if ($_SESSION['admin']['role'] === 'SuperAdmin'): ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= ROOT ?>/StaffManage">
-                            <i class="fas fa-user-circle me-4 fa-lg"></i>
-                            Staff
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= ROOT ?>/ReportManage">
-                            <i class="fas fa-chart-bar me-4 fa-lg"></i>
-                            Reports
-                        </a>
-                    </li>
-                <?php endif; ?>
-
                 <li class="nav-item">
                     <a class="nav-link" href="<?= ROOT ?>/RewardManage">
                         <i class="fas fa-award me-4 fa-lg"></i>
@@ -69,17 +52,26 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-cog me-4 fa-lg"></i>
-                        Settings
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="<?= ROOT ?>/LogViewer">
                         <i class="fas fa-file-text-o me-4 fa-lg"></i>
                         Logs
                     </a>
                 </li>
+                <!-- Check admin role for Staff and Report visibility -->
+                <?php if ($_SESSION['admin']['role'] === 'SuperAdmin'): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= ROOT ?>/StaffManage">
+                            <i class="fas fa-user-circle me-4 fa-lg"></i>
+                            Staff
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= ROOT ?>/ReportManage">
+                            <i class="fas fa-chart-bar me-4 fa-lg"></i>
+                            Reports
+                        </a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
         <!-- Admin Info -->
