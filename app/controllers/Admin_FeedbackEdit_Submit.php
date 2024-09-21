@@ -45,6 +45,7 @@ class Admin_FeedbackEdit_Submit{
 
             $feedback = $this->feedbackRepository->findBy(['feedbackID' => $feedbackID]);
             $data = $feedback;
+            $feedback->setCoinCompensation($coinCompensation);
 
             if(isset($_POST['status']) && ($_POST['status'] != $feedback[0]->getStatus())){
                 $status = $_POST['status'];
@@ -75,12 +76,6 @@ class Admin_FeedbackEdit_Submit{
                     $message = "Invalid status option!";
                     //echo "<script type='text/javascript'>alert('$message');</script>";
 
-                    $feedback = $this->feedbackRepository->findBy(['feedbackID' => $feedbackID]);
-
-                    //header('Location: ' . ROOT . '/Admin_FeedbackEdit');
-
-                    //get selected feedback record
-                    //Route to the destinaiton page, with passing data from the Model
                 }
 
             }elseif (!isset($_POST['status']) && ($feedback[0]->getStatus() == feedback_status::COMPENSATION_OFFERED)){
@@ -94,12 +89,12 @@ class Admin_FeedbackEdit_Submit{
             if($success){
                 $feedback = $this->feedbackRepository->find($feedbackID);
                 //$feedback->setStatus($status);
-                $feedback->setCoinCompensation($coinCompensation);
                 $feedback->setReply($reply);
 
                 //if coin compensation is not empty, status = coin compensation offered
                 if($coinCompensation){
                     $feedback->setStatus(feedback_status::COMPENSATION_OFFERED);
+                    $feedback->getUser()->setCoins($coinCompensation + $feedback->getUser()->getCoins());
                 }
 
                 try {
