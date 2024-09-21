@@ -6,13 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Export/CSV/ticket.csv" beforeDir="false" afterPath="$PROJECT_DIR$/app/Export/CSV/ticket.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Export/PDF/ticket.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/app/Export/PDF/ticket.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/UserPurchasedTicket.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/UserPurchasedTicket.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Logger/logs/cinema_operations-2024-09-21.log" beforeDir="false" afterPath="$PROJECT_DIR$/app/Logger/logs/cinema_operations-2024-09-21.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/core/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/Movie/MovieXMLGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/Movie/MovieXMLGenerator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/Movie/movie_summary.xsl" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/Movie/movie_summary.xsl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/Movie/movies_raw.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/Movie/movies_raw.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/Movie/movies_summary.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/Movie/movies_summary.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/xml/ticket.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/ticket.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/ticket.xsl" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/ticket.xsl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/userData" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/userData" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

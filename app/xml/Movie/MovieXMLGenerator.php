@@ -44,6 +44,17 @@ class MovieXMLGenerator
                 $movieElement->addChild('releaseDate', $movie->getReleaseDate()->format('Y-m-d'));
                 $movieElement->addChild('language', htmlspecialchars($movie->getLanguage()));
                 $movieElement->addChild('status', htmlspecialchars($movie->getStatus()));
+                $movieElement->addChild('description', htmlspecialchars($movie->getDescription()));
+                $movieElement->addChild('casts', htmlspecialchars($movie->getCasts()));
+                $movieElement->addChild('trailerLink', htmlspecialchars($movie->getTrailerLink()));
+
+                // Add movie schedules
+                $schedulesElement = $movieElement->addChild('schedules');
+                foreach ($movie->getMovieSchedules() as $schedule) {
+                    $scheduleElement = $schedulesElement->addChild('schedule');
+                    $scheduleElement->addChild('startingTime', $schedule->getStartingTime()->format('Y-m-d H:i:s'));
+                    $scheduleElement->addChild('cinemaHall', htmlspecialchars($schedule->getCinemaHall()->getHallName()));
+                }
             }
 
             // Save raw movies XML
@@ -71,8 +82,26 @@ class MovieXMLGenerator
                 $longMovies->addChild('movie', htmlspecialchars($movie));
             }
 
-            $xmlString = $xml->asXML();
+            $languageCounts = $resultsElement->addChild('language_counts');
+            foreach ($xpathResults['language_counts'] as $language => $count) {
+                $languageElement = $languageCounts->addChild('language');
+                $languageElement->addChild('name', htmlspecialchars($language));
+                $languageElement->addChild('count', $count);
+            }
 
+            $resultsElement->addChild('average_duration', number_format($xpathResults['average_duration'], 2));
+
+            $upcomingMovies = $resultsElement->addChild('upcoming_movies');
+            foreach ($xpathResults['upcoming_movies'] as $movie) {
+                $upcomingMovies->addChild('movie', htmlspecialchars($movie));
+            }
+
+            $popularMovies = $resultsElement->addChild('popular_movies');
+            foreach ($xpathResults['popular_movies'] as $movie) {
+                $popularMovies->addChild('movie', htmlspecialchars($movie));
+            }
+
+            $xmlString = $xml->asXML();
 
             // Transform XML to HTML using XSLT
             $xsltProcessor = new \XSLTProcessor();
@@ -106,12 +135,15 @@ class MovieXMLGenerator
         $results['total_movies'] = count($xml->xpath('//movie'));
 
         // Count movies by category
-        $categories = $xml->xpath('//movie/category');
         $categoryCounts = [];
-        foreach ($categories as $category) {
-            $categoryName = (string)$category;
-            $categoryCounts[$categoryName] = isset($categoryCounts[$categoryName]) ? $categoryCounts[$categoryName] + 1 : 1;
+        foreach ($xml->xpath('//movie/category') as $category) {
+            $categories = explode(',', (string)$category);
+            foreach ($categories as $cat) {
+                $cat = trim($cat);
+                $categoryCounts[$cat] = isset($categoryCounts[$cat]) ? $categoryCounts[$cat] + 1 : 1;
+            }
         }
+        arsort($categoryCounts); // Sort categories by count in descending order
         $results['category_counts'] = $categoryCounts;
 
         // Find movies longer than 120 minutes
@@ -123,27 +155,41 @@ class MovieXMLGenerator
         $results['long_movies'] = $longMoviesList;
 
         // Count movies by language
-//        $languages = $xml->xpath('//movie/language');
-//        $languageCounts = [];
-//        foreach ($languages as $language) {
-//            $languageName = $language->nodeValue;
-//            $languageCounts[$languageName] = isset($languageCounts[$languageName]) ? $languageCounts[$languageName] + 1 : 1;
-//        }
-//        $results['language_counts'] = $languageCounts;
-
-        // Find movies released in the last year
-        $oneYearAgo = date('Y-m-d', strtotime('-1 year'));
-        $recentMovies = $xml->xpath("//movie[releaseDate >= '$oneYearAgo']/title");
-        $recentMoviesList = [];
-        foreach ($recentMovies as $movie) {
-            $recentMoviesList[] = $movie->nodeValue;
+        $languages = $xml->xpath('//movie/language');
+        $languageCounts = [];
+        foreach ($languages as $language) {
+            $languageName = (string)$language;
+            $languageCounts[$languageName] = isset($languageCounts[$languageName]) ? $languageCounts[$languageName] + 1 : 1;
         }
-        $results['recent_movies'] = $recentMoviesList;
+        $results['language_counts'] = $languageCounts;
 
-//         Find the average duration of movies
-        $totalDuration = $xml->xpath->evaluate('sum(//movie/duration)');
-        $movieCount = $xml->xpath->evaluate('count(//movie)');
-        $results['average_duration'] = $movieCount > 0 ? $totalDuration / $movieCount : 0;
+        // Calculate average duration of movies
+        $durations = $xml->xpath('//movie/duration');
+        $totalDuration = 0;
+        foreach ($durations as $duration) {
+            $totalDuration += (int)$duration;
+        }
+        $results['average_duration'] = $results['total_movies'] > 0 ? $totalDuration / $results['total_movies'] : 0;
+
+        // Find upcoming movies (release date in the future)
+        $currentDate = date('Y-m-d');
+        $upcomingMovies = $xml->xpath("//movie[releaseDate > '$currentDate']/title");
+        $upcomingMoviesList = [];
+        foreach ($upcomingMovies as $movie) {
+            $upcomingMoviesList[] = (string)$movie;
+        }
+        $results['upcoming_movies'] = $upcomingMoviesList;
+
+        // Find popular movies (movies with the most schedules)
+        $movies = $xml->xpath('//movie');
+        $movieScheduleCounts = [];
+        foreach ($movies as $movie) {
+            $title = (string)$movie->title;
+            $scheduleCount = count($movie->xpath('schedules/schedule'));
+            $movieScheduleCounts[$title] = $scheduleCount;
+        }
+        arsort($movieScheduleCounts);
+        $results['popular_movies'] = array_slice(array_keys($movieScheduleCounts), 0, 5);
 
         return $results;
     }
