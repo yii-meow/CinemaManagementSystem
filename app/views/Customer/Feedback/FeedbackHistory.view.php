@@ -95,7 +95,11 @@
 
 
             </div>
-            <?php }} ?>
+            <?php }}else{?>
+            <div class="inner-container mt-20" style="text-align: center;">
+                We value your opinion! Please share your feedback with us <a href="FeedbackController">here</a>.
+            </div>
+            <?php } ?>
 
 
 

@@ -44,37 +44,6 @@ use App\constant\feedback_status;
                     </div>
                 </div>
 
-                <form method="post" action="Admin_FeedbackIndex\Search">
-                    <div class="col-md-4 mt-3" style="width: 50%;">
-                        <label for="rating">Rating</label>
-                        <div class="input-group">
-                            <select class="form-select" id="rating" name="filter_rating" required>
-                                <option value="all" selected>All</option>
-                                <option value="5" >5 Stars</option>
-                                <option value="4" >4 Stars</option>
-                                <option value="3" >3 Stars</option>
-                                <option value="2" >2 Stars</option>
-                                <option value="1" >1 Star</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mt-3" style="width: 50%;">
-                        <label for="status">Status</label>
-                        <div class="input-group">
-                            <select class="form-select" id="status" name="filter_status" required>
-                                <option value="all" selected>All</option>
-                                <option value="<?= feedback_status::PENDING ?>"><?= feedback_status::PENDING ?></option>
-                                <option value="<?= feedback_status::IN_PROGRESS ?>" ><?= feedback_status::IN_PROGRESS ?></option>
-                                <option value="<?= feedback_status::RESOLVED ?>" ><?= feedback_status::RESOLVED ?></option>
-                                <option value="<?= feedback_status::COMPENSATION_OFFERED ?>" ><?= feedback_status::COMPENSATION_OFFERED ?></option>
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit">Search</button>
-                </form>
-
-
-
             </div>
 
             <!-- Tables -->

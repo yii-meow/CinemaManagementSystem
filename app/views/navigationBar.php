@@ -139,7 +139,7 @@
     }
 
     .btn {
-        --bs-btn-padding-x: 0.45rem;
+        --bs-btn-padding-x: 0.35rem;
     }
 
 

@@ -43,7 +43,7 @@
             <br><br><br>
             <div class="inner-container">
 
-                <form id="createFeedbackForm" enctype="multipart/form-data" method="post" action="FeedbackController/submit">
+                <form id="feedbackForm" enctype="multipart/form-data" method="post" action="FeedbackController/submit">
                     <div class="mb-3">
                         <label for="feedback" class="form-label">My feedback</label>
                         <textarea class="form-control" id="feedback" rows="4"
@@ -116,16 +116,27 @@
     </footer>
 
 
+    <!-- Modal -->
+    <div class="modal fade" id="thankYouModal" tabindex="-1" role="dialog" aria-labelledby="thankYouModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="thankYouModalLabel">Thank You!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Your feedback has been submitted successfully!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-    <!--JavaScripts-->
-    <script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script type="text/javascript">
-
-
-    </script>
 </body>
 
 </html>
