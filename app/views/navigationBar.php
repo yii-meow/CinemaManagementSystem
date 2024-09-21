@@ -72,6 +72,18 @@
             </ul>
         </div>
     </div>
+    <div class="forum-container mr-2">
+        <div class="drop">
+            <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                Feedback
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="<?= ROOT ?>/FeedbackController">Add feedback</a></li>
+                <li><a class="dropdown-item" href="<?= ROOT ?>/FeedbackHistory">My feedback</a></li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -125,6 +137,11 @@
         background-color: #f8f9fa;
         color: #d62b49;
     }
+
+    .btn {
+        --bs-btn-padding-x: 0.45rem;
+    }
+
 
     @media (max-width: 768px) {
         .dropdowns {
