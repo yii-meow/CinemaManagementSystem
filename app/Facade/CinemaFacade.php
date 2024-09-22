@@ -2,6 +2,7 @@
 /**
  * @author Chong Yik Soon
  */
+
 namespace App\Facade;
 
 use App\core\Database;
@@ -398,17 +399,7 @@ class CinemaFacade
 
     public function getTopFiveMovies()
     {
-        $qb = $this->entityManager->createQueryBuilder();
-        $qb->select('m.movieId, m.title, m.photo, COUNT(ms.movieScheduleId) as scheduleCount')
-            ->from(Movie::class, 'm')
-            ->leftJoin('m.movieSchedules', 'ms')
-            ->where('m.status = :status')
-            ->setParameter('status', 'Now Showing')
-            ->groupBy('m.movieId')
-            ->orderBy('scheduleCount', 'DESC')
-            ->setMaxResults(5);
-
-        $result = $qb->getQuery()->getResult();
+        $result = $this->movieScheduleRepository->getTopFiveMovies();
 
         return array_map(function ($row) {
             return [
@@ -422,28 +413,7 @@ class CinemaFacade
 
     public function searchMovies($search = '', $category = '')
     {
-        $qb = $this->entityManager->createQueryBuilder();
-        $qb->select('m', 'ms', 'ch', 'c')
-            ->from(Movie::class, 'm')
-            ->leftJoin('m.movieSchedules', 'ms')
-            ->leftJoin('ms.cinemaHall', 'ch')
-            ->leftJoin('ch.cinema', 'c')
-            ->where('m.status = :status')
-            ->setParameter('status', 'Now Showing');
-
-        // If user using search query
-        if ($search) {
-            $qb->andWhere($qb->expr()->like('m.title', ':search'))
-                ->setParameter('search', '%' . $search . '%');
-        }
-
-        // If user click the category
-        if ($category && $category !== 'All') {
-            $qb->andWhere($qb->expr()->like('m.catagory', ':category'))
-                ->setParameter('category', '%' . $category . '%');
-        }
-
-        $movies = $qb->getQuery()->getResult();
+        $movies = $this->movieScheduleRepository->findTodayMovieSchedules($search, $category);
 
         $moviesWithGroupedSchedules = [];
         foreach ($movies as $movie) {
