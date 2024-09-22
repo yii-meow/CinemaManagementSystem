@@ -5,7 +5,7 @@ namespace App\services;
 class TranslationService {
     public function translate($content, $targetLanguage) {
         // RapidAPI key
-        $apiKey = getenv('RAPIDAPI_KEY');
+        $apiKey = "f9f98207c1msh172ad62387fd118p17287fjsn4f1ef3e3ab92";
 
         // API endpoint for translation
         $url = "https://google-translate1.p.rapidapi.com/language/translate/v2";
@@ -37,8 +37,8 @@ class TranslationService {
         // Execute and handle response
         $response = curl_exec($curl);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        $err = curl_error($curl);
-        curl_close($curl);
+        $err = curl_error($curl); // check error
+        curl_close($curl); // close session
 
         // Check cURL errors
         if ($err) {

@@ -7,7 +7,11 @@ use App\models\Post;
 use App\models\User;
 use App\models\Likes;
 use App\models\Comment;
-use App\models\Reply;use FPDF;
+use App\models\Reply;
+use FPDF;
+require_once __DIR__ . '/../../vendor/fpdf/fpdf.php';
+
+
 
 class PostActivity {
     use Controller;
@@ -77,8 +81,10 @@ class PostActivity {
         echo $html; // Display the transformed XML
     }
 
-    public function export($userID){
-         // Fetch user posts
+    public function export(){
+        $userID = $_SESSION['userId'] ?? null;
+
+        // Fetch user posts
     $posts = $this->postRepository->findBy(['user' => $userID]);
 
     // If there are no posts, handle it
@@ -88,22 +94,23 @@ class PostActivity {
             // Export to PDF
             $pdf = new FPDF();
             $pdf->AddPage();
-            $pdf->SetFont('Arial', '', 12);
+            $pdf->SetFont('arial', '', 12); // Use the custom font
+
 
             // Set title
-            $pdf->Cell(0, 10, 'Post Activity Summary', 0, 1, 'C');
+            $pdf->Cell(0, 10, 'My Post Activity Summary', 0, 1, 'C');
 
              // Set table header
-    $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(10, 10, 'No.', 1, 0, 'C');
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(7, 10, 'No.', 1, 0, 'C');
     $pdf->Cell(80, 10, 'Post Content', 1, 0, 'C');
-    $pdf->Cell(30, 10, 'Date Created', 1, 0, 'C');
-    $pdf->Cell(20, 10, 'Total Like(s)', 1, 0, 'C');
-    $pdf->Cell(25, 10, 'Total Comment(s)', 1, 0, 'C');
-    $pdf->Cell(25, 10, 'Total Replies', 1, 1, 'C'); // Move to the next line
+    $pdf->Cell(24, 10, 'Date Created', 1, 0, 'C');
+    $pdf->Cell(24, 10, 'Total Like(s)', 1, 0, 'C');
+    $pdf->Cell(30, 10, 'Total Comment(s)', 1, 0, 'C');
+    $pdf->Cell(28, 10, 'Total Replies', 1, 1, 'C'); // Move to the next line
 
     // Set font for table content
-    $pdf->SetFont('Arial', '', 10);
+    $pdf->SetFont('arial', '', 10);
 
     // Iterate through posts to add data
     $counter = 1;
@@ -114,16 +121,17 @@ class PostActivity {
 
         // Calculate total replies by iterating through comments
         foreach ($post->getComments() as $comment) {
+
             $totalReplies += count($comment->getReplies());
         }
 
         // Add row data
-        $pdf->Cell(10, 10, $counter++, 1);
+        $pdf->Cell(7, 10, $counter++, 1);
         $pdf->Cell(80, 10, substr($post->getContent(), 0, 40) . '...', 1); // Truncate long content
-        $pdf->Cell(30, 10, $post->getPostDate()->format('Y-m-d'), 1);
-        $pdf->Cell(20, 10, $totalLikes, 1);
-        $pdf->Cell(25, 10, $totalComments, 1);
-        $pdf->Cell(25, 10, $totalReplies, 1);
+        $pdf->Cell(24, 10, $post->getPostDate()->format('Y-m-d'), 1);
+        $pdf->Cell(24, 10, $totalLikes, 1);
+        $pdf->Cell(30, 10, $totalComments, 1);
+        $pdf->Cell(28, 10, $totalReplies, 1);
         $pdf->Ln(); // Move to the next line
     }
 

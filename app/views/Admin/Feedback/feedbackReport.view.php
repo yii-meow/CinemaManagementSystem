@@ -7,7 +7,7 @@ use App\constant\feedback_status;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select User Report Type</title>
+    <title>Select Feedback Report Type</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -56,7 +56,7 @@ use App\constant\feedback_status;
 <div class="container">
 
 
-    <h1>Select User Status to Generate Report</h1>
+    <h1>Select Feedback Status to Generate Report</h1>
     <form action="<?= ROOT ?>/feedbackReport" method="POST">
         <div class="form-check mb-3">
             <input class="form-check-input" type="radio" name="status" id="pending" value="<?= feedback_status::PENDING ?>" checked>
@@ -74,6 +74,12 @@ use App\constant\feedback_status;
             <input class="form-check-input" type="radio" name="status" id="resolved" value="<?= feedback_status::RESOLVED ?>">
             <label class="form-check-label" for="resolved">
                 <?= feedback_status::RESOLVED ?> Feedback
+            </label>
+        </div>
+        <div class="form-check mb-4">
+            <input class="form-check-input" type="radio" name="status" id="co" value="<?= feedback_status::COMPENSATION_OFFERED ?>">
+            <label class="form-check-label" for="co">
+                <?= feedback_status::COMPENSATION_OFFERED ?> Feedback
             </label>
         </div>
         <div class="form-check mb-4">

@@ -73,13 +73,21 @@
                             , <?= htmlspecialchars($cinema->getCity()); ?>
                             , <?= htmlspecialchars($cinema->getState()); ?>
                         </p>
-                        <div class="mb-3 d-flex flex-row-reverse">
+                        <div class="mb-4 d-flex flex-row-reverse w-100 mt-3">
                             <button
-                                    class="btn btn-dark px-5 py-2"
+                                    class="btn btn-warning px-5 py-3 w-25"
                                     data-bs-toggle="modal"
                                     data-bs-target="#editCinemaModal"
                             >
                                 <i class="fa fa-edit me-3"></i>Edit Cinema Information
+                            </button>
+                        </div>
+                        <div class="mb-3 d-flex flex-row-reverse w-100">
+                            <button
+                                    class="btn btn-danger px-5 py-3 w-25"
+                                    onclick="removeCinema(<?= $cinema->getCinemaId() ?>)"
+                            >
+                                <i class="fa fa-edit me-3"></i>Remove Cinema
                             </button>
                         </div>
                     </div>
@@ -113,7 +121,7 @@
                                         <i class="fas fa-television me-2"></i><?= htmlspecialchars($hall->getHallType()) ?>
                                     </p>
                                     <div class="d-flex justify-content-center mt-5">
-                                        <a href="HallMovieSchedule?hallId=<?= $hall->getHallId() ?>">
+                                        <a href="MovieScheduleManagement?hallId=<?= $hall->getHallId() ?>">
                                             <button class="btn btn-secondary">
                                                 View Hall <?= htmlspecialchars($hall->getHallName()) ?> Information
                                             </button>
@@ -376,6 +384,28 @@
             }
         });
     });
+
+    function removeCinema(cinemaId) {
+        if (confirm('Are you sure you want to remove this cinema? This action cannot be undone.')) {
+            fetch(`<?= ROOT ?>/CinemaManagement/removeCinema/${cinemaId}`, {
+                method: 'DELETE',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        window.location.href = "<?=ROOT?>/CinemaManagement";
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while removing the cinema.');
+                });
+        }
+    }
+
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -112,8 +112,7 @@
                             <td><?= htmlspecialchars($post['content']) ?></td>
                             <td>
                                 <?php if ($post['contentImg']): ?>
-                                    <img src="<?php echo ROOT . htmlspecialchars($post['contentImg']); ?>"
-                                         style="width: 30%; height: 20%;" onclick="openModal(this)">
+                                    <img src="<?= ROOT ?>/..<?php echo htmlspecialchars($post['contentImg']); ?>" style="width: 30%; height: 20%;" onclick="openModal(this)">
                                 <?php else: ?>
                                     -
                                 <?php endif; ?>

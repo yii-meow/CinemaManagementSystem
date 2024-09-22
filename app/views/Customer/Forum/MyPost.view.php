@@ -341,7 +341,7 @@ $userID = $_SESSION['userId'];
 
                                                 <div class="comment-section">
                                                     <div class="input-wrapper">
-                                                        <form method="POST" action="<?= ROOT ?>/PostInteraction/index">
+                                                        <form method="POST" action="<?= ROOT ?>/AddCommentReply/index">
                                                             <input type="hidden" name="action" value="comment" />
                                                             <input type="hidden" name="postID" value="<?php echo htmlspecialchars($post_id, ENT_QUOTES, 'UTF-8'); ?>" />
                                                             <input class="comment-input" style="font-size: 0.8em;" name="commentText" placeholder="Write a comment..." required>
@@ -367,7 +367,7 @@ $userID = $_SESSION['userId'];
 
                                                                     <!-- Reply Section -->
                                                                     <div class="reply-wrapper" style="display:none;">
-                                                                        <form method="POST" action="<?= ROOT ?>/PostInteraction/index">
+                                                                        <form method="POST" action="<?= ROOT ?>/AddCommentReply/index">
                                                                             <input type="hidden" name="action" value="reply" />
                                                                             <input type="hidden" name="commentID" value="<?php echo htmlspecialchars($comment['commentID'], ENT_QUOTES, 'UTF-8'); ?>" />
                                                                             <input type="hidden" name="postID" value="<?php echo htmlspecialchars($post_id, ENT_QUOTES, 'UTF-8'); ?>" />

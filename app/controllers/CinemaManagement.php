@@ -18,7 +18,8 @@ class CinemaManagement
 
     public function index()
     {
-        if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
+        if (isset($_SESSION['admin']) &&
+            $_SESSION['admin']['role'] === 'SuperAdmin') {
             $cinemas = $this->cinemaFacade->getFormattedCinemas();
             $this->view('Admin/Cinema/CinemaManagement', ['cinemas' => $cinemas]);
         } else {
@@ -48,6 +49,30 @@ class CinemaManagement
             }
         } else {
             jsonResponse(['success' => false, 'message' => 'Invalid request method']);
+        }
+    }
+
+    public function removeCinema($cinemaId = null)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+            jsonResponse(['success' => false, 'message' => 'Method Not Allowed']);
+            return;
+        }
+
+        if (!$cinemaId) {
+            jsonResponse(['success' => false, 'message' => 'Cinema ID is required']);
+            return;
+        }
+
+        try {
+            $result = $this->cinemaFacade->removeCinema($cinemaId);
+            if ($result) {
+                jsonResponse(['success' => true, 'message' => 'Cinema removed successfully']);
+            } else {
+                jsonResponse(['success' => false, 'message' => 'Failed to remove cinema']);
+            }
+        } catch (\Exception $e) {
+            jsonResponse(['success' => false, 'message' => 'Error removing cinema: ' . $e->getMessage()]);
         }
     }
 }

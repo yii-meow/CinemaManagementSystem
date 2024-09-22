@@ -20,8 +20,8 @@ class MovieManagement
     public function index()
     {
 //        if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
-            $movies = $this->cinemaFacade->getAllMovies();
-            return $this->view("Admin/Movie/MovieManagement", ['movies' => $movies]);
+        $movies = $this->cinemaFacade->getAllMovies();
+        return $this->view("Admin/Movie/MovieManagement", ['movies' => $movies]);
 //        } else {
 //            $this->view("Admin/403PermissionDenied");
 //        }
@@ -93,15 +93,22 @@ class MovieManagement
 
     public function removeMovie()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-            $movieId = $_GET['movieId'] ?? null;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents("php://input"), true);
+            $movieId = $data['movieId'] ?? null;
+
             if (!$movieId) {
                 jsonResponse(['success' => false, 'message' => 'Movie ID is required']);
                 return;
             }
+
             try {
-                $this->cinemaFacade->removeMovie($movieId);
-                jsonResponse(['success' => true, 'message' => 'Movie removed successfully']);
+                $result = $this->cinemaFacade->removeMovie($movieId);
+                if ($result) {
+                    jsonResponse(['success' => true, 'message' => 'Movie removed successfully']);
+                } else {
+                    jsonResponse(['success' => false, 'message' => 'Movie not found or could not be removed']);
+                }
             } catch (\Exception $e) {
                 jsonResponse(['success' => false, 'message' => 'Error removing movie: ' . $e->getMessage()]);
             }
