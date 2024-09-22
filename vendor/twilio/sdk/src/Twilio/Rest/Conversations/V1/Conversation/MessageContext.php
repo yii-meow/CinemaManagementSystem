@@ -123,7 +123,7 @@ class MessageContext extends InstanceContext
                 Serialize::iso8601DateTime($options['dateUpdated']),
             'Attributes' =>
                 $options['attributes'],
-            'Subject' =>
+            'LikeSubject' =>
                 $options['subject'],
         ]);
 

@@ -67,7 +67,12 @@
                 <div class="mb-3">
                     <label for="profileImage" class="form-label">Profile Image</label>
                     <div class="d-flex align-items-center">
-                        <img src="<?= ROOT ?>/assets/images/<?= htmlspecialchars($user->getProfileImg(), ENT_QUOTES, 'UTF-8'); ?>" alt="Profile Image" class="img-thumbnail me-3"
+                        <?php
+                        $profileImg = $user->getProfileImg();
+                        $imageToDisplay = !empty($profileImg) ? htmlspecialchars($profileImg, ENT_QUOTES, 'UTF-8') : 'profile4.jpg';
+                        ?>
+
+                        <img src="<?= ROOT ?>/assets/images/<?= $imageToDisplay; ?>" alt="Profile Image" class="img-thumbnail me-3"
                              style="width: 100px; height: 100px;" />
                     </div>
                 </div>
