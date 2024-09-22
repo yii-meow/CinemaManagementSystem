@@ -1,5 +1,8 @@
 <?php
-namespace App\services;
+/**
+ * @author Angeline Chuang May Teng
+ */
+namespace app\services\GoogleTranslateAPI;
 //Consume (Translate API)
 
 class TranslationService {

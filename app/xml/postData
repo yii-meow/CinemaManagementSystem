@@ -76,7 +76,7 @@
   </Post>
   <Post>
     <postID>86</postID>
-    <content>hahahaa</content>
+    <content>Really funny</content>
     <postDate>2024-09-18 13:04:13</postDate>
     <Like>
       <likeID>58</likeID>
@@ -209,5 +209,10 @@
       <likeID>112</likeID>
       <likeDate>2024-09-21 12:37:29</likeDate>
     </Like>
+  </Post>
+  <Post>
+    <postID>100</postID>
+    <content>baik</content>
+    <postDate>2024-09-21 19:06:45</postDate>
   </Post>
 </PostActivity>

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author Angeline Chuang May Teng
+ */
 namespace App\models;
 use App\repositories\ReportRepository;
 use Doctrine\ORM\Mapping as ORM;

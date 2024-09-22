@@ -1,10 +1,12 @@
 <?php
+/**
+ * @author Angeline Chuang May Teng
+ */
 namespace App\models;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use SplSubject;
-//Concrete LikeSubject in Observer Design Pattern
 
 #[ORM\Entity]
 #[ORM\Table(name: 'Comment')]
