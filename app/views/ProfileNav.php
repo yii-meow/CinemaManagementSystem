@@ -1,3 +1,6 @@
+<!--
+Author: Chong Kah Yan
+-->
 <div class="left-box">
     <div class="profile-card">
         <img src="<?= ROOT ?>/assets/images/<?= !empty($user['profileImg']) ? htmlspecialchars($user['profileImg']) : 'profile4.jpg' ?>"

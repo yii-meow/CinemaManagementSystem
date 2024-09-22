@@ -1,4 +1,7 @@
 <?php
+/**
+ * Author: Chong Kah Yan
+ */
 namespace App\controllers;
 use App\core\Controller;
 class ForgetPassVerify

@@ -3,6 +3,9 @@
 namespace App\core;
 
 use Dotenv\Dotenv;
+/**
+ * @Chew Zi An
+ */
 
 class Encryption
 {
