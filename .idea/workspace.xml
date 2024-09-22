@@ -5,33 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/SQLSccript" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebServices/ChongYikSoon/YoutubeAPI/TrailerLinkGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/WebServices/ChongYikSoon/YoutubeAPI/TrailerLinkGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebServices/ChongYikSoon/YoutubeAPI/youtube_trailer_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/WebServices/ChongYikSoon/YoutubeAPI/youtube_trailer_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Logger/CinemaLogger.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Logger/CinemaLogger.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/AddMovie.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/AddMovie.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/CinemaDetails.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/CinemaDetails.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/CinemaManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/CinemaManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/HallManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/HallManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/Homepage.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Homepage.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/MovieManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MovieManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/MovieScheduleManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MovieScheduleManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/TicketPricingManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/TicketPricingManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaConfigurationLogs.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaConfigurationLogs.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaDetails.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaDetails.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaManagement.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Hall/HallManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Hall/HallManagement.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Hall/HallSeatLayout.view.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Log/LogViewer.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Log/LogViewer.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Movie/AddMovie.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Movie/AddMovie.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Movie/MovieManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Movie/MovieManagement.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Ticket/TicketPricingManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Ticket/TicketPricingManagement.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Movie/Homepage.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Movie/Homepage.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Movie/MovieCategory.view.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Movie/MovieResult.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Movie/MovieResult.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/Movie/MovieXMLGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/Movie/MovieXMLGenerator.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,22 +73,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.codeium.enabled": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/xampp/htdocs/CinemaManagementSystem/WebServices/ChongYikSoon",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "advanced.settings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/CinemaManagementSystem/WebServices/ChongYikSoon&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\CinemaManagementSystem\WebServices\ChongYikSoon" />
@@ -144,7 +119,8 @@
       <workItem from="1726871528536" duration="11236000" />
       <workItem from="1726922459644" duration="12512000" />
       <workItem from="1726973261248" duration="5378000" />
-      <workItem from="1726982433251" duration="713000" />
+      <workItem from="1726982433251" duration="767000" />
+      <workItem from="1726983263293" duration="653000" />
     </task>
     <servers />
   </component>
