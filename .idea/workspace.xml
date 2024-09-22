@@ -5,53 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/services/GoogleTranslateAPI/TestTranslateREST.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Factory/UserFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Factory/UserFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Observers/LikeObserver.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/LikeObserver.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Observers/LikeSubject.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/LikeSubject.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Observers/Observer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/Observer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Observers/Subject.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/Subject.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/AddCommentReply.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/AddCommentReply.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/AddPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/AddPost.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/AdminDeletePost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/AdminDeletePost.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/AdminForum.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/AdminForum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/DeletePost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/DeletePost.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/EditPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/EditPost.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/FilterForum.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/FilterForum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/FilterPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/FilterPost.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/Forum.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Forum.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/Logout.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Logout.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/MyPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MyPost.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/PostActivity.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/PostActivity.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/PostInteraction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/PostInteraction.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/ReportPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/ReportPost.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/SearchPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/SearchPost.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/SessionManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/SessionManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/ShowLikedPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/ShowLikedPost.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/Translation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Translation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/Comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Comment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/Likes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Likes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Post.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/PostActivityService.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/Reply.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Reply.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/ReportRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/ReportRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repositories/CommentRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/CommentRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repositories/LikesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/LikesRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repositories/PostRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/PostRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/repositories/ReportRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/ReportRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/TranslationService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/GoogleTranslateAPI/TranslationService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Forum/ForumManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Forum/ForumManagement.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Forum/AddPost.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Forum/AddPost.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Forum/Forum.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Forum/Forum.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Forum/LikedPost.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Forum/LikedPost.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Forum/MyPost.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Forum/MyPost.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/postActivity" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/postActivity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/postData" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/postData" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/css/Forum.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/Forum.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/css/ForumManagement.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/ForumManagement.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/css/LikedPost.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/LikedPost.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/css/MyPost.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/MyPost.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.txt" beforeDir="false" afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
