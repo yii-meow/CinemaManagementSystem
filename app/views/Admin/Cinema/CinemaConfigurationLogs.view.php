@@ -1,44 +1,49 @@
 <html>
+<!--
+/**
+ * @author Chong Yik Soon
+ */
+ -->
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-        rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
     />
     <link
-        href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
-        rel="stylesheet"
+            href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
+            rel="stylesheet"
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
     <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <link
-        href="https://fonts.googleapis.com/css?family=Poppins"
-        rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Poppins"
+            rel="stylesheet"
     />
     <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-        integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+            integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
     />
     <link
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"></script>
     <!-- <link rel="stylesheet" href="../reset.css" /> -->
 
-    <link rel="stylesheet" href="../../../../public/css/AdminCinemaManagement.css" />
+    <link rel="stylesheet" href="../../../../public/css/AdminCinemaManagement.css"/>
     <title>Cinemas Configuration Logs</title>
 
-    <link rel="icon" type="image/x-icon" href="../Media/Image/icon.png" />
+    <link rel="icon" type="image/x-icon" href="../Media/Image/icon.png"/>
 </head>
 
 <body>
@@ -91,9 +96,9 @@
                 <div class="admin-info">
                     <div class="d-flex align-items-center mb-2">
                         <img
-                            src="/Media/Image/pp.webp"
-                            alt="Admin Avatar"
-                            class="me-2"
+                                src="/Media/Image/pp.webp"
+                                alt="Admin Avatar"
+                                class="me-2"
                         />
                         <div>
                             <strong>John Doe</strong>

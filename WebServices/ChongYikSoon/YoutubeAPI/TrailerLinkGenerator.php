@@ -2,6 +2,10 @@
 
 namespace App\services\YoutubeAPI;
 
+/**
+ * @author Chong Yik Soon
+ */
+
 class TrailerLinkGenerator
 {
     public function fetchTrailer($movieTitle)
