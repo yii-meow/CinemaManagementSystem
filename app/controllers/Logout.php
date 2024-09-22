@@ -1,6 +1,7 @@
 <?php
-/**
- * Author: Chong Kah Yan
+/*
+ * @Author Chong Kah Yan
+ * Angeline Chuang May Teng (secure coding)
  */
 namespace App\controllers;
 

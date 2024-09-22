@@ -5,40 +5,60 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/services/GoogleTranslateAPI/TestTranslateREST.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebServices/ChongYikSoon/YoutubeAPI/TrailerLinkGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/WebServices/ChongYikSoon/YoutubeAPI/TrailerLinkGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebServices/ChongYikSoon/YoutubeAPI/youtube_trailer_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/WebServices/ChongYikSoon/YoutubeAPI/youtube_trailer_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Logger/CinemaLogger.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Logger/CinemaLogger.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/AddMovie.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/AddMovie.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/CinemaDetails.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/CinemaDetails.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/CinemaManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/CinemaManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/HallManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/HallManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/Homepage.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Homepage.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/MovieManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MovieManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/MovieScheduleManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MovieScheduleManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/TicketPricingManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/TicketPricingManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaConfigurationLogs.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaConfigurationLogs.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaDetails.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaDetails.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Cinema/CinemaManagement.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Hall/HallManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Hall/HallManagement.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Hall/HallSeatLayout.view.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Log/LogViewer.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Log/LogViewer.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Movie/AddMovie.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Movie/AddMovie.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Movie/MovieManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Movie/MovieManagement.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Ticket/TicketPricingManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Ticket/TicketPricingManagement.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Movie/Homepage.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Movie/Homepage.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Movie/MovieCategory.view.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Customer/Movie/MovieResult.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Movie/MovieResult.view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/xml/Movie/MovieXMLGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/Movie/MovieXMLGenerator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Factory/UserFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Factory/UserFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Observers/LikeObserver.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/LikeObserver.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Observers/LikeSubject.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/LikeSubject.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Observers/Observer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/Observer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Observers/Subject.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/Subject.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/AddCommentReply.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/AddCommentReply.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/AddPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/AddPost.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/AdminDeletePost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/AdminDeletePost.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/AdminForum.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/AdminForum.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/DeletePost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/DeletePost.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/EditPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/EditPost.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/FilterForum.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/FilterForum.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/FilterPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/FilterPost.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/Forum.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Forum.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/Logout.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Logout.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/MyPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MyPost.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/PostActivity.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/PostActivity.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/PostInteraction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/PostInteraction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/ReportPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/ReportPost.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/SearchPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/SearchPost.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/SessionManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/SessionManagement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/ShowLikedPost.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/ShowLikedPost.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/Translation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Translation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/Comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Comment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/Likes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Likes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Post.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/PostActivityService.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/Reply.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Reply.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/ReportRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/ReportRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/repositories/CommentRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/CommentRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/repositories/LikesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/LikesRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/repositories/PostRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/PostRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/repositories/ReportRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/ReportRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/TranslationService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/GoogleTranslateAPI/TranslationService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Forum/ForumManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Forum/ForumManagement.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Customer/Forum/AddPost.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Forum/AddPost.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Customer/Forum/Forum.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Forum/Forum.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Customer/Forum/LikedPost.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Forum/LikedPost.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Customer/Forum/MyPost.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Customer/Forum/MyPost.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/postActivity" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/postActivity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/xml/postData" beforeDir="false" afterPath="$PROJECT_DIR$/app/xml/postData" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/css/Forum.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/Forum.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/css/ForumManagement.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/ForumManagement.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/css/LikedPost.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/LikedPost.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/css/MyPost.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/MyPost.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
@@ -76,17 +96,16 @@
       <path value="$PROJECT_DIR$/vendor/psr/log" />
       <path value="$PROJECT_DIR$/vendor/psr/container" />
       <path value="$PROJECT_DIR$/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/vendor/graham-campbell/result-type" />
+      <path value="$PROJECT_DIR$/vendor/beberlei/doctrineextensions" />
+      <path value="$PROJECT_DIR$/vendor/twilio/sdk" />
+      <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
       <path value="$PROJECT_DIR$/vendor/fpdf/doc" />
       <path value="$PROJECT_DIR$/vendor/fpdf/font" />
       <path value="$PROJECT_DIR$/vendor/fpdf/makefont" />
       <path value="$PROJECT_DIR$/vendor/fpdf/tutorial" />
-      <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
-      <path value="$PROJECT_DIR$/vendor/phpoption/phpoption" />
-      <path value="$PROJECT_DIR$/vendor/graham-campbell/result-type" />
-      <path value="$PROJECT_DIR$/vendor/twilio/sdk" />
-      <path value="$PROJECT_DIR$/vendor/beberlei/doctrineextensions" />
-      <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
-      <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
     </include_path>
   </component>
   <component name="ProjectColorInfo">{
@@ -98,26 +117,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.codeium.enabled": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/xampp/htdocs/CinemaManagementSystem/WebServices/ChongYikSoon",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "advanced.settings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/Sample Code/Chapter5A&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\CinemaManagementSystem\WebServices\ChongYikSoon" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\CinemaManagementSystem\vendor" />
     </key>
@@ -144,7 +160,6 @@
       <workItem from="1726871528536" duration="11236000" />
       <workItem from="1726922459644" duration="12512000" />
       <workItem from="1726973261248" duration="5378000" />
-      <workItem from="1726982433251" duration="713000" />
     </task>
     <servers />
   </component>

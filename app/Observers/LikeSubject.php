@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @author Angeline Chuang May Teng
+ */
 namespace App\Observers;
 
 use App\models\Likes;

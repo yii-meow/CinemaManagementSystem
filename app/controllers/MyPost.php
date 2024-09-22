@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @author Angeline Chuang May Teng
+ */
 namespace App\controllers;
 
 use App\Core\Controller;

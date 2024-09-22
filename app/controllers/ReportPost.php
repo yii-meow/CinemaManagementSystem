@@ -1,6 +1,8 @@
 <?php
 namespace App\controllers;
-
+/**
+ * @author Angeline Chuang May Teng
+ */
 use App\core\Controller;
 use App\core\Database;
 use App\models\Post;

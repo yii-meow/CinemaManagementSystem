@@ -1,9 +1,12 @@
 <?php
+/**
+ * @author Angeline Chuang May Teng
+ */
 namespace App\controllers;
 // Provide (REST API)
 
 use App\core\Controller;
-use App\services\TranslationService;
+use App\services\GoogleTranslateAPI\TranslationService;
 
 class Translation
 {
