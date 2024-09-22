@@ -100,8 +100,6 @@ class Admin_FeedbackEdit_Submit{
                 try {
                     $this->entityManager->flush();
 
-                    //$this->sendEmail();
-
                     //memory management
                     unset($feedback, $status, $reply);
                     $this->entityManager = null; // Free the entity manager
