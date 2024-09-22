@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Author: Chong Kah Yan
+ */
 namespace App\controllers;
 
 use App\models\Admin; // Adjust if the model class name is different
