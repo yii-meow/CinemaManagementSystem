@@ -57,14 +57,7 @@
                     - Hall <?= htmlspecialchars($cinemaInformation["hallName"] ?? 'N/A') ?></h1>
                 <i class="fa fa-info-circle ms-3 fa-lg"></i>
             </div>
-            <div class="d-flex flex-row-reverse mb-3">
-                <a href="CinemaConfigurationLogs.html">
-                    <button class="btn btn-warning mb-3">
-                        <i class="fa fa-cogs me-2" aria-hidden="true"></i>
-                        View Past Configurations
-                    </button>
-                </a>
-            </div>
+
             <div class="row g-4">
                 <div class="col-md-6 col-lg-4">
                     <div class="card h-100">

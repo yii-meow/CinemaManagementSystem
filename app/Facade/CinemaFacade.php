@@ -394,6 +394,30 @@ class CinemaFacade
         return $this->movieRepository->findComingSoonMovies();
     }
 
+    public function getTopFiveMovies()
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('m.movieId, m.title, m.photo, COUNT(ms.movieScheduleId) as scheduleCount')
+            ->from(Movie::class, 'm')
+            ->leftJoin('m.movieSchedules', 'ms')
+            ->where('m.status = :status')
+            ->setParameter('status', 'Now Showing')
+            ->groupBy('m.movieId')
+            ->orderBy('scheduleCount', 'DESC')
+            ->setMaxResults(5);
+
+        $result = $qb->getQuery()->getResult();
+
+        return array_map(function ($row) {
+            return [
+                'movieId' => $row['movieId'],
+                'title' => $row['title'],
+                'photo' => $row['photo'],
+                'scheduleCount' => $row['scheduleCount']
+            ];
+        }, $result);
+    }
+
     public function searchMovies($search = '', $category = '')
     {
         $qb = $this->entityManager->createQueryBuilder();
@@ -548,17 +572,24 @@ class CinemaFacade
         $movie = $this->movieRepository->find($movieId);
 
         if (!$movie) {
-            return false;
+            throw new \Exception("Movie not found!");
         }
 
         try {
             $this->entityManager->remove($movie);
             $this->entityManager->flush();
+
+            $this->logger->info('Movie removed', [
+                'movie id' => $movieId
+            ]);
+
             return true;
         } catch (\Exception $e) {
             // Log the error
-            error_log($e->getMessage());
-            throw $e;
+            $this->logger->error('Movie failed to be removed', [
+                'movie id' => $movieId
+            ]);
+            return false;
         }
     }
 
@@ -585,7 +616,6 @@ class CinemaFacade
         if (isset($data['baseTicketBenie'])) {
             $ticketPricing->setBaseTicketBenie($data['baseTicketBenie']);
         }
-
         if (isset($data['timeBasedWeekdayBefore12'])) {
             $ticketPricing->setTimeBasedWeekdayBefore12($data['timeBasedWeekdayBefore12']);
         }
@@ -598,7 +628,6 @@ class CinemaFacade
         if (isset($data['timeBasedMidnight'])) {
             $ticketPricing->setTimeBasedMidnight($data['timeBasedMidnight']);
         }
-
         if (isset($data['commissionFee'])) {
             $ticketPricing->setCommissionFee($data['commissionFee']);
         }
@@ -613,7 +642,10 @@ class CinemaFacade
             return true;
         } catch (\Exception $e) {
             // Log the error
-            error_log($e->getMessage());
+            $this->logger->error('TicketPricing failed to be updated', [
+                'ticket price' => $data,
+                'message' => $e->getMessage(),
+            ]);
             return false;
         }
     }

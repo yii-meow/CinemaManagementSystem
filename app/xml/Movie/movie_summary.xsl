@@ -17,7 +17,7 @@
                 </style>
             </head>
             <body>
-                <h1>Enhanced Movie Summary and XPath Results</h1>
+                <h1>Movie Summary and XPath Results</h1>
 
                 <h2>Movie List</h2>
                 <table>

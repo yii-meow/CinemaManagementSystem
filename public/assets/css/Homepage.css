@@ -24,7 +24,7 @@ body::-webkit-scrollbar {
     height: 100%;
     background-size: cover;
     background-position: center;
-    background-image: url("../Media/Image/mainMovie_1.jpg");
+    background-image: url("../images/mainMovie_1.jpg");
     filter: blur(20px);
     opacity: 0.2;
     transition: background-image 0.5s ease;

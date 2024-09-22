@@ -45,71 +45,18 @@
                 &#10094;
             </button>
             <div class="movie-container" id="movieContainer">
-                <div class="movie">
-                    <div><span class="movie-ranking">1</span></div>
-                    <div>
-                        <img src="<?= ROOT ?>/assets/images/movie.webp" alt="Movie"/>
-                        <div class="ranking-container">
-                            <span class="ranking-title">Deadpool 1</span>
-                            <span class="ranking-rating">
-                          <span class="rating">5.0</span>
-                          <span class="star">★</span>
-                        </span>
+                <?php foreach ($topFiveMovies as $index => $movie): ?>
+                    <div class="movie">
+                        <div><span class="movie-ranking"><?= $index + 1 ?></span></div>
+                        <div>
+                            <img src="<?= ROOT . htmlspecialchars($movie['photo']) ?>"
+                                 alt="<?= htmlspecialchars($movie['title']) ?>"/>
+                            <div class="ranking-container">
+                                <span class="ranking-title"><?= htmlspecialchars($movie['title']) ?></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="movie">
-                    <div><span class="movie-ranking">2</span></div>
-                    <div>
-                        <img src="<?= ROOT ?>/assets/images/pp.webp" alt="Movie"/>
-                        <div class="ranking-container">
-                            <span class="ranking-title">Deadpool 2</span>
-                            <span class="ranking-rating">
-                          <span class="rating">5.0</span>
-                          <span class="star">★</span>
-                        </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="movie">
-                    <div><span class="movie-ranking">3</span></div>
-                    <div>
-                        <img src="<?= ROOT ?>/assets/images/movie2.webp" alt="Movie"/>
-                        <div class="ranking-container">
-                            <span class="ranking-title">Deadpool 3</span>
-                            <span class="ranking-rating">
-                          <span class="rating">5.0</span>
-                          <span class="star">★</span>
-                        </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="movie">
-                    <div><span class="movie-ranking">4</span></div>
-                    <div>
-                        <img src="<?= ROOT ?>/assets/images/mainMovie_1.jpg" alt="Movie"/>
-                        <div class="ranking-container">
-                            <span class="ranking-title">Deadpool 4</span>
-                            <span class="ranking-rating">
-                          <span class="rating">5.0</span>
-                          <span class="star">★</span>
-                        </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="movie">
-                    <div><span class="movie-ranking">5</span></div>
-                    <div>
-                        <img src="<?= ROOT ?>/assets/images/pp.webp" alt="Movie"/>
-                        <div class="ranking-container">
-                            <span class="ranking-title">Deadpool 5</span>
-                            <span class="ranking-rating">
-                          <span class="rating">5.0</span>
-                          <span class="star">★</span>
-                        </span>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
             <button class="nav-button" id="nextButton">&#10095;</button>
         </div>
@@ -151,15 +98,15 @@
                 ?>
 
                 <?php
-                    //Perform Encryption
-                    $encryption = new \App\core\Encryption();
-                    $movieId = $movie['movieId'];
-                    $encryptedMovieId = $encryption->encrypt($movieId, $encryption->getKey());
+                //Perform Encryption
+                $encryption = new \App\core\Encryption();
+                $movieId = $movie['movieId'];
+                $encryptedMovieId = $encryption->encrypt($movieId, $encryption->getKey());
                 ?>
                 <div class="w-100">
                     <a href="<?= ROOT ?>/MovieDetails?movieId=<?= $encryptedMovieId ?>">
                         <div class="movie-result w-100">
-                            <img src="<?= htmlspecialchars(ROOT. $movie['photo']) ?>"
+                            <img src="<?= htmlspecialchars(ROOT . $movie['photo']) ?>"
                                  alt="<?= htmlspecialchars($movie['title']) ?>"
                                  class="movie-poster"/>
                             <div class="movie-details">

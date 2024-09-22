@@ -32,7 +32,9 @@ class MovieXMLGenerator
             }
 
             // Generate main XML
-            $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="movie_summary.xsl"?><root><movies></movies></root>');
+            $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?>
+            <?xml-stylesheet type="text/xsl" href="movie_summary.xsl"?>
+            <root><movies></movies></root>');
 
             foreach ($movies as $movie) {
                 $movieElement = $xml->movies->addChild('movie');
@@ -90,11 +92,6 @@ class MovieXMLGenerator
             }
 
             $resultsElement->addChild('average_duration', number_format($xpathResults['average_duration'], 2));
-
-            $upcomingMovies = $resultsElement->addChild('upcoming_movies');
-            foreach ($xpathResults['upcoming_movies'] as $movie) {
-                $upcomingMovies->addChild('movie', htmlspecialchars($movie));
-            }
 
             $popularMovies = $resultsElement->addChild('popular_movies');
             foreach ($xpathResults['popular_movies'] as $movie) {
@@ -170,15 +167,6 @@ class MovieXMLGenerator
             $totalDuration += (int)$duration;
         }
         $results['average_duration'] = $results['total_movies'] > 0 ? $totalDuration / $results['total_movies'] : 0;
-
-        // Find upcoming movies (release date in the future)
-        $currentDate = date('Y-m-d');
-        $upcomingMovies = $xml->xpath("//movie[releaseDate > '$currentDate']/title");
-        $upcomingMoviesList = [];
-        foreach ($upcomingMovies as $movie) {
-            $upcomingMoviesList[] = (string)$movie;
-        }
-        $results['upcoming_movies'] = $upcomingMoviesList;
 
         // Find popular movies (movies with the most schedules)
         $movies = $xml->xpath('//movie');

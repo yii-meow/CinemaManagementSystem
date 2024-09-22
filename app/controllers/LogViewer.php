@@ -20,16 +20,21 @@ class LogViewer
 
     public function index()
     {
-        $logFiles = glob($this->logDirectory . '*.log');
-        $selectedDate = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
+        if (isset($_SESSION['admin']) &&
+            $_SESSION['admin']['role'] === 'SuperAdmin') {
+            $logFiles = glob($this->logDirectory . '*.log');
+            $selectedDate = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
 
-        $logs = $this->getLogsForDate($selectedDate);
+            $logs = $this->getLogsForDate($selectedDate);
 
-        return $this->view('Admin/Log/LogViewer', [
-            'logs' => $logs,
-            'logDates' => $this->getLogDates($logFiles),
-            'selectedDate' => $selectedDate
-        ]);
+            return $this->view('Admin/Log/LogViewer', [
+                'logs' => $logs,
+                'logDates' => $this->getLogDates($logFiles),
+                'selectedDate' => $selectedDate
+            ]);
+        } else {
+            $this->view("Admin/403PermissionDenied");
+        }
     }
 
     private function getLogsForDate($date)

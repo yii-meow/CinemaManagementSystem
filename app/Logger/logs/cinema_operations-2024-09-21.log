@@ -32,3 +32,5 @@
 [2024-09-21 12:25:46] INFO: MovieSchedule removed {"schedule id":"104","movie id":15,"cinema hall id":6}
 [2024-09-21 12:30:52] INFO: MovieSchedule added {"movie id":"15","cinema hall id":"6","starting time":"2024-09-21T23:30"}
 [2024-09-21 12:31:43] INFO: MovieSchedule updated {"schedule id":"89","new starting time":"2024-09-25 15:45:00"}
+[2024-09-21 20:17:47] INFO: Movie added {"movie title":"The Wild Robot","duration":"100","category":"Science fiction","release date":"2024-09-29","status":"Coming Soon"}
+[2024-09-21 20:21:25] INFO: MovieSchedule added {"movie id":"41","cinema hall id":"38","starting time":"2024-09-30T02:21"}

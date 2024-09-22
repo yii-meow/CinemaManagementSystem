@@ -1,5 +1,4 @@
 <?php
-//Dont change it plz
 namespace App\core;
 trait Controller
 {

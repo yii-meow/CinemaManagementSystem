@@ -18,7 +18,8 @@ class CinemaManagement
 
     public function index()
     {
-        if (isset($_SESSION['admin']) && $_SESSION['admin']['role'] === 'SuperAdmin') {
+        if (isset($_SESSION['admin']) &&
+            $_SESSION['admin']['role'] === 'SuperAdmin') {
             $cinemas = $this->cinemaFacade->getFormattedCinemas();
             $this->view('Admin/Cinema/CinemaManagement', ['cinemas' => $cinemas]);
         } else {
