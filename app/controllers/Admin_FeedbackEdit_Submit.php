@@ -45,7 +45,7 @@ class Admin_FeedbackEdit_Submit{
 
             $feedback = $this->feedbackRepository->findBy(['feedbackID' => $feedbackID]);
             $data = $feedback;
-            $feedback->setCoinCompensation($coinCompensation);
+            $feedback[0]->setCoinCompensation($coinCompensation);
 
             if(isset($_POST['status']) && ($_POST['status'] != $feedback[0]->getStatus())){
                 $status = $_POST['status'];
@@ -94,7 +94,6 @@ class Admin_FeedbackEdit_Submit{
                 //if coin compensation is not empty, status = coin compensation offered
                 if($coinCompensation){
                     $feedback->setStatus(feedback_status::COMPENSATION_OFFERED);
-                    $feedback->getUser()->setCoins($coinCompensation + $feedback->getUser()->getCoins());
                 }
 
                 try {
