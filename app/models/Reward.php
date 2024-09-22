@@ -1,4 +1,7 @@
 <?php
+/**
+ * Author: Chong Kah Yan
+ */
 namespace App\models;
 
 use Doctrine\ORM\Mapping as ORM;

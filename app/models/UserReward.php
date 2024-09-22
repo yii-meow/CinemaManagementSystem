@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Author: Chong Kah Yan
+ */
 namespace App\models;
 
 use App\repositories\UserRewardRepository;
