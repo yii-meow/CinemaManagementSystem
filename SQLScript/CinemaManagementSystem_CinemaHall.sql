@@ -1,0 +1,66 @@
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+--
+-- Host: cinema-management-system.cl9dstv2z9by.us-east-1.rds.amazonaws.com    Database: CinemaManagementSystem
+-- ------------------------------------------------------
+-- Server version	8.0.35
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
+SET @@SESSION.SQL_LOG_BIN= 0;
+
+--
+-- GTID state at the beginning of the backup 
+--
+
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
+
+--
+-- Table structure for table `CinemaHall`
+--
+
+DROP TABLE IF EXISTS `CinemaHall`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CinemaHall` (
+  `hallId` int NOT NULL AUTO_INCREMENT,
+  `hallName` varchar(255) DEFAULT NULL,
+  `capacity` int DEFAULT NULL,
+  `hallType` varchar(255) DEFAULT NULL,
+  `cinemaId` int DEFAULT NULL,
+  PRIMARY KEY (`hallId`),
+  UNIQUE KEY `hallId_UNIQUE` (`hallId`),
+  KEY `cinemaId_idx` (`cinemaId`),
+  CONSTRAINT `cinemaId` FOREIGN KEY (`cinemaId`) REFERENCES `Cinema` (`cinemaId`)
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CinemaHall`
+--
+
+LOCK TABLES `CinemaHall` WRITE;
+/*!40000 ALTER TABLE `CinemaHall` DISABLE KEYS */;
+INSERT INTO `CinemaHall` VALUES (1,'H01',108,'IMAX',1),(2,'H01',108,'IMAX',2),(3,'H01',60,'DELUXE',3),(4,'H01',48,'DELUXE',4),(5,'H01',108,'BENIE',5),(6,'H01',48,'BENIE',6),(7,'H02',48,'ATMOS',1),(8,'H02',108,'ATMOS',2),(9,'H02',48,'ATMOS',3),(10,'H02',60,'IMAX',4),(11,'H02',60,'DELUXE',5),(12,'H02',108,'BENIE',6),(13,'H03',48,'ATMOS',1),(14,'H03',108,'IMAX',2),(15,'H03',60,'DELUXE',3),(16,'H03',108,'ATMOS',4),(17,'H03',60,'DELUXE',5),(18,'H03',48,'IMAX',6),(19,'H04',108,'IMAX',1),(20,'H04',60,'BENIE',2),(21,'H04',48,'DELUXE',3),(22,'H04',108,'BENIE',4),(23,'H04',60,'IMAX',5),(24,'H04',48,'DELUXE',6),(25,'H05',108,'BENIE',1),(26,'H05',60,'IMAX',2),(27,'H05',48,'DELUXE',3),(28,'H05',108,'ATMOS',4),(29,'H05',60,'DELUXE',5),(30,'H05',48,'ATMOS',6),(31,'H06',108,'IMAX',1),(32,'H01',108,'IMAX',7),(33,'H01',108,'IMAX',19),(34,'H06',60,'BENIE',6),(35,'H07',108,'Deluxe',6),(36,'H01',108,'IMAX',16),(37,'H02',48,'Atmos',19),(38,'H03',108,'Deluxe',19),(40,'H04',108,'DELUXE',19),(41,'H01',48,'Benie',15);
+/*!40000 ALTER TABLE `CinemaHall` ENABLE KEYS */;
+UNLOCK TABLES;
+SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-09-22 13:37:56
