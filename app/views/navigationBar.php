@@ -65,10 +65,22 @@
                 FORUM
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="<?= ROOT ?>/Forum">Community Forum</a></li>
-                <li><a class="dropdown-item" href="<?= ROOT ?>/AddPost">Create Post</a></li>
-                <li><a class="dropdown-item" href="<?= ROOT ?>/MyPost">My Post</a></li>
-                <li><a class="dropdown-item" href="<?= ROOT ?>/ShowLikedPost">Liked Post</a></li>
+                <li><a class="dropdown-item" href="<?= ROOT ?>/Forum/index">Community Forum</a></li>
+                <li><a class="dropdown-item" href="<?= ROOT ?>/AddPost/index">Create Post</a></li>
+                <li><a class="dropdown-item" href="<?= ROOT ?>/MyPost/index">My Post</a></li>
+                <li><a class="dropdown-item" href="<?= ROOT ?>/ShowLikedPost/index">Liked Post</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="forum-container mr-2">
+        <div class="drop">
+            <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                Feedback
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="<?= ROOT ?>/FeedbackController">Add feedback</a></li>
+                <li><a class="dropdown-item" href="<?= ROOT ?>/FeedbackHistory">My feedback</a></li>
             </ul>
         </div>
     </div>
@@ -114,7 +126,7 @@
     .dropdown-menu {
         background-color: #fff;
         border: none;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
     .dropdown-item {
@@ -124,6 +136,10 @@
     .dropdown-item:hover {
         background-color: #f8f9fa;
         color: #d62b49;
+    }
+
+    .btn {
+        --bs-btn-padding-x: 0.35rem;
     }
 
     @media (max-width: 768px) {

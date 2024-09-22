@@ -50,6 +50,9 @@
                 <a href="userReport" class="list-group-item list-group-item-action">
                     <i class="fas fa-user me-2"></i> User Report
                 </a>
+                <a href="feedbackReport" class="list-group-item list-group-item-action">
+                    <i class="fas fa-comment-dots me-2"></i> Feedback Report
+                </a>
                 <a href="AdminProfile" class="list-group-item list-group-item-action">
                     <i class="fas fa-backward me-2"></i> Back to Profile
                 </a>
