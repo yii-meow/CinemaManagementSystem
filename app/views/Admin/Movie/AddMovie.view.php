@@ -163,10 +163,9 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     if (data.success) {
                         alert("Movie added successfully!");
-                        // location.reload();
+                        window.location.href = "<?=ROOT?>/MovieManagement";
                     } else {
                         alert('Error: ' + data.message);
                         console.error('Detailed error:', data.error);

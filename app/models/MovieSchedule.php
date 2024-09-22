@@ -27,7 +27,6 @@ class MovieSchedule
     #[ORM\JoinColumn(name: 'cinemaHallId', referencedColumnName: 'hallId')]
     private $cinemaHall = null;
 
-
     #[ORM\OneToMany(mappedBy: 'movieSchedule', targetEntity: Ticket::class, fetch: "EXTRA_LAZY")]
     private $tickets;
 
@@ -41,9 +40,6 @@ class MovieSchedule
     {
         $this->tickets = $tickets;
     }
-
-
-
 
     public function getMovieScheduleId(): ?int
     {

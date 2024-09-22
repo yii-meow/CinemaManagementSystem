@@ -21,11 +21,13 @@ class Homepage
         $cinemas = $this->cinemaFacade->getAllCinemas();
         $showtimes = $this->cinemaFacade->getMovieSchedules();
         $comingSoonMovies = $this->cinemaFacade->getComingSoonMovies();
+        $topFiveMovies = $this->cinemaFacade->getTopFiveMovies();
 
         $this->view('Customer/Movie/Homepage', [
             'cinemas' => $cinemas,
             'moviesWithGroupedSchedules' => $showtimes,
-            "comingSoonMovies" => $comingSoonMovies
+            "comingSoonMovies" => $comingSoonMovies,
+            "topFiveMovies" => $topFiveMovies
         ]);
     }
 }
