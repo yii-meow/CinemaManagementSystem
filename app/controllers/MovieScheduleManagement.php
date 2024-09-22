@@ -2,6 +2,7 @@
 /**
  * @author Chong Yik Soon
  */
+
 namespace App\controllers;
 
 use App\core\Controller;
@@ -30,7 +31,7 @@ class MovieScheduleManagement
         }
     }
 
-    public function addHallMovieSchedule()
+    public function addMovieSchedule()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $cinemaHallId = $_POST['cinemaHallId'] ?? '';
@@ -43,8 +44,12 @@ class MovieScheduleManagement
             }
 
             try {
-                $this->cinemaFacade->addMovieSchedule($cinemaHallId, $movieId, $startingTime);
-                jsonResponse(['success' => true, 'message' => 'Movie schedule added successfully']);
+                $result = $this->cinemaFacade->addMovieSchedule($cinemaHallId, $movieId, $startingTime);
+                if ($result === true) {
+                    jsonResponse(['success' => true, 'message' => 'Movie schedule added successfully']);
+                } else {
+                    jsonResponse(['success' => false, 'message' => $result]);
+                }
             } catch (\Exception $e) {
                 jsonResponse(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()]);
             }

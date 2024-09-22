@@ -6,7 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.txt" beforeDir="false" afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Facade/CinemaFacade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/AddMovie.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/MovieManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MovieManagement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/MovieScheduleManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/MovieScheduleManagement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/repositories/MovieScheduleRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/MovieScheduleRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Hall/HallMovieSchedule.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Movie/MovieManagement.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Movie/MovieManagement.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/adminSidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/adminSidebar.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

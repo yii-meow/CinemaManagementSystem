@@ -45,10 +45,18 @@
                         Feedback
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="<?= ROOT ?>/TicketPricingManagement">
                         <i class="fa fa-ticket me-4 fa-lg"></i>
                         Ticket Pricing
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= ROOT ?>/LogViewer">
+                        <i class="fas fa-file-text-o me-4 fa-lg"></i>
+                        Logs
                     </a>
                 </li>
 

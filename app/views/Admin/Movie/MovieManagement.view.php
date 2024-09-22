@@ -63,7 +63,7 @@
 
             <!-- Filters and Sorting -->
             <div class="mb-4 d-flex flex-row-reverse">
-                <a href="<?= ROOT ?>/AddMovie" class="w-25">
+                <a href="<?= ROOT ?>/MovieManagement/addPage" class="w-25">
                     <button class="btn btn-primary px-4 py-2 w-100">
                         <i class="fa fa-plus me-3"></i>Add New Movie
                     </button>

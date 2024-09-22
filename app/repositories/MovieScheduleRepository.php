@@ -167,4 +167,18 @@ class MovieScheduleRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function findSchedulesForHallAndDate($hallId, \DateTime $date)
+    {
+        $qb = $this->createQueryBuilder('ms');
+        $qb->where('ms.cinemaHall = :hallId')
+            ->andWhere('ms.startingTime >= :startOfDay')
+            ->andWhere('ms.startingTime < :endOfDay')
+            ->setParameter('hallId', $hallId)
+            ->setParameter('startOfDay', $date->format('Y-m-d 00:00:00'))
+            ->setParameter('endOfDay', $date->format('Y-m-d 23:59:59'))
+            ->orderBy('ms.startingTime', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
 }

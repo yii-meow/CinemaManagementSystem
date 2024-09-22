@@ -226,7 +226,7 @@
             e.preventDefault();
             const formData = new FormData(this);
 
-            fetch('<?=ROOT?>/MovieScheduleManagement/addHallMovieSchedule', {
+            fetch('<?=ROOT?>/MovieScheduleManagement/addMovieSchedule', {
                 method: 'POST',
                 body: formData
             })

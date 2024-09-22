@@ -322,6 +322,52 @@ class CinemaFacade
             throw new \Exception("Invalid movie or cinema hall");
         }
 
+        $newStartTime = new DateTime($startingTime);
+
+        $currentTime = new DateTime();
+        // Check if the new start time is in the past
+        if ($newStartTime < $currentTime) {
+            $this->logger->info('MovieSchedule cannot be in the past time', [
+                'movie id' => $movieId,
+                'cinema hall id' => $cinemaHallId,
+                'starting time' => $startingTime,
+            ]);
+            return "Cannot schedule a movie for a past time. Please choose a future time.";
+        }
+
+        $newEndTime = clone $newStartTime;
+        $newEndTime->modify('+' . $movie->getDuration() . ' minutes');
+
+        // Get all schedules for the cinema hall on the same day
+        $existingSchedules = $this->movieScheduleRepository->findSchedulesForHallAndDate($cinemaHallId, $newStartTime);
+
+        foreach ($existingSchedules as $schedule) {
+            $existingStartTime = $schedule->getStartingTime();
+            $existingMovie = $schedule->getMovie();
+            $existingEndTime = clone $existingStartTime;
+            $existingEndTime->modify('+' . $existingMovie->getDuration() . ' minutes');
+
+            // Check for showtime overlap
+            if (
+                ($newStartTime >= $existingStartTime && $newStartTime < $existingEndTime) ||
+                ($newEndTime > $existingStartTime && $newEndTime <= $existingEndTime) ||
+                ($newStartTime <= $existingStartTime && $newEndTime >= $existingEndTime)
+            ) {
+                $this->logger->error('MovieSchedule added is overlapped with an existing movie: ', [
+                    'existing movie' => $existingMovie->getTitle(),
+                    'existing start time' => $existingStartTime->format('g:i A'),
+                    'existing end time' => $existingEndTime->format('g:i A'),
+                    'your schedule time' => $startingTime
+                ]);
+
+                return "The new schedule overlaps with an existing movie: " .
+                    $existingMovie->getTitle() . " (" .
+                    $existingStartTime->format('g:i A') . " - " .
+                    $existingEndTime->format('g:i A') . ").";
+            }
+        }
+
+
         $movieSchedule = new MovieSchedule();
         $movieSchedule->setStartingTime(new DateTime($startingTime));
         $movieSchedule->setMovie($movie);
@@ -336,7 +382,7 @@ class CinemaFacade
             'starting time' => $startingTime,
         ]);
 
-        return $movieSchedule;
+        return true;
     }
 
     public function updateMovieSchedule($scheduleId, DateTime $startingTime)
