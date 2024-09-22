@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @author Chong Yik Soon
+ */
 namespace App\Logger;
 
 use Monolog\Logger;
