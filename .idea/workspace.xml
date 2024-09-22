@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad2de01c-1e1d-4872-8f4f-bbcb0d6b49b9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SQLSccript" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SQLSccript" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/core/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/config.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,6 +96,7 @@
       <recent name="C:\xampp\htdocs\CinemaManagementSystem\WebServices\ChongYikSoon" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\CinemaManagementSystem\SQLScript" />
       <recent name="C:\xampp\htdocs\CinemaManagementSystem\vendor" />
     </key>
   </component>
@@ -115,20 +118,12 @@
       <updated>1726595669913</updated>
       <workItem from="1726595671211" duration="372000" />
       <workItem from="1726708376464" duration="48262000" />
-<<<<<<< Updated upstream
       <workItem from="1726829590849" duration="10319000" />
       <workItem from="1726871528536" duration="11236000" />
       <workItem from="1726922459644" duration="12512000" />
       <workItem from="1726973261248" duration="5378000" />
       <workItem from="1726982433251" duration="767000" />
-      <workItem from="1726983263293" duration="653000" />
-=======
-      <workItem from="1726799035313" duration="3304000" />
-      <workItem from="1726805195568" duration="6931000" />
-      <workItem from="1726815957773" duration="13932000" />
-      <workItem from="1726860406175" duration="10462000" />
-      <workItem from="1726925204308" duration="1089000" />
->>>>>>> Stashed changes
+      <workItem from="1726983263293" duration="1024000" />
     </task>
     <servers />
   </component>
