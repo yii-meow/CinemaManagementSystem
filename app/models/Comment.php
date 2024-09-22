@@ -4,7 +4,7 @@ namespace App\models;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use SplSubject;
-//Concrete Subject in Observer Design Pattern
+//Concrete LikeSubject in Observer Design Pattern
 
 #[ORM\Entity]
 #[ORM\Table(name: 'Comment')]

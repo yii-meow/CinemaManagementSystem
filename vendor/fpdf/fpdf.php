@@ -239,8 +239,8 @@ function SetAuthor($author, $isUTF8=false)
 
 function SetSubject($subject, $isUTF8=false)
 {
-	// Subject of document
-	$this->metadata['Subject'] = $isUTF8 ? $subject : $this->_UTF8encode($subject);
+	// LikeSubject of document
+	$this->metadata['LikeSubject'] = $isUTF8 ? $subject : $this->_UTF8encode($subject);
 }
 
 function SetKeywords($keywords, $isUTF8=false)

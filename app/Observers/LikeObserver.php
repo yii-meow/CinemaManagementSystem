@@ -1,20 +1,24 @@
 <?php
+
 namespace App\Observers;
 
-use App\models\Comment;
+use App\Observers\Subject;
 use App\models\Post;
-use App\models\User;
-use App\Observers\ObserverInterface;
 
-// respond to changes by updating the like count
+// respond to changes by updating the like count or sending a notification when a post is liked or unliked.
 
+class LikeObserver extends Observer {
 
-class LikeObserver implements ObserverInterface {
-    public function update(string $event, Post $post = null, User $user = null, Comment $comment = null, string $replyText = null): void {
-        /*if ($event === 'like' || $event === 'unlike') {
-            //$this->updateLikeCount($post);
-            echo $user->getUserName() . " " . ($event === 'like' ? "liked" : "unliked") . " the post: " . $post->getContent() . "\n";
-        }*/
+    public function update(string $action, $post, $user): void {
+        $likeCount = $post->getLikes()->count();
+
+        $message = ($action === 'like')
+            ? "Post liked by user. New like count: $likeCount."
+            : "Post unliked by user. New like count: $likeCount.";
+
+        error_log($message);
     }
 
 }
+
+

@@ -121,10 +121,6 @@
       <commentText>Agree</commentText>
     </Comment>
     <Like>
-      <likeID>51</likeID>
-      <likeDate>2024-09-18 18:01:24</likeDate>
-    </Like>
-    <Like>
       <likeID>79</likeID>
       <likeDate>2024-09-19 08:55:03</likeDate>
     </Like>
@@ -148,30 +144,9 @@
       <likeID>85</likeID>
       <likeDate>2024-09-19 07:18:22</likeDate>
     </Like>
-  </Post>
-  <Post>
-    <postID>89</postID>
-    <content>各位 我建议你们可以去看看这部电影《你好》</content>
-    <postDate>2024-09-18 15:32:23</postDate>
     <Like>
-      <likeID>56</likeID>
-      <likeDate>2024-09-18 18:14:07</likeDate>
-    </Like>
-    <Like>
-      <likeID>78</likeID>
-      <likeDate>2024-09-19 08:54:52</likeDate>
-    </Like>
-    <Like>
-      <likeID>86</likeID>
-      <likeDate>2024-09-19 07:18:22</likeDate>
-    </Like>
-    <Like>
-      <likeID>87</likeID>
-      <likeDate>2024-09-19 07:18:23</likeDate>
-    </Like>
-    <Like>
-      <likeID>88</likeID>
-      <likeDate>2024-09-19 07:18:23</likeDate>
+      <likeID>116</likeID>
+      <likeDate>2024-09-21 15:58:41</likeDate>
     </Like>
   </Post>
   <Post>
@@ -182,10 +157,6 @@
       <commentID>26</commentID>
       <commentText>hihi</commentText>
     </Comment>
-    <Like>
-      <likeID>54</likeID>
-      <likeDate>2024-09-18 18:12:54</likeDate>
-    </Like>
   </Post>
   <Post>
     <postID>91</postID>
@@ -229,9 +200,14 @@
       <commentID>30</commentID>
       <commentText>ijfewoif</commentText>
     </Comment>
+  </Post>
+  <Post>
+    <postID>97</postID>
+    <content>Interesting</content>
+    <postDate>2024-09-21 03:00:26</postDate>
     <Like>
-      <likeID>55</likeID>
-      <likeDate>2024-09-18 18:13:25</likeDate>
+      <likeID>112</likeID>
+      <likeDate>2024-09-21 12:37:29</likeDate>
     </Like>
   </Post>
 </PostActivity>

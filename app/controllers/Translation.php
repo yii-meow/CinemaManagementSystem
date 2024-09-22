@@ -10,6 +10,7 @@ class Translation
     use Controller;
     public function index()
     {
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $postContent = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 

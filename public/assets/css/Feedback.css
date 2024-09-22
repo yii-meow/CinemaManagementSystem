@@ -607,3 +607,9 @@ textarea.form-control {
 .hover-red:hover {
     color: #f03351;
 }
+
+.fs-large {
+    font-size: large;
+}
+
+

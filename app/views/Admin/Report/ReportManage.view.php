@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
           integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" type="image/x-icon" href="<?= ROOT ?>/assets/images/icon.png" />
+
     <title>Report Manage</title>
     <style>
         .sidebar {
@@ -47,6 +49,9 @@
             <div class="list-group">
                 <a href="userReport" class="list-group-item list-group-item-action">
                     <i class="fas fa-user me-2"></i> User Report
+                </a>
+                <a href="feedbackReport" class="list-group-item list-group-item-action">
+                    <i class="fas fa-comment-dots me-2"></i> Feedback Report
                 </a>
                 <a href="AdminProfile" class="list-group-item list-group-item-action">
                     <i class="fas fa-backward me-2"></i> Back to Profile

@@ -85,7 +85,7 @@ class MessageList extends ListResource
                 $options['contentSid'],
             'ContentVariables' =>
                 $options['contentVariables'],
-            'Subject' =>
+            'LikeSubject' =>
                 $options['subject'],
         ]);
 

@@ -34,25 +34,6 @@
 
     <div class="right-header">
         <div class="action-group" style="display: flex; flex-flow: row nowrap;">
-            <div class="nofitication-cont">
-                <div>
-                    <i onclick="openMessage()"
-                       style="cursor: pointer; position: relative; top: 0; color: white; font-size: 28px;"
-                       class="fa-regular fa-bell" id="bell"></i>
-                    <div runat="server" ID="REDDOT"
-                         style="position: absolute; top: 0; right: 0; border-radius: 100px; background-color: #ff2b2b; height: 11px; width: 11px;">
-                    </div>
-                </div>
-
-                <div class="messages" style="display: none;">
-                    <ul id="dropdownMessage" tabindex="-1" class="dropdown-menu dropdown-menu-end"
-                        aria-labelledby="navbarDropdownMenuLink">
-                        <li>
-                            abcde
-                        </li>
-                    </ul>
-                </div>
-            </div>
 
             <?php if (isset($_SESSION['userId'])): ?>
                 <!-- User is logged in -->

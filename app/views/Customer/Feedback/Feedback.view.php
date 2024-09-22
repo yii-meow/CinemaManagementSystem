@@ -1,6 +1,3 @@
-<?php
-$app = new App;
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,192 +28,9 @@ $app = new App;
 
 <body>
 
-<body>
 <div id="Customer">
-
-    <!--Header-->
-    <div class="header" id="header">
-
-        <div class="binder">
-
-
-            <div style="margin-left: 20px;" class="business-icon">
-                <div
-                    style="color: white; height: inherit; text-align: center; font-weight: bold; font-size: 20px;">
-                    <img src="<?= ROOT ?>/assets/images/alternativeIcon.png" draggable="false" width="200" height="55"/>
-                </div>
-            </div>
-
-
-            <div class="search-ctn col-7" style="margin-top: auto; margin-bottom: auto;">
-                <div class="search-ctn input-group"
-                     style="display: flex; flex-flow: row nowrap; min-width: 100%;" role="search">
-                    <div class="s-box col-11">
-                        <input type="text" autocomplete="off"
-                               style="outline:2px solid #f03351; color: #f03351; position: relative; border-bottom-right-radius: 0px; border-top-right-radius: 0px;"
-                               id="txtSearch" class="form-control border border-1 search-bar"
-                               placeholder="Movie Title"/>
-                    </div>
-                    <div>
-                        <button id="btnSch"
-                                style="background-color: #141414; width: fit-content; border-bottom-left-radius: 0px; border-top-left-radius: 0px; border-color: #f03351; height: 41px; margin-top: -2px;"
-                                class="btn-light btn btn-search">
-                            <i style="color: #f03351; font-size: 18px; display: flex; justify-content: center; align-items: center; margin-top: 4.5px; height: 18px;"
-                               class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="right-header">
-
-            <div class="action-group" style="display: flex; flex-flow: row nowrap;">
-
-
-                <div class="nofitication-cont">
-                    <div>
-                        <i onclick="openMessage()"
-                           style="cursor: pointer; position: relative; top: 0; color: white; font-size: 28px;"
-                           class="fa-regular fa-bell" id="bell"></i>
-                        <div runat="server" ID="REDDOT"
-                             style="position: absolute; top: 0; right: 0; border-radius: 100px; background-color: #ff2b2b; height: 11px; width: 11px;">
-                        </div>
-                    </div>
-
-                    <div class="messages">
-                        <ul id="dropdownMessage" tabindex="-1" class="dropdown-menu dropdown-menu-end"
-                            aria-labelledby="navbarDropdownMenuLink">
-                            <li>
-                                abcde
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-
-                <div class="profile-container action" id="profile">
-                    <div style="margin-top: auto; margin-bottom: auto;">
-                        <button onclick="" class="btn header-font"
-                                style="padding:10px; width: 160px; font-size: 17px; display: flex; color: #f03351;">
-                            <div
-                                style="margin-top: -3px; border-radius: 150px; width: 30px; height: 30px; overflow: hidden;">
-                                <img src="<?= ROOT ?>/assets/images/defaultProfile.jpg" draggable="false"
-                                     style="background-color: white; border-radius: 100px; width: 30px; height: 30px;"
-                                     id="topImage"/>
-                            </div>
-                            &nbsp;
-                            User Profile
-                        </button>
-                    </div>
-                </div>
-
-                <div class="login action" style="margin-right: 20px;">
-                    <div style="margin-top: auto; margin-bottom: auto;">
-                        <button ID="btnLgn" class="topBtns btn dropdown-toggle header-font"
-                                data-bs-toggle="dropdown" aria-expanded="false"
-                                Style="font-size: 17px; color:#f03351">
-                            <i style="color: #f03351; font-size:18px"
-                               class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;
-                            Login
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li id="userlogin">
-                                <a href="" id="hrefCustomer" class="dropdown-item LoginHover">Customer</a>
-                            </li>
-                            <li id="stafflogin">
-                                <a id="hrefStaff" href="" class="dropdown-item LoginHover">Staff</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-
-    <!--Navigation Bar-->
-    <div class="dropdowns" style="display: flex; flex-flow: row nowrap;">
-        <div class="drop">
-            <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                NEW MOVIES
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="">New Action</a></li>
-                <li><a class="dropdown-item" href="">New Horror</a></li>
-                <li><a class="dropdown-item" href="">New Animation</a></li>
-                <li><a class="dropdown-item" href="">New Romance</a></li>
-            </ul>
-        </div>
-        <div class="drop">
-            <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                ACTION
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="">Superhero</a></li>
-                <li><a class="dropdown-item" href="">War</a></li>
-                <li><a class="dropdown-item" href="">Adventure</a></li>
-            </ul>
-        </div>
-        <div class="drop">
-            <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                HORROR
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="">Supernatural Horror</a></li>
-                <li><a class="dropdown-item" href="">Zombie</a></li>
-            </ul>
-        </div>
-        <div class="drop">
-            <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                ANIMATION
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="">2D Animation</a></li>
-                <li><a class="dropdown-item" href="">3D Animation</a></li>
-                <li><a class="dropdown-item" href="">Anime</a></li>
-            </ul>
-        </div>
-        <div class="drop">
-            <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                ROMANCE
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="">Romantic Comedy</a></li>
-                <li><a class="dropdown-item" href="">Romantic Drama</a></li>
-            </ul>
-        </div>
-        <ul class="nav-item dropdown">
-            <button class="btn dropbtn" type="button" aria-expanded="false">
-                <a href="" style="text-decoration: none;"> NOW SHOWING</a>
-            </button>
-        </ul>
-        <ul class="nav-item dropdown">
-            <button class="btn dropbtn" type="button" aria-expanded="false">
-                <a href="" style="text-decoration: none;"> COMING SOON</a>
-            </button>
-        </ul>
-        <div class="drop">
-            <button class="btn dropdown-toggle dropbtn" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                FORUM
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/Forum/Forum.html">Community Forum</a></li>
-                <li><a class="dropdown-item" href="/Forum/Forum.html">Create Post</a></li>
-                <li><a class="dropdown-item" href="/Forum/Forum.html">My Post</a></li>
-                <li><a class="dropdown-item" href="/Forum/Forum.html">Liked Post</a></li>
-            </ul>
-        </div>
-    </div>
+    <?php include(dirname(__DIR__) . '../../header.php') ?>
+    <?php include(dirname(__DIR__) . '../../navigationBar.php') ?>
 
 
     <!--Main Contents-->
@@ -229,7 +43,7 @@ $app = new App;
             <br><br><br>
             <div class="inner-container">
 
-                <form id="createFeedbackForm" enctype="multipart/form-data" method="post" action="Feedback/submit">
+                <form id="feedbackForm" enctype="multipart/form-data" method="post" action="FeedbackController/submit">
                     <div class="mb-3">
                         <label for="feedback" class="form-label">My feedback</label>
                         <textarea class="form-control" id="feedback" rows="4"
@@ -302,16 +116,27 @@ $app = new App;
     </footer>
 
 
+    <!-- Modal -->
+    <div class="modal fade" id="thankYouModal" tabindex="-1" role="dialog" aria-labelledby="thankYouModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="thankYouModalLabel">Thank You!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Your feedback has been submitted successfully!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-    <!--JavaScripts-->
-    <script src="https://kit.fontawesome.com/06c32b9e65.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script type="text/javascript">
-
-
-    </script>
 </body>
 
 </html>
