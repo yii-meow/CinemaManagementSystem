@@ -20,7 +20,9 @@ All the models are called inside the controllers and can be modified and then be
 1. Put this folder to xampp/htdocs.
 2. Insert the sql table and values.
 3. Edit /app/core/config.php, change the root variable to your port number, in case you use port other than 80.
-4. In the webpage, navigate to localhost/CinemaManagementSystem/public/ path, it will show the homepage.
+4. Currently, this project is connecting to the AWS Cloud RDS Database, and all the database credentials are stored in .env file.
+If you need to maintain your own database, you need to change the credentials accordingly.
+5. In the webpage, navigate to localhost/CinemaManagementSystem/public/ path, it will show the homepage.
 
 Predefined user credentials
 username: 0143551931

@@ -3,6 +3,7 @@
 namespace App\repositories;
 
 use App\models\MovieSchedule;
+use App\models\Movie;
 use Doctrine\ORM\EntityRepository;
 use DoctrineExtensions\Query\Mysql\Date;
 
@@ -117,6 +118,66 @@ class MovieScheduleRepository extends EntityRepository
             ->setParameter('date_start', $date->format('Y-m-d 00:00:00'))  //Get a specific date
             ->setParameter('date_end', $date->format('Y-m-d 23:59:59'))  //Get a specific date
             ->groupBy('ch.hallType');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findTodayMovieSchedules($search = '', $category = '')
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $today = new \DateTime('today');
+        $tomorrow = new \DateTime('tomorrow');
+
+        $qb->select('m', 'ms', 'ch', 'c')
+            ->from(Movie::class, 'm')
+            ->leftJoin('m.movieSchedules', 'ms')
+            ->leftJoin('ms.cinemaHall', 'ch')
+            ->leftJoin('ch.cinema', 'c')
+            ->where('m.status = :status')
+            ->andWhere('ms.startingTime >= :today')
+            ->andWhere('ms.startingTime < :tomorrow')
+            ->setParameter('status', 'Now Showing')
+            ->setParameter('today', $today)
+            ->setParameter('tomorrow', $tomorrow);
+
+        if ($search) {
+            $qb->andWhere($qb->expr()->like('m.title', ':search'))
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        if ($category && $category !== 'All') {
+            $qb->andWhere($qb->expr()->like('m.catagory', ':category'))
+                ->setParameter('category', '%' . $category . '%');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getTopFiveMovies()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('m.movieId, m.title, m.photo, COUNT(ms.movieScheduleId) as scheduleCount')
+            ->from(Movie::class, 'm')
+            ->leftJoin('m.movieSchedules', 'ms')
+            ->where('m.status = :status')
+            ->setParameter('status', 'Now Showing')
+            ->groupBy('m.movieId')
+            ->orderBy('scheduleCount', 'DESC')
+            ->setMaxResults(5);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findSchedulesForHallAndDate($hallId, \DateTime $date)
+    {
+        $qb = $this->createQueryBuilder('ms');
+        $qb->where('ms.cinemaHall = :hallId')
+            ->andWhere('ms.startingTime >= :startOfDay')
+            ->andWhere('ms.startingTime < :endOfDay')
+            ->setParameter('hallId', $hallId)
+            ->setParameter('startOfDay', $date->format('Y-m-d 00:00:00'))
+            ->setParameter('endOfDay', $date->format('Y-m-d 23:59:59'))
+            ->orderBy('ms.startingTime', 'ASC');
 
         return $qb->getQuery()->getResult();
     }

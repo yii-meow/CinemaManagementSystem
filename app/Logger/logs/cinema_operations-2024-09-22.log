@@ -1,0 +1,13 @@
+[2024-09-22 10:40:25] INFO: MovieSchedule added {"movie id":"3","cinema hall id":"33","starting time":"2024-09-28T21:40"}
+[2024-09-22 10:40:50] INFO: MovieSchedule added {"movie id":"2","cinema hall id":"33","starting time":"2024-09-25T20:40"}
+[2024-09-22 10:41:45] INFO: MovieSchedule added {"movie id":"1","cinema hall id":"33","starting time":"2024-09-30T15:45"}
+[2024-09-22 10:46:12] INFO: Cinema updated {"cinemaId":"19","updatedFields":["cinemaId","name","address","city","state","openingHours"]}
+[2024-09-22 10:46:30] INFO: MovieSchedule added {"movie id":"1","cinema hall id":"40","starting time":"2024-09-28T16:48"}
+[2024-09-22 10:47:00] INFO: MovieSchedule added {"movie id":"5","cinema hall id":"40","starting time":"2024-09-26T16:46"}
+[2024-09-22 10:48:22] INFO: MovieSchedule added {"movie id":"2","cinema hall id":"40","starting time":"2024-09-27T16:48"}
+[2024-09-22 10:48:46] INFO: MovieSchedule added {"movie id":"39","cinema hall id":"40","starting time":"2024-09-22T21:48"}
+[2024-09-22 10:51:38] INFO: CinemaHall added {"cinemaId":"18","hall name":"H01","capacity":"60","hall type":"IMAX"}
+[2024-09-22 10:51:54] INFO: MovieSchedule added {"movie id":"14","cinema hall id":"42","starting time":"2024-09-22T16:52"}
+[2024-09-22 10:52:20] ERROR: The new schedule overlaps with an existing movie:  {"existing movie":"It Ends with Us","existing start time":"4:52 PM","existing end time":"7:03 PM"}
+[2024-09-22 10:55:42] INFO: MovieSchedule cannot be in the past time {"movie id":"5","cinema hall id":"33","starting time":"2024-09-06T16:55"}
+[2024-09-22 10:55:53] INFO: MovieSchedule added {"movie id":"5","cinema hall id":"33","starting time":"2024-09-22T17:55"}

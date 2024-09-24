@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!--
+* @author Angeline Chuang May Teng
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-size: 18px;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Text Translator</h1>
+
+    <form id="translationForm">
+        <label for="content">Enter text to translate:</label>
+        <textarea id="content" name="content" placeholder="Type your text here..." required></textarea>
+        <button type="submit">Translate</button>
+    </form>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    document.getElementById('translationForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Get the content to be translated
+        const content = document.getElementById('content').value;
+
+        // Send a POST request to the Translation API
+        fetch('http://localhost/CinemaManagementSystem/app/controllers/Translation.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                content: content
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.translatedText) {
+                    document.getElementById('result').innerHTML = `<strong>Translated Text:</strong> ${data.translatedText}`;
+                } else if (data.error) {
+                    document.getElementById('result').innerHTML = `<span class="error">Error: ${data.error}</span>`;
+                }
+            })
+            .catch(error => {
+                document.getElementById('result').innerHTML = `<span class="error">Error: ${error.message}</span>`;
+            });
+    });
+</script>
+
+</body>
+</html>

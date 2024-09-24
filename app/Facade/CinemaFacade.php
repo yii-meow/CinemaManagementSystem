@@ -2,6 +2,7 @@
 /**
  * @author Chong Yik Soon
  */
+
 namespace App\Facade;
 
 use App\core\Database;
@@ -321,6 +322,52 @@ class CinemaFacade
             throw new \Exception("Invalid movie or cinema hall");
         }
 
+        $newStartTime = new DateTime($startingTime);
+
+        $currentTime = new DateTime();
+        // Check if the new start time is in the past
+        if ($newStartTime < $currentTime) {
+            $this->logger->info('MovieSchedule cannot be in the past time', [
+                'movie id' => $movieId,
+                'cinema hall id' => $cinemaHallId,
+                'starting time' => $startingTime,
+            ]);
+            return "Cannot schedule a movie for a past time. Please choose a future time.";
+        }
+
+        $newEndTime = clone $newStartTime;
+        $newEndTime->modify('+' . $movie->getDuration() . ' minutes');
+
+        // Get all schedules for the cinema hall on the same day
+        $existingSchedules = $this->movieScheduleRepository->findSchedulesForHallAndDate($cinemaHallId, $newStartTime);
+
+        foreach ($existingSchedules as $schedule) {
+            $existingStartTime = $schedule->getStartingTime();
+            $existingMovie = $schedule->getMovie();
+            $existingEndTime = clone $existingStartTime;
+            $existingEndTime->modify('+' . $existingMovie->getDuration() . ' minutes');
+
+            // Check for showtime overlap
+            if (
+                ($newStartTime >= $existingStartTime && $newStartTime < $existingEndTime) ||
+                ($newEndTime > $existingStartTime && $newEndTime <= $existingEndTime) ||
+                ($newStartTime <= $existingStartTime && $newEndTime >= $existingEndTime)
+            ) {
+                $this->logger->error('MovieSchedule added is overlapped with an existing movie: ', [
+                    'existing movie' => $existingMovie->getTitle(),
+                    'existing start time' => $existingStartTime->format('g:i A'),
+                    'existing end time' => $existingEndTime->format('g:i A'),
+                    'your schedule time' => $startingTime
+                ]);
+
+                return "The new schedule overlaps with an existing movie: " .
+                    $existingMovie->getTitle() . " (" .
+                    $existingStartTime->format('g:i A') . " - " .
+                    $existingEndTime->format('g:i A') . ").";
+            }
+        }
+
+
         $movieSchedule = new MovieSchedule();
         $movieSchedule->setStartingTime(new DateTime($startingTime));
         $movieSchedule->setMovie($movie);
@@ -335,7 +382,7 @@ class CinemaFacade
             'starting time' => $startingTime,
         ]);
 
-        return $movieSchedule;
+        return true;
     }
 
     public function updateMovieSchedule($scheduleId, DateTime $startingTime)
@@ -398,17 +445,7 @@ class CinemaFacade
 
     public function getTopFiveMovies()
     {
-        $qb = $this->entityManager->createQueryBuilder();
-        $qb->select('m.movieId, m.title, m.photo, COUNT(ms.movieScheduleId) as scheduleCount')
-            ->from(Movie::class, 'm')
-            ->leftJoin('m.movieSchedules', 'ms')
-            ->where('m.status = :status')
-            ->setParameter('status', 'Now Showing')
-            ->groupBy('m.movieId')
-            ->orderBy('scheduleCount', 'DESC')
-            ->setMaxResults(5);
-
-        $result = $qb->getQuery()->getResult();
+        $result = $this->movieScheduleRepository->getTopFiveMovies();
 
         return array_map(function ($row) {
             return [
@@ -422,28 +459,7 @@ class CinemaFacade
 
     public function searchMovies($search = '', $category = '')
     {
-        $qb = $this->entityManager->createQueryBuilder();
-        $qb->select('m', 'ms', 'ch', 'c')
-            ->from(Movie::class, 'm')
-            ->leftJoin('m.movieSchedules', 'ms')
-            ->leftJoin('ms.cinemaHall', 'ch')
-            ->leftJoin('ch.cinema', 'c')
-            ->where('m.status = :status')
-            ->setParameter('status', 'Now Showing');
-
-        // If user using search query
-        if ($search) {
-            $qb->andWhere($qb->expr()->like('m.title', ':search'))
-                ->setParameter('search', '%' . $search . '%');
-        }
-
-        // If user click the category
-        if ($category && $category !== 'All') {
-            $qb->andWhere($qb->expr()->like('m.catagory', ':category'))
-                ->setParameter('category', '%' . $category . '%');
-        }
-
-        $movies = $qb->getQuery()->getResult();
+        $movies = $this->movieScheduleRepository->findTodayMovieSchedules($search, $category);
 
         $moviesWithGroupedSchedules = [];
         foreach ($movies as $movie) {
