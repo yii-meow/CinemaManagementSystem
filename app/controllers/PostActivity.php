@@ -50,7 +50,7 @@ class PostActivity {
             exit;
         }
 
-        $this->generateXML($userID);
+        $this->generateXML($userID);// 1 create xml file
 
         $xmlPath = 'C:\xampp\htdocs\CinemaManagementSystem\app\xml\postData';
         $xslPath = 'C:\xampp\htdocs\CinemaManagementSystem\app\xml\postActivity';
@@ -147,7 +147,7 @@ class PostActivity {
         }
 
 
-
+// 2 generate xml
    private function generateXML($userID) {
     // Retrieve the user's posts data
     $posts = $this->postRepository->findBy(['user' => $userID]);

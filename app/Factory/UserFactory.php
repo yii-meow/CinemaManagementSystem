@@ -68,7 +68,9 @@ class UserFactory {
                 session_start();
                 session_regenerate_id(true); // Generate a new session ID
 
-                $user = UserFactory::createUser('admin', $admin->getUserId(), $admin->getUserName(), $admin->getPhoneNo(), $admin->getPassword(), $admin->getRole(), null, null, null, null, null);
+                $user = UserFactory::createUser('admin', $admin->getUserId(), $admin->getUserName(), $admin->getPhoneNo(),
+                    $admin->getPassword(), $admin->getRole(),
+                    null, null, null, null, null);
 
                 $_SESSION['admin'] = [
                     'userId' => $admin->getUserId(),

@@ -36,7 +36,7 @@ class AddCommentReply
         $data = ['error' => null];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userID = $_SESSION['userID']; // Get userID from session
+            $userID = $_SESSION['userId']; // Get userID from session
 
             $postID = filter_input(INPUT_POST, 'postID', FILTER_SANITIZE_NUMBER_INT);
             //  $commentID = filter_input(INPUT_POST, 'commentID', FILTER_SANITIZE_NUMBER_INT);

@@ -11,9 +11,12 @@ use App\models\Post;
 
 class LikeObserver extends Observer {
 
+    // 9
     public function update(string $action, $post, $user): void {
+        // get the updated like count
         $likeCount = $post->getLikes()->count();
 
+        // check action
         $message = ($action === 'like')
             ? "Post liked by user. New like count: $likeCount."
             : "Post unliked by user. New like count: $likeCount.";

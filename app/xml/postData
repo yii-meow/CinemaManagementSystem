@@ -78,10 +78,14 @@
     <postID>86</postID>
     <content>Really funny</content>
     <postDate>2024-09-18 13:04:13</postDate>
-    <Like>
-      <likeID>58</likeID>
-      <likeDate>2024-09-19 05:26:55</likeDate>
-    </Like>
+    <Comment>
+      <commentID>33</commentID>
+      <commentText>hi</commentText>
+      <Reply>
+        <replyID>14</replyID>
+        <replyText>bye</replyText>
+      </Reply>
+    </Comment>
   </Post>
   <Post>
     <postID>87</postID>
@@ -187,10 +191,6 @@
         <replyText>bye</replyText>
       </Reply>
     </Comment>
-    <Like>
-      <likeID>50</likeID>
-      <likeDate>2024-09-18 18:01:06</likeDate>
-    </Like>
   </Post>
   <Post>
     <postID>94</postID>
@@ -214,5 +214,14 @@
     <postID>100</postID>
     <content>baik</content>
     <postDate>2024-09-21 19:06:45</postDate>
+    <Like>
+      <likeID>118</likeID>
+      <likeDate>2024-09-28 01:24:51</likeDate>
+    </Like>
+  </Post>
+  <Post>
+    <postID>102</postID>
+    <content>fwferefw</content>
+    <postDate>2024-09-28 01:30:52</postDate>
   </Post>
 </PostActivity>
