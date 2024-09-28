@@ -5,11 +5,7 @@
 namespace App\controllers;
 
 use App\Factory\UserFactory;
-use App\models\Admin;
-use App\models\User;
 use App\core\Controller;
-use App\core\Database;
-use App\controllers\SessionManagement;
 
 class Login extends SessionManagement
 {
@@ -42,11 +38,11 @@ class Login extends SessionManagement
     {
 
         $data = ['error' => null];
-        $userType = isset($_POST['userType']) ? $_POST['userType'] : 'user';  // Default to 'user' if not provided
+        $userType = $_POST['userType'] ?? 'user';  // Default to 'user' if not provided
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $phoneNo = isset($_POST['phoneNo']) ? $_POST['phoneNo'] : null;
-            $password = isset($_POST['password']) ? $_POST['password'] : null;
+            $phoneNo = $_POST['phoneNo'] ?? null;
+            $password = $_POST['password'] ?? null;
 
             // Validate input
             if (empty($phoneNo) || empty($password)) {
@@ -72,7 +68,7 @@ class Login extends SessionManagement
                         exit();
                     }else{
                         $data['user'] = $result['user'];
-                        $this->view('Customer/Movie/Homepage', $data);
+                        $this->view('Customer/User/Profile', $data);
                         exit();
                     }
 

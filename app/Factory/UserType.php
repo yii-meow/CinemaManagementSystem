@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\MappedSuperclass
  */
 #[ORM\MappedSuperclass]
-class UserType
+abstract class UserType
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]

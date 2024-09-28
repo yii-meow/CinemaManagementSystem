@@ -6,8 +6,7 @@ const { Twilio } = require('twilio');
 const app = express();
 const port = 3000;
 
-// Replace these with your Twilio credentials
-const accountSid = 'AC2e4d680e9dd3fa0e2ef3f8eff9b75a6f'; 
+const accountSid = 'AC2e4d680e9dd3fa0e2ef3f8eff9b75a6f';
 const authToken = '4fa9fadb08719738670e458ebd8a7051'; 
 const twilioPhoneNumber = '+19477770658';
 
@@ -22,20 +21,15 @@ app.post('/send-otp', async (req, res) => {
 
     const message = `Your OTP code is: ${otpCode}`;
 
-    // Validate the phone number (just an example, you can use more sophisticated validation)
-    if (!/^\+\d{1,14}$/.test(phoneNo)) {
-        return res.status(400).json({
-            success: false,
-            message: 'Invalid phone number format.'
-        });
-    }
-
     try {
         await client.messages.create({
             body: message,
             from: twilioPhoneNumber,
             to: phoneNo
         });
+
+        // Log the success message and OTP code to the console
+        console.log(`OTP sent successfully to ${phoneNo}. OTP Code: ${otpCode}`);
 
         res.json({
             success: true,

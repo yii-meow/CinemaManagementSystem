@@ -12,6 +12,8 @@ class RequestOTP
 
     public function index()
     {
+        session_start(); // Ensure the session is started
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $phoneNo = '+60' . $_POST['phoneNo'];
             $otpCode = rand(100000, 999999); // Generate OTP code
@@ -21,28 +23,28 @@ class RequestOTP
             $_SESSION['otp_code'] = $otpCode;
             $_SESSION['otp_expiry'] = time() + 60; // OTP valid for 5 minutes
 
-            // Send OTP request to Node.js server
+            // Send OTP request to Node.js server using cURL
             $url = 'http://localhost:3000/send-otp';
             $data = json_encode(['phoneNo' => $phoneNo, 'otpCode' => $otpCode]);
 
-            $options = [
-                'http' => [
-                    'header' => "Content-Type: application/json\r\n",
-                    'method' => 'POST',
-                    'content' => $data,
-                ],
-            ];
-            $context = stream_context_create($options);
+            // Initialize cURL
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 
-            // Handle HTTP request errors
-            $response = @file_get_contents($url, false, $context); // Suppress errors with @
+            $response = curl_exec($ch);
 
-            if ($response === FALSE) {
-                // Network error or server is down
-                $error = 'Failed to request OTP. Please check your Phone Number is correct.';
-                $this->view('Customer/User/ForgetPassVerify', ['error' => $error]);
+            // Handle cURL errors
+            if ($response === false) {
+                $error = curl_error($ch);
+                curl_close($ch);
+                $this->view('Customer/User/ForgetPassVerify', ['error' => 'Failed to request OTP. Please try again later. ' . $error]);
                 return;
             }
+
+            curl_close($ch);
 
             $responseData = json_decode($response, true);
 

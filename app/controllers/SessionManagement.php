@@ -27,7 +27,7 @@ class SessionManagement
             // Last request was more than 15 minutes
             session_unset(); // Clear session data
             session_destroy(); // Destroy session
-            header('Location: '.ROOT.'/Login/index?timeout=true'); // Redirect to login page
+            header('Location: '.ROOT.'/Login?timeout=true'); // Redirect to login page
             exit();
         }
 
