@@ -73,6 +73,9 @@
 </div>
 
 <script>
+    const API_URL = 'http://localhost:80/CinemaManagementSystem/public/Translation/index';
+
+    // Add event listener for form submission
     document.getElementById('translationForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
@@ -80,7 +83,7 @@
         const content = document.getElementById('content').value;
 
         // Send a POST request to the Translation API
-        fetch('http://localhost/CinemaManagementSystem/app/controllers/Translation.php', {
+        fetch(API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

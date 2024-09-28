@@ -19,6 +19,7 @@ class LikeSubject extends Subject {
         $this->likeRepository = $this->entityManager->getRepository(Likes::class);
     }
 
+    // 6 Check whether the user action is like or unlike the post
     public function likePost(User $user, Post $post): void {
         // Check whether the user liked a specific post
         $existingLike = $this->likeRepository->findOneBy(['post' => $post, 'likedBy' => $user]);
@@ -38,9 +39,10 @@ class LikeSubject extends Subject {
             $isLiked = true;
         }
 
+        // save changes to DB
         $this->entityManager->flush();
 
-        // Notify observers with action, post, and user details
+        // 7 Notify all observers about the state change
         $this->notifyAllObservers($isLiked ? 'like' : 'unlike', $post, $user);
     }
 

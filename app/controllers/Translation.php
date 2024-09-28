@@ -8,7 +8,7 @@ namespace App\controllers;
 use App\core\Controller;
 use App\services\GoogleTranslateAPI\TranslationService;
 
-class aTranslation
+class Translation
 {
     use Controller;
     public function index()

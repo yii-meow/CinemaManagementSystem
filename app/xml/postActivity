@@ -91,7 +91,8 @@
                     </a>
                 </div>
 
-                <xsl:choose>
+                <xsl:choose> <!-- check whether there is any records -->
+                    <!-- Count the num of post-->
                     <xsl:when test="count(/PostActivity/Post) > 0">
                         <table>
                             <tr>
@@ -102,8 +103,9 @@
                                 <th>Total Comment(s)</th>
                                 <th>Total Replies</th>
                             </tr>
+                            <!-- Loop through each post-->
                             <xsl:for-each select="/PostActivity/Post">
-                                <!-- Sorting by the count of Like in descending order -->
+                                <!-- sort the num of Like from highest to lowest -->
                                 <xsl:sort select="count(Like)" data-type="number" order="descending"/>
                                 <tr>
                                     <td><xsl:value-of select="position()"/></td>

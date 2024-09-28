@@ -16,7 +16,7 @@ class AddPost
     private $entityManager;
     private $postRepository;
     const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
-    const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png'];
+    const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png']; // allowed file type and extensions
     const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png'];
 
      public function __construct()
@@ -35,7 +35,7 @@ class AddPost
         $data = ['error' => null, 'errorMessage' => null];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Start session if not started already
+            // Start session if not started
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }
@@ -47,17 +47,21 @@ class AddPost
                 exit();
             }
 
+            // retrieve data form form
             $userID = $_SESSION['userId'];
-            $status = "Approved";
-            $content = $_POST['content']; //filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
+            $status = "Approved"; // default
+            $content = filter_input(INPUT_POST,'content',FILTER_SANITIZE_SPECIAL_CHARS);
             $image = $_FILES['contentImg'] ?? null;
 
+            // if no content inserted, redirect with Error
             if (empty($content)) {
                 header('Location: ' . ROOT . '/AddPost?message=validation_error');
             } else {
+                // validate image
                 $imagePath = null;
 
                 if ($image && $image['error'] === UPLOAD_ERR_OK) {
+                    // validated via validateUploadImage()
                     $uploadResult = $this->validateUploadImage($image);
 
                     if (isset($uploadResult['error'])) {
@@ -90,25 +94,26 @@ class AddPost
     private function validateUploadImage($image)
     {
         $targetDir = '/storage/uploads/';
+        //generate 16 random bytes of data and convert them into a hexadecimal string
         $imageName = bin2hex(random_bytes(16))  . '_' . basename($image['name']);
         $imagePath = $targetDir . $imageName;
         $fullImagePath = __DIR__ . '../../..'. $imagePath;
 
-        // Validate file size
+        // Validate file size not exceed 2MB
         if ($image['size'] > self::MAX_FILE_SIZE) {
             return ['error' => '*File size exceeded the maximum limit.'];
         }
 
-        // Validate file extension
-        $fileExtension = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
-        if (!in_array($fileExtension, self::ALLOWED_EXTENSIONS)) {
+        // Validate file extension (only jpg, png, jpeg)
+        $fileExtension = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));// extract uploaded image's extension
+        if (!in_array($fileExtension, self::ALLOWED_EXTENSIONS)) {// in_array -> check the value exists in an array
             return ['error' => '*Invalid file type. Allowed types are: ' . implode(', ', self::ALLOWED_EXTENSIONS)];
         }
 
         // Validate mime content type
-        $fileMimeType = mime_content_type($image['tmp_name']);
+        $fileMimeType = mime_content_type($image['tmp_name']); // temp location that store the image
         if (!in_array($fileMimeType, self::ALLOWED_MIME_TYPES)) {
-            return ['error' => '*Invalid mime type. Allowed types are: ' . implode(', ', self::ALLOWED_MIME_TYPES)];
+            return ['error' => '*Invalid mime type. Allowed types are: ' . implode(', ', self::ALLOWED_MIME_TYPES)]; //mplode -> merge string
         }
 
         // Move the uploaded file to the new location

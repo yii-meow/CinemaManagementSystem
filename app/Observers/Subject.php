@@ -12,8 +12,10 @@ abstract class Subject {
         $this->observers = [];
     }
 
+    // 3 add observer to the list
     public function attach(Observer $observer) {
-        $this->observers[] = $observer; // add observer to the list
+        $this->observers[] = $observer;  // LikeObserver is now registered with LikeSubject
+        // when a post is liked or unliked it will be notified
     }
 
     public function detach(Observer $observer): void {// remove the observer
@@ -24,10 +26,10 @@ abstract class Subject {
         }
     }
 
-    // Both like and unolike observer are notified
+    // 8 notify each observer of like or unlike action
     public function notifyAllObservers(string $action, $post, $user): void {
-        foreach ($this->observers as $observer) {
-            $observer->update($action, $post, $user);
+        foreach ($this->observers as $observer) { // loop througgh all attached observers
+            $observer->update($action, $post, $user); // call the update and pass in the action, user and post data
         }
     }
 }

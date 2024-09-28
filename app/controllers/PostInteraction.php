@@ -25,13 +25,14 @@ class PostInteraction
         $this->postRepository = $this->entityManager->getRepository(Post::class);
         $this->userRepository = $this->entityManager->getRepository(User::class);
 
-        // create the concrete subject
+        //1 create the concrete subject
         $this->likeSubject = new LikeSubject();
 
-        // Pass the LikeSubject when creating a new LikeObserver
-        $this->likeSubject->attach(new LikeObserver($this->likeSubject));
+        // 2 attach observer (LikeObserver) to subject
+        $this->likeSubject->attach(new LikeObserver($this->likeSubject)); // passing LikeSubject into its constructor
     }
 
+    // 4 When user perform like action
     public function likeAction() {
         // Get the POST data
         $userID = $_POST['userID'] ?? null;
@@ -52,7 +53,7 @@ class PostInteraction
             return;
         }
 
-        // Perform like action
+        // 5 Call the likePost method in LikeSubject followed by user and post data
         $this->likeSubject->likePost($user, $post);
 
         // Prepare response
