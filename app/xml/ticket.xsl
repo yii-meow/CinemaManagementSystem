@@ -2,6 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output method="html" indent="yes"/>
     <xsl:param name="ROOT"/>
+    <xsl:key name="tickets-by-date" match="ticket" use="substring-before(startingTime, ' ')"/>
     <xsl:template match="/">
         <html>
             <head>
@@ -36,7 +37,7 @@
             </style>
 
             <div class="back-btn" style="margin-top:20px; margin-left:20px;">
-                <button onclick="location.href='{ROOT}/UserPurchasedTicket'" type="button" class="btn btn-primary">Go
+                <button onclick="location.href='{$ROOT}/UserPurchasedTicket'" type="button" class="btn btn-primary">Go
                     Back
                 </button>
             </div>
@@ -100,8 +101,8 @@
                     <thead>
                         <tr>
                             <th>Movie Title</th>
-                            <th>Total Tickets Sold</th>
-                            <th>Total Revenue</th>
+                            <th style="text-align:center;">Total Tickets Sold</th>
+                            <th style="text-align:center;">Total Revenue</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -130,25 +131,23 @@
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Total Tickets Sold</th>
-                            <th>Total Revenue</th>
+                            <th style="text-align:center;">Total Tickets Sold</th>
+                            <th style="text-align:center;">Total Revenue</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <xsl:for-each
-                                select="tickets/ticket[not(substring-before(startingTime, ' ')=substring-before(preceding-sibling::ticket/startingTime, ' '))]">
+                        <xsl:for-each select="//ticket[generate-id() = generate-id(key('tickets-by-date', substring-before(startingTime, ' '))[1])]">
+                            <xsl:sort select="substring-before(startingTime, ' ')"/>
                             <xsl:variable name="currentDate" select="substring-before(startingTime, ' ')"/>
                             <tr>
                                 <td>
                                     <xsl:value-of select="$currentDate"/>
                                 </td>
                                 <td style="text-align:center;">
-                                    <xsl:value-of
-                                            select="count(//ticket[substring-before(startingTime, ' ')=$currentDate])"/>
+                                    <xsl:value-of select="count(key('tickets-by-date', $currentDate))"/>
                                 </td>
                                 <td style="text-align:center;">
-                                    RM<xsl:value-of
-                                        select="format-number(sum(//ticket[substring-before(startingTime, ' ')=$currentDate]/totalPrice), '#.00')"/>
+                                    RM<xsl:value-of select="format-number(sum(key('tickets-by-date', $currentDate)/totalPrice), '#.00')"/>
                                 </td>
                             </tr>
                         </xsl:for-each>
